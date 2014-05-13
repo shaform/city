@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <link rel="stylesheet/less" type="text/css" href="http://shaform.github.io/theme/css/style.less">
+  <script src="http://shaform.github.io/theme/js/less-1.5.0.min.js" type="text/javascript"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="http://shaform.github.io/theme/css/style.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="http://shaform.github.io/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Shaform">
+  <meta name="description" content="Posts and writings by Shaform">
+
+  <link href="http://shaform.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings - 翼之都 Full Atom Feed" />
+
+<meta name="keywords" content="自由行列, 軟體開發, 輸入法">
+
+  <title>
+簡介自由行列專案  </title>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-13132274-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://shaform.github.io">
+        <img src="http://2.gravatar.com/avatar/be3af5c939834664ebe532dfd6f6101a?s=100" alt="logo">
+      </a>
+      <h2><a href="http://shaform.github.io">Shaform</a></h2>
+      <p>翼之都 - 夢想，可以飛得多遠？伸出雙手，盡情實驗。</p>
+      <ul>
+        <li><a href="/category/ideas.html">Ideas</a></li>
+        <li><a href="/category/notes.html">Notes</a></li>
+        <li><a href="/category/projects.html">Projects</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+<p>Posted on Mon 15 February 2010</p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2010/02/15/intro-to-freearray.html">簡介自由行列專案</a></h3>
+  </div>
+  <div class="article_text">
+    <p>本持自由軟體，Release Early, Release Often 之精神，我實在應該趕快把自由行列的程式碼公開出來。不過覺得程式碼實在太醜，而且其實根本也還沒寫出什麼，再者我現在其實是一邊寫一邊學 OOP，因此程式碼常有大幅改動，再者又覺 SVN 操作好麻煩，所以遲遲未發。</p>
+<p>不過為了避免自由行列的想法消失在歷史之中。於是決定，先把自由行列專案的簡介發出。</p>
+<h2>簡易使用</h2>
+<p>行列輸入法雖然是用字根組字的輸入法，然而由於其字根的特性，需要花的記憶心力其實是比較小的，只是為了求快或者避免選字，時常必須記憶特別碼或簡碼。並且因為有些組字必須選字，而有些則不用，使得要時常注意螢幕或者把它的行為強記下來。</p>
+<p>引入智慧選字的功能之後，自由行列的新特性將是簡易。也許不再追求最快的輸入法，但是卻有機會成為組字輸入法中最易上手，選字機會最低的輸入法。每次出字時，不會再有依是否要選字而有的不一致行為，同時我也想將加上特定字尾才能輸出難字的功能去掉，而藏在「w」中的符號表，也被拿到「`」之下。如此一來，輸入的一致性將大為提高。</p>
+<h2>符號輸入</h2>
+<p>符號輸入是自由行列要改進的核心事項之一。除了符號表之外，還有從透過從行列字根發展出的「符根」輸出符號的「行列定符」，以及透過英文鍵盤，輸出全形中文符號的簡易符號輸入。</p>
+<p>使用過行列輸入法的人，即使不用特別說明，只要看到以下符號表，就會明白行列定符的意義。由於和字根非常相似，幾乎不用什麼記憶。</p>
+<table>
+<thead>
+<tr>
+<th>按鍵</th>
+<th>符號</th>
+<th>按鍵</th>
+<th>符號</th>
+<th>按鍵</th>
+<th>符號</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1^</td>
+<td>＝</td>
+<td>5^</td>
+<td>」</td>
+<td>8-</td>
+<td>＼</td>
+</tr>
+<tr>
+<td>1-</td>
+<td>─</td>
+<td>5^5^</td>
+<td>』</td>
+<td>8v</td>
+<td>‘</td>
+</tr>
+<tr>
+<td>2^</td>
+<td>「</td>
+<td>5-</td>
+<td>〉</td>
+<td>8v8v</td>
+<td>“</td>
+</tr>
+<tr>
+<td>2^2^</td>
+<td>『</td>
+<td>5-5-</td>
+<td>》</td>
+<td>9^</td>
+<td>※</td>
+</tr>
+<tr>
+<td>2-</td>
+<td>〈</td>
+<td>5v</td>
+<td>）</td>
+<td>9-</td>
+<td>／</td>
+</tr>
+<tr>
+<td>2-2-</td>
+<td>《</td>
+<td>5v</td>
+<td>）</td>
+<td>9v</td>
+<td>’</td>
+</tr>
+<tr>
+<td>2v</td>
+<td>（</td>
+<td>5v5v</td>
+<td>〕</td>
+<td>9v9v</td>
+<td>”</td>
+</tr>
+<tr>
+<td>2v2v</td>
+<td>〔</td>
+<td>5v5v5v</td>
+<td>】</td>
+<td>0^</td>
+<td>：</td>
+</tr>
+<tr>
+<td>2v2v2v</td>
+<td>【</td>
+<td>6-</td>
+<td>、</td>
+<td>0-</td>
+<td>。</td>
+</tr>
+<tr>
+<td>3-</td>
+<td>！</td>
+<td>7^</td>
+<td>？</td>
+<td>0-0-</td>
+<td>·</td>
+</tr>
+<tr>
+<td>4-</td>
+<td>＋</td>
+<td>7-</td>
+<td>，</td>
+<td>0-0-0-</td>
+<td>…</td>
+</tr>
+<tr>
+<td>4-4-</td>
+<td>＃</td>
+<td>0v</td>
+<td>；</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>在輸入完符碼後，按下 Shift+「詞彙鍵」即可輸出符號。</p>
+<p>簡易符號輸入則是像新注音或新酷音那樣，在全型模式下，可輸入英文符號而輸出中文符號。此外，各種符號都可在緩衝區中再按下選字鍵選擇類似的符號。關於簡易符號輸入其實還是有很多改進的方法，有待開發。</p>
+<p>事實上，對於符號輸入的改進，一部分的原因是要完全解決 Jedi 在他文章中所提出的跨 qwerty/dvorak 鍵盤時會遇到的問題。透過行列定符，使用者可以在完全不知道英文鍵盤的符號在哪的情況下輸出符號，讓行列自成一體系。而特意加強的簡易符號輸入，則是可依不同鍵盤輸出對應的中/英文符號。</p>
+<h2>繁簡分離</h2>
+<p>行列輸入法的字根除了可以用來拆繁體字外，其實也可以輸人簡體字。原本的設計是在輸入特定字尾時輸出簡體，但我想將簡體輸入獨立出來做為簡體模式。也就是說，我想嘗試讓自由行列具有做為一個簡體中文輸入法的可能性。</p>
+<h2>不只是輸入法</h2>
+<p>在製作 libfreearray 時，我所考慮的其實不只是輸入法而已，而是要將其發展成自由行列的通用函式庫。例如 typing tutor 或查碼程式，或其他更多的應用，都可基於其上發展。特別是一個可以在 Linux 平台上執行的 typing tutor，更是我將來有機會想實行的方向。覺得行列輸入法實在是一個很好的輸入法，現在似乎不太多人學，實為可惜。</p>
+<h2>手機輸入法</h2>
+<p>行列輸入法做為一個用數字排列字根的輸入法，自然具有成為手機輸入法的潛力，甚至要做到只有十鍵輸入，且不看螢幕都有可能。libfreearray 既然想成為行列的通用函式庫，最後很可能會希望建立起一個具有原始拆字字根，而非減縮後的 30 字根，的文字資料庫。屆時，當可研究如何製作手機輸入法。想來，要把行列字根轉到手機上其實有很多種做法，優缺點也不一，有心人可細細研究。</p>
+<p>也許後來手機的鍵盤將不再有十鍵的限制，但行列做作手機輸入法的可能性還是令人憧憬。</p>
+  </div>
+  <div class="article_meta">
+    <p>Category: <a href="http://shaform.github.io/category/projects.html">Projects</a></p>
+    <p>Tags:
+      <a href="http://shaform.github.io/tag/zi-you-xing-lie.html">自由行列</a>,      <a href="http://shaform.github.io/tag/ruan-ti-kai-fa.html">軟體開發</a>,      <a href="http://shaform.github.io/tag/shu-ru-fa.html">輸入法</a>    </p>
+    <p>Comments: <a href="#" onclick="javascript:toggleComments();return false;">toggle</a></p>
+  </div>
+
+    <div id="article_comments" style="display:block">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+           var disqus_identifier = "blog/2010/02/15/intro-to-freearray.html";
+           (function() {
+           var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+           dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+           (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+    </div>
+
+</article>
+
+    <footer>
+<p><a href="http://shaform.github.io/" class="button_accent">&larr; Back to Index</a></p>
+<script language="javascript">
+    function toggleComments() {
+        var commentDiv = document.getElementById("article_comments");
+        (commentDiv.style.display == "none") ? commentDiv.style.display = "block" : commentDiv.style.display = "none";
+        return false;
+    }
+</script>
+    </footer>
+
+    <div id="ending_message">
+      <p>&copy; Shaform. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Giulio Fidente on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>. .</p>
+    </div>
+  </main>
+</body>
+</html>

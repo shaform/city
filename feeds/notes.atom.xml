@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://shaform.github.io/" rel="alternate"></link><link href="http://shaform.github.io/feeds/notes.atom.xml" rel="self"></link><id>http://shaform.github.io/</id><updated>2014-04-13T15:56:00+08:00</updated><entry><title>在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</title><link href="http://shaform.github.io/blog/2014/04/13/hbase-on-ubuntu-12.04.html" rel="alternate"></link><updated>2014-04-13T15:56:00+08:00</updated><author><name>Shaform</name></author><id>tag:shaform.github.io,2014-04-13:blog/2014/04/13/hbase-on-ubuntu-12.04.html</id><summary type="html">&lt;p&gt;這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。&lt;/p&gt;
+&lt;h2&gt;一、HDFS&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;安裝 JDK 7&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade &lt;span class="c"&gt;# 更新套件庫&lt;/span&gt;
+sudo apt-get install software-properties-common python-software-properties  &lt;span class="c"&gt;# 取得 add-apt-repository&lt;/span&gt;
+sudo add-apt-repository ppa:webupd8team/java  &lt;span class="c"&gt;# 新增有 oracle-java7-installer 的 ppa&lt;/span&gt;
+sudo apt-get update
+sudo apt-get install oracle-java7-installer
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;設定 SSH&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ssh-keygen -b 2048 -t rsa:q  &lt;span class="c"&gt;# 產生 RSA key pair&lt;/span&gt;
+cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  &lt;span class="c"&gt;# 讓自己可以不用密碼登入自己&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在 NameNode 上：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ssh-copy-id -i &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.ssh/id_rsa.pub user@slave-1-dn  &lt;span class="c"&gt;# 讓 NameNode 可不用密碼登入 DataNode&lt;/span&gt;
+ssh-copy-id -i &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.ssh/id_rsa.pub user@slave-2-dn  &lt;span class="c"&gt;# 讓 NameNode 可不用密碼登入 DataNode&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安裝 Hadoop&lt;/p&gt;
+&lt;p&gt;先在 $HOME/.bashrc 加上 &lt;code&gt;export PATH=$PATH:$HOME/hadoop-1.2.1/bin&lt;/code&gt;，然後進入家目錄：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;wget http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz
+tar -xvf hadoop-1.2.1-bin.tar.gz
+&lt;span class="nb"&gt;cd &lt;/span&gt;hadoop-1.2.1/conf
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;修改 hadoop-env.sh 加上 &lt;code&gt;export JAVA_HOME=/usr/lib/jvm/java-7-oracle&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;進階設定&lt;/p&gt;
+&lt;p&gt;在下列檔案中的&lt;configuration&gt;內新增如下內容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;core-site.xml&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;fs.default.name&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://R02922036-86-1:54310&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mapred-site.xml&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapred.job.tracker&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;R02922036-86-1:54311&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;hdfs-site.xml&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.replication&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;3&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;然後在 NameNode 上修改將以下檔案修改成如下內容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;masters&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;slaves&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
+&lt;span class="n"&gt;slave&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
+&lt;span class="n"&gt;slave&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;開啟伺服器
+    最後在 NameNode 上執行以下指令將 cluster 啟動（可能需要重新登入讓 PATH 設定生效）：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;hadoop namenode -format  &lt;span class="c"&gt;# 格式化檔案系統&lt;/span&gt;
+start-all.sh  &lt;span class="c"&gt;# 啟動所有服務（包含 HDFS）&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;二、HBase&lt;/h2&gt;
+&lt;p&gt;首先進入每台的家目錄，下載並解壓縮 HBase：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;wget http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.94.14.tar.gz
+tar -xvf hbase-0.94.14.tar.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;編輯 hbase-0.94.14/conf/hbase-env.sh，新增數行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;JAVA_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/lib/jvm/java-7-oracle
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;HADOOP_CONF_DIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/hadoop-1.2.1/conf
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;HBASE_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/hbase-0.94.14
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;HBASE_LOG_DIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/logs/hbase-logs
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;HBASE_PID_DIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/logs/hbase-pids
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;HBASE_CLASSPATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HBASE_CLASSPATH&lt;/span&gt;:&lt;span class="nv"&gt;$HOME&lt;/span&gt;/hadoop-1.2.1/conf
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;HBASE_MANAGES_ZK&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;編輯 hbase-0.94.14/conf/hbase-site.xml，在&lt;configuration&gt;內新增如下內容：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hbase.rootdir&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://master-dn:54310/hbase&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hbase.tmp.dir&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt; 
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/home/hbase-${user.name}&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hbase.cluster.distributed&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;true&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;       
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt; 
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hbase.zookeeper.quorum&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;master-dn,slave-1-dn,slave-2-dn&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;hbase.zookeeper.property.dataDir&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;/home/hbase-data&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt; 
+&lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然後編輯 hbase-0.94.14/conf/regionservers 將內容改為如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
+&lt;span class="n"&gt;slave&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
+&lt;span class="n"&gt;slave&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最後就可以在 master 執行 HBase 了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hbase&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.94.14&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;hbase&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Hadoop"></category><category term="HBase"></category><category term="HDFS"></category><category term="Ubuntu"></category></entry><entry><title>qwerty 轉換到 dvorak 筆記</title><link href="http://shaform.github.io/blog/2013/07/12/qwerty-to-dvorak.html" rel="alternate"></link><updated>2013-07-12T18:53:00+08:00</updated><author><name>Shaform</name></author><id>tag:shaform.github.io,2013-07-12:blog/2013/07/12/qwerty-to-dvorak.html</id><summary type="html">&lt;h2&gt;Windows&lt;/h2&gt;
+&lt;p&gt;Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：&lt;a href="http://shaform.wordpress.com/2007/07/14/dvorak/"&gt;〈Dvorak: 另一種鍵盤排列〉&lt;/a&gt;。&lt;/p&gt;
+&lt;h2&gt;Linux&lt;/h2&gt;
+&lt;p&gt;最近的 Linux distributions 只要在安裝時就選擇 dvorak 鍵盤的話，大致上就會設定完成，通常 GUI 頁面也會有鍵盤設定。Linux 上輸入法和鍵盤設定通常是分開的兩個東西。如果你使用像是&lt;a href="https://code.google.com/p/freearray"&gt;自由行列輸入法&lt;/a&gt;等等原本就有支援 dvorak 的輸入法，則符號對應只要設定一下就可以了。&lt;/p&gt;
+&lt;p&gt;如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;setxkbmap dvorak &lt;span class="c"&gt;# 更動成 dvorak&lt;/span&gt;
+setxkbmap us &lt;span class="c"&gt;# 還原成 us 標準鍵盤&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Xrdp&lt;/h2&gt;
+&lt;p&gt;如果使用 rdp 的方式遠端連上 linux 的話，他的鍵盤對應是由自己的設定檔所控制，檔案位置在 /etc/xrdp/km-****.ini，其中 **** 為不同語言設定的檔案，其編號可參考 &lt;a href="http://xrdp.sourceforge.net/documents/keymap/rfc1766.html"&gt;rfc1766&lt;/a&gt;。通常我們需要修改的是 km-0409.ini (en-US) 這個檔案。&lt;/p&gt;
+&lt;p&gt;在正常登入的情況下，使用以下指令可以在當前目錄產生目前鍵盤對應的 xrdp 設定檔：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;xrdp-genkeymap km-now.ini
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接著我們把它搬移取代 xrdp 參照的檔案：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo mv km-now.ini /etc/xrdp/km-0409.ini
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;或許我們會想在覆蓋之前先備份原本的設定檔：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo mv /etc/xrdp/km-0409.ini /etc/xrdp/km-0409.ini.old
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最後重新啟動 xrdp 伺服器就可以了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo /etc/init.d/xrdp restart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;但如果因為某些原因只能用 rdp 連上主機，而無法接觸正常的桌面的話，則根本無法得到 dvorak 的鍵盤對應，因此也無法產生設定檔，在這種情況下，只好直接修改原本的 km-0409.ini。而也有人說用 xrdp-genkeymap 產生的檔案有時會有問題，這時也只能直接修改了。我寫了一個程式用來做這個轉換：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# xrdpkeymap_qwerty_to_dvorak.py&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;Usage: python xrdpkeymap_qwerty_to_dvorak.py km-input.ini &amp;gt; km-output.ini&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;fileinput&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+
+&lt;span class="c"&gt;# keycodes&lt;/span&gt;
+&lt;span class="c"&gt;# $ xmodmap -pk for current mapping&lt;/span&gt;
+&lt;span class="c"&gt;# ref: http://forums.fedoraforum.org/showthread.php?t=265100&lt;/span&gt;
+&lt;span class="n"&gt;QWERTY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;21&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;26&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;27&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;29&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;31&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;34&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="mi"&gt;38&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;39&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;41&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;43&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;44&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;45&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;46&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;47&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;48&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="mi"&gt;52&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;53&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;54&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;55&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;56&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;57&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;58&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;59&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;61&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;DVORAK&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="mi"&gt;34&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="mi"&gt;48&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;59&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;29&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;41&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;54&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;27&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;46&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;61&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;21&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="mi"&gt;38&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;26&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;31&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;43&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;57&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;39&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="mi"&gt;47&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;44&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;45&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;53&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;56&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;58&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;55&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;52&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;TRANS_DICT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;QWERTY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;DVORAK&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+
+&lt;span class="n"&gt;re_title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;\[.*\]&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_keydef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Key(\d+)=(.*)&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;buf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="n"&gt;buf_dict&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;output_keydefs&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;global&lt;/span&gt; &lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;buf_dict&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;TRANS_DICT&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Key&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;=&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;buf_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TRANS_DICT&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;]])&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Key&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;=&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;buf_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="n"&gt;buf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="n"&gt;buf_dict&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+
+
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileinput&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;re_title&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;output_keydefs&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;re_keydef&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re_keydef&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+            &lt;span class="n"&gt;buf_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+
+&lt;span class="c"&gt;# output remaining keys&lt;/span&gt;
+&lt;span class="n"&gt;output_keydefs&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Vim&lt;/h2&gt;
+&lt;p&gt;有的時候我們甚至無法重新啟動 xrdp server，或者根本沒有管理員權限，這時只好有限度的在 Vim 裡頭使用 dvoark。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;keymap&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;dvorak
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;langmap&lt;/span&gt;&lt;span class="p"&gt;=-=&lt;/span&gt;qwertyuiop[]sdfghjkl\\;&lt;span class="s1"&gt;&amp;#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&amp;quot;ZXCVBN&amp;lt;&amp;gt;?;[]&amp;#39;&lt;/span&gt;\\&lt;span class="p"&gt;,&lt;/span&gt;.pyfgcrl/&lt;span class="p"&gt;=&lt;/span&gt;oeuidhtns&lt;span class="p"&gt;-&lt;/span&gt;\\;qjkxbwvz{}\&amp;quot;&lt;span class="p"&gt;&amp;lt;&amp;gt;&lt;/span&gt;PYFGCRL?&lt;span class="p"&gt;+&lt;/span&gt;OEUIDHTNS_:QJKXBWVZ
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;參考：&lt;a href="http://shaform.github.io/blog/2013/07/09/vim-qwerty-to-dvorak.html"&gt;〈設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤〉&lt;/a&gt;。&lt;/p&gt;
+&lt;h2&gt;GCIN&lt;/h2&gt;
+&lt;p&gt;有的輸入法沒有直接支援 dvoark，不只是符號對應沒有支援，連正常輸入都整個亂掉了。這時可能要搜尋一下看有沒有現成的修改版檔案，例如我曾經修改過 &lt;a href="http://hyperrate.com/thread.php?tid=19541#19541"&gt;GCIN 的行列輸入法表格&lt;/a&gt;。如果沒有的話，可能就得自行轉換了。&lt;/p&gt;
+&lt;p&gt;我寫了一個轉換 GCIN .cin 檔的程式：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="c"&gt;# gcin_qwerty_to_dvorak.py&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;Usage: python gcin_qwerty_to_dvorak.py input.cin &amp;gt; output.cin&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;fileinput&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;string&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;maketrans&lt;/span&gt;
+
+&lt;span class="n"&gt;QWERTY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&amp;#39;-=qwertyuiop[]sdfghjkl;&amp;#39;zxcvbn,./_+QWERTYUIOP{}SDFGHJKL:&amp;quot;ZXCVBN&amp;lt;&amp;gt;?&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;DVORAK&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&amp;#39;[]&amp;#39;,.pyfgcrl/=oeuidhtns-;qjkxbwvz{}&amp;quot;&amp;lt;&amp;gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;TRANS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;maketrans&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;QWERTY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;DVORAK&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;re_option&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;r&amp;#39;%(selkey|endkey)\s+(\S+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_begin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;r&amp;#39;%\S+\s+begin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_keydef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;r&amp;#39;^([^#]\S*)(\s+\S+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_end&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;r&amp;#39;%\S+\s+end&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;begin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileinput&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="c"&gt;# process key definitions&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;re_end&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;begin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;new_def&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re_keydef&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;subn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;translate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TRANS&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+                    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="c"&gt;# print transformed line&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;new_def&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;new_def&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+                &lt;span class="k"&gt;continue&lt;/span&gt;
+        &lt;span class="c"&gt;# print comment/end lines&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="k"&gt;continue&lt;/span&gt;
+
+    &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re_option&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;%%%s&lt;/span&gt;&lt;span class="s"&gt; &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;translate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TRANS&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;continue&lt;/span&gt;
+    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;re_begin&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;begin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;轉換完後再用 gcin2tab 產生 GCIN 能用的 .gtab 檔。&lt;/p&gt;
+&lt;p&gt;使用此程式轉換檔案的話，可能還是會需要手動調整，因為有些像是「,」 -&amp;gt;「，」的符號對應應該還是保留會比較好。&lt;/p&gt;</summary><category term="dvorak"></category><category term="linux"></category><category term="qwerty"></category><category term="windows"></category><category term="自由行列"></category><category term="行列"></category><category term="輸入法"></category></entry><entry><title>設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤</title><link href="http://shaform.github.io/blog/2013/07/09/vim-qwerty-to-dvorak.html" rel="alternate"></link><updated>2013-07-09T21:28:00+08:00</updated><author><name>Shaform</name></author><id>tag:shaform.github.io,2013-07-09:blog/2013/07/09/vim-qwerty-to-dvorak.html</id><summary type="html">&lt;p&gt;還記得從前在交大參加校內程式競賽時，Fedora?/FreeBSD? 環境裡頭不知為何無法透過圖形界面執行鍵盤設定，也找不到 setxkbmap，以至於無法使用 &lt;a href="http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard"&gt;dvorak&lt;/a&gt; 的窘境。每每被迫使用 qwerty 來競賽，總是覺得慢人一截。一直在研究有什麼方法可以用 command line 或設定檔強制轉換鍵盤，不過始終無果。最近用到 Red Hat Enterprise Linux 又遇到很類似的問題，同時也發現透過 rdp 連進機器時，設定的方法似乎會跟平常不太一樣。&lt;/p&gt;
+&lt;p&gt;雖然 Google 良久還是沒有太多進展，但最近研究 vim 設定時突然發現可以直接修改 vim 的鍵盤對應，如此一來至少在用 vim 寫程式時能夠使用自己習慣的鍵盤排列。&lt;/p&gt;
+&lt;p&gt;只要在 .vimrc 中加入如下設定，就可以在 vim 大部分的模式中直接轉換成 dvorak 鍵盤：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;keymap&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;dvorak
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;langmap&lt;/span&gt;&lt;span class="p"&gt;=-=&lt;/span&gt;qwertyuiop[]sdfghjkl\\;&lt;span class="s1"&gt;&amp;#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&amp;quot;ZXCVBN&amp;lt;&amp;gt;?;[]&amp;#39;&lt;/span&gt;\\&lt;span class="p"&gt;,&lt;/span&gt;.pyfgcrl/&lt;span class="p"&gt;=&lt;/span&gt;oeuidhtns&lt;span class="p"&gt;-&lt;/span&gt;\\;qjkxbwvz{}\&amp;quot;&lt;span class="p"&gt;&amp;lt;&amp;gt;&lt;/span&gt;PYFGCRL?&lt;span class="p"&gt;+&lt;/span&gt;OEUIDHTNS_:QJKXBWVZ
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;keymap 可以修改輸入模式的對應，langmap 則是一般及 visual 模式等指令的按鍵，後面那串其格式可參考 :help 'langmap'，基本上是先打 qwerty 的按鍵，加個分號，再打上轉換成的 dvorak 按鍵，不過 , 和 ; 需要在前面補上 \，" 則是要補上 \。這設定唯一無法轉換的部份是 ":" 開頭的指令模式。此外，如果 set keymap 沒有作用的話，或許是系統缺少 dvorak 的 keymap，此時建立 ~/.vim/keymap/dvorak.vim 檔案，插入 &lt;a href="http://ftp.id.vim.org/runtime/keymap/dvorak.vim"&gt;dvorak.vim&lt;/a&gt; 的內容即可。&lt;/p&gt;
+&lt;p&gt;這方法雖然有些不完美與費工，但是在比賽開始前的準備時間應該是可以完成的。至於有沒有什麼更好的解決方法呢？只能看看未來有沒有機會發現了。&lt;/p&gt;
+&lt;p&gt;雖然或許也能透過類似 &lt;a href="http://www.keyghost.com/qido/"&gt;QIDO&lt;/a&gt; 等硬體方式解決，不過這個偶爾才會用到的零件實在是貴到無法下手的地步啊。&lt;/p&gt;</summary><category term="dvorak"></category><category term="qwerty"></category><category term="vim"></category><category term="vimrc"></category></entry></feed>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <link rel="stylesheet/less" type="text/css" href="http://shaform.github.io/theme/css/style.less">
+  <script src="http://shaform.github.io/theme/js/less-1.5.0.min.js" type="text/javascript"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="http://shaform.github.io/theme/css/style.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="http://shaform.github.io/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Shaform">
+  <meta name="description" content="Posts and writings by Shaform">
+
+  <link href="http://shaform.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings - 翼之都 Full Atom Feed" />
+
+
+  <title>
+Author: Shaform  </title>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-13132274-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://shaform.github.io">
+        <img src="http://2.gravatar.com/avatar/be3af5c939834664ebe532dfd6f6101a?s=100" alt="logo">
+      </a>
+      <h2><a href="http://shaform.github.io">Shaform</a></h2>
+      <p>翼之都 - 夢想，可以飛得多遠？伸出雙手，盡情實驗。</p>
+      <ul>
+        <li><a href="/category/ideas.html">Ideas</a></li>
+        <li><a href="/category/notes.html">Notes</a></li>
+        <li><a href="/category/projects.html">Projects</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+<p>Author: Shaform</p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2014/04/13/hbase-on-ubuntu-12.04.html">在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</a></h3>
+  </div>
+  <div class="article_text">
+    <p>這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。</p>
+<h2>一、HDFS</h2>
+<ol>
+<li>
+<p>安裝 JDK 7</p>
+<div class="highlight"><pre>sudo apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade <span class="c"># 更新套件庫</span>
+sudo apt-get install software-properties-common python-software-properties  <span class="c"># 取得 add-apt-repository</span>
+sudo add-apt-repository ppa:webupd8team/java  <span class="c"># 新增有 oracle-java7-installer 的 ppa</span>
+sudo apt-get update
+sudo apt-get install oracle-java7-installer
+</pre></div>
+
+
+</li>
+<li>
+<p>設定 SSH</p>
+<div class="highlight"><pre>ssh-keygen -b ...</pre></div></li></ol>
+  </div>
+</article>
+<hr />
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2013/10/20/single-minded.html">Single-minded : an Internet reader, made for readers, made by readers</a></h3>
+  </div>
+  <div class="article_text">
+    <h2>Realization</h2>
+<p>I've known it for a long time that it’s difficult for me to read long articles on the web. I thought it’s because of the screen. It made my eyes get tired so easily. However, when I started to read The Shallows written by Nicholas Carr ...</p>
+  </div>
+</article>
+<hr />
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2013/07/12/qwerty-to-dvorak.html">qwerty 轉換到 dvorak 筆記</a></h3>
+  </div>
+  <div class="article_text">
+    <h2>Windows</h2>
+<p>Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：<a href="http://shaform.wordpress.com/2007/07/14/dvorak/">〈Dvorak: 另一種鍵盤排列〉</a>。</p>
+<h2>Linux</h2>
+<p>最近的 Linux distributions 只要在安裝時就選擇 dvorak 鍵盤的話，大致上就會設定完成，通常 GUI 頁面也會有鍵盤設定。Linux 上輸入法和鍵盤設定通常是分開的兩個東西。如果你使用像是<a href="https://code.google.com/p/freearray">自由行列輸入法</a>等等原本就有支援 dvorak 的輸入法，則符號對應只要設定一下就可以了。</p>
+<p>如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換：</p>
+<div class="highlight"><pre>setxkbmap dvorak <span class="c"># 更動成 dvorak</span>
+setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
+</pre></div>
+
+
+<h2>Xrdp ...</h2>
+  </div>
+</article>
+<hr />
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2013/07/09/vim-qwerty-to-dvorak.html">設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤</a></h3>
+  </div>
+  <div class="article_text">
+    <p>還記得從前在交大參加校內程式競賽時，Fedora?/FreeBSD? 環境裡頭不知為何無法透過圖形界面執行鍵盤設定，也找不到 setxkbmap，以至於無法使用 <a href="http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard">dvorak</a> 的窘境。每每被迫使用 qwerty 來競賽，總是覺得慢人一截。一直在研究有什麼方法可以用 command line 或設定檔強制轉換鍵盤，不過始終無果。最近用到 Red Hat Enterprise Linux 又遇到很類似的問題，同時也發現透過 rdp 連進機器時，設定的方法似乎會跟平常不太一樣。</p>
+<p>雖然 Google 良久還是沒有太多進展，但最近研究 vim 設定時突然發現可以直接修改 vim 的鍵盤對應，如此一來至少在用 vim 寫程式時能夠使用自己習慣的鍵盤排列。</p>
+<p>只要在 .vimrc 中加入如下設定，就可以在 vim 大部分的模式中直接轉換成 dvorak 鍵盤：</p>
+<div class="highlight"><pre><span class="k">set</span> <span class="nb">keymap</span><span class="p">=</span>dvorak ...</pre></div>
+  </div>
+</article>
+<hr />
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2013/03/05/coprogramming.html">最低成本的程式協作: CoProgramming</a></h3>
+  </div>
+  <div class="article_text">
+    <h2>緣起</h2>
+<p>在程式課堂，團隊合作常常是件頭痛的事，若是每個人各自工作，常會產生許多難以整合的版本。即使是一起到電腦教室討論，也常是一個人寫程式，其他人在旁邊看。雖然有版本控制系統等等合作工具，然而我從來沒有成功在一堂課中讓隊友學會其運作(應該說是幾乎，僅有在雙方都早已會使用，或者是由我做所有merge時才曾使用)，事實上，像 git, hg 等等複雜的系統，是否真的適合這種小型專案也尚有可懷疑的地方，尤其，有些作業所有的程式碼都在同一個檔案中，使得版本控制系統用起來十分不順手。</p>
+<p>我突然想起在<a href="http://en.wikipedia.org/wiki/Here_Comes_Everybody">《Here Comes Everybody》</a>書裡看過的說法：Wikipedia 的貢獻者中，絕大多數可能只有編輯過一兩行的文章。一家公司如果大部分的員工都只做一點工作，則這家公司多半無法生存。可是在 Wikipedia 的例子裡，合作的成本被降的很低，所以原來不可能利用的小量付出，也能被整合成一個共同成果。</p>
+<p>這確實就是我們遇到的情況，有時在課堂中的程式作業規模是如此的小，任何的合作成本都太過高昂。而且，這種只存在一學期的臨時團隊，根本難以形成向心力。而要求任何人為了一學期的作業學會複雜的版本控制系統更是完全不實際的想法。</p>
+<p>如果要成功整合大家一起完成這種小型的合作、如果要在每個人只寫幾行程式的情況下依然可以合作，唯一的可能性就是要將合作成本壓到極端的低。可是，要怎麼做呢 ...</p>
+  </div>
+</article>
+<hr />
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2013/02/26/freearray-bugfixes.html">稍微整理了一下自由行列的原始碼</a></h3>
+  </div>
+  <div class="article_text">
+    <h2>停擺多年</h2>
+<p>還記得數年前完成了<a href="http://shaform.github.io/blog/2010/02/15/intro-to-freearray.html">「自由行列輸入法」</a>的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重要理由是突然發現 <a href="http://hyperrate.com/thread.php?tid=18200">gcin 原本就有支援智慧選詞的行列輸入法</a>，覺得花那麼多力氣重造輪子有點不值得。但其實也是沒有特別的新功能可以開發，而且程式本身寫的太亂不太好維護，加上課業繁忙，所以就沒有投注太多關心。</p>
+<p>gcin 的版本雖然很好，但對 Dvorak 和「行列定符」的支援總是差了那麼一點，而且不知為何總是無法習慣使用 gcin，所以後來就沒有繼續使用。而隨著作業系統的更新，之前的自由行列輸入法也不知為何無法編譯了，於是我就重回注音輸入法的懷抱，和行列輸入法疏離了許久。</p>
+<p>後來剛好又看到行列以及 dvorak 的討論串，加上最近剛好比較有空，就想把之前的程式碼翻修一下，看看能不能動，也順便把原始碼轉到現在比較習慣的 <a href="https://github.com/shaform/ibus-freearray">GitHub</a>。雖然只花了幾天時間，不過其實遇到的問題也不少，甚至有些問題的根源還很難弄明白。</p>
+<h2>問題</h2>
+<p>首先遇到的問題是不知為何編譯時所連結的外部函式庫，包含 sqlite3, ibus, freearray 等等，都無法順利連結，使用到的函式都變成了 undefined ...</p>
+  </div>
+</article>
+<hr />
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2010/02/20/ibus-faft-develop-notes.html">ibus-faft 開發日誌</a></h3>
+  </div>
+  <div class="article_text">
+    <p>FreeArray for Test for the Input Bus 是基於 ibus 輸入法架構所製作之行列輸入法引擎，其結合來自 libchewing 的斷詞模組實作智慧選字功能，並利用「行列定符」改進原行列的符號輸入。此外，對 dvorak 鍵盤具有完整支援。</p>
+<p>在開發過程中，除了引用大量 libchewing 的程式碼外，也參考了 <a href="http://code.google.com/p/ibus-array/">ibus-array</a>, <a href="https://github.com/definite/ibus-chewing">ibus-chewing</a> 的程式碼才得以完成。</p>
+<p>時間大約是在 2010 年 2 月初直到 2 月中，連續而密集的開發。</p>
+<h2>libchewing</h2>
+<p>研究 libchewing 其實已經頗久了，直到現在對它的了解也才只是剛好得以把斷詞模組和一部分的輸入處理拿來用而已。為了配合 faft，而對 libchewing 做了些改動，主要是把 Phone 換成 ArrayCode ...</p>
+  </div>
+</article>
+<hr />
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2010/02/15/intro-to-freearray.html">簡介自由行列專案</a></h3>
+  </div>
+  <div class="article_text">
+    <p>本持自由軟體，Release Early, Release Often 之精神，我實在應該趕快把自由行列的程式碼公開出來。不過覺得程式碼實在太醜，而且其實根本也還沒寫出什麼，再者我現在其實是一邊寫一邊學 OOP，因此程式碼常有大幅改動，再者又覺 SVN 操作好麻煩，所以遲遲未發。</p>
+<p>不過為了避免自由行列的想法消失在歷史之中。於是決定，先把自由行列專案的簡介發出。</p>
+<h2>簡易使用</h2>
+<p>行列輸入法雖然是用字根組字的輸入法，然而由於其字根的特性，需要花的記憶心力其實是比較小的，只是為了求快或者避免選字，時常必須記憶特別碼或簡碼。並且因為有些組字必須選字，而有些則不用，使得要時常注意螢幕或者把它的行為強記下來。</p>
+<p>引入智慧選字的功能之後，自由行列的新特性將是簡易。也許不再追求最快的輸入法，但是卻有機會成為組字輸入法中最易上手，選字機會最低的輸入法。每次出字時，不會再有依是否要選字而有的不一致行為，同時我也想將加上特定字尾才能輸出難字的功能去掉，而藏在「w」中的符號表，也被拿到「`」之下。如此一來，輸入的一致性將大為提高。</p>
+<h2>符號輸入</h2>
+<p>符號輸入是自由行列要改進的核心事項之一。除了符號表之外，還有從透過從行列字根發展出的「符根」輸出符號的「行列定符 ...</p>
+  </div>
+</article>
+
+    <footer>
+<div id="paginator">
+
+</div>
+    </footer>
+
+    <div id="ending_message">
+      <p>&copy; Shaform. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Giulio Fidente on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>. .</p>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <link rel="stylesheet/less" type="text/css" href="http://shaform.github.io/theme/css/style.less">
+  <script src="http://shaform.github.io/theme/js/less-1.5.0.min.js" type="text/javascript"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="http://shaform.github.io/theme/css/style.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="http://shaform.github.io/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Shaform">
+  <meta name="description" content="Posts and writings by Shaform">
+
+  <link href="http://shaform.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings - 翼之都 Full Atom Feed" />
+
+<meta name="keywords" content="dvorak, linux, qwerty, windows, 自由行列, 行列, 輸入法">
+
+  <title>
+qwerty 轉換到 dvorak 筆記  </title>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-13132274-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://shaform.github.io">
+        <img src="http://2.gravatar.com/avatar/be3af5c939834664ebe532dfd6f6101a?s=100" alt="logo">
+      </a>
+      <h2><a href="http://shaform.github.io">Shaform</a></h2>
+      <p>翼之都 - 夢想，可以飛得多遠？伸出雙手，盡情實驗。</p>
+      <ul>
+        <li><a href="/category/ideas.html">Ideas</a></li>
+        <li><a href="/category/notes.html">Notes</a></li>
+        <li><a href="/category/projects.html">Projects</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+<p>Posted on Fri 12 July 2013</p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2013/07/12/qwerty-to-dvorak.html">qwerty 轉換到 dvorak 筆記</a></h3>
+  </div>
+  <div class="article_text">
+    <h2>Windows</h2>
+<p>Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：<a href="http://shaform.wordpress.com/2007/07/14/dvorak/">〈Dvorak: 另一種鍵盤排列〉</a>。</p>
+<h2>Linux</h2>
+<p>最近的 Linux distributions 只要在安裝時就選擇 dvorak 鍵盤的話，大致上就會設定完成，通常 GUI 頁面也會有鍵盤設定。Linux 上輸入法和鍵盤設定通常是分開的兩個東西。如果你使用像是<a href="https://code.google.com/p/freearray">自由行列輸入法</a>等等原本就有支援 dvorak 的輸入法，則符號對應只要設定一下就可以了。</p>
+<p>如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換：</p>
+<div class="highlight"><pre>setxkbmap dvorak <span class="c"># 更動成 dvorak</span>
+setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
+</pre></div>
+
+
+<h2>Xrdp</h2>
+<p>如果使用 rdp 的方式遠端連上 linux 的話，他的鍵盤對應是由自己的設定檔所控制，檔案位置在 /etc/xrdp/km-****.ini，其中 **** 為不同語言設定的檔案，其編號可參考 <a href="http://xrdp.sourceforge.net/documents/keymap/rfc1766.html">rfc1766</a>。通常我們需要修改的是 km-0409.ini (en-US) 這個檔案。</p>
+<p>在正常登入的情況下，使用以下指令可以在當前目錄產生目前鍵盤對應的 xrdp 設定檔：</p>
+<div class="highlight"><pre>xrdp-genkeymap km-now.ini
+</pre></div>
+
+
+<p>接著我們把它搬移取代 xrdp 參照的檔案：</p>
+<div class="highlight"><pre>sudo mv km-now.ini /etc/xrdp/km-0409.ini
+</pre></div>
+
+
+<p>或許我們會想在覆蓋之前先備份原本的設定檔：</p>
+<div class="highlight"><pre>sudo mv /etc/xrdp/km-0409.ini /etc/xrdp/km-0409.ini.old
+</pre></div>
+
+
+<p>最後重新啟動 xrdp 伺服器就可以了：</p>
+<div class="highlight"><pre>sudo /etc/init.d/xrdp restart
+</pre></div>
+
+
+<p>但如果因為某些原因只能用 rdp 連上主機，而無法接觸正常的桌面的話，則根本無法得到 dvorak 的鍵盤對應，因此也無法產生設定檔，在這種情況下，只好直接修改原本的 km-0409.ini。而也有人說用 xrdp-genkeymap 產生的檔案有時會有問題，這時也只能直接修改了。我寫了一個程式用來做這個轉換：</p>
+<div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># xrdpkeymap_qwerty_to_dvorak.py</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Usage: python xrdpkeymap_qwerty_to_dvorak.py km-input.ini &gt; km-output.ini</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">fileinput</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="c"># keycodes</span>
+<span class="c"># $ xmodmap -pk for current mapping</span>
+<span class="c"># ref: http://forums.fedoraforum.org/showthread.php?t=265100</span>
+<span class="n">QWERTY</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span>
+        <span class="mi">24</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span>
+        <span class="mi">38</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span>
+        <span class="mi">52</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">61</span>
+        <span class="p">)</span>
+
+<span class="n">DVORAK</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span>
+        <span class="mi">48</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span>
+        <span class="mi">38</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="mi">47</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">52</span>
+        <span class="p">)</span>
+
+<span class="n">TRANS_DICT</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">))</span>
+
+
+<span class="n">re_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;\[.*\]</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+<span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;Key(\d+)=(.*)</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+<span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">buf_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span> <span class="nf">output_keydefs</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">buf</span><span class="p">,</span> <span class="n">buf_dict</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">buf</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">TRANS_DICT</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Key</span><span class="si">%d</span><span class="s">=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">TRANS_DICT</span><span class="p">[</span><span class="n">k</span><span class="p">]])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Key</span><span class="si">%d</span><span class="s">=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+    <span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">buf_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">re_title</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">output_keydefs</span><span class="p">()</span>
+            <span class="k">print</span> <span class="n">line</span><span class="p">,</span>
+        <span class="k">elif</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="n">buf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+            <span class="n">buf_dict</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">line</span><span class="p">,</span>
+
+<span class="c"># output remaining keys</span>
+<span class="n">output_keydefs</span><span class="p">()</span>
+</pre></div>
+
+
+<h2>Vim</h2>
+<p>有的時候我們甚至無法重新啟動 xrdp server，或者根本沒有管理員權限，這時只好有限度的在 Vim 裡頭使用 dvoark。</p>
+<div class="highlight"><pre><span class="k">set</span> <span class="nb">keymap</span><span class="p">=</span>dvorak
+<span class="k">set</span> <span class="nb">langmap</span><span class="p">=-=</span>qwertyuiop[]sdfghjkl\\;<span class="s1">&#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&quot;ZXCVBN&lt;&gt;?;[]&#39;</span>\\<span class="p">,</span>.pyfgcrl/<span class="p">=</span>oeuidhtns<span class="p">-</span>\\;qjkxbwvz{}\&quot;<span class="p">&lt;&gt;</span>PYFGCRL?<span class="p">+</span>OEUIDHTNS_:QJKXBWVZ
+</pre></div>
+
+
+<p>參考：<a href="http://shaform.github.io/blog/2013/07/09/vim-qwerty-to-dvorak.html">〈設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤〉</a>。</p>
+<h2>GCIN</h2>
+<p>有的輸入法沒有直接支援 dvoark，不只是符號對應沒有支援，連正常輸入都整個亂掉了。這時可能要搜尋一下看有沒有現成的修改版檔案，例如我曾經修改過 <a href="http://hyperrate.com/thread.php?tid=19541#19541">GCIN 的行列輸入法表格</a>。如果沒有的話，可能就得自行轉換了。</p>
+<p>我寫了一個轉換 GCIN .cin 檔的程式：</p>
+<div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># gcin_qwerty_to_dvorak.py</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Usage: python gcin_qwerty_to_dvorak.py input.cin &gt; output.cin</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">fileinput</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">maketrans</span>
+
+<span class="n">QWERTY</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;-=qwertyuiop[]sdfghjkl;&#39;zxcvbn,./_+QWERTYUIOP{}SDFGHJKL:&quot;ZXCVBN&lt;&gt;?&#39;&#39;&#39;</span>
+<span class="n">DVORAK</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;[]&#39;,.pyfgcrl/=oeuidhtns-;qjkxbwvz{}&quot;&lt;&gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ&#39;&#39;&#39;</span>
+<span class="n">TRANS</span> <span class="o">=</span> <span class="n">maketrans</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">)</span>
+
+<span class="n">re_option</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;%(selkey|endkey)\s+(\S+)&#39;</span><span class="p">)</span>
+<span class="n">re_begin</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;%\S+\s+begin&#39;</span><span class="p">)</span>
+<span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;^([^#]\S*)(\s+\S+)&#39;</span><span class="p">)</span>
+<span class="n">re_end</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;%\S+\s+end&#39;</span><span class="p">)</span>
+
+<span class="n">begin</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">():</span>
+    <span class="c"># process key definitions</span>
+    <span class="k">if</span> <span class="n">begin</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">re_end</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">begin</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_def</span> <span class="o">=</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">subn</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">TRANS</span><span class="p">)</span> <span class="o">+</span>
+                    <span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">line</span><span class="p">)</span>
+            <span class="c"># print transformed line</span>
+            <span class="k">if</span> <span class="n">new_def</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span> <span class="n">new_def</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="k">continue</span>
+        <span class="c"># print comment/end lines</span>
+        <span class="k">print</span> <span class="n">line</span><span class="p">,</span>
+        <span class="k">continue</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re_option</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="si">%%%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">TRANS</span><span class="p">))</span>
+        <span class="k">continue</span>
+    <span class="k">elif</span> <span class="n">re_begin</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="n">begin</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">print</span> <span class="n">line</span><span class="p">,</span>
+</pre></div>
+
+
+<p>轉換完後再用 gcin2tab 產生 GCIN 能用的 .gtab 檔。</p>
+<p>使用此程式轉換檔案的話，可能還是會需要手動調整，因為有些像是「,」 -&gt;「，」的符號對應應該還是保留會比較好。</p>
+  </div>
+  <div class="article_meta">
+    <p>Category: <a href="http://shaform.github.io/category/notes.html">Notes</a></p>
+    <p>Tags:
+      <a href="http://shaform.github.io/tag/dvorak.html">dvorak</a>,      <a href="http://shaform.github.io/tag/linux.html">linux</a>,      <a href="http://shaform.github.io/tag/qwerty.html">qwerty</a>,      <a href="http://shaform.github.io/tag/windows.html">windows</a>,      <a href="http://shaform.github.io/tag/zi-you-xing-lie.html">自由行列</a>,      <a href="http://shaform.github.io/tag/xing-lie.html">行列</a>,      <a href="http://shaform.github.io/tag/shu-ru-fa.html">輸入法</a>    </p>
+    <p>Comments: <a href="#" onclick="javascript:toggleComments();return false;">toggle</a></p>
+  </div>
+
+    <div id="article_comments" style="display:block">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+           var disqus_identifier = "blog/2013/07/12/qwerty-to-dvorak.html";
+           (function() {
+           var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+           dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+           (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+    </div>
+
+</article>
+
+    <footer>
+<p><a href="http://shaform.github.io/" class="button_accent">&larr; Back to Index</a></p>
+<script language="javascript">
+    function toggleComments() {
+        var commentDiv = document.getElementById("article_comments");
+        (commentDiv.style.display == "none") ? commentDiv.style.display = "block" : commentDiv.style.display = "none";
+        return false;
+    }
+</script>
+    </footer>
+
+    <div id="ending_message">
+      <p>&copy; Shaform. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Giulio Fidente on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>. .</p>
+    </div>
+  </main>
+</body>
+</html>

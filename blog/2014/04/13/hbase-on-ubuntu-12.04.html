@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <link rel="stylesheet/less" type="text/css" href="http://shaform.github.io/theme/css/style.less">
+  <script src="http://shaform.github.io/theme/js/less-1.5.0.min.js" type="text/javascript"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="http://shaform.github.io/theme/css/style.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="http://shaform.github.io/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Shaform">
+  <meta name="description" content="Posts and writings by Shaform">
+
+  <link href="http://shaform.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings - 翼之都 Full Atom Feed" />
+
+<meta name="keywords" content="Hadoop, HBase, HDFS, Ubuntu">
+
+  <title>
+在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記  </title>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-13132274-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://shaform.github.io">
+        <img src="http://2.gravatar.com/avatar/be3af5c939834664ebe532dfd6f6101a?s=100" alt="logo">
+      </a>
+      <h2><a href="http://shaform.github.io">Shaform</a></h2>
+      <p>翼之都 - 夢想，可以飛得多遠？伸出雙手，盡情實驗。</p>
+      <ul>
+        <li><a href="/category/ideas.html">Ideas</a></li>
+        <li><a href="/category/notes.html">Notes</a></li>
+        <li><a href="/category/projects.html">Projects</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+<p>Posted on Sun 13 April 2014</p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2014/04/13/hbase-on-ubuntu-12.04.html">在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</a></h3>
+  </div>
+  <div class="article_text">
+    <p>這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。</p>
+<h2>一、HDFS</h2>
+<ol>
+<li>
+<p>安裝 JDK 7</p>
+<div class="highlight"><pre>sudo apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade <span class="c"># 更新套件庫</span>
+sudo apt-get install software-properties-common python-software-properties  <span class="c"># 取得 add-apt-repository</span>
+sudo add-apt-repository ppa:webupd8team/java  <span class="c"># 新增有 oracle-java7-installer 的 ppa</span>
+sudo apt-get update
+sudo apt-get install oracle-java7-installer
+</pre></div>
+
+
+</li>
+<li>
+<p>設定 SSH</p>
+<div class="highlight"><pre>ssh-keygen -b 2048 -t rsa:q  <span class="c"># 產生 RSA key pair</span>
+cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  <span class="c"># 讓自己可以不用密碼登入自己</span>
+</pre></div>
+
+
+<p>在 NameNode 上：</p>
+<div class="highlight"><pre>ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-1-dn  <span class="c"># 讓 NameNode 可不用密碼登入 DataNode</span>
+ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-2-dn  <span class="c"># 讓 NameNode 可不用密碼登入 DataNode</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>安裝 Hadoop</p>
+<p>先在 $HOME/.bashrc 加上 <code>export PATH=$PATH:$HOME/hadoop-1.2.1/bin</code>，然後進入家目錄：</p>
+<div class="highlight"><pre>wget http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz
+tar -xvf hadoop-1.2.1-bin.tar.gz
+<span class="nb">cd </span>hadoop-1.2.1/conf
+</pre></div>
+
+
+<p>修改 hadoop-env.sh 加上 <code>export JAVA_HOME=/usr/lib/jvm/java-7-oracle</code>。</p>
+</li>
+<li>
+<p>進階設定</p>
+<p>在下列檔案中的<configuration>內新增如下內容：</p>
+<ul>
+<li>
+<p>core-site.xml</p>
+<div class="highlight"><pre><span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>fs.default.name<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>hdfs://R02922036-86-1:54310<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>mapred-site.xml</p>
+<div class="highlight"><pre><span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>mapred.job.tracker<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>R02922036-86-1:54311<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>hdfs-site.xml</p>
+<div class="highlight"><pre><span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>3<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+</pre></div>
+
+
+</li>
+</ul>
+<p>然後在 NameNode 上修改將以下檔案修改成如下內容：</p>
+<ul>
+<li>
+<p>masters</p>
+<div class="highlight"><pre><span class="n">master</span><span class="o">-</span><span class="n">dn</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>slaves</p>
+<div class="highlight"><pre><span class="n">master</span><span class="o">-</span><span class="n">dn</span>
+<span class="n">slave</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">dn</span>
+<span class="n">slave</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="n">dn</span>
+</pre></div>
+
+
+</li>
+</ul>
+</li>
+<li>
+<p>開啟伺服器
+    最後在 NameNode 上執行以下指令將 cluster 啟動（可能需要重新登入讓 PATH 設定生效）：</p>
+<div class="highlight"><pre>hadoop namenode -format  <span class="c"># 格式化檔案系統</span>
+start-all.sh  <span class="c"># 啟動所有服務（包含 HDFS）</span>
+</pre></div>
+
+
+</li>
+</ol>
+<h2>二、HBase</h2>
+<p>首先進入每台的家目錄，下載並解壓縮 HBase：</p>
+<div class="highlight"><pre>wget http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.94.14.tar.gz
+tar -xvf hbase-0.94.14.tar.gz
+</pre></div>
+
+
+<p>編輯 hbase-0.94.14/conf/hbase-env.sh，新增數行：</p>
+<div class="highlight"><pre><span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/java-7-oracle
+<span class="nb">export </span><span class="nv">HADOOP_CONF_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/hadoop-1.2.1/conf
+<span class="nb">export </span><span class="nv">HBASE_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/hbase-0.94.14
+<span class="nb">export </span><span class="nv">HBASE_LOG_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/logs/hbase-logs
+<span class="nb">export </span><span class="nv">HBASE_PID_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/logs/hbase-pids
+<span class="nb">export </span><span class="nv">HBASE_CLASSPATH</span><span class="o">=</span><span class="nv">$HBASE_CLASSPATH</span>:<span class="nv">$HOME</span>/hadoop-1.2.1/conf
+<span class="nb">export </span><span class="nv">HBASE_MANAGES_ZK</span><span class="o">=</span><span class="nb">true</span>
+</pre></div>
+
+
+<p>編輯 hbase-0.94.14/conf/hbase-site.xml，在<configuration>內新增如下內容：</p>
+<div class="highlight"><pre><span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>hbase.rootdir<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>hdfs://master-dn:54310/hbase<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>hbase.tmp.dir<span class="nt">&lt;/name&gt;</span> 
+    <span class="nt">&lt;value&gt;</span>/home/hbase-${user.name}<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>hbase.cluster.distributed<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>       
+<span class="nt">&lt;property&gt;</span> 
+    <span class="nt">&lt;name&gt;</span>hbase.zookeeper.quorum<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>master-dn,slave-1-dn,slave-2-dn<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>hbase.zookeeper.property.dataDir<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>/home/hbase-data<span class="nt">&lt;/value&gt;</span> 
+<span class="nt">&lt;/property&gt;</span>
+</pre></div>
+
+
+<p>然後編輯 hbase-0.94.14/conf/regionservers 將內容改為如下：</p>
+<div class="highlight"><pre><span class="n">master</span><span class="o">-</span><span class="n">dn</span>
+<span class="n">slave</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">dn</span>
+<span class="n">slave</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="n">dn</span>
+</pre></div>
+
+
+<p>最後就可以在 master 執行 HBase 了：</p>
+<div class="highlight"><pre><span class="p">.</span><span class="o">/</span><span class="n">hbase</span><span class="o">-</span><span class="mf">0.94.14</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">start</span><span class="o">-</span><span class="n">hbase</span><span class="p">.</span><span class="n">sh</span>
+</pre></div>
+  </div>
+  <div class="article_meta">
+    <p>Category: <a href="http://shaform.github.io/category/notes.html">Notes</a></p>
+    <p>Tags:
+      <a href="http://shaform.github.io/tag/hadoop.html">Hadoop</a>,      <a href="http://shaform.github.io/tag/hbase.html">HBase</a>,      <a href="http://shaform.github.io/tag/hdfs.html">HDFS</a>,      <a href="http://shaform.github.io/tag/ubuntu.html">Ubuntu</a>    </p>
+    <p>Comments: <a href="#" onclick="javascript:toggleComments();return false;">toggle</a></p>
+  </div>
+
+    <div id="article_comments" style="display:block">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+           var disqus_identifier = "blog/2014/04/13/hbase-on-ubuntu-12.04.html";
+           (function() {
+           var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+           dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+           (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+    </div>
+
+</article>
+
+    <footer>
+<p><a href="http://shaform.github.io/" class="button_accent">&larr; Back to Index</a></p>
+<script language="javascript">
+    function toggleComments() {
+        var commentDiv = document.getElementById("article_comments");
+        (commentDiv.style.display == "none") ? commentDiv.style.display = "block" : commentDiv.style.display = "none";
+        return false;
+    }
+</script>
+    </footer>
+
+    <div id="ending_message">
+      <p>&copy; Shaform. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Giulio Fidente on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>. .</p>
+    </div>
+  </main>
+</body>
+</html>

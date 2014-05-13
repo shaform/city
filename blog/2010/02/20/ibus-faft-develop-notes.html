@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <link rel="stylesheet/less" type="text/css" href="http://shaform.github.io/theme/css/style.less">
+  <script src="http://shaform.github.io/theme/js/less-1.5.0.min.js" type="text/javascript"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="http://shaform.github.io/theme/css/style.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="http://shaform.github.io/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Shaform">
+  <meta name="description" content="Posts and writings by Shaform">
+
+  <link href="http://shaform.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings - 翼之都 Full Atom Feed" />
+
+<meta name="keywords" content="自由行列, 軟體開發, 輸入法, ibus">
+
+  <title>
+ibus-faft 開發日誌  </title>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-13132274-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://shaform.github.io">
+        <img src="http://2.gravatar.com/avatar/be3af5c939834664ebe532dfd6f6101a?s=100" alt="logo">
+      </a>
+      <h2><a href="http://shaform.github.io">Shaform</a></h2>
+      <p>翼之都 - 夢想，可以飛得多遠？伸出雙手，盡情實驗。</p>
+      <ul>
+        <li><a href="/category/ideas.html">Ideas</a></li>
+        <li><a href="/category/notes.html">Notes</a></li>
+        <li><a href="/category/projects.html">Projects</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+<p>Posted on Sat 20 February 2010</p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="http://shaform.github.io/blog/2010/02/20/ibus-faft-develop-notes.html">ibus-faft 開發日誌</a></h3>
+  </div>
+  <div class="article_text">
+    <p>FreeArray for Test for the Input Bus 是基於 ibus 輸入法架構所製作之行列輸入法引擎，其結合來自 libchewing 的斷詞模組實作智慧選字功能，並利用「行列定符」改進原行列的符號輸入。此外，對 dvorak 鍵盤具有完整支援。</p>
+<p>在開發過程中，除了引用大量 libchewing 的程式碼外，也參考了 <a href="http://code.google.com/p/ibus-array/">ibus-array</a>, <a href="https://github.com/definite/ibus-chewing">ibus-chewing</a> 的程式碼才得以完成。</p>
+<p>時間大約是在 2010 年 2 月初直到 2 月中，連續而密集的開發。</p>
+<h2>libchewing</h2>
+<p>研究 libchewing 其實已經頗久了，直到現在對它的了解也才只是剛好得以把斷詞模組和一部分的輸入處理拿來用而已。為了配合 faft，而對 libchewing 做了些改動，主要是把 Phone 換成 ArrayCode，但也對一部分行為做了小修改，程式碼的改動應該都有用 <code>#ifndef FAFT_CHEWING / #ifdef FAFT_CHEWING</code> 包了起來，所以應該頗好追蹤的。</p>
+<p>詞樹資料的創建是用了一系列工具轉換出來的，不過因為寫的時候是基於 C++ 版的 libfreearray，而且很亂沒整理，所以並沒有放在 ibus-faft 之中。檔案很大的一部分原因是同一個字有很多行列碼的表示方法，並且文字編碼長度比原新酷音長，另外，不小心把特別碼也轉進去了，不過一直提不起勁來重新轉換 XD。</p>
+<h2>資料處理</h2>
+<p>行列碼和中文字以及鍵盤排列轉換的處理，是從 libfreearray 中 C++ 的版本改過來的，處理中文字、行列定符、詞彙輸入的詞庫、特別碼及簡碼，都是由這部分負責，透過 SQLite 來存取資料。而斷詞用的詞庫，以及簡易符號輸入，則是用 libchewing 的檔案格式，詞彙輸入的詞庫和斷詞的詞庫我並沒有統一資料。另外，我把 libchewing 中使用者詞庫的功能移除以降低開發的複雜度。</p>
+<p>對於 SQLite 其實還不是很熟悉，設了一些 index 也不知是否有必要。主要的參考書藉是<a href="http://apress.com/book/view/9781590596739">《The Definitive Guide to SQLite》</a>，以及官方文件<a href="http://www.sqlite.org/docs.html">《SQLite Documents》</a>。</p>
+<h2>核心輸入模組</h2>
+<p>其實原本我想把輸入處理全寫到 ibus-faft-engine 中的 process_key_event()，然後呼叫一些 libchewing 的，或自己寫的函式。想不到後來慢慢把很多東西都移進 faft 中，再由 ibus-faft-engine 來呼叫 faft 裡的函式，所以 ibus-faft 就不用呼叫 libchewing 的函式了。事實上是，現在要把 faft 拿出來，放進 scim 或其它輸入法架構，都變成一件有可能的事。我也因此得以寫了一支 faft-test 程式，配合 gdb 偵錯，對 ibus-faft 的開發有很大幫助。</p>
+<p>對於輸入法資料 FAFTContext 其實改動很多次，本來還另外寫了 FAFTData, FAFTOutput，再試圖引進 libchewing 之中，但最後變得非常複雜，所以還是直接改動 ChewingData, ChewingOutput，再把它們引進 faft 之中。faft 的介面曾改動過非常多次才變成現在的樣子，所以其實在某些地方可能會有一些功能重複或沒有用到的遺跡。另外就是一些狀態變數設了很多，最後好像也不見得有用。</p>
+<p>與 ibus 的介面程式，絕大多數都是參考 ibus-chewing 所做，一部分則是從 ibus-array 而來。</p>
+<h2>關於 Settings</h2>
+<p>在製作 Settings 介面時，我選擇和 ibus-array 一樣，透過 Python 來做，一方面是因為覺得可能比較簡單，二方面是正想學 Python，不能放過每一個機會。過程中比較有趣的是，正值沒有網路的寒假，我又沒有用過 GTK+，在電腦裡只找到一份以前想學 GTK+ 時下載的文件，只是那份寫的是 C，所以跟 Python 又有點不一樣，所以其實很多地方都得「猜猜看」，還得常常用 dir() 之類的。原本製作時是想拿 ibus-array 的來改一下即可，不過最後似乎重寫了絕大部分，順便也是在練習 Python，並一邊閱讀著<a href="http://www.python.org/doc/">《Python documentation》</a>。</p>
+<h2>Autotools</h2>
+<p>在初期，是自己寫 Makefile 來編譯 ibus-faft 的，直到末期才把 Autotools 的部分補了上去。主要是參考 ibus-tmpl 的檔案，以及<a href="http://www.freesoftwaremagazine.com/books/autotools_a_guide_to_autoconf_automake_libtool">《Autotools: a practitioner's guide to Autoconf, Automake and Libtool》</a>，才得以完成。</p>
+  </div>
+  <div class="article_meta">
+    <p>Category: <a href="http://shaform.github.io/category/projects.html">Projects</a></p>
+    <p>Tags:
+      <a href="http://shaform.github.io/tag/zi-you-xing-lie.html">自由行列</a>,      <a href="http://shaform.github.io/tag/ruan-ti-kai-fa.html">軟體開發</a>,      <a href="http://shaform.github.io/tag/shu-ru-fa.html">輸入法</a>,      <a href="http://shaform.github.io/tag/ibus.html">ibus</a>    </p>
+    <p>Comments: <a href="#" onclick="javascript:toggleComments();return false;">toggle</a></p>
+  </div>
+
+    <div id="article_comments" style="display:block">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+           var disqus_identifier = "blog/2010/02/20/ibus-faft-develop-notes.html";
+           (function() {
+           var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+           dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+           (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+    </div>
+
+</article>
+
+    <footer>
+<p><a href="http://shaform.github.io/" class="button_accent">&larr; Back to Index</a></p>
+<script language="javascript">
+    function toggleComments() {
+        var commentDiv = document.getElementById("article_comments");
+        (commentDiv.style.display == "none") ? commentDiv.style.display = "block" : commentDiv.style.display = "none";
+        return false;
+    }
+</script>
+    </footer>
+
+    <div id="ending_message">
+      <p>&copy; Shaform. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Giulio Fidente on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>. .</p>
+    </div>
+  </main>
+</body>
+</html>
