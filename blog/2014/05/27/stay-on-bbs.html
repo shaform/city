@@ -16,9 +16,10 @@
 
   <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings - 翼之都 Full Atom Feed" />
 
+<meta name="keywords" content="PTT, BBS, linux">
 
   <title>
-Tag: linux  </title>
+簡單的 BBS 掛站設定  </title>
 
 <script type="text/javascript">
   var _gaq = _gaq || [];
@@ -52,8 +53,7 @@ Tag: linux  </title>
 
   <main>
     <header>
-<p>Tag: linux
-</p>
+<p>Posted on Tue 27 May 2014</p>
     </header>
 
 <article>
@@ -70,33 +70,68 @@ screen -t <span class="s1">&#39;ptt&#39;</span> ssh bbsu@ptt.cc
 </pre></div>
 
 
-<p>screenrc-bbs ...</p>
-  </div>
-</article>
-<hr />
-<article>
-  <div class="article_title">
-    <h3><a href="http://city.shaform.com/blog/2013/07/12/qwerty-to-dvorak.html">qwerty 轉換到 dvorak 筆記</a></h3>
-  </div>
-  <div class="article_text">
-    <h2>Windows</h2>
-<p>Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：<a href="http://shaform.wordpress.com/2007/07/14/dvorak/">〈Dvorak: 另一種鍵盤排列〉</a>。</p>
-<h2>Linux</h2>
-<p>最近的 Linux distributions 只要在安裝時就選擇 dvorak 鍵盤的話，大致上就會設定完成，通常 GUI 頁面也會有鍵盤設定。Linux 上輸入法和鍵盤設定通常是分開的兩個東西。如果你使用像是<a href="https://code.google.com/p/freearray">自由行列輸入法</a>等等原本就有支援 dvorak 的輸入法，則符號對應只要設定一下就可以了。</p>
-<p>如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換：</p>
-<div class="highlight"><pre>setxkbmap dvorak <span class="c"># 更動成 dvorak</span>
-setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
+<p>screenrc-bbs/ptt2：</p>
+<div class="highlight"><pre>vbell off 
+screen -t <span class="s1">&#39;ptt2&#39;</span> ssh bbsu@ptt2.cc
 </pre></div>
 
 
-<h2>Xrdp ...</h2>
+<p>screenrc-bbs/ptt3：</p>
+<div class="highlight"><pre>vbell off
+defencoding big5
+screen -t <span class="s1">&#39;ptt3&#39;</span> telnet ptt3.cc
+defencoding big5
+</pre></div>
+
+
+<p>screenrc-bbs/bs2：</p>
+<div class="highlight"><pre>vbell off 
+defencoding big5 
+screen -t <span class="s1">&#39;bs2&#39;</span> telnet -8 bs2.to 
+defencoding big5
+</pre></div>
+
+
+<p>最後在 <code>.bashrc</code> 加入 alias 就大功完成啦：</p>
+<div class="highlight"><pre><span class="nb">alias </span><span class="nv">bs2</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD BS2 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S BS2 -c $HOME/screenrc-bbs/bs2 ; fi&quot;</span>
+<span class="nb">alias </span><span class="nv">ptt</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT1 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT1 -c $HOME/screenrc-bbs/ptt ; fi&quot;</span>
+<span class="nb">alias </span><span class="nv">ptt2</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT2 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT2 -c $HOME/screenrc-bbs/ptt2 ; fi&quot;</span>
+<span class="nb">alias </span><span class="nv">ptt3</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT3 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT3 -c $HOME/screenrc-bbs/ptt3 ; fi&quot;</span>
+</pre></div>
+
+
+<p>如此一來，下次登入時只要直接打 <code>ptt</code> 就可以開始逛版了，要離開則按 <code>Ctrl-A Ctrl-D</code>，只要沒有被斷線的話隨時登入工作站都可以下 <code>ptt</code> 指令重回之前的進度。</p>
   </div>
+  <div class="article_meta">
+    <p>Category: <a href="http://city.shaform.com/category/notes.html">Notes</a></p>
+    <p>Tags:
+      <a href="http://city.shaform.com/tag/ptt.html">PTT</a>,      <a href="http://city.shaform.com/tag/bbs.html">BBS</a>,      <a href="http://city.shaform.com/tag/linux.html">linux</a>    </p>
+    <p>Comments: <a href="#" onclick="javascript:toggleComments();return false;">toggle</a></p>
+  </div>
+
+    <div id="article_comments" style="display:block">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+           var disqus_identifier = "blog/2014/05/27/stay-on-bbs.html";
+           (function() {
+           var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+           dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+           (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+    </div>
+
 </article>
 
     <footer>
-<div id="paginator">
-
-</div>
+<p><a href="http://city.shaform.com/" class="button_accent">&larr; Back to Index</a></p>
+<script language="javascript">
+    function toggleComments() {
+        var commentDiv = document.getElementById("article_comments");
+        (commentDiv.style.display == "none") ? commentDiv.style.display = "block" : commentDiv.style.display = "none";
+        return false;
+    }
+</script>
     </footer>
 
     <div id="ending_message">

@@ -1,5 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-05-17T07:25:00+08:00</updated><entry><title>從 Pixnet 轉移到 Pelican</title><link href="http://city.shaform.com/blog/2014/05/17/migrate-from-pixnet-to-pelican.html" rel="alternate"></link><updated>2014-05-17T07:25:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-05-17:blog/2014/05/17/migrate-from-pixnet-to-pelican.html</id><summary type="html">&lt;p&gt;「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻煩：它對於一些程式碼的的支援有點不直覺，而文章的寫作方式也有許多不符我的需求。最後索性就把這個網誌改用 Pelican 建立了。而因為文章只有一點點，所以是用手動搬的。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-05-27T13:21:00+08:00</updated><entry><title>簡單的 BBS 掛站設定</title><link href="http://city.shaform.com/blog/2014/05/27/stay-on-bbs.html" rel="alternate"></link><updated>2014-05-27T13:21:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-05-27:blog/2014/05/27/stay-on-bbs.html</id><summary type="html">&lt;p&gt;很久以前看到了 othree 的&lt;a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/"&gt;〈掛站系統設定篇〉&lt;/a&gt;，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）&lt;/p&gt;
+&lt;p&gt;後來我發現其實掛一些我平常在逛的站如 PTT or BS2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。&lt;/p&gt;
+&lt;p&gt;首先在 &lt;code&gt;$HOME&lt;/code&gt; 目錄建一個叫做 &lt;code&gt;screenrc-bbs&lt;/code&gt; 的資料夾，接下來在資料夾裡根據想逛的 bbs 建立 screenrc 檔案。&lt;/p&gt;
+&lt;p&gt;比如說 screenrc-bbs/ptt：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;vbell off 
+screen -t &lt;span class="s1"&gt;&amp;#39;ptt&amp;#39;&lt;/span&gt; ssh bbsu@ptt.cc
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;screenrc-bbs/ptt2：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;vbell off 
+screen -t &lt;span class="s1"&gt;&amp;#39;ptt2&amp;#39;&lt;/span&gt; ssh bbsu@ptt2.cc
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;screenrc-bbs/ptt3：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;vbell off
+defencoding big5
+screen -t &lt;span class="s1"&gt;&amp;#39;ptt3&amp;#39;&lt;/span&gt; telnet ptt3.cc
+defencoding big5
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;screenrc-bbs/bs2：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;vbell off 
+defencoding big5 
+screen -t &lt;span class="s1"&gt;&amp;#39;bs2&amp;#39;&lt;/span&gt; telnet -8 bs2.to 
+defencoding big5
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最後在 &lt;code&gt;.bashrc&lt;/code&gt; 加入 alias 就大功完成啦：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;alias &lt;/span&gt;&lt;span class="nv"&gt;bs2&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;if ! screen -rD BS2 &amp;gt;&amp;amp; /dev/null ; then LANG=&amp;#39;zh_TW.UTF-8&amp;#39; screen -S BS2 -c $HOME/screenrc-bbs/bs2 ; fi&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;alias &lt;/span&gt;&lt;span class="nv"&gt;ptt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;if ! screen -rD PTT1 &amp;gt;&amp;amp; /dev/null ; then LANG=&amp;#39;zh_TW.UTF-8&amp;#39; screen -S PTT1 -c $HOME/screenrc-bbs/ptt ; fi&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;alias &lt;/span&gt;&lt;span class="nv"&gt;ptt2&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;if ! screen -rD PTT2 &amp;gt;&amp;amp; /dev/null ; then LANG=&amp;#39;zh_TW.UTF-8&amp;#39; screen -S PTT2 -c $HOME/screenrc-bbs/ptt2 ; fi&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;alias &lt;/span&gt;&lt;span class="nv"&gt;ptt3&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;if ! screen -rD PTT3 &amp;gt;&amp;amp; /dev/null ; then LANG=&amp;#39;zh_TW.UTF-8&amp;#39; screen -S PTT3 -c $HOME/screenrc-bbs/ptt3 ; fi&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如此一來，下次登入時只要直接打 &lt;code&gt;ptt&lt;/code&gt; 就可以開始逛版了，要離開則按 &lt;code&gt;Ctrl-A Ctrl-D&lt;/code&gt;，只要沒有被斷線的話隨時登入工作站都可以下 &lt;code&gt;ptt&lt;/code&gt; 指令重回之前的進度。&lt;/p&gt;</summary><category term="PTT"></category><category term="BBS"></category><category term="linux"></category></entry><entry><title>從 Pixnet 轉移到 Pelican</title><link href="http://city.shaform.com/blog/2014/05/17/migrate-from-pixnet-to-pelican.html" rel="alternate"></link><updated>2014-05-17T07:25:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-05-17:blog/2014/05/17/migrate-from-pixnet-to-pelican.html</id><summary type="html">&lt;p&gt;「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻煩：它對於一些程式碼的的支援有點不直覺，而文章的寫作方式也有許多不符我的需求。最後索性就把這個網誌改用 Pelican 建立了。而因為文章只有一點點，所以是用手動搬的。&lt;/p&gt;
 &lt;p&gt;搬完以後覺得這種靜態網頁在管理和備份文章上實在是很方便。想到「浮光」這個文章集散處，其實完全是由很少 HTML 的靜態文章所組成，實在是很適合放到 Pelican 上，再者 Pixnet 的後台界面自己一直不是很喜歡，所以就乾脆一起搬了。&lt;/p&gt;
 &lt;p&gt;以下記載完成這件事的流程，使用的環境是 Ubuntu 14.04 64-bit。&lt;/p&gt;
 &lt;h2&gt;安裝 Pelican&lt;/h2&gt;
