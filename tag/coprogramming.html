@@ -1,83 +1,132 @@
-<!DOCTYPE html>
-<html lang="zh">
-
+<!doctype html>
+<html lang="">	
 <head>
-  <link rel="stylesheet/less" type="text/css" href="http://city.shaform.com/theme/css/style.less">
-  <script src="http://city.shaform.com/theme/js/less-1.5.0.min.js" type="text/javascript"></script>
-  <!-- <link rel="stylesheet" type="text/css" href="http://city.shaform.com/theme/css/style.css"> -->
+	<meta charset="utf-8"/>
+	<title>CoProgramming - City of Wings - 翼之都</title>	
+	<meta name="author" content="Shaform">
+	
 
-  <link rel="stylesheet" type="text/css" href="http://city.shaform.com/theme/css/pygments.css">
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
-
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Shaform">
-  <meta name="description" content="Posts and writings by Shaform">
-
-  <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings - 翼之都 Full Atom Feed" />
+	<link rel="stylesheet" href="http://city.shaform.com/theme/css/main.css" type="text/css" />
+		
 
 
-  <title>
-Tag: CoProgramming  </title>
-
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-13132274-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
+    <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings - 翼之都 Atom Feed" />
 </head>
-
+	
 <body>
-  <aside>
-    <div id="user_meta">
-      <a href="http://city.shaform.com">
-        <img src="http://2.gravatar.com/avatar/be3af5c939834664ebe532dfd6f6101a?s=100" alt="logo">
-      </a>
-      <h2><a href="http://city.shaform.com">Shaform</a></h2>
-      <p>翼之都 - 夢想，可以飛得多遠？伸出雙手，盡情實驗。</p>
-      <ul>
-        <li><a href="/category/ideas.html">Ideas</a></li>
-        <li><a href="/category/notes.html">Notes</a></li>
-        <li><a href="/category/projects.html">Projects</a></li>
-        <li><a href="/tags.html">Tags</a></li>
-      </ul>
-    </div>
-  </aside>
 
-  <main>
-    <header>
-<p>Tag: CoProgramming
-</p>
-    </header>
+    <div class="container">
+	  
+	  <header role="banner">
+	    <div class="feeds">
+	        <a href="http://city.shaform.com/feeds/all.atom.xml" rel="alternate"><img src="/theme/images/icons/feed-32px.png" alt="atom feed"/></a>
+	    </div>
+		<a href="http://city.shaform.com" class="title">City of Wings - 翼之都</a>
+      </header>
+	
+	  <div class="wrapper">
 
-<article>
-  <div class="article_title">
-    <h3><a href="http://city.shaform.com/blog/2013/03/05/coprogramming.html">最低成本的程式協作: CoProgramming</a></h3>
-  </div>
-  <div class="article_text">
-    <h2>緣起</h2>
+		  <div role="main" class="content">
+
+<h1>Post tagged: CoProgramming</h1>
+
+<article class="summary">
+<div class="metadata">
+  <time datetime="2013-03-05T08:03:00+08:00" pubdate>Tue 05 March 2013</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
+    </address>
+  in <a href="http://city.shaform.com/category/projects.html">Projects</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a>, <a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a>, <a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></p></div>  <div>
+    <h2>
+      <a href="http://city.shaform.com/blog/2013/03/05/coprogramming.html" rel="bookmark" title="Permalink to 最低成本的程式協作: CoProgramming">最低成本的程式協作: CoProgramming</a>
+    </h2>
+    <p><h2>緣起</h2>
 <p>在程式課堂，團隊合作常常是件頭痛的事，若是每個人各自工作，常會產生許多難以整合的版本。即使是一起到電腦教室討論，也常是一個人寫程式，其他人在旁邊看。雖然有版本控制系統等等合作工具，然而我從來沒有成功在一堂課中讓隊友學會其運作(應該說是幾乎，僅有在雙方都早已會使用，或者是由我做所有merge時才曾使用)，事實上，像 git, hg 等等複雜的系統，是否真的適合這種小型專案也尚有可懷疑的地方，尤其，有些作業所有的程式碼都在同一個檔案中，使得版本控制系統用起來十分不順手。</p>
 <p>我突然想起在<a href="http://en.wikipedia.org/wiki/Here_Comes_Everybody">《Here Comes Everybody》</a>書裡看過的說法：Wikipedia 的貢獻者中，絕大多數可能只有編輯過一兩行的文章。一家公司如果大部分的員工都只做一點工作，則這家公司多半無法生存。可是在 Wikipedia 的例子裡，合作的成本被降的很低，所以原來不可能利用的小量付出，也能被整合成一個共同成果。</p>
 <p>這確實就是我們遇到的情況，有時在課堂中的程式作業規模是如此的小，任何的合作成本都太過高昂。而且，這種只存在一學期的臨時團隊，根本難以形成向心力。而要求任何人為了一學期的作業學會複雜的版本控制系統更是完全不實際的想法。</p>
-<p>如果要成功整合大家一起完成這種小型的合作、如果要在每個人只寫幾行程式的情況下依然可以合作，唯一的可能性就是要將合作成本壓到極端的低。可是，要怎麼做呢 ...</p>
+<p>如果要成功整合大家一起完成這種小型的合作、如果要在每個人只寫幾行程式的情況下依然可以合作，唯一的可能性就是要將合作成本壓到極端的低。可是，要怎麼做呢 ...</p></p>
   </div>
 </article>
-
-    <footer>
-<div id="paginator">
-
+<div class="pagination">
+    Page 1 / 1
 </div>
-    </footer>
 
-    <div id="ending_message">
-      <p>&copy; Shaform. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Giulio Fidente on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>. .</p>
-    </div>
-  </main>
+		  </div>	
+		  
+		  <div class="sidebar">
+		    <div class="sidebar-container" >
+
+	            <aside>
+	              <h2>About</h2>
+			      <p>
+                    翼之都 - a blog by Shaform.<br>夢想，可以飛得多遠？伸出雙手，盡情實驗。
+			      </p>
+			    </aside>
+
+  	          <nav>
+	            <h2>Categories</h2>
+	            <ul>
+	                <li ><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
+	                <li ><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
+	                <li ><a href="http://city.shaform.com/category/projects.html">Projects</a></li>
+	            </ul>
+	          </nav>
+
+
+                  <aside>
+	            <h2>Tags</h2>
+                    <ul class="tagcloud">
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/PTT/">PTT</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Pelican/">Pelican</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Internet/">Internet</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/輸入法/">輸入法</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/BBS/">BBS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/browser/">browser</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak/">dvorak</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/CoProgramming/">CoProgramming</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/軟體開發/">軟體開發</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty/">qwerty</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc/">vimrc</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/linux/">linux</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Hadoop/">Hadoop</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Python/">Python</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/HBase/">HBase</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim/">vim</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/HDFS/">HDFS</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/自由行列/">自由行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Ubuntu/">Ubuntu</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus/">ibus</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Pixnet/">Pixnet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Google Drive/">Google Drive</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/行列/">行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows/">windows</a></li>
+                    </ul>
+	          </aside>
+	        </div>
+		  </div>
+
+	  </div>
+
+      <footer>
+		<p role="contentinfo">
+		  Shaform - Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>. Theme <a href="https://github.com/fle/pelican-sober">pelican-sober</a>.
+    	</p>
+
+	  </footer>	
+
+	</div>
+	
+          <script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-13132274-1', 'shaform.com');
+              ga('send', 'pageview');
+
+          </script>
+
 </body>
 </html>

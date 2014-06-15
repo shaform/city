@@ -1,67 +1,48 @@
-<!DOCTYPE html>
-<html lang="zh">
-
+<!doctype html>
+<html lang="">	
 <head>
-  <link rel="stylesheet/less" type="text/css" href="http://city.shaform.com/theme/css/style.less">
-  <script src="http://city.shaform.com/theme/js/less-1.5.0.min.js" type="text/javascript"></script>
-  <!-- <link rel="stylesheet" type="text/css" href="http://city.shaform.com/theme/css/style.css"> -->
+	<meta charset="utf-8"/>
+	<title>簡介自由行列專案 - City of Wings - 翼之都</title>	
+	<meta name="author" content="Shaform">
+	
 
-  <link rel="stylesheet" type="text/css" href="http://city.shaform.com/theme/css/pygments.css">
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+  <meta name="description" content="本持自由軟體，Release Early, Release Often 之精神，我實在應該趕快把自由行列的程式碼公開出來。不過覺得程式碼實在太醜，而且其實根本也還沒寫出什麼，再者我現在其實是一邊寫一邊學 OOP，因此程式碼常有大幅改動，再者又覺 SVN 操作好麻煩，所以遲遲未發。 不過為了避免自由行列的想法消失在歷史之中。於是決定，先把自由行列專案的簡介發出。 簡易使用 行列輸入法雖然是用字根組字的輸入法，然而由於其字根的特性，需要花的記憶心力其實是比較小的，只是為了求快或者避免選字，時常必須記憶特別碼或簡碼。並且因為有些組字必須選字，而有些則不用，使得要時常注意螢幕或者把它的行為強記下來。 引入智慧選字的功能之後，自由行列的新特性將是簡易。也許不再追求最快的輸入法，但是卻有機會成為組字輸入法中最易上手，選字機會最低的輸入法。每次出字時，不會再有依是否要選字而有的不一致行為，同時我也想將加上特定字尾才能輸出難字的功能去掉，而藏在「w」中的符號表，也被拿到「`」之下。如此一來，輸入的一致性將大為提高。 符號輸入 符號輸入是自由行列要改進的核心事項之一。除了符號表之外，還有從透過從行列字根發展出的「符根」輸出符號的「行列定符 ...">
 
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Shaform">
-  <meta name="description" content="Posts and writings by Shaform">
 
-  <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings - 翼之都 Full Atom Feed" />
 
-<meta name="keywords" content="自由行列, 軟體開發, 輸入法">
+	<link rel="stylesheet" href="http://city.shaform.com/theme/css/main.css" type="text/css" />
+		
 
-  <title>
-簡介自由行列專案  </title>
 
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-13132274-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
+    <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings - 翼之都 Atom Feed" />
 </head>
-
+	
 <body>
-  <aside>
-    <div id="user_meta">
-      <a href="http://city.shaform.com">
-        <img src="http://2.gravatar.com/avatar/be3af5c939834664ebe532dfd6f6101a?s=100" alt="logo">
-      </a>
-      <h2><a href="http://city.shaform.com">Shaform</a></h2>
-      <p>翼之都 - 夢想，可以飛得多遠？伸出雙手，盡情實驗。</p>
-      <ul>
-        <li><a href="/category/ideas.html">Ideas</a></li>
-        <li><a href="/category/notes.html">Notes</a></li>
-        <li><a href="/category/projects.html">Projects</a></li>
-        <li><a href="/tags.html">Tags</a></li>
-      </ul>
-    </div>
-  </aside>
 
-  <main>
-    <header>
-<p>Posted on Mon 15 February 2010</p>
-    </header>
+    <div class="container">
+	  
+	  <header role="banner">
+	    <div class="feeds">
+	        <a href="http://city.shaform.com/feeds/all.atom.xml" rel="alternate"><img src="/theme/images/icons/feed-32px.png" alt="atom feed"/></a>
+	    </div>
+		<a href="http://city.shaform.com" class="title">City of Wings - 翼之都</a>
+      </header>
+	
+	  <div class="wrapper">
 
-<article>
-  <div class="article_title">
-    <h3><a href="http://city.shaform.com/blog/2010/02/15/intro-to-freearray.html">簡介自由行列專案</a></h3>
-  </div>
-  <div class="article_text">
-    <p>本持自由軟體，Release Early, Release Often 之精神，我實在應該趕快把自由行列的程式碼公開出來。不過覺得程式碼實在太醜，而且其實根本也還沒寫出什麼，再者我現在其實是一邊寫一邊學 OOP，因此程式碼常有大幅改動，再者又覺 SVN 操作好麻煩，所以遲遲未發。</p>
+		  <div role="main" class="content">
+	<article class="full">
+		
+		<h1>簡介自由行列專案</h1>
+		
+<div class="metadata">
+  <time datetime="2010-02-15T15:46:00+08:00" pubdate>Mon 15 February 2010</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
+    </address>
+  in <a href="http://city.shaform.com/category/projects.html">Projects</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a>, <a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a>, <a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></p></div>		
+		<p>本持自由軟體，Release Early, Release Often 之精神，我實在應該趕快把自由行列的程式碼公開出來。不過覺得程式碼實在太醜，而且其實根本也還沒寫出什麼，再者我現在其實是一邊寫一邊學 OOP，因此程式碼常有大幅改動，再者又覺 SVN 操作好麻煩，所以遲遲未發。</p>
 <p>不過為了避免自由行列的想法消失在歷史之中。於是決定，先把自由行列專案的簡介發出。</p>
 <h2>簡易使用</h2>
 <p>行列輸入法雖然是用字根組字的輸入法，然而由於其字根的特性，需要花的記憶心力其實是比較小的，只是為了求快或者避免選字，時常必須記憶特別碼或簡碼。並且因為有些組字必須選字，而有些則不用，使得要時常注意螢幕或者把它的行為強記下來。</p>
@@ -188,43 +169,103 @@
 <p>在製作 libfreearray 時，我所考慮的其實不只是輸入法而已，而是要將其發展成自由行列的通用函式庫。例如 typing tutor 或查碼程式，或其他更多的應用，都可基於其上發展。特別是一個可以在 Linux 平台上執行的 typing tutor，更是我將來有機會想實行的方向。覺得行列輸入法實在是一個很好的輸入法，現在似乎不太多人學，實為可惜。</p>
 <h2>手機輸入法</h2>
 <p>行列輸入法做為一個用數字排列字根的輸入法，自然具有成為手機輸入法的潛力，甚至要做到只有十鍵輸入，且不看螢幕都有可能。libfreearray 既然想成為行列的通用函式庫，最後很可能會希望建立起一個具有原始拆字字根，而非減縮後的 30 字根，的文字資料庫。屆時，當可研究如何製作手機輸入法。想來，要把行列字根轉到手機上其實有很多種做法，優缺點也不一，有心人可細細研究。</p>
-<p>也許後來手機的鍵盤將不再有十鍵的限制，但行列做作手機輸入法的可能性還是令人憧憬。</p>
-  </div>
-  <div class="article_meta">
-    <p>Category: <a href="http://city.shaform.com/category/projects.html">Projects</a></p>
-    <p>Tags:
-      <a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a>,      <a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a>,      <a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a>    </p>
-    <p>Comments: <a href="#" onclick="javascript:toggleComments();return false;">toggle</a></p>
-  </div>
+<p>也許後來手機的鍵盤將不再有十鍵的限制，但行列做作手機輸入法的可能性還是令人憧憬。</p>	
 
-    <div id="article_comments" style="display:block">
-        <div id="disqus_thread"></div>
-        <script type="text/javascript">
-           var disqus_identifier = "blog/2010/02/15/intro-to-freearray.html";
-           (function() {
-           var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-           dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
-           (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-          })();
-        </script>
-    </div>
+	</article>
 
-</article>
+    <p>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</p>
 
-    <footer>
-<p><a href="http://city.shaform.com/" class="button_accent">&larr; Back to Index</a></p>
-<script language="javascript">
-    function toggleComments() {
-        var commentDiv = document.getElementById("article_comments");
-        (commentDiv.style.display == "none") ? commentDiv.style.display = "block" : commentDiv.style.display = "none";
-        return false;
-    }
-</script>
-    </footer>
+	<div class="comments">
+	<h2>Comments !</h2>
+	    <div id="disqus_thread"></div>
+	    <script type="text/javascript">
+	       var disqus_identifier = "blog/2010/02/15/intro-to-freearray.html";
+	       (function() {
+	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	       dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+	       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	      })();
+	    </script>
+	</div>
 
-    <div id="ending_message">
-      <p>&copy; Shaform. Built using <a href="http://getpelican.com" target="_blank">Pelican</a>. Theme by Giulio Fidente on <a href="https://github.com/giulivo/pelican-svbhack" target="_blank">github</a>. .</p>
-    </div>
-  </main>
+		  </div>	
+		  
+		  <div class="sidebar">
+		    <div class="sidebar-container" >
+
+	            <aside>
+	              <h2>About</h2>
+			      <p>
+                    翼之都 - a blog by Shaform.<br>夢想，可以飛得多遠？伸出雙手，盡情實驗。
+			      </p>
+			    </aside>
+
+  	          <nav>
+	            <h2>Categories</h2>
+	            <ul>
+	                <li ><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
+	                <li ><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
+	                <li class="active"><a href="http://city.shaform.com/category/projects.html">Projects</a></li>
+	            </ul>
+	          </nav>
+
+
+                  <aside>
+	            <h2>Tags</h2>
+                    <ul class="tagcloud">
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/PTT/">PTT</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Pelican/">Pelican</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Internet/">Internet</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/輸入法/">輸入法</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/BBS/">BBS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/browser/">browser</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak/">dvorak</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/CoProgramming/">CoProgramming</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/軟體開發/">軟體開發</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty/">qwerty</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc/">vimrc</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/linux/">linux</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Hadoop/">Hadoop</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Python/">Python</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/HBase/">HBase</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim/">vim</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/HDFS/">HDFS</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/自由行列/">自由行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Ubuntu/">Ubuntu</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus/">ibus</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Pixnet/">Pixnet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/Google Drive/">Google Drive</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/行列/">行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows/">windows</a></li>
+                    </ul>
+	          </aside>
+	        </div>
+		  </div>
+
+	  </div>
+
+      <footer>
+		<p role="contentinfo">
+		  Shaform - Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>. Theme <a href="https://github.com/fle/pelican-sober">pelican-sober</a>.
+    	</p>
+
+	  </footer>	
+
+	</div>
+	
+          <script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-13132274-1', 'shaform.com');
+              ga('send', 'pageview');
+
+          </script>
+
 </body>
 </html>
