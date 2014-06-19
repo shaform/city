@@ -2,11 +2,11 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>簡單的 BBS 掛站設定 - City of Wings - 翼之都</title>	
+	<title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04 - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
 
-  <meta name="description" content="很久以前看到了 othree 的〈掛站系統設定篇〉，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。） 後來我發現其實掛一些我平常在逛的站如 PTT or BS2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。 首先在 $HOME 目錄建一個叫做 screenrc-bbs 的資料夾，接下來在資料夾裡根據想逛的 bbs 建立 screenrc 檔案。 比如說 screenrc-bbs/ptt： vbell off screen -t 'ptt' ssh bbsu@ptt.cc screenrc-bbs ...">
+  <meta name="description" content="總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 Ubuntu 的安裝界面做的還不錯，後來就一直用到今天。 雖然習慣使用 Linux，可是有時候還是會遇到要在 Windows 上才能寫的作業，所以每次都把電腦灌成雙系統，也慢慢熟悉了這個過程，一直以來不太有改變。不過最近拿到一台有 UEFI 開機的 Lenovo ThinkPad X1 Carbon 筆電，又想在啟用 Secure Boot 的情況下同時裝雙系統，設置上就比較麻煩了。本文就是記載這個過程。 安裝 Windows 8 原本如果是在正常的電腦上安裝 Windows 8，可以透過 Windows USB/DVD download tool 來製作安裝用隨身碟，但在 ...">
 
 
 
@@ -33,55 +33,53 @@
 		  <div role="main" class="content">
 	<article class="full">
 		
-		<h1>簡單的 BBS 掛站設定</h1>
+		<h1>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</h1>
 		
 <div class="metadata">
-  <time datetime="2014-05-27T13:21:00+08:00" pubdate>二 27 五月 2014</time>
+  <time datetime="2014-06-19T16:05:00+08:00" pubdate>四 19 六月 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
   in <a href="http://city.shaform.com/category/notes.html">Notes</a>
-<p class="tags">tagged <a href="http://city.shaform.com/tag/ptt.html">PTT</a>, <a href="http://city.shaform.com/tag/bbs.html">BBS</a>, <a href="http://city.shaform.com/tag/linux.html">linux</a></p></div>		
-		<p>很久以前看到了 othree 的<a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/">〈掛站系統設定篇〉</a>，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）</p>
-<p>後來我發現其實掛一些我平常在逛的站如 PTT or BS2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。</p>
-<p>首先在 <code>$HOME</code> 目錄建一個叫做 <code>screenrc-bbs</code> 的資料夾，接下來在資料夾裡根據想逛的 bbs 建立 screenrc 檔案。</p>
-<p>比如說 screenrc-bbs/ptt：</p>
-<div class="highlight"><pre>vbell off 
-screen -t <span class="s1">&#39;ptt&#39;</span> ssh bbsu@ptt.cc
+<p class="tags">tagged <a href="http://city.shaform.com/tag/uefi.html">UEFI</a>, <a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a>, <a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a>, <a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></p></div>		
+		<p>總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 <a href="http://www.ubuntu.com/">Ubuntu</a> 的安裝界面做的還不錯，後來就一直用到今天。</p>
+<p>雖然習慣使用 Linux，可是有時候還是會遇到要在 Windows 上才能寫的作業，所以每次都把電腦灌成雙系統，也慢慢熟悉了這個過程，一直以來不太有改變。不過最近拿到一台有 <a href="http://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">UEFI</a> 開機的 Lenovo ThinkPad X1 Carbon 筆電，又想在啟用 Secure Boot 的情況下同時裝雙系統，設置上就比較麻煩了。本文就是記載這個過程。</p>
+<h2>安裝 Windows 8</h2>
+<p>原本如果是在正常的電腦上安裝 Windows 8，可以透過 <a href="http://www.microsoftstore.com/store/msusa/html/pbPage.Help_Win7_usbdvd_dwnTool">Windows USB/DVD download tool</a> 來製作安裝用隨身碟，但在 UEFI 啟用的情況下就不行了。這時參考<a href="http://social.msdn.microsoft.com/Forums/en-US/e7ed293e-b565-44ee-a536-166dddf32205/how-to-create-windows-8-installation-bootable-usb-for-uefi-samsung-slate">〈How to create Windows 8 installation bootable USB for UEFI〉</a>，首先在 Windows 環境下使用管理員權限執行 cmd.exe，用 diskpart.exe 找出隨身碟的代號：</p>
+<div class="highlight"><pre>diskpart.exe
+list disk
 </pre></div>
 
 
-<p>screenrc-bbs/ptt2：</p>
-<div class="highlight"><pre>vbell off 
-screen -t <span class="s1">&#39;ptt2&#39;</span> ssh bbsu@ptt2.cc
+<p>再把隨身碟格式化成 FAT32，並設成可開機。注意，<code>disk 1</code> 的這個 <code>1</code> 要選擇隨身碟代號，否則可能會把其他硬碟的內容給刪除。<code>partition 1</code> 則指的是隨身碟上的第一個 partition：</p>
+<div class="highlight"><pre>select disk <span class="m">1</span>
+clean
+create partition primary
+select partition <span class="m">1</span>
+active
+format quick fs<span class="o">=</span>fat<span class="m">32</span>
+assign
+exit
 </pre></div>
 
 
-<p>screenrc-bbs/ptt3：</p>
-<div class="highlight"><pre>vbell off
-defencoding big5
-screen -t <span class="s1">&#39;ptt3&#39;</span> telnet ptt3.cc
-defencoding big5
+<p>理論上用其他工具格式化隨身碟可能也可以，不過沒有嘗試過。</p>
+<p>接下來，先 mount Windows 8 的安裝光碟，然後把內容全部拷貝到隨身碟上，比如說如果安裝光碟 mount 在 <code>H:</code>，而隨身碟在 <code>F:</code> 的話：</p>
+<div class="highlight"><pre>xcopy H:\* F:\ <span class="n">/s</span> <span class="n">/e</span>
 </pre></div>
 
 
-<p>screenrc-bbs/bs2：</p>
-<div class="highlight"><pre>vbell off 
-defencoding big5 
-screen -t <span class="s1">&#39;bs2&#39;</span> telnet -8 bs2.to 
-defencoding big5
-</pre></div>
-
-
-<p>最後在 <code>.bashrc</code> 加入 alias 就大功完成啦：</p>
-<div class="highlight"><pre><span class="nb">alias </span><span class="nv">bs2</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD BS2 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S BS2 -c $HOME/screenrc-bbs/bs2 ; fi&quot;</span>
-<span class="nb">alias </span><span class="nv">ptt</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT1 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT1 -c $HOME/screenrc-bbs/ptt ; fi&quot;</span>
-<span class="nb">alias </span><span class="nv">ptt2</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT2 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT2 -c $HOME/screenrc-bbs/ptt2 ; fi&quot;</span>
-<span class="nb">alias </span><span class="nv">ptt3</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT3 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT3 -c $HOME/screenrc-bbs/ptt3 ; fi&quot;</span>
-</pre></div>
-
-
-<p>如此一來，下次登入時只要直接打 <code>ptt</code> 就可以開始逛版了，要離開則按 <code>Ctrl-A Ctrl-D</code>，只要沒有被斷線的話隨時登入工作站都可以下 <code>ptt</code> 指令重回之前的進度。</p>	
+<p>然後先用 BIOS 停用 UEFI Secure Boot，才能用隨身碟開機。首先開始安裝 Windows 8。參考 <a href="http://www.techrepublic.com/blog/windows-and-office/the-complete-guide-to-a-windows-8-clean-installation/">〈The complete guide to a Windows 8 clean installation〉</a> 進行安裝，但自行設定硬碟磁區大小，空出給 Ubuntu 的空間。此時安裝程式也會自動幫你建立 Recovery, System (Reserved), MSR (EFI 磁區) 等三個磁區，看起來很醜，不過可能有用，就保留吧。</p>
+<p>裝完後不知為什麼時間設定有錯，而且也無法更新，於是參考<a href="http://www.trishtech.com/2013/03/change-time-servers-in-windows-8/">〈Change Time Servers in Windows 8〉</a>，將 time server 改成台大的 <code>ntp2.ntu.edu.tw</code>。</p>
+<p>最後重開機，在 BIOS 中啟用 UEFI Secure Boot 就大功告成了。</p>
+<h2>安裝 Windows 8.1</h2>
+<p>假設直接用 Windows 8.1 安裝光碟，到這裡就結束了。可是因為學校只有升級版的 Windows 8.1，所以緊接著馬上從 Windows 8 升級到 Windows 8.1。</p>
+<p>首先用 Windows Update 更新系統，然後 mount Windows 8.1 光碟，並執行他。開始一步步安裝，安裝的選項跟 Windows 8 差不多，我選擇不要保留任何設定，把 Windows 8 的紀錄都洗掉。安裝完硬碟又會多一個 Recovery 磁區，雖然很醜，可是可能有用所以保留他。</p>
+<p>安裝完後再重新設定一次 time server 就大功告成了！</p>
+<h2>安裝 Ubuntu 14.04 64-bit</h2>
+<p>只有 64-bit 版本對 UEFI 有較好的支援，所以首先參考<a href="http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-ubuntu">〈How to create a bootable USB stick on Ubuntu〉</a>製作一個 Ubuntu 14.04 安裝隨身碟，然後參考<a href="https://help.ubuntu.com/community/UEFI">〈Ubuntu Community Wiki: UEFI〉</a>來安裝，基本上安裝過程跟一般情形一樣，只是我選擇自訂磁碟分割，所以要自己找出 EFI 磁區，然後指定 mount 到 <code>/boot/efi</code>。</p>
+<p>最後裝完會遇到一個 bug：<a href="https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1091464">〈Unable to chainload Windows 8 with Secure Boot enabled
+〉</a>，使得無法直接用 grub2 來啟動 Windows 8.1，不過 ThinkPad X1 Carbon 可以透過 BIOS 來多重開機，因此還是可以使用，對於很少使用 Windows 8.1 的我來說並不造成困擾。</p>	
 
 	</article>
 
@@ -94,7 +92,7 @@ defencoding big5
 	<h2>Comments !</h2>
 	    <div id="disqus_thread"></div>
 	    <script type="text/javascript">
-	       var disqus_identifier = "blog/2014/05/27/stay-on-bbs.html";
+	       var disqus_identifier = "blog/2014/06/19/install-w8-ubuntu-with-uefi.html";
 	       (function() {
 	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
 	       dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';

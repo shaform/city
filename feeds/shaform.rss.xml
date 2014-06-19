@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>City of Wings - 翼之都</title><link>http://city.shaform.com/</link><description></description><atom:link href="http://city.shaform.com/feeds/shaform.rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 27 May 2014 13:21:00 +0800</lastBuildDate><item><title>簡單的 BBS 掛站設定</title><link>http://city.shaform.com/blog/2014/05/27/stay-on-bbs.html</link><description>&lt;p&gt;很久以前看到了 othree 的&lt;a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/"&gt;〈掛站系統設定篇〉&lt;/a&gt;，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>City of Wings - 翼之都</title><link>http://city.shaform.com/</link><description></description><atom:link href="http://city.shaform.com/feeds/shaform.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 19 Jun 2014 16:05:00 +0800</lastBuildDate><item><title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</title><link>http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html</link><description>&lt;p&gt;總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 &lt;a href="http://www.ubuntu.com/"&gt;Ubuntu&lt;/a&gt; 的安裝界面做的還不錯，後來就一直用到今天。&lt;/p&gt;
+&lt;p&gt;雖然習慣使用 Linux，可是有時候還是會遇到要在 Windows 上才能寫的作業，所以每次都把電腦灌成雙系統，也慢慢熟悉了這個過程，一直以來不太有改變。不過最近拿到一台有 &lt;a href="http://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface"&gt;UEFI&lt;/a&gt; 開機的 Lenovo ThinkPad X1 Carbon 筆電，又想在啟用 Secure Boot 的情況下同時裝雙系統，設置上就比較麻煩了。本文就是記載這個過程。&lt;/p&gt;
+&lt;h2&gt;安裝 Windows 8&lt;/h2&gt;
+&lt;p&gt;原本如果是在正常的電腦上安裝 Windows 8，可以透過 &lt;a href="http://www.microsoftstore.com/store/msusa/html/pbPage.Help_Win7_usbdvd_dwnTool"&gt;Windows USB/DVD download tool&lt;/a&gt; 來製作安裝用隨身碟，但在 UEFI 啟用的情況下就不行了。這時參考&lt;a href="http://social.msdn.microsoft.com/Forums/en-US/e7ed293e-b565-44ee-a536-166dddf32205/how-to-create-windows-8-installation-bootable-usb-for-uefi-samsung-slate"&gt;〈How to create Windows 8 installation bootable USB for UEFI〉&lt;/a&gt;，首先在 Windows 環境下使用管理員權限執行 cmd.exe，用 diskpart.exe 找出隨身碟的代號：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;diskpart.exe
+list disk
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;再把隨身碟格式化成 FAT32，並設成可開機。注意，&lt;code&gt;disk 1&lt;/code&gt; 的這個 &lt;code&gt;1&lt;/code&gt; 要選擇隨身碟代號，否則可能會把其他硬碟的內容給刪除。&lt;code&gt;partition 1&lt;/code&gt; 則指的是隨身碟上的第一個 partition：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;select disk &lt;span class="m"&gt;1&lt;/span&gt;
+clean
+create partition primary
+select partition &lt;span class="m"&gt;1&lt;/span&gt;
+active
+format quick fs&lt;span class="o"&gt;=&lt;/span&gt;fat&lt;span class="m"&gt;32&lt;/span&gt;
+assign
+exit
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;理論上用其他工具格式化隨身碟可能也可以，不過沒有嘗試過。&lt;/p&gt;
+&lt;p&gt;接下來，先 mount Windows 8 的安裝光碟，然後把內容全部拷貝到隨身碟上，比如說如果安裝光碟 mount 在 &lt;code&gt;H:&lt;/code&gt;，而隨身碟在 &lt;code&gt;F:&lt;/code&gt; 的話：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;xcopy H:\* F:\ &lt;span class="n"&gt;/s&lt;/span&gt; &lt;span class="n"&gt;/e&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然後先用 BIOS 停用 UEFI Secure Boot，才能用隨身碟開機。首先開始安裝 Windows 8。參考 &lt;a href="http://www.techrepublic.com/blog/windows-and-office/the-complete-guide-to-a-windows-8-clean-installation/"&gt;〈The complete guide to a Windows 8 clean installation〉&lt;/a&gt; 進行安裝，但自行設定硬碟磁區大小，空出給 Ubuntu 的空間。此時安裝程式也會自動幫你建立 Recovery, System (Reserved), MSR (EFI 磁區) 等三個磁區，看起來很醜，不過可能有用，就保留吧。&lt;/p&gt;
+&lt;p&gt;裝完後不知為什麼時間設定有錯，而且也無法更新，於是參考&lt;a href="http://www.trishtech.com/2013/03/change-time-servers-in-windows-8/"&gt;〈Change Time Servers in Windows 8〉&lt;/a&gt;，將 time server 改成台大的 &lt;code&gt;ntp2.ntu.edu.tw&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;最後重開機，在 BIOS 中啟用 UEFI Secure Boot 就大功告成了。&lt;/p&gt;
+&lt;h2&gt;安裝 Windows 8.1&lt;/h2&gt;
+&lt;p&gt;假設直接用 Windows 8.1 安裝光碟，到這裡就結束了。可是因為學校只有升級版的 Windows 8.1，所以緊接著馬上從 Windows 8 升級到 Windows 8.1。&lt;/p&gt;
+&lt;p&gt;首先用 Windows Update 更新系統，然後 mount Windows 8.1 光碟，並執行他。開始一步步安裝，安裝的選項跟 Windows 8 差不多，我選擇不要保留任何設定，把 Windows 8 的紀錄都洗掉。安裝完硬碟又會多一個 Recovery 磁區，雖然很醜，可是可能有用所以保留他。&lt;/p&gt;
+&lt;p&gt;安裝完後再重新設定一次 time server 就大功告成了！&lt;/p&gt;
+&lt;h2&gt;安裝 Ubuntu 14.04 64-bit&lt;/h2&gt;
+&lt;p&gt;只有 64-bit 版本對 UEFI 有較好的支援，所以首先參考&lt;a href="http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-ubuntu"&gt;〈How to create a bootable USB stick on Ubuntu〉&lt;/a&gt;製作一個 Ubuntu 14.04 安裝隨身碟，然後參考&lt;a href="https://help.ubuntu.com/community/UEFI"&gt;〈Ubuntu Community Wiki: UEFI〉&lt;/a&gt;來安裝，基本上安裝過程跟一般情形一樣，只是我選擇自訂磁碟分割，所以要自己找出 EFI 磁區，然後指定 mount 到 &lt;code&gt;/boot/efi&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;最後裝完會遇到一個 bug：&lt;a href="https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1091464"&gt;〈Unable to chainload Windows 8 with Secure Boot enabled
+〉&lt;/a&gt;，使得無法直接用 grub2 來啟動 Windows 8.1，不過 ThinkPad X1 Carbon 可以透過 BIOS 來多重開機，因此還是可以使用，對於很少使用 Windows 8.1 的我來說並不造成困擾。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Shaform</dc:creator><pubDate>Thu, 19 Jun 2014 16:05:00 +0800</pubDate><guid>tag:city.shaform.com,2014-06-19:blog/2014/06/19/install-w8-ubuntu-with-uefi.html</guid><category>UEFI</category><category>Windows 8</category><category>Windows 8.1</category><category>Ubuntu 14.04</category></item><item><title>簡單的 BBS 掛站設定</title><link>http://city.shaform.com/blog/2014/05/27/stay-on-bbs.html</link><description>&lt;p&gt;很久以前看到了 othree 的&lt;a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/"&gt;〈掛站系統設定篇〉&lt;/a&gt;，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）&lt;/p&gt;
 &lt;p&gt;後來我發現其實掛一些我平常在逛的站如 PTT or BS2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。&lt;/p&gt;
 &lt;p&gt;首先在 &lt;code&gt;$HOME&lt;/code&gt; 目錄建一個叫做 &lt;code&gt;screenrc-bbs&lt;/code&gt; 的資料夾，接下來在資料夾裡根據想逛的 bbs 建立 screenrc 檔案。&lt;/p&gt;
 &lt;p&gt;比如說 screenrc-bbs/ptt：&lt;/p&gt;
