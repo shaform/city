@@ -33,6 +33,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;h2&gt;建立 authorized_keys 檔案&lt;/h2&gt;
 &lt;p&gt;然後根據你的 &lt;code&gt;$USER&lt;/code&gt; 名字建立資料夾，並修改權限：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;sudo mkdir -p /etc/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;
 sudo chmod 755 /etc/ssh/keys
@@ -48,6 +49,7 @@ chmod 400 /etc/ssh/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;/authorized
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;h2&gt;重新讀取設定&lt;/h2&gt;
 &lt;p&gt;重新讀取設定檔並測試一下登入就大功告成：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;sudo service ssh reload
 &lt;/pre&gt;&lt;/div&gt;</summary><category term="public key"></category><category term="linux"></category><category term="Ubuntu"></category><category term="SSH"></category></entry><entry><title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</title><link href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html" rel="alternate"></link><updated>2014-06-19T16:05:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-19:blog/2014/06/19/install-w8-ubuntu-with-uefi.html</id><summary type="html">&lt;p&gt;總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 &lt;a href="http://www.ubuntu.com/"&gt;Ubuntu&lt;/a&gt; 的安裝界面做的還不錯，後來就一直用到今天。&lt;/p&gt;
