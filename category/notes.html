@@ -32,7 +32,24 @@
 
 <article class="summary">
 <div class="metadata">
-  <time datetime="2014-06-19T16:05:00+08:00" pubdate>四 19 六月 2014</time>
+  <time datetime="2014-06-21T09:00:00+08:00" pubdate>Sat 21 June 2014</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
+    </address>
+  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/public-key.html">public key</a>, <a href="http://city.shaform.com/tag/linux.html">linux</a>, <a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a>, <a href="http://city.shaform.com/tag/ssh.html">SSH</a></p></div>  <div>
+    <h2>
+      <a href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="bookmark" title="Permalink to 解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題">解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</a>
+    </h2>
+    <p><p>通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。</p>
+<p>我最後決定停用密碼登入的功能，改成只能用 public key 登入，這樣子可能比較難以猜中正確的密鑰。不過實際用起來偶爾會發現登入失敗搞不清楚理由，後來才發現是因為我的 Ubuntu 啟用了家目錄加密的功能，因此尚未登入之前根本讀不到 <code>authorized_keys</code> 設定檔。為了解決這個問題，必須移動設定檔的位置才行。</p>
+<h2>Generate SSH Keys</h2>
+<p>首先如果沒有自己的 SSH keys 的話可以參考<a href="https://help.github.com/articles/generating-ssh-keys">〈Generating SSH Keys〉</a>建立自己的 SSH keys。大致上是使用如下指令：</p>
+<div class="highlight"><pre>ssh-keygen -t rsa ...</pre></div></p>
+  </div>
+</article><article class="summary">
+<div class="metadata">
+  <time datetime="2014-06-19T16:05:00+08:00" pubdate>Thu 19 June 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
@@ -48,7 +65,7 @@
   </div>
 </article><article class="summary">
 <div class="metadata">
-  <time datetime="2014-05-27T13:21:00+08:00" pubdate>二 27 五月 2014</time>
+  <time datetime="2014-05-27T13:21:00+08:00" pubdate>Tue 27 May 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
@@ -70,7 +87,7 @@ screen -t <span class="s1">&#39;ptt&#39;</span> ssh bbsu@ptt.cc
   </div>
 </article><article class="summary">
 <div class="metadata">
-  <time datetime="2014-05-17T07:25:00+08:00" pubdate>六 17 五月 2014</time>
+  <time datetime="2014-05-17T07:25:00+08:00" pubdate>Sat 17 May 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
@@ -87,7 +104,7 @@ screen -t <span class="s1">&#39;ptt&#39;</span> ssh bbsu@ptt.cc
   </div>
 </article><article class="summary">
 <div class="metadata">
-  <time datetime="2014-04-13T15:56:00+08:00" pubdate>日 13 四月 2014</time>
+  <time datetime="2014-04-13T15:56:00+08:00" pubdate>Sun 13 April 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
@@ -116,7 +133,7 @@ sudo apt-get install oracle-java7-installer
   </div>
 </article><article class="summary">
 <div class="metadata">
-  <time datetime="2013-07-12T18:53:00+08:00" pubdate>五 12 七月 2013</time>
+  <time datetime="2013-07-12T18:53:00+08:00" pubdate>Fri 12 July 2013</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
@@ -139,7 +156,7 @@ setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
   </div>
 </article><article class="summary">
 <div class="metadata">
-  <time datetime="2013-07-09T21:28:00+08:00" pubdate>二 09 七月 2013</time>
+  <time datetime="2013-07-09T21:28:00+08:00" pubdate>Tue 09 July 2013</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
@@ -183,34 +200,36 @@ setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
                   <aside>
 	            <h2>Tags</h2>
                     <ul class="tagcloud">
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/python.html">Python</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/python.html">Python</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
                     </ul>
 	          </aside>
 	        </div>

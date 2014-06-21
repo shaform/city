@@ -1,5 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-06-19T16:05:00+08:00</updated><entry><title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</title><link href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html" rel="alternate"></link><updated>2014-06-19T16:05:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-19:blog/2014/06/19/install-w8-ubuntu-with-uefi.html</id><summary type="html">&lt;p&gt;總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 &lt;a href="http://www.ubuntu.com/"&gt;Ubuntu&lt;/a&gt; 的安裝界面做的還不錯，後來就一直用到今天。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-06-21T09:00:00+08:00</updated><entry><title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</title><link href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="alternate"></link><updated>2014-06-21T09:00:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-21:blog/2014/06/21/fix-public-key-login-for-encrypted-home.html</id><summary type="html">&lt;p&gt;通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。&lt;/p&gt;
+&lt;p&gt;我最後決定停用密碼登入的功能，改成只能用 public key 登入，這樣子可能比較難以猜中正確的密鑰。不過實際用起來偶爾會發現登入失敗搞不清楚理由，後來才發現是因為我的 Ubuntu 啟用了家目錄加密的功能，因此尚未登入之前根本讀不到 &lt;code&gt;authorized_keys&lt;/code&gt; 設定檔。為了解決這個問題，必須移動設定檔的位置才行。&lt;/p&gt;
+&lt;h2&gt;Generate SSH Keys&lt;/h2&gt;
+&lt;p&gt;首先如果沒有自己的 SSH keys 的話可以參考&lt;a href="https://help.github.com/articles/generating-ssh-keys"&gt;〈Generating SSH Keys〉&lt;/a&gt;建立自己的 SSH keys。大致上是使用如下指令：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ssh-keygen -t rsa -C &lt;span class="s2"&gt;&amp;quot;your_email@example.com&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;預設會把產生的 private key 存在 &lt;code&gt;/home/$USER/.ssh/id_rsa&lt;/code&gt;，public key 存在 &lt;code&gt;/home/$USER/.ssh/id_rsa.pub&lt;/code&gt;，不過也可以改位置。passphrase 則是用來加密 private key，建議要使用，這樣子每次要解開 private key 時都需要使用密碼，所以就算一不小心 private key 被別人取得，對方也要花上一段時間才能解開。&lt;/p&gt;
+&lt;h2&gt;更改 sshd_config 設定&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudoedit /etc/ssh/sshd_config
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;首先取消密碼登入，將&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#PasswordAuthentication yes&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;改成：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;PasswordAuthentication&lt;/span&gt; &lt;span class="n"&gt;no&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;再來更動 &lt;code&gt;authorized_keys&lt;/code&gt; 的位置，將&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#AuthorizedKeysFile     %h/.ssh/authorized_keys&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;改成：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;AuthorizedKeysFile&lt;/span&gt;     &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;keys&lt;/span&gt;&lt;span class="o"&gt;/%&lt;/span&gt;&lt;span class="n"&gt;u&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;authorized_keys&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然後根據你的 &lt;code&gt;$USER&lt;/code&gt; 名字建立資料夾，並修改權限：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo mkdir -p /etc/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;
+sudo chmod 755 /etc/ssh/keys
+sudo chmod 700 /etc/ssh/&lt;span class="nv"&gt;$USER&lt;/span&gt;
+sudo chown &lt;span class="nv"&gt;$USER&lt;/span&gt;:&lt;span class="nv"&gt;$USER&lt;/span&gt; /etc/ssh/&lt;span class="nv"&gt;$USER&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最後再將 &lt;code&gt;id_rsa.pub&lt;/code&gt; 拷貝到 server 上，並複製到 authorized_keys：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# copy id_rsa.pub to server, then -&amp;gt;&lt;/span&gt;
+cat id_rsa.pub &amp;gt;&amp;gt; /etc/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;/authorized_keys
+chmod 400 /etc/ssh/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;/authorized_keys
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;重新讀取設定檔並測試一下登入就大功告成：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo service ssh reload
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="public key"></category><category term="linux"></category><category term="Ubuntu"></category><category term="SSH"></category></entry><entry><title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</title><link href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html" rel="alternate"></link><updated>2014-06-19T16:05:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-19:blog/2014/06/19/install-w8-ubuntu-with-uefi.html</id><summary type="html">&lt;p&gt;總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 &lt;a href="http://www.ubuntu.com/"&gt;Ubuntu&lt;/a&gt; 的安裝界面做的還不錯，後來就一直用到今天。&lt;/p&gt;
 &lt;p&gt;雖然習慣使用 Linux，可是有時候還是會遇到要在 Windows 上才能寫的作業，所以每次都把電腦灌成雙系統，也慢慢熟悉了這個過程，一直以來不太有改變。不過最近拿到一台有 &lt;a href="http://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface"&gt;UEFI&lt;/a&gt; 開機的 Lenovo ThinkPad X1 Carbon 筆電，又想在啟用 Secure Boot 的情況下同時裝雙系統，設置上就比較麻煩了。本文就是記載這個過程。&lt;/p&gt;
 &lt;h2&gt;安裝 Windows 8&lt;/h2&gt;
 &lt;p&gt;原本如果是在正常的電腦上安裝 Windows 8，可以透過 &lt;a href="http://www.microsoftstore.com/store/msusa/html/pbPage.Help_Win7_usbdvd_dwnTool"&gt;Windows USB/DVD download tool&lt;/a&gt; 來製作安裝用隨身碟，但在 UEFI 啟用的情況下就不行了。這時參考&lt;a href="http://social.msdn.microsoft.com/Forums/en-US/e7ed293e-b565-44ee-a536-166dddf32205/how-to-create-windows-8-installation-bootable-usb-for-uefi-samsung-slate"&gt;〈How to create Windows 8 installation bootable USB for UEFI〉&lt;/a&gt;，首先在 Windows 環境下使用管理員權限執行 cmd.exe，用 diskpart.exe 找出隨身碟的代號：&lt;/p&gt;

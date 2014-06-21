@@ -2,7 +2,7 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>HBase - City of Wings - 翼之都</title>	
+	<title>public key - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
 
@@ -28,36 +28,24 @@
 
 		  <div role="main" class="content">
 
-<h1>Post tagged: HBase</h1>
+<h1>Post tagged: public key</h1>
 
 <article class="summary">
 <div class="metadata">
-  <time datetime="2014-04-13T15:56:00+08:00" pubdate>Sun 13 April 2014</time>
+  <time datetime="2014-06-21T09:00:00+08:00" pubdate>Sat 21 June 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
   in <a href="http://city.shaform.com/category/notes.html">Notes</a>
-<p class="tags">tagged <a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a>, <a href="http://city.shaform.com/tag/hbase.html">HBase</a>, <a href="http://city.shaform.com/tag/hdfs.html">HDFS</a>, <a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></p></div>  <div>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/public-key.html">public key</a>, <a href="http://city.shaform.com/tag/linux.html">linux</a>, <a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a>, <a href="http://city.shaform.com/tag/ssh.html">SSH</a></p></div>  <div>
     <h2>
-      <a href="http://city.shaform.com/blog/2014/04/13/hbase-on-ubuntu-12.04.html" rel="bookmark" title="Permalink to 在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記">在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</a>
+      <a href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="bookmark" title="Permalink to 解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題">解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</a>
     </h2>
-    <p><p>這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。</p>
-<h2>一、HDFS</h2>
-<ol>
-<li>
-<p>安裝 JDK 7</p>
-<div class="highlight"><pre>sudo apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade <span class="c"># 更新套件庫</span>
-sudo apt-get install software-properties-common python-software-properties  <span class="c"># 取得 add-apt-repository</span>
-sudo add-apt-repository ppa:webupd8team/java  <span class="c"># 新增有 oracle-java7-installer 的 ppa</span>
-sudo apt-get update
-sudo apt-get install oracle-java7-installer
-</pre></div>
-
-
-</li>
-<li>
-<p>設定 SSH</p>
-<div class="highlight"><pre>ssh-keygen -b ...</pre></div></li></ol></p>
+    <p><p>通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。</p>
+<p>我最後決定停用密碼登入的功能，改成只能用 public key 登入，這樣子可能比較難以猜中正確的密鑰。不過實際用起來偶爾會發現登入失敗搞不清楚理由，後來才發現是因為我的 Ubuntu 啟用了家目錄加密的功能，因此尚未登入之前根本讀不到 <code>authorized_keys</code> 設定檔。為了解決這個問題，必須移動設定檔的位置才行。</p>
+<h2>Generate SSH Keys</h2>
+<p>首先如果沒有自己的 SSH keys 的話可以參考<a href="https://help.github.com/articles/generating-ssh-keys">〈Generating SSH Keys〉</a>建立自己的 SSH keys。大致上是使用如下指令：</p>
+<div class="highlight"><pre>ssh-keygen -t rsa ...</pre></div></p>
   </div>
 </article>
 <div class="pagination">
