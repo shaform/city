@@ -2,7 +2,7 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>CoProgramming - City of Wings - 翼之都</title>	
+	<title>virtualenv - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
 
@@ -28,24 +28,26 @@
 
 		  <div role="main" class="content">
 
-<h1>Post tagged: CoProgramming</h1>
+<h1>Post tagged: virtualenv</h1>
 
 <article class="summary">
 <div class="metadata">
-  <time datetime="2013-03-05T08:03:00+08:00" pubdate>Tue 05 March 2013</time>
+  <time datetime="2014-06-22T10:30:00+08:00" pubdate>Sun 22 June 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
-  in <a href="http://city.shaform.com/category/projects.html">Projects</a>
-<p class="tags">tagged <a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a>, <a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a>, <a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></p></div>  <div>
+  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/linux.html">linux</a>, <a href="http://city.shaform.com/tag/python.html">Python</a>, <a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a>, <a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></p></div>  <div>
     <h2>
-      <a href="http://city.shaform.com/blog/2013/03/05/coprogramming.html" rel="bookmark" title="Permalink to 最低成本的程式協作: CoProgramming">最低成本的程式協作: CoProgramming</a>
+      <a href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="bookmark" title="Permalink to 在工作站上使用自己的 Python 並安裝自訂套件">在工作站上使用自己的 Python 並安裝自訂套件</a>
     </h2>
-    <p><h2>緣起</h2>
-<p>在程式課堂，團隊合作常常是件頭痛的事，若是每個人各自工作，常會產生許多難以整合的版本。即使是一起到電腦教室討論，也常是一個人寫程式，其他人在旁邊看。雖然有版本控制系統等等合作工具，然而我從來沒有成功在一堂課中讓隊友學會其運作(應該說是幾乎，僅有在雙方都早已會使用，或者是由我做所有merge時才曾使用)，事實上，像 git, hg 等等複雜的系統，是否真的適合這種小型專案也尚有可懷疑的地方，尤其，有些作業所有的程式碼都在同一個檔案中，使得版本控制系統用起來十分不順手。</p>
-<p>我突然想起在<a href="http://en.wikipedia.org/wiki/Here_Comes_Everybody">《Here Comes Everybody》</a>書裡看過的說法：Wikipedia 的貢獻者中，絕大多數可能只有編輯過一兩行的文章。一家公司如果大部分的員工都只做一點工作，則這家公司多半無法生存。可是在 Wikipedia 的例子裡，合作的成本被降的很低，所以原來不可能利用的小量付出，也能被整合成一個共同成果。</p>
-<p>這確實就是我們遇到的情況，有時在課堂中的程式作業規模是如此的小，任何的合作成本都太過高昂。而且，這種只存在一學期的臨時團隊，根本難以形成向心力。而要求任何人為了一學期的作業學會複雜的版本控制系統更是完全不實際的想法。</p>
-<p>如果要成功整合大家一起完成這種小型的合作、如果要在每個人只寫幾行程式的情況下依然可以合作，唯一的可能性就是要將合作成本壓到極端的低。可是，要怎麼做呢 ...</p></p>
+    <p><p>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。</p>
+<p>遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。</p>
+<h2>pyvenv</h2>
+<p><a href="https://docs.python.org/3.4/library/venv.html">pyvenv</a> 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=732703">bug 732703</a> 所以暫時無法使用。不過還是介紹一下他的用法：</p>
+<ol>
+<li>
+<p>在 ENV_DIR 建立 virtual ...</p></li></ol></p>
   </div>
 </article>
 <div class="pagination">

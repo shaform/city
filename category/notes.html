@@ -32,6 +32,25 @@
 
 <article class="summary">
 <div class="metadata">
+  <time datetime="2014-06-22T10:30:00+08:00" pubdate>Sun 22 June 2014</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
+    </address>
+  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/linux.html">linux</a>, <a href="http://city.shaform.com/tag/python.html">Python</a>, <a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a>, <a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></p></div>  <div>
+    <h2>
+      <a href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="bookmark" title="Permalink to 在工作站上使用自己的 Python 並安裝自訂套件">在工作站上使用自己的 Python 並安裝自訂套件</a>
+    </h2>
+    <p><p>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。</p>
+<p>遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。</p>
+<h2>pyvenv</h2>
+<p><a href="https://docs.python.org/3.4/library/venv.html">pyvenv</a> 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=732703">bug 732703</a> 所以暫時無法使用。不過還是介紹一下他的用法：</p>
+<ol>
+<li>
+<p>在 ENV_DIR 建立 virtual ...</p></li></ol></p>
+  </div>
+</article><article class="summary">
+<div class="metadata">
   <time datetime="2014-06-21T09:00:00+08:00" pubdate>Sat 21 June 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
@@ -200,36 +219,38 @@ setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
                   <aside>
 	            <h2>Tags</h2>
                     <ul class="tagcloud">
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/python.html">Python</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/python.html">Python</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
                     </ul>
 	          </aside>
 	        </div>

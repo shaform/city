@@ -32,6 +32,25 @@
 
 <article class="summary">
 <div class="metadata">
+  <time datetime="2014-06-22T10:30:00+08:00" pubdate>Sun 22 June 2014</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
+    </address>
+  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/linux.html">linux</a>, <a href="http://city.shaform.com/tag/python.html">Python</a>, <a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a>, <a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></p></div>  <div>
+    <h2>
+      <a href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="bookmark" title="Permalink to 在工作站上使用自己的 Python 並安裝自訂套件">在工作站上使用自己的 Python 並安裝自訂套件</a>
+    </h2>
+    <p><p>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。</p>
+<p>遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。</p>
+<h2>pyvenv</h2>
+<p><a href="https://docs.python.org/3.4/library/venv.html">pyvenv</a> 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=732703">bug 732703</a> 所以暫時無法使用。不過還是介紹一下他的用法：</p>
+<ol>
+<li>
+<p>在 ENV_DIR 建立 virtual ...</p></li></ol></p>
+  </div>
+</article><article class="summary">
+<div class="metadata">
   <time datetime="2014-06-21T09:00:00+08:00" pubdate>Sat 21 June 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
@@ -201,24 +220,6 @@ setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
 <p>這確實就是我們遇到的情況，有時在課堂中的程式作業規模是如此的小，任何的合作成本都太過高昂。而且，這種只存在一學期的臨時團隊，根本難以形成向心力。而要求任何人為了一學期的作業學會複雜的版本控制系統更是完全不實際的想法。</p>
 <p>如果要成功整合大家一起完成這種小型的合作、如果要在每個人只寫幾行程式的情況下依然可以合作，唯一的可能性就是要將合作成本壓到極端的低。可是，要怎麼做呢 ...</p></p>
   </div>
-</article><article class="summary">
-<div class="metadata">
-  <time datetime="2013-02-26T14:17:00+08:00" pubdate>Tue 26 February 2013</time>
-    <address class="vcard author">
-      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
-    </address>
-  in <a href="http://city.shaform.com/category/projects.html">Projects</a>
-<p class="tags">tagged <a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a>, <a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a>, <a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></p></div>  <div>
-    <h2>
-      <a href="http://city.shaform.com/blog/2013/02/26/freearray-bugfixes.html" rel="bookmark" title="Permalink to 稍微整理了一下自由行列的原始碼">稍微整理了一下自由行列的原始碼</a>
-    </h2>
-    <p><h2>停擺多年</h2>
-<p>還記得數年前完成了<a href="http://city.shaform.com/blog/2010/02/15/intro-to-freearray.html">「自由行列輸入法」</a>的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重要理由是突然發現 <a href="http://hyperrate.com/thread.php?tid=18200">gcin 原本就有支援智慧選詞的行列輸入法</a>，覺得花那麼多力氣重造輪子有點不值得。但其實也是沒有特別的新功能可以開發，而且程式本身寫的太亂不太好維護，加上課業繁忙，所以就沒有投注太多關心。</p>
-<p>gcin 的版本雖然很好，但對 Dvorak 和「行列定符」的支援總是差了那麼一點，而且不知為何總是無法習慣使用 gcin，所以後來就沒有繼續使用。而隨著作業系統的更新，之前的自由行列輸入法也不知為何無法編譯了，於是我就重回注音輸入法的懷抱，和行列輸入法疏離了許久。</p>
-<p>後來剛好又看到行列以及 dvorak 的討論串，加上最近剛好比較有空，就想把之前的程式碼翻修一下，看看能不能動，也順便把原始碼轉到現在比較習慣的 <a href="https://github.com/shaform/ibus-freearray">GitHub</a>。雖然只花了幾天時間，不過其實遇到的問題也不少，甚至有些問題的根源還很難弄明白。</p>
-<h2>問題</h2>
-<p>首先遇到的問題是不知為何編譯時所連結的外部函式庫，包含 sqlite3, ibus, freearray 等等，都無法順利連結，使用到的函式都變成了 undefined ...</p></p>
-  </div>
 </article>
 <div class="pagination">
     Page 1 / 2
@@ -250,36 +251,38 @@ setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
                   <aside>
 	            <h2>Tags</h2>
                     <ul class="tagcloud">
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/python.html">Python</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/python.html">Python</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
                     </ul>
 	          </aside>
 	        </div>

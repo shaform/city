@@ -31,60 +31,81 @@
 
 
       <article>
-        <h1><a href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html">解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</a></h1>
-        <p>通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。</p>
-<p>我最後決定停用密碼登入的功能，改成只能用 public key 登入，這樣子可能比較難以猜中正確的密鑰。不過實際用起來偶爾會發現登入失敗搞不清楚理由，後來才發現是因為我的 Ubuntu 啟用了家目錄加密的功能，因此尚未登入之前根本讀不到 <code>authorized_keys</code> 設定檔。為了解決這個問題，必須移動設定檔的位置才行。</p>
-<h2>Generate SSH Keys</h2>
-<p>首先如果沒有自己的 SSH keys 的話可以參考<a href="https://help.github.com/articles/generating-ssh-keys">〈Generating SSH Keys〉</a>建立自己的 SSH keys。大致上是使用如下指令：</p>
-<div class="highlight"><pre>ssh-keygen -t rsa -C <span class="s2">&quot;your_email@example.com&quot;</span>
+        <h1><a href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html">在工作站上使用自己的 Python 並安裝自訂套件</a></h1>
+        <p>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。</p>
+<p>遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。</p>
+<h2>pyvenv</h2>
+<p><a href="https://docs.python.org/3.4/library/venv.html">pyvenv</a> 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=732703">bug 732703</a> 所以暫時無法使用。不過還是介紹一下他的用法：</p>
+<ol>
+<li>
+<p>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，3.4 則可選擇不同版本：</p>
+<div class="highlight"><pre>pyvenv-3.4 <span class="o">[</span>--system-site-packages<span class="o">]</span> ENV_DIR
 </pre></div>
 
 
-<p>預設會把產生的 private key 存在 <code>/home/$USER/.ssh/id_rsa</code>，public key 存在 <code>/home/$USER/.ssh/id_rsa.pub</code>，不過也可以改位置。passphrase 則是用來加密 private key，建議要使用，這樣子每次要解開 private key 時都需要使用密碼，所以就算一不小心 private key 被別人取得，對方也要花上一段時間才能解開。</p>
-<h2>更改 sshd_config 設定</h2>
-<div class="highlight"><pre>sudoedit /etc/ssh/sshd_config
+</li>
+<li>
+<p>啟用特定的 virtual environment：</p>
+<div class="highlight"><pre><span class="nb">source </span>ENV_DIR/bin/activate
 </pre></div>
 
 
-<p>首先取消密碼登入，將</p>
-<div class="highlight"><pre><span class="c">#PasswordAuthentication yes</span>
+<p>這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：</p>
+<div class="highlight"><pre>(name)$
 </pre></div>
 
 
-<p>改成：</p>
-<div class="highlight"><pre><span class="n">PasswordAuthentication</span> <span class="n">no</span>
+<p>以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。</p>
+</li>
+</ol>
+<h2>virtualenv</h2>
+<p>如果工作站上有安裝 <a href="http://virtualenv.readthedocs.org/en/latest/">virtualenv</a> 的話，也可以用這個套件達到相同功能，好處是 Python 2 也可以用。</p>
+<ol>
+<li>
+<p>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，python3.4 則可選擇不同版本（包含 python2）：</p>
+<div class="highlight"><pre>virtualenv <span class="o">[</span>--system-site-packages<span class="o">]</span> -p python3.4 ENV_DIR
 </pre></div>
 
 
-<p>再來更動 <code>authorized_keys</code> 的位置，將</p>
-<div class="highlight"><pre><span class="c">#AuthorizedKeysFile     %h/.ssh/authorized_keys</span>
+</li>
+<li>
+<p>啟用特定的 virtual environment：</p>
+<div class="highlight"><pre><span class="nb">source </span>ENV_DIR/bin/activate
 </pre></div>
 
 
-<p>改成：</p>
-<div class="highlight"><pre><span class="n">AuthorizedKeysFile</span>     <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssh</span><span class="o">/</span><span class="n">keys</span><span class="o">/%</span><span class="n">u</span><span class="o">/</span><span class="n">authorized_keys</span>
+<p>這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：</p>
+<div class="highlight"><pre>(name)$
 </pre></div>
 
 
-<h2>建立 authorized_keys 檔案</h2>
-<p>然後根據你的 <code>$USER</code> 名字建立資料夾，並修改權限：</p>
-<div class="highlight"><pre>sudo mkdir -p /etc/ssh/keys/<span class="nv">$USER</span>
-sudo chmod 755 /etc/ssh/keys
-sudo chmod 700 /etc/ssh/<span class="nv">$USER</span>
-sudo chown <span class="nv">$USER</span>:<span class="nv">$USER</span> /etc/ssh/<span class="nv">$USER</span>
+<p>使用 <code>which</code> 可以看到 python 路徑：</p>
+<div class="highlight"><pre>which python
+ENV_DIR/bin/python
+
+which pip
+ENV_DIR/bin/pip
 </pre></div>
 
 
-<p>最後再將 <code>id_rsa.pub</code> 拷貝到 server 上，並複製到 authorized_keys：</p>
-<div class="highlight"><pre><span class="c"># copy id_rsa.pub to server, then -&gt;</span>
-cat id_rsa.pub &gt;&gt; /etc/ssh/keys/<span class="nv">$USER</span>/authorized_keys
-chmod 400 /etc/ssh/ssh/keys/<span class="nv">$USER</span>/authorized_keys
+<p>注意到如果當初指定用 python3.4 的話，這裡雖然下的是 python，其實也是 3.4 版。以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。</p>
+</li>
+</ol>
+<p>如果有裝 <a href="http://virtualenvwrapper.readthedocs.org/en/latest/">virtualenvwrapper</a> 的話其實還有更方便的方法，可以自行參考文件。</p>
+<h2>Local Packages</h2>
+<p>如果實在是無法建立 virtual environment 的話，只能使用舊方法來安裝 local 套件了，首先在 <code>.bashrc</code> 加入對應的參數，使得執行 Python 時會載入 local 套件：</p>
+<div class="highlight"><pre><span class="nb">alias </span><span class="nv">python3</span><span class="o">=</span><span class="s2">&quot;PYTHONPATH=$PYTHONPATH:$HOME/.local/lib/python3.4/site-packages python3&quot;</span>
+<span class="nb">alias </span><span class="nv">python</span><span class="o">=</span><span class="s2">&quot;PYTHONPATH=$PYTHONPATH:$HOME/.local/lib/python2.7/site-packages python&quot;</span>
 </pre></div>
 
 
-<h2>重新讀取設定</h2>
-<p>重新讀取設定檔並測試一下登入就大功告成：</p>
-<div class="highlight"><pre>sudo service ssh reload
+<p>其中各版本的路徑可自行調整。</p>
+<p>接下來安裝套件時都加上 --user 參數即可，例如：</p>
+<div class="highlight"><pre>pip3 install --user flask
+python3.4 setup.py install --user
+
+pip2 install --user flask
+python2 setup.py install --user
 </pre></div>
       </article>
 
@@ -94,6 +115,12 @@ chmod 400 /etc/ssh/ssh/keys/<span class="nv">$USER</span>/authorized_keys
           <h3>Last posts</h3>
           <ol class="archive">
     
+
+
+      <li>
+<a href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="bookmark" title="Permalink to 解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題">解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</a>
+  <time datetime="2014-06-21T09:00:00+08:00" pubdate>Sat 21 June 2014</time>
+<p class="tags">tags: <a href="http://city.shaform.com/tag/public-key.html">public key</a><a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a><a href="http://city.shaform.com/tag/ssh.html">SSH</a></p></a>      </li>
 
 
       <li>
@@ -120,10 +147,6 @@ chmod 400 /etc/ssh/ssh/keys/<span class="nv">$USER</span>/authorized_keys
 <p class="tags">tags: <a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a><a href="http://city.shaform.com/tag/hbase.html">HBase</a><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></p></a>      </li>
 
 
-      <li>
-<a href="http://city.shaform.com/blog/2013/10/20/single-minded.html" rel="bookmark" title="Permalink to Single-minded : an Internet reader, made for readers, made by readers">Single-minded : an Internet reader, made for readers, made by readers</a>
-  <time datetime="2013-10-20T20:25:00+08:00" pubdate>Sun 20 October 2013</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/browser.html">browser</a><a href="http://city.shaform.com/tag/internet.html">Internet</a></p></a>      </li>
 
 
 
@@ -166,36 +189,38 @@ chmod 400 /etc/ssh/ssh/keys/<span class="nv">$USER</span>/authorized_keys
                   <aside>
 	            <h2>Tags</h2>
                     <ul class="tagcloud">
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/python.html">Python</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/python.html">Python</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
                     </ul>
 	          </aside>
 	        </div>

@@ -1,5 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-06-21T09:00:00+08:00</updated><entry><title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</title><link href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="alternate"></link><updated>2014-06-21T09:00:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-21:blog/2014/06/21/fix-public-key-login-for-encrypted-home.html</id><summary type="html">&lt;p&gt;通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-06-22T10:30:00+08:00</updated><entry><title>在工作站上使用自己的 Python 並安裝自訂套件</title><link href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="alternate"></link><updated>2014-06-22T10:30:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-22:blog/2014/06/22/pyvenv-and-virtualenv.html</id><summary type="html">&lt;p&gt;使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。&lt;/p&gt;
+&lt;p&gt;遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。&lt;/p&gt;
+&lt;h2&gt;pyvenv&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://docs.python.org/3.4/library/venv.html"&gt;pyvenv&lt;/a&gt; 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 &lt;a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=732703"&gt;bug 732703&lt;/a&gt; 所以暫時無法使用。不過還是介紹一下他的用法：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;在 ENV_DIR 建立 virtual environment，&lt;code&gt;--system-site-packages&lt;/code&gt; 參數則是讓系統安裝的套件也能被這個環境使用，3.4 則可選擇不同版本：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pyvenv-3.4 &lt;span class="o"&gt;[&lt;/span&gt;--system-site-packages&lt;span class="o"&gt;]&lt;/span&gt; ENV_DIR
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;啟用特定的 virtual environment：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;source &lt;/span&gt;ENV_DIR/bin/activate
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;(name)$
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;virtualenv&lt;/h2&gt;
+&lt;p&gt;如果工作站上有安裝 &lt;a href="http://virtualenv.readthedocs.org/en/latest/"&gt;virtualenv&lt;/a&gt; 的話，也可以用這個套件達到相同功能，好處是 Python 2 也可以用。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;在 ENV_DIR 建立 virtual environment，&lt;code&gt;--system-site-packages&lt;/code&gt; 參數則是讓系統安裝的套件也能被這個環境使用，python3.4 則可選擇不同版本（包含 python2）：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;virtualenv &lt;span class="o"&gt;[&lt;/span&gt;--system-site-packages&lt;span class="o"&gt;]&lt;/span&gt; -p python3.4 ENV_DIR
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;啟用特定的 virtual environment：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;source &lt;/span&gt;ENV_DIR/bin/activate
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;(name)$
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;使用 &lt;code&gt;which&lt;/code&gt; 可以看到 python 路徑：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;which python
+ENV_DIR/bin/python
+
+which pip
+ENV_DIR/bin/pip
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注意到如果當初指定用 python3.4 的話，這裡雖然下的是 python，其實也是 3.4 版。以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果有裝 &lt;a href="http://virtualenvwrapper.readthedocs.org/en/latest/"&gt;virtualenvwrapper&lt;/a&gt; 的話其實還有更方便的方法，可以自行參考文件。&lt;/p&gt;
+&lt;h2&gt;Local Packages&lt;/h2&gt;
+&lt;p&gt;如果實在是無法建立 virtual environment 的話，只能使用舊方法來安裝 local 套件了，首先在 &lt;code&gt;.bashrc&lt;/code&gt; 加入對應的參數，使得執行 Python 時會載入 local 套件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;alias &lt;/span&gt;&lt;span class="nv"&gt;python3&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PYTHONPATH=$PYTHONPATH:$HOME/.local/lib/python3.4/site-packages python3&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;alias &lt;/span&gt;&lt;span class="nv"&gt;python&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PYTHONPATH=$PYTHONPATH:$HOME/.local/lib/python2.7/site-packages python&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中各版本的路徑可自行調整。&lt;/p&gt;
+&lt;p&gt;接下來安裝套件時都加上 --user 參數即可，例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pip3 install --user flask
+python3.4 setup.py install --user
+
+pip2 install --user flask
+python2 setup.py install --user
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="linux"></category><category term="Python"></category><category term="pyvenv"></category><category term="virtualenv"></category></entry><entry><title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</title><link href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="alternate"></link><updated>2014-06-21T09:00:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-21:blog/2014/06/21/fix-public-key-login-for-encrypted-home.html</id><summary type="html">&lt;p&gt;通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。&lt;/p&gt;
 &lt;p&gt;我最後決定停用密碼登入的功能，改成只能用 public key 登入，這樣子可能比較難以猜中正確的密鑰。不過實際用起來偶爾會發現登入失敗搞不清楚理由，後來才發現是因為我的 Ubuntu 啟用了家目錄加密的功能，因此尚未登入之前根本讀不到 &lt;code&gt;authorized_keys&lt;/code&gt; 設定檔。為了解決這個問題，必須移動設定檔的位置才行。&lt;/p&gt;
 &lt;h2&gt;Generate SSH Keys&lt;/h2&gt;
 &lt;p&gt;首先如果沒有自己的 SSH keys 的話可以參考&lt;a href="https://help.github.com/articles/generating-ssh-keys"&gt;〈Generating SSH Keys〉&lt;/a&gt;建立自己的 SSH keys。大致上是使用如下指令：&lt;/p&gt;
