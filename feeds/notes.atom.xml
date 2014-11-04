@@ -1,5 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-06-22T10:30:00+08:00</updated><entry><title>在工作站上使用自己的 Python 並安裝自訂套件</title><link href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="alternate"></link><updated>2014-06-22T10:30:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-22:blog/2014/06/22/pyvenv-and-virtualenv.html</id><summary type="html">&lt;p&gt;使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-11-04T17:20:00+08:00</updated><entry><title>用中文資料測試 word2vec</title><link href="http://city.shaform.com/blog/2014/11/04/word2vec.html" rel="alternate"></link><updated>2014-11-04T17:20:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-11-04:blog/2014/11/04/word2vec.html</id><summary type="html">&lt;p&gt;最近因為一些學習上的需要接觸了 &lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt;，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。&lt;/p&gt;
+&lt;p&gt;不過 word2vec 是把每個詞本身用一個多維向量來表示，把詞投影到一個向量空間裡。而且不知道為什麼投影出來的空間有些特殊的性質，比如說相同屬性的詞可能會靠得很近，甚至部份的向量有邏輯上的線性關係等等：&lt;/p&gt;
+&lt;p&gt;vector('King') - vector('Man') + vector('Woman') ~= vector('Queen')&lt;/p&gt;
+&lt;p&gt;這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。&lt;/p&gt;
+&lt;h2&gt;語料&lt;/h2&gt;
+&lt;p&gt;不太確定有什麼開放的中文語料可供使用，於是決定先用&lt;a href="https://github.com/audreyt/moedict-webkit"&gt;萌典&lt;/a&gt;來做實驗，可按照教學，下載萌典資料：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;git clone --depth 1 https://github.com/g0v/moedict-data.git
+git clone --depth 1 https://github.com/g0v/moedict-epub.git
+cp -v moedict-data/dict-revised.json moedict-epub/
+&lt;span class="nb"&gt;cd &lt;/span&gt;moedict-epub
+perl json2unicode.pl &amp;gt; dict-revised.unicode.json
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;緊接著我自己寫了一個 &lt;a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/extract_json.py"&gt;extract_json.py&lt;/a&gt; 把當中可供訓練的句子抽出來：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;python3 extract_json.py &amp;lt; dict-revised.unicode.json &amp;gt; sentences.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;斷詞&lt;/h2&gt;
+&lt;p&gt;因為 word2vec 的輸入必須是以空白隔開的詞，這樣得出來的句子還不能直接使用。於是我用了結巴斷詞，寫了一個 &lt;a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/cut.py"&gt;cut.py&lt;/a&gt; 來處理這些句子。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;python cut.py &amp;lt; sentences.txt &amp;gt; sentences.segged.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;斷出來的結果大約像是：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;紅樓夢 ． 第十七回 ： 「 一 槅 一 槅 ， 或 有 貯書處 ， 或 有 設鼎處 ， 或 安置 筆硯 處 ， 或供 設瓶花 、 或 安放 盆景 處 。 」
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;感覺雖不是很理想，但尚可接受。&lt;/p&gt;
+&lt;h2&gt;使用 word2vec 訓練詞向量&lt;/h2&gt;
+&lt;p&gt;接著我就用工作站把詞全部丟給 word2vec 訓練：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./word2vec -train sentences.segged.txt -output vectors.bin -cbow 0 -size 200 -window 10 -negative 5 -hs 0 -sample 1e-4 -threads 24 -binary 1 -iter 20 -min-count 1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;因為萌典抽出來的資料不算多，所以訓練起來滿快的，只是當然效果就不太好了：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="word2vec running..." src="/images/train_word2vec.png" /&gt;&lt;/p&gt;
+&lt;h2&gt;測試&lt;/h2&gt;
+&lt;p&gt;首先測試距離相近的字：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./distance vectors.bin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;雖然效果差強人意，不過還是可以看到相同屬性的字確實有些群聚效應：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Enter word or sentence (EXIT to break): 法國
+
+Word: 法國  Position in vocabulary: 992
+
+                                            Word         Cosine distance
+------------------------------------------------------------------------
+                                            英國         0.763948
+                                            德國         0.727664
+                                          義大利         0.724732
+                                            瑞士         0.724247
+                                          西班牙         0.715528
+                                          奧地利         0.696855
+                                          蘇格蘭         0.689557
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接著測試線性關係，A 比 B 就好像 C 比什麼？：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./word-analogy vectors.bin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;對於國家與都市的推理，也稍有效果：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Enter three words (EXIT to break): 法國 巴黎 英國
+
+Word: 法國  Position in vocabulary: 992
+
+Word: 巴黎  Position in vocabulary: 6379
+
+Word: 英國  Position in vocabulary: 822
+
+                                            Word         Distance
+------------------------------------------------------------------------
+                                            倫敦         0.583572
+                                          七二年         0.576999
+                                          莫斯科         0.566673
+                                          四四年         0.566332
+                                      一九四一年         0.562817
+                                          芝加哥         0.559529
+                                      一九六二年         0.556010
+                                          羅浮宮         0.555593
+                                          油畫院         0.554334
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;訓練出來的詞向量或許可以供進一步利用，只是在實際使用之前無法確定是否適用於特定的應用。&lt;/p&gt;
+&lt;h2&gt;程式碼&lt;/h2&gt;
+&lt;p&gt;我把相關的程式碼放在 GitHub 上面供參考：&lt;a href="https://github.com/shaform/experiments/tree/master/word2vec_tw"&gt;https://github.com/shaform/experiments/tree/master/word2vec_tw&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;參考資料&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.cnblogs.com/hebin/p/3507609.html"&gt;利用中文数据跑Google开源项目word2vec&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.fukuball.com/ru-he-shi-yong-jieba-jie-ba-zhong-wen-fen-ci-cheng-shi/"&gt;如何使用 JIEBA 結巴中文分詞程式&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</summary><category term="word2vec"></category><category term="Chinese"></category><category term="python"></category><category term="jieba"></category></entry><entry><title>在工作站上使用自己的 Python 並安裝自訂套件</title><link href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="alternate"></link><updated>2014-06-22T10:30:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-22:blog/2014/06/22/pyvenv-and-virtualenv.html</id><summary type="html">&lt;p&gt;使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。&lt;/p&gt;
 &lt;p&gt;遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。&lt;/p&gt;
 &lt;h2&gt;pyvenv&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://docs.python.org/3.4/library/venv.html"&gt;pyvenv&lt;/a&gt; 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 &lt;a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=732703"&gt;bug 732703&lt;/a&gt; 所以暫時無法使用。不過還是介紹一下他的用法：&lt;/p&gt;

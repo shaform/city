@@ -2,9 +2,13 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>City of Wings - 翼之都</title>	
+	<title>用中文資料測試 word2vec - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
+
+  <meta name="description" content="最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。 不過 word2vec 是把每個詞本身用一個多維向量來表示，把詞投影到一個向量空間裡。而且不知道為什麼投影出來的空間有些特殊的性質，比如說相同屬性的詞可能會靠得很近，甚至部份的向量有邏輯上的線性關係等等： vector('King') - vector('Man') + vector('Woman') ~= vector('Queen') 這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。 語料 不太確定有什麼開放的中文語料可供使用，於是決定先用萌典來做實驗，可按照教學，下載萌典資料： git clone --depth 1 https://github.com/g0v/moedict-data.git git clone --depth ...">
+
+
 
 	<link rel="stylesheet" href="http://city.shaform.com/theme/css/main.css" type="text/css" />
 		
@@ -27,12 +31,18 @@
 	  <div class="wrapper">
 
 		  <div role="main" class="content">
-
-
-
-      <article>
-        <h1><a href="http://city.shaform.com/blog/2014/11/04/word2vec.html">用中文資料測試 word2vec</a></h1>
-        <p>最近因為一些學習上的需要接觸了 <a href="https://code.google.com/p/word2vec/">word2vec</a>，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。</p>
+	<article class="full">
+		
+		<h1>用中文資料測試 word2vec</h1>
+		
+<div class="metadata">
+  <time datetime="2014-11-04T17:20:00+08:00" pubdate>Tue 04 November 2014</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
+    </address>
+  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/word2vec.html">word2vec</a>, <a href="http://city.shaform.com/tag/chinese.html">Chinese</a>, <a href="http://city.shaform.com/tag/python.html">python</a>, <a href="http://city.shaform.com/tag/jieba.html">jieba</a></p></div>		
+		<p>最近因為一些學習上的需要接觸了 <a href="https://code.google.com/p/word2vec/">word2vec</a>，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。</p>
 <p>不過 word2vec 是把每個詞本身用一個多維向量來表示，把詞投影到一個向量空間裡。而且不知道為什麼投影出來的空間有些特殊的性質，比如說相同屬性的詞可能會靠得很近，甚至部份的向量有邏輯上的線性關係等等：</p>
 <p>vector('King') - vector('Man') + vector('Woman') ~= vector('Queen')</p>
 <p>這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。</p>
@@ -130,65 +140,27 @@ Word: 英國  Position in vocabulary: 822
 <li><a href="https://code.google.com/p/word2vec/">word2vec</a></li>
 <li><a href="http://www.cnblogs.com/hebin/p/3507609.html">利用中文数据跑Google开源项目word2vec</a></li>
 <li><a href="http://blog.fukuball.com/ru-he-shi-yong-jieba-jie-ba-zhong-wen-fen-ci-cheng-shi/">如何使用 JIEBA 結巴中文分詞程式</a></li>
-</ol>
-      </article>
+</ol>	
 
-      <hr />
+	</article>
 
-        <div>
-          <h3>Last posts</h3>
-          <ol class="archive">
-    
+    <p>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</p>
 
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="bookmark" title="Permalink to 在工作站上使用自己的 Python 並安裝自訂套件">在工作站上使用自己的 Python 並安裝自訂套件</a>
-  <time datetime="2014-06-22T10:30:00+08:00" pubdate>Sun 22 June 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/python.html">Python</a><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="bookmark" title="Permalink to 解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題">解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</a>
-  <time datetime="2014-06-21T09:00:00+08:00" pubdate>Sat 21 June 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/public-key.html">public key</a><a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a><a href="http://city.shaform.com/tag/ssh.html">SSH</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html" rel="bookmark" title="Permalink to 在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04">在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</a>
-  <time datetime="2014-06-19T16:05:00+08:00" pubdate>Thu 19 June 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/uefi.html">UEFI</a><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/05/27/stay-on-bbs.html" rel="bookmark" title="Permalink to 簡單的 BBS 掛站設定">簡單的 BBS 掛站設定</a>
-  <time datetime="2014-05-27T13:21:00+08:00" pubdate>Tue 27 May 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/ptt.html">PTT</a><a href="http://city.shaform.com/tag/bbs.html">BBS</a><a href="http://city.shaform.com/tag/linux.html">linux</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/05/17/migrate-from-pixnet-to-pelican.html" rel="bookmark" title="Permalink to 從 Pixnet 轉移到 Pelican">從 Pixnet 轉移到 Pelican</a>
-  <time datetime="2014-05-17T07:25:00+08:00" pubdate>Sat 17 May 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a><a href="http://city.shaform.com/tag/pelican.html">Pelican</a><a href="http://city.shaform.com/tag/python.html">Python</a></p></a>      </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          </ol>
-        </div>
+	<div class="comments">
+	<h2>Comments !</h2>
+	    <div id="disqus_thread"></div>
+	    <script type="text/javascript">
+	       var disqus_identifier = "blog/2014/11/04/word2vec.html";
+	       (function() {
+	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	       dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+	       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	      })();
+	    </script>
+	</div>
 
 		  </div>	
 		  
@@ -206,7 +178,7 @@ Word: 英國  Position in vocabulary: 822
 	            <h2>Categories</h2>
 	            <ul>
 	                <li ><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
-	                <li ><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
+	                <li class="active"><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
 	                <li ><a href="http://city.shaform.com/category/projects.html">Projects</a></li>
 	            </ul>
 	          </nav>

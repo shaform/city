@@ -2,7 +2,7 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>PTT - City of Wings - 翼之都</title>	
+	<title>Chinese - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
 
@@ -28,29 +28,27 @@
 
 		  <div role="main" class="content">
 
-<h1>Post tagged: PTT</h1>
+<h1>Post tagged: Chinese</h1>
 
 <article class="summary">
 <div class="metadata">
-  <time datetime="2014-05-27T13:21:00+08:00" pubdate>Tue 27 May 2014</time>
+  <time datetime="2014-11-04T17:20:00+08:00" pubdate>Tue 04 November 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
   in <a href="http://city.shaform.com/category/notes.html">Notes</a>
-<p class="tags">tagged <a href="http://city.shaform.com/tag/ptt.html">PTT</a>, <a href="http://city.shaform.com/tag/bbs.html">BBS</a>, <a href="http://city.shaform.com/tag/linux.html">linux</a></p></div>  <div>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/word2vec.html">word2vec</a>, <a href="http://city.shaform.com/tag/chinese.html">Chinese</a>, <a href="http://city.shaform.com/tag/python.html">python</a>, <a href="http://city.shaform.com/tag/jieba.html">jieba</a></p></div>  <div>
     <h2>
-      <a href="http://city.shaform.com/blog/2014/05/27/stay-on-bbs.html" rel="bookmark" title="Permalink to 簡單的 BBS 掛站設定">簡單的 BBS 掛站設定</a>
+      <a href="http://city.shaform.com/blog/2014/11/04/word2vec.html" rel="bookmark" title="Permalink to 用中文資料測試 word2vec">用中文資料測試 word2vec</a>
     </h2>
-    <p><p>很久以前看到了 othree 的<a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/">〈掛站系統設定篇〉</a>，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）</p>
-<p>後來我發現其實掛一些我平常在逛的站如 PTT or BS2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。</p>
-<p>首先在 <code>$HOME</code> 目錄建一個叫做 <code>screenrc-bbs</code> 的資料夾，接下來在資料夾裡根據想逛的 bbs 建立 screenrc 檔案。</p>
-<p>比如說 screenrc-bbs/ptt：</p>
-<div class="highlight"><pre>vbell off 
-screen -t <span class="s1">&#39;ptt&#39;</span> ssh bbsu@ptt.cc
-</pre></div>
-
-
-<p>screenrc-bbs ...</p></p>
+    <p><p>最近因為一些學習上的需要接觸了 <a href="https://code.google.com/p/word2vec/">word2vec</a>，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。</p>
+<p>不過 word2vec 是把每個詞本身用一個多維向量來表示，把詞投影到一個向量空間裡。而且不知道為什麼投影出來的空間有些特殊的性質，比如說相同屬性的詞可能會靠得很近，甚至部份的向量有邏輯上的線性關係等等：</p>
+<p>vector('King') - vector('Man') + vector('Woman') ~= vector('Queen')</p>
+<p>這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。</p>
+<h2>語料</h2>
+<p>不太確定有什麼開放的中文語料可供使用，於是決定先用<a href="https://github.com/audreyt/moedict-webkit">萌典</a>來做實驗，可按照教學，下載萌典資料：</p>
+<div class="highlight"><pre>git clone --depth 1 https://github.com/g0v/moedict-data.git
+git clone --depth ...</pre></div></p>
   </div>
 </article>
 <div class="pagination">
