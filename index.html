@@ -31,106 +31,19 @@
 
 
       <article>
-        <h1><a href="http://city.shaform.com/blog/2014/11/04/word2vec.html">用中文資料測試 word2vec</a></h1>
-        <p>最近因為一些學習上的需要接觸了 <a href="https://code.google.com/p/word2vec/">word2vec</a>，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。</p>
-<p>不過 word2vec 是把每個詞本身用一個多維向量來表示，把詞投影到一個向量空間裡。而且不知道為什麼投影出來的空間有些特殊的性質，比如說相同屬性的詞可能會靠得很近，甚至部份的向量有邏輯上的線性關係等等：</p>
-<p>vector('King') - vector('Man') + vector('Woman') ~= vector('Queen')</p>
-<p>這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。</p>
-<h2>語料</h2>
-<p>不太確定有什麼開放的中文語料可供使用，於是決定先用<a href="https://github.com/audreyt/moedict-webkit">萌典</a>來做實驗，可按照教學，下載萌典資料：</p>
-<div class="highlight"><pre>git clone --depth 1 https://github.com/g0v/moedict-data.git
-git clone --depth 1 https://github.com/g0v/moedict-epub.git
-cp -v moedict-data/dict-revised.json moedict-epub/
-<span class="nb">cd </span>moedict-epub
-perl json2unicode.pl &gt; dict-revised.unicode.json
-</pre></div>
-
-
-<p>緊接著我自己寫了一個 <a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/extract_json.py">extract_json.py</a> 把當中可供訓練的句子抽出來：</p>
-<div class="highlight"><pre>python3 extract_json.py &lt; dict-revised.unicode.json &gt; sentences.txt
-</pre></div>
-
-
-<h2>斷詞</h2>
-<p>因為 word2vec 的輸入必須是以空白隔開的詞，這樣得出來的句子還不能直接使用。於是我用了結巴斷詞，寫了一個 <a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/cut.py">cut.py</a> 來處理這些句子。</p>
-<div class="highlight"><pre>python cut.py &lt; sentences.txt &gt; sentences.segged.txt
-</pre></div>
-
-
-<p>斷出來的結果大約像是：</p>
-<div class="highlight"><pre>紅樓夢 ． 第十七回 ： 「 一 槅 一 槅 ， 或 有 貯書處 ， 或 有 設鼎處 ， 或 安置 筆硯 處 ， 或供 設瓶花 、 或 安放 盆景 處 。 」
-</pre></div>
-
-
-<p>感覺雖不是很理想，但尚可接受。</p>
-<h2>使用 word2vec 訓練詞向量</h2>
-<p>接著我就用工作站把詞全部丟給 word2vec 訓練：</p>
-<div class="highlight"><pre>./word2vec -train sentences.segged.txt -output vectors.bin -cbow 0 -size 200 -window 10 -negative 5 -hs 0 -sample 1e-4 -threads 24 -binary 1 -iter 20 -min-count 1
-</pre></div>
-
-
-<p>因為萌典抽出來的資料不算多，所以訓練起來滿快的，只是當然效果就不太好了：</p>
-<p><img alt="word2vec running..." src="/images/train_word2vec.png" /></p>
-<h2>測試</h2>
-<p>首先測試距離相近的字：</p>
-<div class="highlight"><pre>./distance vectors.bin
-</pre></div>
-
-
-<p>雖然效果差強人意，不過還是可以看到相同屬性的字確實有些群聚效應：</p>
-<div class="highlight"><pre>Enter word or sentence (EXIT to break): 法國
-
-Word: 法國  Position in vocabulary: 992
-
-                                            Word         Cosine distance
-------------------------------------------------------------------------
-                                            英國         0.763948
-                                            德國         0.727664
-                                          義大利         0.724732
-                                            瑞士         0.724247
-                                          西班牙         0.715528
-                                          奧地利         0.696855
-                                          蘇格蘭         0.689557
-</pre></div>
-
-
-<p>接著測試線性關係，A 比 B 就好像 C 比什麼？：</p>
-<div class="highlight"><pre>./word-analogy vectors.bin
-</pre></div>
-
-
-<p>對於國家與都市的推理，也稍有效果：</p>
-<div class="highlight"><pre>Enter three words (EXIT to break): 法國 巴黎 英國
-
-Word: 法國  Position in vocabulary: 992
-
-Word: 巴黎  Position in vocabulary: 6379
-
-Word: 英國  Position in vocabulary: 822
-
-                                            Word         Distance
-------------------------------------------------------------------------
-                                            倫敦         0.583572
-                                          七二年         0.576999
-                                          莫斯科         0.566673
-                                          四四年         0.566332
-                                      一九四一年         0.562817
-                                          芝加哥         0.559529
-                                      一九六二年         0.556010
-                                          羅浮宮         0.555593
-                                          油畫院         0.554334
-</pre></div>
-
-
-<p>訓練出來的詞向量或許可以供進一步利用，只是在實際使用之前無法確定是否適用於特定的應用。</p>
-<h2>程式碼</h2>
-<p>我把相關的程式碼放在 GitHub 上面供參考：<a href="https://github.com/shaform/experiments/tree/master/word2vec_tw">https://github.com/shaform/experiments/tree/master/word2vec_tw</a></p>
-<h2>參考資料</h2>
-<ol>
-<li><a href="https://code.google.com/p/word2vec/">word2vec</a></li>
-<li><a href="http://www.cnblogs.com/hebin/p/3507609.html">利用中文数据跑Google开源项目word2vec</a></li>
-<li><a href="http://blog.fukuball.com/ru-he-shi-yong-jieba-jie-ba-zhong-wen-fen-ci-cheng-shi/">如何使用 JIEBA 結巴中文分詞程式</a></li>
-</ol>
+        <h1><a href="http://city.shaform.com/blog/2014/11/07/google-inbox-like-web-browsing.html">Google Inbox-like Web Browsing</a></h1>
+        <p>Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in <a href="http://city.shaform.com/blog/2013/10/20/single-minded.html">〈Single-minded : an Internet reader, made for readers, made by readers〉</a>. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced <a href="http://www.google.com/inbox/">Inbox</a>, a new way to handle email. And I find that many ideas behind Inbox are also applicable to web browsing as well.</p>
+<h2>Tabs as Threads</h2>
+<p>For example, different tabs can be represented as different threads, and for each thread, the history can be easily represented as different 'email' in the same thread.</p>
+<p><img alt="History as emails" src="http://city.shaform.com/images/inbox-history.png" /></p>
+<p>Such layout provides better navigation for histories than the current design of 'back' and 'forward' buttons. Sophisticated text summarization techniques can also be used to enable user to get information without actually open that page.</p>
+<h2>Search as Threads</h2>
+<p>Not only a tab can be represented as threads, a search attempt can also utilize the thread layout. We simply click on the empty space, and a search input field would appear. After entering the keywords, we click as many results as we like. Each click results in a different 'email' in the same threads, and we can inspect each one later at any time. We can archive unrelavent pages and decide to mark every remaining results with a label for later use.</p>
+<h2>Unification of History, Bookmarks, and Tabs</h2>
+<p>Indeed, every page marked as done (archived) is just like the old history. Every page on the inbox is just like the tabs. And every page with a label is a bookmark. In this way, we unify everything with a consistent and simple UI. We also drastically increase the possibility for the user to utilize bookmark functions.</p>
+<h2>We Learn Everything, so We Search for You</h2>
+<p>Since we can safely assume that any pages left in the inbox is something that the user is interested in currently. (Otherwise she should have archived it.) We can actively recommend related pages for different threads. Moreover, for those 'search threads', we also have the keywords used, and since the user might try to delete unwanted results from the inbox, we have relevant feedback as well. And latency is no longer an issue, as we can do the search and the show results when the user open the browser next time. So we are able to produce extremely accurate result compared to conventional search engines. And we also have the opportunity to insert related advertisment as well.</p>
+<p>However, if we do use this kind of web browsing, our entire browsing history will be on the cloud. Is this acceptable?</p>
       </article>
 
       <hr />
@@ -139,6 +52,12 @@ Word: 英國  Position in vocabulary: 822
           <h3>Last posts</h3>
           <ol class="archive">
     
+
+
+      <li>
+<a href="http://city.shaform.com/blog/2014/11/04/word2vec.html" rel="bookmark" title="Permalink to 用中文資料測試 word2vec">用中文資料測試 word2vec</a>
+  <time datetime="2014-11-04T17:20:00+08:00" pubdate>Tue 04 November 2014</time>
+<p class="tags">tags: <a href="http://city.shaform.com/tag/word2vec.html">word2vec</a><a href="http://city.shaform.com/tag/chinese.html">Chinese</a><a href="http://city.shaform.com/tag/python.html">python</a><a href="http://city.shaform.com/tag/jieba.html">jieba</a></p></a>      </li>
 
 
       <li>
@@ -165,10 +84,6 @@ Word: 英國  Position in vocabulary: 822
 <p class="tags">tags: <a href="http://city.shaform.com/tag/ptt.html">PTT</a><a href="http://city.shaform.com/tag/bbs.html">BBS</a><a href="http://city.shaform.com/tag/linux.html">linux</a></p></a>      </li>
 
 
-      <li>
-<a href="http://city.shaform.com/blog/2014/05/17/migrate-from-pixnet-to-pelican.html" rel="bookmark" title="Permalink to 從 Pixnet 轉移到 Pelican">從 Pixnet 轉移到 Pelican</a>
-  <time datetime="2014-05-17T07:25:00+08:00" pubdate>Sat 17 May 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a><a href="http://city.shaform.com/tag/pelican.html">Pelican</a><a href="http://city.shaform.com/tag/python.html">Python</a></p></a>      </li>
 
 
 
@@ -215,41 +130,42 @@ Word: 英國  Position in vocabulary: 822
                   <aside>
 	            <h2>Tags</h2>
                     <ul class="tagcloud">
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/word2vec.html">word2vec</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/jieba.html">jieba</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/python.html">python</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/chinese.html">Chinese</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
                       <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/python.html">python</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/chinese.html">Chinese</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/word2vec.html">word2vec</a></li>
                     </ul>
 	          </aside>
 	        </div>

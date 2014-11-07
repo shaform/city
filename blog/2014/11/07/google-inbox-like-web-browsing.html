@@ -2,9 +2,13 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>Chinese - City of Wings - 翼之都</title>	
+	<title>Google Inbox-like Web Browsing - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
+
+  <meta name="description" content="Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in 〈Single-minded : an Internet reader, made for readers, made by readers〉. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced Inbox, a new way to ...">
+
+
 
 	<link rel="stylesheet" href="http://city.shaform.com/theme/css/main.css" type="text/css" />
 		
@@ -27,33 +31,49 @@
 	  <div class="wrapper">
 
 		  <div role="main" class="content">
-
-<h1>Post tagged: Chinese</h1>
-
-<article class="summary">
+	<article class="full">
+		
+		<h1>Google Inbox-like Web Browsing</h1>
+		
 <div class="metadata">
-  <time datetime="2014-11-04T17:20:00+08:00" pubdate>Tue 04 November 2014</time>
+  <time datetime="2014-11-07T18:52:00+08:00" pubdate>Fri 07 November 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
-  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
-<p class="tags">tagged <a href="http://city.shaform.com/tag/word2vec.html">word2vec</a>, <a href="http://city.shaform.com/tag/chinese.html">Chinese</a>, <a href="http://city.shaform.com/tag/python.html">python</a>, <a href="http://city.shaform.com/tag/jieba.html">jieba</a></p></div>  <div>
-    <h2>
-      <a href="http://city.shaform.com/blog/2014/11/04/word2vec.html" rel="bookmark" title="Permalink to 用中文資料測試 word2vec">用中文資料測試 word2vec</a>
-    </h2>
-    <p><p>最近因為一些學習上的需要接觸了 <a href="https://code.google.com/p/word2vec/">word2vec</a>，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。</p>
-<p>不過 word2vec 是把每個詞本身用一個多維向量來表示，把詞投影到一個向量空間裡。而且不知道為什麼投影出來的空間有些特殊的性質，比如說相同屬性的詞可能會靠得很近，甚至部份的向量有邏輯上的線性關係等等：</p>
-<p>vector('King') - vector('Man') + vector('Woman') ~= vector('Queen')</p>
-<p>這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。</p>
-<h2>語料</h2>
-<p>不太確定有什麼開放的中文語料可供使用，於是決定先用<a href="https://github.com/audreyt/moedict-webkit">萌典</a>來做實驗，可按照教學，下載萌典資料：</p>
-<div class="highlight"><pre>git clone --depth 1 https://github.com/g0v/moedict-data.git
-git clone --depth ...</pre></div></p>
-  </div>
-</article>
-<div class="pagination">
-    Page 1 / 1
-</div>
+  in <a href="http://city.shaform.com/category/ideas.html">Ideas</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/browser.html">browser</a>, <a href="http://city.shaform.com/tag/internet.html">Internet</a>, <a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></p></div>		
+		<p>Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in <a href="http://city.shaform.com/blog/2013/10/20/single-minded.html">〈Single-minded : an Internet reader, made for readers, made by readers〉</a>. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced <a href="http://www.google.com/inbox/">Inbox</a>, a new way to handle email. And I find that many ideas behind Inbox are also applicable to web browsing as well.</p>
+<h2>Tabs as Threads</h2>
+<p>For example, different tabs can be represented as different threads, and for each thread, the history can be easily represented as different 'email' in the same thread.</p>
+<p><img alt="History as emails" src="http://city.shaform.com/images/inbox-history.png" /></p>
+<p>Such layout provides better navigation for histories than the current design of 'back' and 'forward' buttons. Sophisticated text summarization techniques can also be used to enable user to get information without actually open that page.</p>
+<h2>Search as Threads</h2>
+<p>Not only a tab can be represented as threads, a search attempt can also utilize the thread layout. We simply click on the empty space, and a search input field would appear. After entering the keywords, we click as many results as we like. Each click results in a different 'email' in the same threads, and we can inspect each one later at any time. We can archive unrelavent pages and decide to mark every remaining results with a label for later use.</p>
+<h2>Unification of History, Bookmarks, and Tabs</h2>
+<p>Indeed, every page marked as done (archived) is just like the old history. Every page on the inbox is just like the tabs. And every page with a label is a bookmark. In this way, we unify everything with a consistent and simple UI. We also drastically increase the possibility for the user to utilize bookmark functions.</p>
+<h2>We Learn Everything, so We Search for You</h2>
+<p>Since we can safely assume that any pages left in the inbox is something that the user is interested in currently. (Otherwise she should have archived it.) We can actively recommend related pages for different threads. Moreover, for those 'search threads', we also have the keywords used, and since the user might try to delete unwanted results from the inbox, we have relevant feedback as well. And latency is no longer an issue, as we can do the search and the show results when the user open the browser next time. So we are able to produce extremely accurate result compared to conventional search engines. And we also have the opportunity to insert related advertisment as well.</p>
+<p>However, if we do use this kind of web browsing, our entire browsing history will be on the cloud. Is this acceptable?</p>	
+
+	</article>
+
+    <p>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</p>
+
+	<div class="comments">
+	<h2>Comments !</h2>
+	    <div id="disqus_thread"></div>
+	    <script type="text/javascript">
+	       var disqus_identifier = "blog/2014/11/07/google-inbox-like-web-browsing.html";
+	       (function() {
+	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	       dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+	       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	      })();
+	    </script>
+	</div>
 
 		  </div>	
 		  
@@ -70,7 +90,7 @@ git clone --depth ...</pre></div></p>
   	          <nav>
 	            <h2>Categories</h2>
 	            <ul>
-	                <li ><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
+	                <li class="active"><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
 	                <li ><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
 	                <li ><a href="http://city.shaform.com/category/projects.html">Projects</a></li>
 	            </ul>

@@ -37,7 +37,7 @@ perl json2unicode.pl &amp;gt; dict-revised.unicode.json
 
 
 &lt;p&gt;因為萌典抽出來的資料不算多，所以訓練起來滿快的，只是當然效果就不太好了：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="word2vec running..." src="/images/train_word2vec.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="word2vec running..." src="http://city.shaform.com/images/train_word2vec.png" /&gt;&lt;/p&gt;
 &lt;h2&gt;測試&lt;/h2&gt;
 &lt;p&gt;首先測試距離相近的字：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;./distance vectors.bin
