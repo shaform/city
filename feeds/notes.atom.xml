@@ -76,7 +76,7 @@
 
 &lt;h3&gt;啟用新網路設定&lt;/h3&gt;
 &lt;p&gt;接下來就可以在 bob 和 ted 上執行以下指令使新設定生效了：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;sudo ifdown eth0 &amp;amp; ifup eth0
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo ifdown eth0 &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; ifup eth0
 &lt;/pre&gt;&lt;/div&gt;
 
 
