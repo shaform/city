@@ -2,7 +2,7 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>Ideas - City of Wings - 翼之都</title>	
+	<title>network - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
 
@@ -28,34 +28,27 @@
 
 		  <div role="main" class="content">
 
-<h1>Posts categorized under: Ideas</h1>
+<h1>Post tagged: network</h1>
 
 <article class="summary">
 <div class="metadata">
-  <time datetime="2014-11-07T18:52:00+08:00" pubdate>Fri 07 November 2014</time>
+  <time datetime="2014-11-12T09:20:00+08:00" pubdate>Wed 12 November 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
-  in <a href="http://city.shaform.com/category/ideas.html">Ideas</a>
-<p class="tags">tagged <a href="http://city.shaform.com/tag/browser.html">browser</a>, <a href="http://city.shaform.com/tag/internet.html">Internet</a>, <a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></p></div>  <div>
+  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/linux.html">linux</a>, <a href="http://city.shaform.com/tag/subnet.html">subnet</a>, <a href="http://city.shaform.com/tag/network.html">network</a></p></div>  <div>
     <h2>
-      <a href="http://city.shaform.com/blog/2014/11/07/google-inbox-like-web-browsing.html" rel="bookmark" title="Permalink to Google Inbox-like Web Browsing">Google Inbox-like Web Browsing</a>
+      <a href="http://city.shaform.com/blog/2014/11/12/connect-subnets.html" rel="bookmark" title="Permalink to 連結兩個私有內網">連結兩個私有內網</a>
     </h2>
-    <p><p>Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in <a href="http://city.shaform.com/blog/2013/10/20/single-minded.html">〈Single-minded : an Internet reader, made for readers, made by readers〉</a>. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced <a href="http://www.google.com/inbox/">Inbox</a>, a new way to ...</p></p>
-  </div>
-</article><article class="summary">
-<div class="metadata">
-  <time datetime="2013-10-20T20:25:00+08:00" pubdate>Sun 20 October 2013</time>
-    <address class="vcard author">
-      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
-    </address>
-  in <a href="http://city.shaform.com/category/ideas.html">Ideas</a>
-<p class="tags">tagged <a href="http://city.shaform.com/tag/browser.html">browser</a>, <a href="http://city.shaform.com/tag/internet.html">Internet</a></p></div>  <div>
-    <h2>
-      <a href="http://city.shaform.com/blog/2013/10/20/single-minded.html" rel="bookmark" title="Permalink to Single-minded : an Internet reader, made for readers, made by readers">Single-minded : an Internet reader, made for readers, made by readers</a>
-    </h2>
-    <p><h2>Realization</h2>
-<p>I've known it for a long time that it’s difficult for me to read long articles on the web. I thought it’s because of the screen. It made my eyes get tired so easily. However, when I started to read The Shallows written by Nicholas Carr ...</p></p>
+    <p><p>實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。</p>
+<p>記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！</p>
+<h2>機器配置</h2>
+<p>假設現在有兩群工作站：</p>
+<div class="highlight"><pre><span class="n">bob</span>     <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.13.1</span><span class="o">/</span><span class="mi">24</span>  <span class="n">eth1</span><span class="o">:</span> <span class="mf">140.112.13.5</span>
+<span class="n">jack</span>    <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.13.2</span><span class="o">/</span><span class="mi">24</span>
+
+<span class="n">ted</span>     <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.14.1</span><span class="o">/</span><span class="mi">24</span>  <span class="n">eth1</span><span class="o">:</span> <span class="mf">140 ...</span></pre></div></p>
   </div>
 </article>
 <div class="pagination">
@@ -77,7 +70,7 @@
   	          <nav>
 	            <h2>Categories</h2>
 	            <ul>
-	                <li class="active"><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
+	                <li ><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
 	                <li ><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
 	                <li ><a href="http://city.shaform.com/category/projects.html">Projects</a></li>
 	            </ul>

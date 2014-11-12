@@ -2,9 +2,13 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>City of Wings - 翼之都</title>	
+	<title>連結兩個私有內網 - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
+
+  <meta name="description" content="實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。 記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！ 機器配置 假設現在有兩群工作站： bob eth0: 192.168.13.1/24 eth1: 140.112.13.5 jack eth0: 192.168.13.2/24 ted eth0: 192.168.14.1/24 eth1: 140 ...">
+
+
 
 	<link rel="stylesheet" href="http://city.shaform.com/theme/css/main.css" type="text/css" />
 		
@@ -27,12 +31,18 @@
 	  <div class="wrapper">
 
 		  <div role="main" class="content">
-
-
-
-      <article>
-        <h1><a href="http://city.shaform.com/blog/2014/11/12/connect-subnets.html">連結兩個私有內網</a></h1>
-        <p>實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。</p>
+	<article class="full">
+		
+		<h1>連結兩個私有內網</h1>
+		
+<div class="metadata">
+  <time datetime="2014-11-12T09:20:00+08:00" pubdate>Wed 12 November 2014</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
+    </address>
+  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/linux.html">linux</a>, <a href="http://city.shaform.com/tag/subnet.html">subnet</a>, <a href="http://city.shaform.com/tag/network.html">network</a></p></div>		
+		<p>實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。</p>
 <p>記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！</p>
 <h2>機器配置</h2>
 <p>假設現在有兩群工作站：</p>
@@ -132,69 +142,27 @@
 <p>如果想要把兩組機器都放進同個內網，也可以參考更進階的：</p>
 <ul>
 <li><a href="https://docs.openvpn.net/how-to-tutorialsguides/virtual-platforms/site-to-site-layer-2-bridging-using-openvpn-access-server/">Site-to-Site Layer 2 Bridging Using OpenVPN Access Server and a Linux Gateway Client</a></li>
-</ul>
-      </article>
+</ul>	
 
-      <hr />
+	</article>
 
-        <div>
-          <h3>Last posts</h3>
-          <ol class="archive">
-    
+    <p>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</p>
 
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/11/07/google-inbox-like-web-browsing.html" rel="bookmark" title="Permalink to Google Inbox-like Web Browsing">Google Inbox-like Web Browsing</a>
-  <time datetime="2014-11-07T18:52:00+08:00" pubdate>Fri 07 November 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/browser.html">browser</a><a href="http://city.shaform.com/tag/internet.html">Internet</a><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/11/04/word2vec.html" rel="bookmark" title="Permalink to 用中文資料測試 word2vec">用中文資料測試 word2vec</a>
-  <time datetime="2014-11-04T17:20:00+08:00" pubdate>Tue 04 November 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/word2vec.html">word2vec</a><a href="http://city.shaform.com/tag/chinese.html">Chinese</a><a href="http://city.shaform.com/tag/python.html">python</a><a href="http://city.shaform.com/tag/jieba.html">jieba</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="bookmark" title="Permalink to 在工作站上使用自己的 Python 並安裝自訂套件">在工作站上使用自己的 Python 並安裝自訂套件</a>
-  <time datetime="2014-06-22T10:30:00+08:00" pubdate>Sun 22 June 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/python.html">Python</a><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="bookmark" title="Permalink to 解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題">解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</a>
-  <time datetime="2014-06-21T09:00:00+08:00" pubdate>Sat 21 June 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/public-key.html">public key</a><a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a><a href="http://city.shaform.com/tag/ssh.html">SSH</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html" rel="bookmark" title="Permalink to 在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04">在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</a>
-  <time datetime="2014-06-19T16:05:00+08:00" pubdate>Thu 19 June 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/uefi.html">UEFI</a><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></p></a>      </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          </ol>
-        </div>
+	<div class="comments">
+	<h2>Comments !</h2>
+	    <div id="disqus_thread"></div>
+	    <script type="text/javascript">
+	       var disqus_identifier = "blog/2014/11/12/connect-subnets.html";
+	       (function() {
+	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	       dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+	       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	      })();
+	    </script>
+	</div>
 
 		  </div>	
 		  
@@ -212,7 +180,7 @@
 	            <h2>Categories</h2>
 	            <ul>
 	                <li ><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
-	                <li ><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
+	                <li class="active"><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
 	                <li ><a href="http://city.shaform.com/category/projects.html">Projects</a></li>
 	            </ul>
 	          </nav>
