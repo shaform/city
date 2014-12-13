@@ -2,9 +2,13 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>City of Wings - 翼之都</title>	
+	<title>在 Debian 7.7 系統中轉移 NIS 到 LDAP - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
+
+  <meta name="description" content="本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 OpenLDAP： sudo apt-get install slapd ldap ...">
+
+
 
 	<link rel="stylesheet" href="http://city.shaform.com/theme/css/main.css" type="text/css" />
 		
@@ -27,12 +31,18 @@
 	  <div class="wrapper">
 
 		  <div role="main" class="content">
-
-
-
-      <article>
-        <h1><a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html">在 Debian 7.7 系統中轉移 NIS 到 LDAP</a></h1>
-        <p>本文件紀錄了基本的 LDAP 設置。</p>
+	<article class="full">
+		
+		<h1>在 Debian 7.7 系統中轉移 NIS 到 LDAP</h1>
+		
+<div class="metadata">
+  <time datetime="2014-12-13T17:42:00+08:00" pubdate>Sat 13 December 2014</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
+    </address>
+  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/ldap.html">LDAP</a>, <a href="http://city.shaform.com/tag/nis.html">NIS</a>, <a href="http://city.shaform.com/tag/linux.html">linux</a>, <a href="http://city.shaform.com/tag/debian.html">Debian</a>, <a href="http://city.shaform.com/tag/ssh.html">SSH</a></p></div>		
+		<p>本文件紀錄了基本的 LDAP 設置。</p>
 <h2>設定 LDAP Master</h2>
 <h3>基本設置</h3>
 <p>首先編輯 <code>/etc/ldap/ldap.conf</code> 填上適當的網域名稱。例如：</p>
@@ -238,71 +248,27 @@ tls_cacertfile /etc/ssl/certs/my_root_crt.pem
 </pre></div>
 
 
-<p>可測試是否可以登入。</p>
-      </article>
+<p>可測試是否可以登入。</p>	
 
-      <hr />
+	</article>
 
-        <div>
-          <h3>Last posts</h3>
-          <ol class="archive">
-    
+    <p>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</p>
 
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/11/12/connect-subnets.html" rel="bookmark" title="Permalink to 連結兩個私有內網">連結兩個私有內網</a>
-  <time datetime="2014-11-12T09:20:00+08:00" pubdate>Wed 12 November 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/subnet.html">subnet</a><a href="http://city.shaform.com/tag/network.html">network</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/11/07/google-inbox-like-web-browsing.html" rel="bookmark" title="Permalink to Google Inbox-like Web Browsing">Google Inbox-like Web Browsing</a>
-  <time datetime="2014-11-07T18:52:00+08:00" pubdate>Fri 07 November 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/browser.html">browser</a><a href="http://city.shaform.com/tag/internet.html">Internet</a><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/11/04/word2vec.html" rel="bookmark" title="Permalink to 用中文資料測試 word2vec">用中文資料測試 word2vec</a>
-  <time datetime="2014-11-04T17:20:00+08:00" pubdate>Tue 04 November 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/word2vec.html">word2vec</a><a href="http://city.shaform.com/tag/chinese.html">Chinese</a><a href="http://city.shaform.com/tag/python.html">python</a><a href="http://city.shaform.com/tag/jieba.html">jieba</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="bookmark" title="Permalink to 在工作站上使用自己的 Python 並安裝自訂套件">在工作站上使用自己的 Python 並安裝自訂套件</a>
-  <time datetime="2014-06-22T10:30:00+08:00" pubdate>Sun 22 June 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/python.html">Python</a><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="bookmark" title="Permalink to 解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題">解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</a>
-  <time datetime="2014-06-21T09:00:00+08:00" pubdate>Sat 21 June 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/public-key.html">public key</a><a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a><a href="http://city.shaform.com/tag/ssh.html">SSH</a></p></a>      </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          </ol>
-        </div>
+	<div class="comments">
+	<h2>Comments !</h2>
+	    <div id="disqus_thread"></div>
+	    <script type="text/javascript">
+	       var disqus_identifier = "blog/2014/12/13/migrate-from-nis-to-ldap.html";
+	       (function() {
+	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	       dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+	       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	      })();
+	    </script>
+	</div>
 
 		  </div>	
 		  
@@ -320,7 +286,7 @@ tls_cacertfile /etc/ssl/certs/my_root_crt.pem
 	            <h2>Categories</h2>
 	            <ul>
 	                <li ><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
-	                <li ><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
+	                <li class="active"><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
 	                <li ><a href="http://city.shaform.com/category/projects.html">Projects</a></li>
 	            </ul>
 	          </nav>

@@ -31,108 +31,214 @@
 
 
       <article>
-        <h1><a href="http://city.shaform.com/blog/2014/11/12/connect-subnets.html">連結兩個私有內網</a></h1>
-        <p>實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。</p>
-<p>記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！</p>
-<h2>機器配置</h2>
-<p>假設現在有兩群工作站：</p>
-<div class="highlight"><pre><span class="n">bob</span>     <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.13.1</span><span class="o">/</span><span class="mi">24</span>  <span class="n">eth1</span><span class="o">:</span> <span class="mf">140.112.13.5</span>
-<span class="n">jack</span>    <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.13.2</span><span class="o">/</span><span class="mi">24</span>
-
-<span class="n">ted</span>     <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.14.1</span><span class="o">/</span><span class="mi">24</span>  <span class="n">eth1</span><span class="o">:</span> <span class="mf">140.112.14.20</span>
-<span class="n">nick</span>    <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.14.2</span><span class="o">/</span><span class="mi">24</span>
+        <h1><a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html">在 Debian 7.7 系統中轉移 NIS 到 LDAP</a></h1>
+        <p>本文件紀錄了基本的 LDAP 設置。</p>
+<h2>設定 LDAP Master</h2>
+<h3>基本設置</h3>
+<p>首先編輯 <code>/etc/ldap/ldap.conf</code> 填上適當的網域名稱。例如：</p>
+<div class="highlight"><pre>BASE    dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
+URI     ldap://ldap.lab.csie.ntu.edu.tw
 </pre></div>
 
 
-<p>其中，bob 和 ted 有接上 Internet，而 jack 接到 bob，nick 接到 ted，並透過他們連結外網。我們希望讓 jack 和 nick 可以直接連結。</p>
-<h2>作法</h2>
-<h3>Bob 的設定</h3>
-<p>我們將會在 bob 和 ted 之間建立一個 tunnel，然後修改 routing table 將送往另一個內網的流量導進 tunnel 之中。</p>
-<p>首先，在 bob 的 <code>/etc/network/interface</code> 中，修改 eth0 的設置（或者修改 eth1 也可以，不過考慮到如果 eth1 改錯可能就無法用 ssh 連進來，所以先改 eth0）：</p>
-<div class="highlight"><pre><span class="k">auto</span> <span class="n">eth0</span>
-<span class="n">iface</span> <span class="n">eth0</span> <span class="n">inet</span> <span class="k">static</span>
-        <span class="n">address</span> <span class="mf">192.168.13.1</span>
-        <span class="n">netmask</span> <span class="mf">255.255.255.0</span>
-        <span class="n">network</span> <span class="mf">192.168.13.0</span>
-        <span class="n">broadcast</span> <span class="mf">192.168.13.255</span>
-        <span class="n">pre</span><span class="o">-</span><span class="n">up</span> <span class="n">ip</span> <span class="n">tunnel</span> <span class="n">add</span> <span class="n">mytunnel</span> <span class="n">mode</span> <span class="n">ipip</span> <span class="n">remote</span> <span class="mf">140.112.14.20</span>
-        <span class="n">up</span> <span class="n">ip</span> <span class="n">addr</span> <span class="n">add</span> <span class="mf">192.168.15.5</span><span class="o">/</span><span class="mi">24</span> <span class="n">dev</span> <span class="n">mytunnel</span>
-        <span class="n">up</span> <span class="n">ip</span> <span class="n">link</span> <span class="n">set</span> <span class="n">dev</span> <span class="n">mytunnel</span> <span class="n">up</span>
-        <span class="n">up</span> <span class="n">ip</span> <span class="n">route</span> <span class="n">add</span> <span class="mf">192.168.14.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">via</span> <span class="mf">192.168.15.20</span>
-        <span class="n">down</span> <span class="n">ip</span> <span class="n">route</span> <span class="n">del</span> <span class="mf">192.168.14.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">via</span> <span class="mf">192.168.15.20</span>
-        <span class="n">post</span><span class="o">-</span><span class="n">down</span> <span class="n">ip</span> <span class="n">tunnel</span> <span class="n">del</span> <span class="n">mytunnel</span>
+<p>其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。</p>
+<p>緊接著，安裝 OpenLDAP：</p>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">slapd</span> <span class="n">ldap</span><span class="o">-</span><span class="n">utils</span>
 </pre></div>
 
 
-<p>主要是要讓 bob 連結內網時，自動建立起 tunnel，而切斷連線時自動取消，在實際修改檔案前，也可以先用指令列測試其中的指令：</p>
-<p>首先是建立一個虛擬的 tunnel 界面，並連結到 ted 的外部 IP：</p>
-<div class="highlight"><pre>sudo ip tunnel add mytunnel mode ipip remote 140.112.14.20
+<p>此時它只會要你設定一個 admin 密碼，如果希望看到完整設定，可以事先執行以下指令，並設定 Dialog 為不高於 Medium 的層級。不過我偏好不改動這個設定，而是事後再重新執行設定程式。</p>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">dpkg</span><span class="o">-</span><span class="n">reconfigure</span> <span class="n">debconf</span>
 </pre></div>
 
 
-<p>緊接著，隨意為 bob 在此界面指定一個 IP：</p>
-<div class="highlight"><pre>sudo up ip addr add 192.168.15.5/24 dev mytunnel
+<p>事後重新設定的指令則是：</p>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">dpkg</span><span class="o">-</span><span class="n">reconfigure</span> <span class="n">slapd</span>
 </pre></div>
 
 
-<p>再來，把界面啟動連結：</p>
-<div class="highlight"><pre>sudo up ip link <span class="nb">set </span>dev mytunnel up
+<p>可按照喜好自行設定，但 domain name 要跟 <code>/etc/lapd/lapd.conf</code> 一致：</p>
+<div class="highlight"><pre>Omit OpenLDAP server configuration? No
+DNS domain name: lab.csie.ntu.edu.tw
+Organization name: lab.csie.ntu.edu.tw
+Administrator password: &lt;PASSWORD&gt;
+Confirm password: &lt;PASSWORD&gt;
+Database backend to use: HDB
+Do you want the database to be removed when slapd is purged? No
+Move old database? Yes
+Allow LDAPv2 protocol? No
 </pre></div>
 
 
-<p>最後再設定把連到另一個內網的流量都導到 ted 在此 tunnel 的 IP：</p>
-<div class="highlight"><pre>sudo up ip route add 192.168.14.0/24 via 192.168.15.20
+<p>以後如果想重設 LDAP 也可重新執行上述指令。他會將 old database 移動到 <code>/var/backups</code> 資料夾，不過如果已經移動過一次則指令會失敗，此時可先手動砍除舊的 <code>/var/backups/&lt;ldap directory&gt;</code>。</p>
+<p>可以執行以下兩個指令來確認設置成功：</p>
+<div class="highlight"><pre><span class="n">ldapsearch</span> <span class="o">-</span><span class="n">x</span>
+<span class="n">slapcat</span>
 </pre></div>
 
 
-<h3>Ted 的設定</h3>
-<p>同樣的道理，在 ted 的 <code>/etc/network/interface</code> 中，修改 eth0 的設置，加入以下項目：</p>
-<div class="highlight"><pre><span class="n">pre</span><span class="o">-</span><span class="n">up</span> <span class="n">ip</span> <span class="n">tunnel</span> <span class="n">add</span> <span class="n">mytunnel</span> <span class="n">mode</span> <span class="n">ipip</span> <span class="n">remote</span> <span class="mf">140.112.13.5</span>
-<span class="n">up</span> <span class="n">ip</span> <span class="n">addr</span> <span class="n">add</span> <span class="mf">192.168.15.20</span><span class="o">/</span><span class="mi">24</span> <span class="n">dev</span> <span class="n">mytunnel</span>
-<span class="n">up</span> <span class="n">ip</span> <span class="n">link</span> <span class="n">set</span> <span class="n">dev</span> <span class="n">mytunnel</span> <span class="n">up</span>
-<span class="n">up</span> <span class="n">ip</span> <span class="n">route</span> <span class="n">add</span> <span class="mf">192.168.13.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">via</span> <span class="mf">192.168.15.5</span>
-<span class="n">down</span> <span class="n">ip</span> <span class="n">route</span> <span class="n">del</span> <span class="mf">192.168.13.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">via</span> <span class="mf">192.168.15.5</span>
-<span class="n">post</span><span class="o">-</span><span class="n">down</span> <span class="n">ip</span> <span class="n">tunnel</span> <span class="n">del</span> <span class="n">mytunnel</span>
+<h3>轉移 NIS 資料</h3>
+<p>首先安裝轉移工具組：</p>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">migrationtools</span>
 </pre></div>
 
 
-<h3>啟用 IP Forwarding</h3>
-<p>理論上原本工作站的內網設置應該就有啟用 IP forwarding 的功能，不過為求完整，在這裡記載啟用的方法。可以在 bob 和 ted 上執行以下指令：</p>
-<div class="highlight"><pre>sudo sysctl -w net.ipv4.ip_forward<span class="o">=</span>1
+<p>接著編輯設定檔 <code>/usr/share/migrationtools/migrate_common.ph</code>：</p>
+<div class="highlight"><pre><span class="c"># Default DNS domain</span>
+<span class="nv">$DEFAULT_MAIL_DOMAIN</span> <span class="o">=</span> <span class="s2">&quot;lab.csie.ntu.edu.tw&quot;</span>;
+<span class="c"># Default base</span>
+<span class="nv">$DEFAULT_BASE</span> <span class="o">=</span> <span class="s2">&quot;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span>;
+...
+<span class="c"># Uncomment these to exclude Debian-managed system users and groups</span>
+<span class="nv">$IGNORE_UID_BELOW</span> <span class="o">=</span> 1000;
+<span class="c"># Don&#39;t uncomment this if you want to be able to add users to system groups</span>
+<span class="c"># $IGNORE_GID_BELOW = 1000;</span>
+<span class="c"># And here&#39;s the opposite for completeness</span>
+<span class="nv">$IGNORE_UID_ABOVE</span> <span class="o">=</span> 29999;
+<span class="nv">$IGNORE_GID_ABOVE</span> <span class="o">=</span> 29999;
 </pre></div>
 
 
-<p>此外，若要讓此設定開機後仍然維持，則需修改 <code>/etc/sysctl.conf</code>，並取消註解以下的項目：</p>
-<div class="highlight"><pre><span class="c">#net.ipv4.ip_forward=1</span>
+<p>由於 Debian 的 LDAP 預設並沒有載入 misc.schema，所以如果要讀入 alias 資料就會出錯。因此我們只手動載入需要的部份，而不使用自動載入全部資料的方法。進入 <code>/usr/share/migrationtools/</code> 資料夾後執行以下指令：</p>
+<div class="highlight"><pre><span class="c"># create basic data</span>
+./migrate_base.pl | ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
+
+<span class="c"># migrate passwd</span>
+./migrate_passwd.pl /etc/passwd | ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
+
+<span class="c"># migrate group</span>
+./migrate_group.pl /etc/group | ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
 </pre></div>
 
 
-<h3>啟用新網路設定</h3>
-<p>接下來就可以在 bob 和 ted 上執行以下指令使新設定生效了：</p>
-<div class="highlight"><pre>sudo ifdown eth0 <span class="o">&amp;&amp;</span> ifup eth0
+<p>執行 <code>migrate_base.pl</code> 會有部份內容無法處理是正常的。</p>
+<h2>設定 LDAP Client</h2>
+<p>在要透過 LDAP 登入的主機上進行以下步驟，若 LDAP Master server 本身也想透過 LDAP 登入的話，也是採用相同辦法。首先安裝相關程式</p>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libpam</span><span class="o">-</span><span class="n">ldapd</span> <span class="n">libnss</span><span class="o">-</span><span class="n">ldapd</span> <span class="n">nslcd</span>
 </pre></div>
 
 
-<p>注意由於一開始 down 和 post-down 的指令可能會失敗，所以如果直接執行以上指令有可能會有問題，這時也可以重新開機。或者稍微修改一下指令執行及檔案修改的順序來達成想要的效果。</p>
-<h3>測試</h3>
-<p>可以在 bob 和 jack 上測試以下指令：</p>
-<div class="highlight"><pre><span class="n">ping</span> <span class="mf">192.168.14.2</span>
+<p>並回答相關問題：</p>
+<div class="highlight"><pre>LDAP server URI: &lt;this answer is the same as what you put in &#39;/etc/ldap/ldap.conf&#39;&gt;
+ldap://ldap.lab.csie.ntu.edu.tw/
+
+LDAP server search base:
+dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
+
+Name services to configure:
+group, password, shadow
 </pre></div>
 
 
-<p>在 ted 和 nick 上測試以下指令：</p>
-<div class="highlight"><pre><span class="n">ping</span> <span class="mf">192.168.13.2</span>
+<p>接著如果要讓 root 可以在不輸入 LDAP 密碼的情況下修改別人密碼，則可修改 <code>/etc/nslcd.conf</code>，其中 <code>rootpwmodpw</code> 設為之前選擇的 LDAP 密碼：</p>
+<div class="highlight"><pre><span class="nx">ldap_version</span> <span class="mi">3</span>
+<span class="nx">rootpwmoddn</span> <span class="n">cn</span><span class="o">=</span><span class="nx">admin</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="nx">lab</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="nx">csie</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="nx">ntu</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="nx">edu</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="nx">tw</span>
+<span class="nx">rootpwmodpw</span> <span class="o">&lt;</span><span class="nx">PASSWORD</span><span class="o">&gt;</span>
 </pre></div>
 
 
-<h2>參考</h2>
-<ul>
-<li><a href="http://unix.stackexchange.com/questions/44065/linux-networking-routing-to-virtual-ip-addresses-from-a-different-subnet">Linux Networking routing to virtual ip addresses from a different subnet</a></li>
-</ul>
-<p>如果想要把兩組機器都放進同個內網，也可以參考更進階的：</p>
-<ul>
-<li><a href="https://docs.openvpn.net/how-to-tutorialsguides/virtual-platforms/site-to-site-layer-2-bridging-using-openvpn-access-server/">Site-to-Site Layer 2 Bridging Using OpenVPN Access Server and a Linux Gateway Client</a></li>
-</ul>
+<p>如果要讓 client 也能執行 <code>ldapsearch</code> 等指令，也可依 master 的方法修改 <code>/etc/lapd/lapd.conf</code>。</p>
+<p>可重新開機測試是否成功。</p>
+<h2>TLS 加密連線</h2>
+<p>以上的作法，在連線時不夠安全，因此我們可以啟用 TLS 加密連線。</p>
+<h3>建立憑證</h3>
+<p>假設你有可供使用的憑證當然很好，但是一般人除了等待 <a href="https://letsencrypt.org/">Let's Encrypt</a> 以外，可能也只能自己的憑證自己建了。</p>
+<p>在某個資料夾內建立相關憑證：</p>
+<div class="highlight"><pre>openssl genrsa -out my_root_key.pem 1024
+openssl req -new -key my_root_key.pem -out my_root_csr.pem
+openssl x509 -req -days 36500 -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
+
+openssl genrsa -out ldap_key.pem 1024
+openssl req -new -key ldap_key.pem -out ldap_csr.pem
+
+openssl x509 -req -days 36500 -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
+</pre></div>
+
+
+<p>其中的資訊可以隨意填，但在建立 <code>ldap_csr.pem</code> 時，Common Name 一定要填 client 可以連到的，LDAP master server 的 domain name：</p>
+<div class="highlight"><pre>Country Name (2 letter code) [AU]:TW
+State or Province Name (full name) [Some-State]:Taiwan
+Locality Name (eg, city) []:Taipei
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:NTU Lab
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:ldap.lab.csie.ntu.edu.tw
+Email Address []:
+
+Please enter the following &#39;extra&#39; attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+</pre></div>
+
+
+<p>然後在 master 上建立一個資料夾，並將相關檔案複製，設定適當的權限：</p>
+<div class="highlight"><pre>sudo mkdir /etc/ldap/ssl
+sudo cp ldap_key.pem ldap_crt.pem /etc/ldap/ssl
+sudo cp my_root_crt.pem /etc/ssl/certs/
+
+sudo chmod 644 /etc/ssl/certs/my_root_crt.pem
+sudo chown -R root:openldap /etc/ldap/ssl
+sudo chmod -R o-rwx /etc/ldap/ssl
+</pre></div>
+
+
+<p>然後在所有 client 上也可以複製 <code>my_root_crt.pem</code>：</p>
+<div class="highlight"><pre>sudo cp my_root_crt.pem /etc/ssl/certs/
+
+sudo chmod 644 /etc/ssl/certs/my_root_crt.pem
+</pre></div>
+
+
+<p>小心收藏剩餘的 key.pem，不要讓別人看到囉。</p>
+<h3>設定 LDAP Master Server</h3>
+<p>注意，這裡的設定若一不小心可能導致 LDAP server 無法運作，故設定時最好先備份所有檔案。</p>
+<p>首先在 master 上更改 <code>/etc/default/slapd</code>，將 <code>LAPD_SERVICES</code> 改成以下內容，也就是只允許本機不透過 TLS 連線：</p>
+<div class="highlight"><pre><span class="n">SLAPD_SERVICES</span><span class="o">=</span><span class="s">&quot;ldap://127.0.0.1:389/ ldaps:/// ldapi:///&quot;</span>
+</pre></div>
+
+
+<p>緊接著建立一個 <code>tls.ldif</code> 檔案：</p>
+<div class="highlight"><pre>dn: cn=config
+add: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/ssl/certs/my_root_crt.pem
+-
+add: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/ldap/ssl/ldap_crt.pem
+-
+add: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/ldap/ssl/ldap_key.pem
+</pre></div>
+
+
+<p>並套用設定：</p>
+<div class="highlight"><pre>ldapmodify -Y EXTERNAL -H ldapi:/// -f tls.ldif
+</pre></div>
+
+
+<p>同時更改 <code>/etc/ldap/ldap.conf</code>：</p>
+<div class="highlight"><pre>URI     ldaps://ldap.lab.csie.ntu.edu.tw
+TLS_CACERT      /etc/ssl/certs/my_root_crt.pem
+</pre></div>
+
+
+<p>最後重新啟動 ldap：</p>
+<div class="highlight"><pre>sudo service slapd restart
+</pre></div>
+
+
+<h3>設定 LDAP Client</h3>
+<p>修改 <code>/etc/nslcd.conf</code>：</p>
+<div class="highlight"><pre>uri ldaps://ldap.lab.csie.ntu.edu.tw
+tls_cacertfile /etc/ssl/certs/my_root_crt.pem
+</pre></div>
+
+
+<p>重啟服務：</p>
+<div class="highlight"><pre>sudo service nslcd restart
+</pre></div>
+
+
+<p>可測試是否可以登入。</p>
       </article>
 
       <hr />
@@ -141,6 +247,12 @@
           <h3>Last posts</h3>
           <ol class="archive">
     
+
+
+      <li>
+<a href="http://city.shaform.com/blog/2014/11/12/connect-subnets.html" rel="bookmark" title="Permalink to 連結兩個私有內網">連結兩個私有內網</a>
+  <time datetime="2014-11-12T09:20:00+08:00" pubdate>Wed 12 November 2014</time>
+<p class="tags">tags: <a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/subnet.html">subnet</a><a href="http://city.shaform.com/tag/network.html">network</a></p></a>      </li>
 
 
       <li>
@@ -167,10 +279,6 @@
 <p class="tags">tags: <a href="http://city.shaform.com/tag/public-key.html">public key</a><a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a><a href="http://city.shaform.com/tag/ssh.html">SSH</a></p></a>      </li>
 
 
-      <li>
-<a href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html" rel="bookmark" title="Permalink to 在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04">在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</a>
-  <time datetime="2014-06-19T16:05:00+08:00" pubdate>Thu 19 June 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/uefi.html">UEFI</a><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></p></a>      </li>
 
 
 
@@ -221,44 +329,47 @@
                   <aside>
 	            <h2>Tags</h2>
                     <ul class="tagcloud">
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/network.html">network</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/jieba.html">jieba</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/chinese.html">Chinese</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/nis.html">NIS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/python.html">python</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/word2vec.html">word2vec</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ldap.html">LDAP</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/jieba.html">jieba</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/debian.html">Debian</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
+                      <li class="tag-0"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/network.html">network</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/subnet.html">subnet</a></li>
                       <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/python.html">python</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/word2vec.html">word2vec</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/chinese.html">Chinese</a></li>
                     </ul>
 	          </aside>
 	        </div>
