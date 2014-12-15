@@ -1,5 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-12-13T17:42:00+08:00</updated><entry><title>在 Debian 7.7 系統中轉移 NIS 到 LDAP</title><link href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html" rel="alternate"></link><updated>2014-12-13T17:42:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-12-13:blog/2014/12/13/migrate-from-nis-to-ldap.html</id><summary type="html">&lt;p&gt;本文件紀錄了基本的 LDAP 設置。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-12-14T17:42:00+08:00</updated><entry><title>建立 LDAP 鏡像、及日常管理指令集</title><link href="http://city.shaform.com/blog/2014/12/14/mirror-and-mgmt-on-ldap.html" rel="alternate"></link><updated>2014-12-14T17:42:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-12-14:blog/2014/12/14/mirror-and-mgmt-on-ldap.html</id><summary type="html">&lt;h2&gt;建立鏡像&lt;/h2&gt;
+&lt;p&gt;假設只有一台 LDAP server，則一旦 crash 大家都無法登入了，故可以建立一個鏡像 server，不斷同步資料內容。這篇假設你已經建好前篇的 ldap.lab.csie.ntu.edu.tw，而想再建一個 ldapm.lab.csie.ntu.edu.tw。則在 clients 的設定可設為：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;# /etc/ldap/ldap.conf
+URI     ldaps://ldap.lab.csie.ntu.edu.tw ldaps://ldapm.lab.csie.ntu.edu.tw
+TLS_CACERT      /etc/ssl/certs/my_root_crt.pem
+
+# /etc/nslcd.conf
+uri ldaps://ldap.lab.csie.ntu.edu.tw
+uri ldaps://ldapm.lab.csie.ntu.edu.tw
+#ssl off
+tls_reqcert demand
+tls_cacertfile /etc/ssl/certs/my_root_crt.pem
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;初始安裝 Mirror Server&lt;/h2&gt;
+&lt;p&gt;首先透過&lt;a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html"&gt;前一篇文章&lt;/a&gt;的作法安裝 ldapm.lab.csie.ntu.edu.tw 但跳過「轉移 NIS 資料」的部份。此外，需使用同一個 &lt;code&gt;my_root&lt;/code&gt; 但卻須產生新的 server 憑證，並對應到新的網域名稱（注意 &lt;code&gt;-set_serial&lt;/code&gt; 號碼與之前不同）：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;openssl genrsa -out ldapm_key.pem 1024
+openssl req -new -key ldapm_key.pem -out ldapm_csr.pem
+openssl x509 -req -days 36500 -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial 2
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;同時設定 Master 和 Mirror Server&lt;/h2&gt;
+&lt;p&gt;接下來，我們要在兩邊分別建立一個帳戶供 mirror 之用，首先建立一個密碼，比如說 &lt;code&gt;1234&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;slappasswd -h &lt;span class="o"&gt;{&lt;/span&gt;SSHA&lt;span class="o"&gt;}&lt;/span&gt;
+New password: 
+Re-enter new password: 
+&lt;span class="o"&gt;{&lt;/span&gt;SSHA&lt;span class="o"&gt;}&lt;/span&gt;oQ1Lw12oTHhdL9NwHQe2FoypBZX90QKx
+
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -n &lt;span class="o"&gt;{&lt;/span&gt;SSHA&lt;span class="o"&gt;}&lt;/span&gt;oQ1Lw12oTHhdL9NwHQe2FoypBZX90QKx &lt;span class="p"&gt;|&lt;/span&gt; base64
+&lt;span class="nv"&gt;e1NTSEF9b1ExTHcxMm9USGhkTDlOd0hRZTJGb3lwQlpYOTBRS3g&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;緊接著，分別在兩台 server 上建立 &lt;code&gt;mirror.ldif&lt;/code&gt; 檔案：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;dn: cn=mirrormode,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
+changetype: add 
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: mirrormode
+description: Syncrepl user for mirrormode operation
+userPassword:: e1NTSEF9b1ExTHcxMm9USGhkTDlOd0hRZTJGb3lwQlpYOTBRS3g=
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;執行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ldapmodify -D &amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot; -W -f mirror.ldif
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;緊接著，分別在兩台 server 上建立 &lt;code&gt;mirror_config.ldif&lt;/code&gt; 檔案：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov
+
+dn: olcDatabase={1}hdb,cn=config
+changetype: modify
+delete: olcAccess
+olcAccess: {0}to attrs=userPassword,shadowLastChange by self write by anonymous auth by dn=&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot; write by * none
+-
+add: olcAccess
+olcAccess: {0}to attrs=userPassword,shadowLastChange by self write by anonymous auth by dn=&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot; write by dn=&amp;quot;cn=mirrormode,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot; read by * none
+-
+
+dn: olcOverlay=syncprov,olcDatabase={1}hdb,cn=config
+changeType: add 
+objectClass: olcOverlayConfig
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov
+olcSpCheckpoint: 100 10
+olcSpSessionLog: 100
+
+dn: olcDatabase={1}hdb,cn=config
+changeType: modify
+delete: olcDbIndex
+olcDbIndex: objectClass eq
+-
+add: olcDbIndex
+olcDbIndex: objectClass,entryCSN,entryUUID eq
+-
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;執行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f mirror_config.ldif
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最後在兩台機器上建立不同的兩個檔案 &lt;code&gt;ldap.ldif&lt;/code&gt;, &lt;code&gt;ldapm.ldif&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;ldap.lab.csie.ntu.edu.tw：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;dn: cn=config
+changeType: modify
+add: olcServerID
+olcServerID: 0
+-
+
+dn: olcDatabase={1}hdb,cn=config
+changeType: modify
+add: olcSyncrepl
+olcSyncrepl: rid=001 provider=ldaps://ldapm.lab.csie.ntu.edu.tw bindmethod=simple binddn=&amp;quot;cn=mirrormode,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot; credentials=1234 searchbase=&amp;quot;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot; schemachecking=on type=refreshAndPersist retry=&amp;quot;60 +&amp;quot;
+-
+add: olcMirrorMode
+olcMirrorMode: TRUE
+-
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;執行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f ldap.ldif
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;ldapm.lab.csie.ntu.edu.tw：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;dn: cn=config
+changeType: modify
+add: olcServerID
+olcServerID: 1
+-
+
+dn: olcDatabase={1}hdb,cn=config
+changeType: modify
+add: olcSyncrepl
+olcSyncrepl: rid=001 provider=ldaps://ldap.lab.csie.ntu.edu.tw bindmethod=simple binddn=&amp;quot;cn=mirrormode,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot; credentials=1234 searchbase=&amp;quot;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot; schemachecking=on type=refreshAndPersist retry=&amp;quot;60 +&amp;quot;
+-
+add: olcMirrorMode
+olcMirrorMode: TRUE
+-
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;執行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f ldapm.ldif
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注意 &lt;code&gt;olcServerID&lt;/code&gt; 要用不同的編號，而 &lt;code&gt;provider&lt;/code&gt; 要設成對方，&lt;code&gt;credentials&lt;/code&gt; 則是剛剛選擇的密碼。&lt;/p&gt;
+&lt;p&gt;最後測試看看是否已經同步：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ldapsearch -x -h localhost
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;日常管理&lt;/h2&gt;
+&lt;h3&gt;建立使用者&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ldapadd -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;span class="s"&gt;dn: cn=$username,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
+&lt;span class="s"&gt;objectClass: posixGroup&lt;/span&gt;
+&lt;span class="s"&gt;objectClass: top&lt;/span&gt;
+&lt;span class="s"&gt;cn: $username&lt;/span&gt;
+&lt;span class="s"&gt;userPassword: {crypt}x&lt;/span&gt;
+&lt;span class="s"&gt;gidNumber: $userid&lt;/span&gt;
+&lt;span class="s"&gt;EOF&lt;/span&gt;
+
+ldapadd -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;span class="s"&gt;dn: uid=$username,ou=People,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
+&lt;span class="s"&gt;uid: $username&lt;/span&gt;
+&lt;span class="s"&gt;cn: $realname&lt;/span&gt;
+&lt;span class="s"&gt;objectClass: account&lt;/span&gt;
+&lt;span class="s"&gt;objectClass: posixAccount&lt;/span&gt;
+&lt;span class="s"&gt;objectClass: top&lt;/span&gt;
+&lt;span class="s"&gt;objectClass: shadowAccount&lt;/span&gt;
+&lt;span class="s"&gt;shadowMax: 99999&lt;/span&gt;
+&lt;span class="s"&gt;shadowWarning: 7&lt;/span&gt;
+&lt;span class="s"&gt;loginShell: /bin/bash&lt;/span&gt;
+&lt;span class="s"&gt;uidNumber: $userid&lt;/span&gt;
+&lt;span class="s"&gt;gidNumber: $userid&lt;/span&gt;
+&lt;span class="s"&gt;homeDirectory: /home/$username&lt;/span&gt;
+&lt;span class="s"&gt;gecos: ,,,&lt;/span&gt;
+&lt;span class="s"&gt;EOF&lt;/span&gt;
+
+ldappasswd -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -S &lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$username&lt;/span&gt;,ou&lt;span class="o"&gt;=&lt;/span&gt;People,dc&lt;span class="o"&gt;=&lt;/span&gt;lab,dc&lt;span class="o"&gt;=&lt;/span&gt;csie,dc&lt;span class="o"&gt;=&lt;/span&gt;ntu,dc&lt;span class="o"&gt;=&lt;/span&gt;edu,dc&lt;span class="o"&gt;=&lt;/span&gt;tw
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;刪除使用者&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ldapdelete -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;cn=&lt;/span&gt;&lt;span class="nv"&gt;$username&lt;/span&gt;&lt;span class="s2"&gt;,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt;
+ldapdelete -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;uid=&lt;/span&gt;&lt;span class="nv"&gt;$username&lt;/span&gt;&lt;span class="s2"&gt;,ou=People,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;修改使用者的群組&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# add&lt;/span&gt;
+ldapmodify -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -W &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;span class="s"&gt;dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
+&lt;span class="s"&gt;changetype: modify&lt;/span&gt;
+&lt;span class="s"&gt;add: memberUid&lt;/span&gt;
+&lt;span class="s"&gt;memberUid: $username&lt;/span&gt;
+&lt;span class="s"&gt;EOF&lt;/span&gt;
+
+&lt;span class="c"&gt;# remove&lt;/span&gt;
+ldapmodify -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -W &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;span class="s"&gt;dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
+&lt;span class="s"&gt;changetype: modify&lt;/span&gt;
+&lt;span class="s"&gt;delete: memberUid&lt;/span&gt;
+&lt;span class="s"&gt;memberUid: $username&lt;/span&gt;
+&lt;span class="s"&gt;EOF&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;備份與還原&lt;/h3&gt;
+&lt;p&gt;如果只有一個鏡像壞掉，只要再用這篇的方法建立一個鏡像就可以備份到另一個。否則可以用以下兩個指令，注意不同的鏡像設定也會被備份，所以不同台 server 可能不能直接用同一個備份檔還原：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;slapcat &amp;gt; bak.ldif
+
+slapadd -l bak.ldif
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="LDAP"></category><category term="linux"></category><category term="Debian"></category></entry><entry><title>在 Debian 7.7 系統中轉移 NIS 到 LDAP</title><link href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html" rel="alternate"></link><updated>2014-12-13T17:42:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-12-13:blog/2014/12/13/migrate-from-nis-to-ldap.html</id><summary type="html">&lt;p&gt;本文件紀錄了基本的 LDAP 設置。&lt;/p&gt;
 &lt;h2&gt;設定 LDAP Master&lt;/h2&gt;
 &lt;h3&gt;基本設置&lt;/h3&gt;
 &lt;p&gt;首先編輯 &lt;code&gt;/etc/ldap/ldap.conf&lt;/code&gt; 填上適當的網域名稱。例如：&lt;/p&gt;
@@ -10,17 +215,17 @@ URI     ldap://ldap.lab.csie.ntu.edu.tw
 
 &lt;p&gt;其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。&lt;/p&gt;
 &lt;p&gt;緊接著，安裝 OpenLDAP：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;slapd&lt;/span&gt; &lt;span class="n"&gt;ldap&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;utils&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install slapd ldap-utils
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;此時它只會要你設定一個 admin 密碼，如果希望看到完整設定，可以事先執行以下指令，並設定 Dialog 為不高於 Medium 的層級。不過我偏好不改動這個設定，而是事後再重新執行設定程式。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;dpkg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;reconfigure&lt;/span&gt; &lt;span class="n"&gt;debconf&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo dpkg-reconfigure debconf
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;事後重新設定的指令則是：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;dpkg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;reconfigure&lt;/span&gt; &lt;span class="n"&gt;slapd&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo dpkg-reconfigure slapd
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -39,49 +244,49 @@ Allow LDAPv2 protocol? No
 
 &lt;p&gt;以後如果想重設 LDAP 也可重新執行上述指令。他會將 old database 移動到 &lt;code&gt;/var/backups&lt;/code&gt; 資料夾，不過如果已經移動過一次則指令會失敗，此時可先手動砍除舊的 &lt;code&gt;/var/backups/&amp;lt;ldap directory&amp;gt;&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;可以執行以下兩個指令來確認設置成功：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ldapsearch&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;
-&lt;span class="n"&gt;slapcat&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ldapsearch -x
+slapcat
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;轉移 NIS 資料&lt;/h3&gt;
 &lt;p&gt;首先安裝轉移工具組：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;migrationtools&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install migrationtools
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;接著編輯設定檔 &lt;code&gt;/usr/share/migrationtools/migrate_common.ph&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# Default DNS domain&lt;/span&gt;
-&lt;span class="nv"&gt;$DEFAULT_MAIL_DOMAIN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;lab.csie.ntu.edu.tw&amp;quot;&lt;/span&gt;;
+&lt;span class="nv"&gt;$DEFAULT_MAIL_DOMAIN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;lab.csie.ntu.edu.tw&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="c"&gt;# Default base&lt;/span&gt;
-&lt;span class="nv"&gt;$DEFAULT_BASE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt;;
+&lt;span class="nv"&gt;$DEFAULT_BASE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 ...
 &lt;span class="c"&gt;# Uncomment these to exclude Debian-managed system users and groups&lt;/span&gt;
-&lt;span class="nv"&gt;$IGNORE_UID_BELOW&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 1000;
+&lt;span class="nv"&gt;$IGNORE_UID_BELOW&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 1000&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="c"&gt;# Don&amp;#39;t uncomment this if you want to be able to add users to system groups&lt;/span&gt;
 &lt;span class="c"&gt;# $IGNORE_GID_BELOW = 1000;&lt;/span&gt;
 &lt;span class="c"&gt;# And here&amp;#39;s the opposite for completeness&lt;/span&gt;
-&lt;span class="nv"&gt;$IGNORE_UID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 29999;
-&lt;span class="nv"&gt;$IGNORE_GID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 29999;
+&lt;span class="nv"&gt;$IGNORE_UID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 29999&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;$IGNORE_GID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 29999&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;由於 Debian 的 LDAP 預設並沒有載入 misc.schema，所以如果要讀入 alias 資料就會出錯。因此我們只手動載入需要的部份，而不使用自動載入全部資料的方法。進入 &lt;code&gt;/usr/share/migrationtools/&lt;/code&gt; 資料夾後執行以下指令：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# create basic data&lt;/span&gt;
-./migrate_base.pl | ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
+./migrate_base.pl &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
 
 &lt;span class="c"&gt;# migrate passwd&lt;/span&gt;
-./migrate_passwd.pl /etc/passwd | ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
+./migrate_passwd.pl /etc/passwd &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
 
 &lt;span class="c"&gt;# migrate group&lt;/span&gt;
-./migrate_group.pl /etc/group | ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
+./migrate_group.pl /etc/group &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;執行 &lt;code&gt;migrate_base.pl&lt;/code&gt; 會有部份內容無法處理是正常的。&lt;/p&gt;
 &lt;h2&gt;設定 LDAP Client&lt;/h2&gt;
 &lt;p&gt;在要透過 LDAP 登入的主機上進行以下步驟，若 LDAP Master server 本身也想透過 LDAP 登入的話，也是採用相同辦法。首先安裝相關程式&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;libpam&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ldapd&lt;/span&gt; &lt;span class="n"&gt;libnss&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ldapd&lt;/span&gt; &lt;span class="n"&gt;nslcd&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install libpam-ldapd libnss-ldapd nslcd
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -98,9 +303,9 @@ group, password, shadow
 
 
 &lt;p&gt;接著如果要讓 root 可以在不輸入 LDAP 密碼的情況下修改別人密碼，則可修改 &lt;code&gt;/etc/nslcd.conf&lt;/code&gt;，其中 &lt;code&gt;rootpwmodpw&lt;/code&gt; 設為之前選擇的 LDAP 密碼：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;ldap_version&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
-&lt;span class="nx"&gt;rootpwmoddn&lt;/span&gt; &lt;span class="n"&gt;cn&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;admin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;dc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;lab&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;dc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;csie&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;dc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;ntu&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;dc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;edu&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;dc&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;tw&lt;/span&gt;
-&lt;span class="nx"&gt;rootpwmodpw&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;PASSWORD&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ldap_version 3
+rootpwmoddn cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
+rootpwmodpw &amp;lt;PASSWORD&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -113,12 +318,12 @@ group, password, shadow
 &lt;p&gt;在某個資料夾內建立相關憑證：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;openssl genrsa -out my_root_key.pem 1024
 openssl req -new -key my_root_key.pem -out my_root_csr.pem
-openssl x509 -req -days 36500 -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
+openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
 
 openssl genrsa -out ldap_key.pem 1024
 openssl req -new -key ldap_key.pem -out ldap_csr.pem
 
-openssl x509 -req -days 36500 -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
+openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -143,7 +348,7 @@ An optional company name []:
 sudo cp ldap_key.pem ldap_crt.pem /etc/ldap/ssl
 sudo cp my_root_crt.pem /etc/ssl/certs/
 
-sudo chmod 644 /etc/ssl/certs/my_root_crt.pem
+sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /etc/ssl/certs/my_root_crt.pem
 sudo chown -R root:openldap /etc/ldap/ssl
 sudo chmod -R o-rwx /etc/ldap/ssl
 &lt;/pre&gt;&lt;/div&gt;
@@ -152,7 +357,7 @@ sudo chmod -R o-rwx /etc/ldap/ssl
 &lt;p&gt;然後在所有 client 上也可以複製 &lt;code&gt;my_root_crt.pem&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;sudo cp my_root_crt.pem /etc/ssl/certs/
 
-sudo chmod 644 /etc/ssl/certs/my_root_crt.pem
+sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /etc/ssl/certs/my_root_crt.pem
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -160,7 +365,7 @@ sudo chmod 644 /etc/ssl/certs/my_root_crt.pem
 &lt;h3&gt;設定 LDAP Master Server&lt;/h3&gt;
 &lt;p&gt;注意，這裡的設定若一不小心可能導致 LDAP server 無法運作，故設定時最好先備份所有檔案。&lt;/p&gt;
 &lt;p&gt;首先在 master 上更改 &lt;code&gt;/etc/default/slapd&lt;/code&gt;，將 &lt;code&gt;LAPD_SERVICES&lt;/code&gt; 改成以下內容，也就是只允許本機不透過 TLS 連線：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;SLAPD_SERVICES&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ldap://127.0.0.1:389/ ldaps:/// ldapi:///&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;SLAPD_SERVICES=&amp;quot;ldap://127.0.0.1:389/ ldaps:/// ldapi:///&amp;quot;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -196,6 +401,8 @@ TLS_CACERT      /etc/ssl/certs/my_root_crt.pem
 &lt;h3&gt;設定 LDAP Client&lt;/h3&gt;
 &lt;p&gt;修改 &lt;code&gt;/etc/nslcd.conf&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;uri ldaps://ldap.lab.csie.ntu.edu.tw
+#ssl off
+tls_reqcert demand
 tls_cacertfile /etc/ssl/certs/my_root_crt.pem
 &lt;/pre&gt;&lt;/div&gt;
 

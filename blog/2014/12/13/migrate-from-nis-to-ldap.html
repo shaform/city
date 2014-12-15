@@ -6,7 +6,7 @@
 	<meta name="author" content="Shaform">
 	
 
-  <meta name="description" content="本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 OpenLDAP： sudo apt-get install slapd ldap ...">
+  <meta name="description" content="本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 OpenLDAP： sudo apt-get install slapd ldap-utils 此時它只會要你設定一個 ...">
 
 
 
@@ -53,17 +53,17 @@ URI     ldap://ldap.lab.csie.ntu.edu.tw
 
 <p>其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。</p>
 <p>緊接著，安裝 OpenLDAP：</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">slapd</span> <span class="n">ldap</span><span class="o">-</span><span class="n">utils</span>
+<div class="highlight"><pre>sudo apt-get install slapd ldap-utils
 </pre></div>
 
 
 <p>此時它只會要你設定一個 admin 密碼，如果希望看到完整設定，可以事先執行以下指令，並設定 Dialog 為不高於 Medium 的層級。不過我偏好不改動這個設定，而是事後再重新執行設定程式。</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">dpkg</span><span class="o">-</span><span class="n">reconfigure</span> <span class="n">debconf</span>
+<div class="highlight"><pre>sudo dpkg-reconfigure debconf
 </pre></div>
 
 
 <p>事後重新設定的指令則是：</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">dpkg</span><span class="o">-</span><span class="n">reconfigure</span> <span class="n">slapd</span>
+<div class="highlight"><pre>sudo dpkg-reconfigure slapd
 </pre></div>
 
 
@@ -82,49 +82,49 @@ Allow LDAPv2 protocol? No
 
 <p>以後如果想重設 LDAP 也可重新執行上述指令。他會將 old database 移動到 <code>/var/backups</code> 資料夾，不過如果已經移動過一次則指令會失敗，此時可先手動砍除舊的 <code>/var/backups/&lt;ldap directory&gt;</code>。</p>
 <p>可以執行以下兩個指令來確認設置成功：</p>
-<div class="highlight"><pre><span class="n">ldapsearch</span> <span class="o">-</span><span class="n">x</span>
-<span class="n">slapcat</span>
+<div class="highlight"><pre>ldapsearch -x
+slapcat
 </pre></div>
 
 
 <h3>轉移 NIS 資料</h3>
 <p>首先安裝轉移工具組：</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">migrationtools</span>
+<div class="highlight"><pre>sudo apt-get install migrationtools
 </pre></div>
 
 
 <p>接著編輯設定檔 <code>/usr/share/migrationtools/migrate_common.ph</code>：</p>
 <div class="highlight"><pre><span class="c"># Default DNS domain</span>
-<span class="nv">$DEFAULT_MAIL_DOMAIN</span> <span class="o">=</span> <span class="s2">&quot;lab.csie.ntu.edu.tw&quot;</span>;
+<span class="nv">$DEFAULT_MAIL_DOMAIN</span> <span class="o">=</span> <span class="s2">&quot;lab.csie.ntu.edu.tw&quot;</span><span class="p">;</span>
 <span class="c"># Default base</span>
-<span class="nv">$DEFAULT_BASE</span> <span class="o">=</span> <span class="s2">&quot;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span>;
+<span class="nv">$DEFAULT_BASE</span> <span class="o">=</span> <span class="s2">&quot;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span><span class="p">;</span>
 ...
 <span class="c"># Uncomment these to exclude Debian-managed system users and groups</span>
-<span class="nv">$IGNORE_UID_BELOW</span> <span class="o">=</span> 1000;
+<span class="nv">$IGNORE_UID_BELOW</span> <span class="o">=</span> 1000<span class="p">;</span>
 <span class="c"># Don&#39;t uncomment this if you want to be able to add users to system groups</span>
 <span class="c"># $IGNORE_GID_BELOW = 1000;</span>
 <span class="c"># And here&#39;s the opposite for completeness</span>
-<span class="nv">$IGNORE_UID_ABOVE</span> <span class="o">=</span> 29999;
-<span class="nv">$IGNORE_GID_ABOVE</span> <span class="o">=</span> 29999;
+<span class="nv">$IGNORE_UID_ABOVE</span> <span class="o">=</span> 29999<span class="p">;</span>
+<span class="nv">$IGNORE_GID_ABOVE</span> <span class="o">=</span> 29999<span class="p">;</span>
 </pre></div>
 
 
 <p>由於 Debian 的 LDAP 預設並沒有載入 misc.schema，所以如果要讀入 alias 資料就會出錯。因此我們只手動載入需要的部份，而不使用自動載入全部資料的方法。進入 <code>/usr/share/migrationtools/</code> 資料夾後執行以下指令：</p>
 <div class="highlight"><pre><span class="c"># create basic data</span>
-./migrate_base.pl | ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
+./migrate_base.pl <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
 
 <span class="c"># migrate passwd</span>
-./migrate_passwd.pl /etc/passwd | ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
+./migrate_passwd.pl /etc/passwd <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
 
 <span class="c"># migrate group</span>
-./migrate_group.pl /etc/group | ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
+./migrate_group.pl /etc/group <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
 </pre></div>
 
 
 <p>執行 <code>migrate_base.pl</code> 會有部份內容無法處理是正常的。</p>
 <h2>設定 LDAP Client</h2>
 <p>在要透過 LDAP 登入的主機上進行以下步驟，若 LDAP Master server 本身也想透過 LDAP 登入的話，也是採用相同辦法。首先安裝相關程式</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libpam</span><span class="o">-</span><span class="n">ldapd</span> <span class="n">libnss</span><span class="o">-</span><span class="n">ldapd</span> <span class="n">nslcd</span>
+<div class="highlight"><pre>sudo apt-get install libpam-ldapd libnss-ldapd nslcd
 </pre></div>
 
 
@@ -141,9 +141,9 @@ group, password, shadow
 
 
 <p>接著如果要讓 root 可以在不輸入 LDAP 密碼的情況下修改別人密碼，則可修改 <code>/etc/nslcd.conf</code>，其中 <code>rootpwmodpw</code> 設為之前選擇的 LDAP 密碼：</p>
-<div class="highlight"><pre><span class="nx">ldap_version</span> <span class="mi">3</span>
-<span class="nx">rootpwmoddn</span> <span class="n">cn</span><span class="o">=</span><span class="nx">admin</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="nx">lab</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="nx">csie</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="nx">ntu</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="nx">edu</span><span class="p">,</span><span class="n">dc</span><span class="o">=</span><span class="nx">tw</span>
-<span class="nx">rootpwmodpw</span> <span class="o">&lt;</span><span class="nx">PASSWORD</span><span class="o">&gt;</span>
+<div class="highlight"><pre>ldap_version 3
+rootpwmoddn cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
+rootpwmodpw &lt;PASSWORD&gt;
 </pre></div>
 
 
@@ -156,12 +156,12 @@ group, password, shadow
 <p>在某個資料夾內建立相關憑證：</p>
 <div class="highlight"><pre>openssl genrsa -out my_root_key.pem 1024
 openssl req -new -key my_root_key.pem -out my_root_csr.pem
-openssl x509 -req -days 36500 -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
+openssl x509 -req -days <span class="m">36500</span> -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
 
 openssl genrsa -out ldap_key.pem 1024
 openssl req -new -key ldap_key.pem -out ldap_csr.pem
 
-openssl x509 -req -days 36500 -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
+openssl x509 -req -days <span class="m">36500</span> -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
 </pre></div>
 
 
@@ -186,7 +186,7 @@ An optional company name []:
 sudo cp ldap_key.pem ldap_crt.pem /etc/ldap/ssl
 sudo cp my_root_crt.pem /etc/ssl/certs/
 
-sudo chmod 644 /etc/ssl/certs/my_root_crt.pem
+sudo chmod <span class="m">644</span> /etc/ssl/certs/my_root_crt.pem
 sudo chown -R root:openldap /etc/ldap/ssl
 sudo chmod -R o-rwx /etc/ldap/ssl
 </pre></div>
@@ -195,7 +195,7 @@ sudo chmod -R o-rwx /etc/ldap/ssl
 <p>然後在所有 client 上也可以複製 <code>my_root_crt.pem</code>：</p>
 <div class="highlight"><pre>sudo cp my_root_crt.pem /etc/ssl/certs/
 
-sudo chmod 644 /etc/ssl/certs/my_root_crt.pem
+sudo chmod <span class="m">644</span> /etc/ssl/certs/my_root_crt.pem
 </pre></div>
 
 
@@ -203,7 +203,7 @@ sudo chmod 644 /etc/ssl/certs/my_root_crt.pem
 <h3>設定 LDAP Master Server</h3>
 <p>注意，這裡的設定若一不小心可能導致 LDAP server 無法運作，故設定時最好先備份所有檔案。</p>
 <p>首先在 master 上更改 <code>/etc/default/slapd</code>，將 <code>LAPD_SERVICES</code> 改成以下內容，也就是只允許本機不透過 TLS 連線：</p>
-<div class="highlight"><pre><span class="n">SLAPD_SERVICES</span><span class="o">=</span><span class="s">&quot;ldap://127.0.0.1:389/ ldaps:/// ldapi:///&quot;</span>
+<div class="highlight"><pre>SLAPD_SERVICES=&quot;ldap://127.0.0.1:389/ ldaps:/// ldapi:///&quot;
 </pre></div>
 
 
@@ -239,6 +239,8 @@ TLS_CACERT      /etc/ssl/certs/my_root_crt.pem
 <h3>設定 LDAP Client</h3>
 <p>修改 <code>/etc/nslcd.conf</code>：</p>
 <div class="highlight"><pre>uri ldaps://ldap.lab.csie.ntu.edu.tw
+#ssl off
+tls_reqcert demand
 tls_cacertfile /etc/ssl/certs/my_root_crt.pem
 </pre></div>
 
@@ -295,47 +297,47 @@ tls_cacertfile /etc/ssl/certs/my_root_crt.pem
                   <aside>
 	            <h2>Tags</h2>
                     <ul class="tagcloud">
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/nis.html">NIS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/python.html">python</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/word2vec.html">word2vec</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ldap.html">LDAP</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/jieba.html">jieba</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/debian.html">Debian</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
-                      <li class="tag-0"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/network.html">network</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/subnet.html">subnet</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/chinese.html">Chinese</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ldap.html">LDAP</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/debian.html">Debian</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/python.html">python</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/nis.html">NIS</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/word2vec.html">word2vec</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/jieba.html">jieba</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/subnet.html">subnet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/network.html">network</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
                     </ul>
 	          </aside>
 	        </div>
