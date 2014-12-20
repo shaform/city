@@ -3,14 +3,14 @@
 &lt;p&gt;假設只有一台 LDAP server，則一旦 crash 大家都無法登入了，故可以建立一個鏡像 server，不斷同步資料內容。這篇假設你已經建好前篇的 ldap.lab.csie.ntu.edu.tw，而想再建一個 ldapm.lab.csie.ntu.edu.tw。則在 clients 的設定可設為：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;# /etc/ldap/ldap.conf
 URI     ldaps://ldap.lab.csie.ntu.edu.tw ldaps://ldapm.lab.csie.ntu.edu.tw
-TLS_CACERT      /etc/ssl/certs/my_root_crt.pem
+TLS_CACERT      /etc/ssl/certs/ca-certificates.crt
 
 # /etc/nslcd.conf
 uri ldaps://ldap.lab.csie.ntu.edu.tw
 uri ldaps://ldapm.lab.csie.ntu.edu.tw
 #ssl off
 tls_reqcert demand
-tls_cacertfile /etc/ssl/certs/my_root_crt.pem
+tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -346,18 +346,22 @@ An optional company name []:
 &lt;p&gt;然後在 master 上建立一個資料夾，並將相關檔案複製，設定適當的權限：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;sudo mkdir /etc/ldap/ssl
 sudo cp ldap_key.pem ldap_crt.pem /etc/ldap/ssl
-sudo cp my_root_crt.pem /etc/ssl/certs/
+sudo mkdir /usr/share/ca-certificates/my/
+sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
+sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /usr/share/ca-certificates/my/my_root.crt
+sudo dpkg-reconfigure ca-certificates &lt;span class="c"&gt;# choose to add my/my_root.crt&lt;/span&gt;
+sudo update-ca-certificates
 
-sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /etc/ssl/certs/my_root_crt.pem
 sudo chown -R root:openldap /etc/ldap/ssl
 sudo chmod -R o-rwx /etc/ldap/ssl
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;然後在所有 client 上也可以複製 &lt;code&gt;my_root_crt.pem&lt;/code&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;sudo cp my_root_crt.pem /etc/ssl/certs/
-
-sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /etc/ssl/certs/my_root_crt.pem
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
+sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /usr/share/ca-certificates/my/my_root.crt
+sudo dpkg-reconfigure ca-certificates &lt;span class="c"&gt;# choose to add my/my_root.crt&lt;/span&gt;
+sudo update-ca-certificates
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -372,7 +376,7 @@ sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /etc/ssl/certs/my_root_crt.pem
 &lt;p&gt;緊接著建立一個 &lt;code&gt;tls.ldif&lt;/code&gt; 檔案：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;dn: cn=config
 add: olcTLSCACertificateFile
-olcTLSCACertificateFile: /etc/ssl/certs/my_root_crt.pem
+olcTLSCACertificateFile: /etc/ssl/certs/ca-certificates.crt
 -
 add: olcTLSCertificateFile
 olcTLSCertificateFile: /etc/ldap/ssl/ldap_crt.pem
@@ -389,7 +393,7 @@ olcTLSCertificateKeyFile: /etc/ldap/ssl/ldap_key.pem
 
 &lt;p&gt;同時更改 &lt;code&gt;/etc/ldap/ldap.conf&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;URI     ldaps://ldap.lab.csie.ntu.edu.tw
-TLS_CACERT      /etc/ssl/certs/my_root_crt.pem
+TLS_CACERT      /etc/ssl/certs/ca-certificates.crt
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -403,7 +407,7 @@ TLS_CACERT      /etc/ssl/certs/my_root_crt.pem
 &lt;div class="highlight"&gt;&lt;pre&gt;uri ldaps://ldap.lab.csie.ntu.edu.tw
 #ssl off
 tls_reqcert demand
-tls_cacertfile /etc/ssl/certs/my_root_crt.pem
+tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 &lt;/pre&gt;&lt;/div&gt;
 
 
