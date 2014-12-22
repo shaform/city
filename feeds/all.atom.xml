@@ -1045,7 +1045,7 @@ sudo apt-get install oracle-java7-installer
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;設定 SSH&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;ssh-keygen -b 2048 -t rsa:q  &lt;span class="c"&gt;# 產生 RSA key pair&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ssh-keygen -b &lt;span class="m"&gt;2048&lt;/span&gt; -t rsa:q  &lt;span class="c"&gt;# 產生 RSA key pair&lt;/span&gt;
 cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  &lt;span class="c"&gt;# 讓自己可以不用密碼登入自己&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1076,7 +1076,7 @@ tar -xvf hadoop-1.2.1-bin.tar.gz
 &lt;p&gt;core-site.xml&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;fs.default.name&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-&lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://R02922036-86-1:54310&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://master-dn:54310&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1086,7 +1086,7 @@ tar -xvf hadoop-1.2.1-bin.tar.gz
 &lt;p&gt;mapred-site.xml&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapred.job.tracker&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
-&lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;R02922036-86-1:54311&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;value&amp;gt;&lt;/span&gt;master-dn:54311&lt;span class="nt"&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1107,16 +1107,16 @@ tar -xvf hadoop-1.2.1-bin.tar.gz
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;masters&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;master-dn
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;slaves&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
-&lt;span class="n"&gt;slave&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
-&lt;span class="n"&gt;slave&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;master-dn
+slave-1-dn
+slave-2-dn
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1176,14 +1176,14 @@ tar -xvf hbase-0.94.14.tar.gz
 
 
 &lt;p&gt;然後編輯 hbase-0.94.14/conf/regionservers 將內容改為如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
-&lt;span class="n"&gt;slave&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
-&lt;span class="n"&gt;slave&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dn&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;master-dn
+slave-1-dn
+slave-2-dn
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;最後就可以在 master 執行 HBase 了：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hbase&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.94.14&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;hbase&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./hbase-0.94.14/bin/start-hbase.sh
 &lt;/pre&gt;&lt;/div&gt;</summary><category term="Hadoop"></category><category term="HBase"></category><category term="HDFS"></category><category term="Ubuntu"></category></entry><entry><title>Single-minded : an Internet reader, made for readers, made by readers</title><link href="http://city.shaform.com/blog/2013/10/20/single-minded.html" rel="alternate"></link><updated>2013-10-20T20:25:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-10-20:blog/2013/10/20/single-minded.html</id><summary type="html">&lt;h2&gt;Realization&lt;/h2&gt;
 &lt;p&gt;I've known it for a long time that it’s difficult for me to read long articles on the web. I thought it’s because of the screen. It made my eyes get tired so easily. However, when I started to read The Shallows written by Nicholas Carr, I realized that it’s not only the screen. The Internet itself is distracting.&lt;/p&gt;
 &lt;p&gt;I started to remember that, I often clicked between different tabs aimlessly. I repeatedly opened and reopened the Facebook page or my email inbox, wasting my time getting nothing. Indeed, I realized that I was so impatient that whenever the browser was loading a new page, I would switch to another tab, because I did not want to wait for it.&lt;/p&gt;
