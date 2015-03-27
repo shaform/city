@@ -32,6 +32,26 @@
 
 <article class="summary">
 <div class="metadata">
+  <time datetime="2015-03-27T21:45:00+08:00" pubdate>Fri 27 March 2015</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
+    </address>
+  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/word2vec.html">word2vec</a>, <a href="http://city.shaform.com/tag/chinese.html">Chinese</a>, <a href="http://city.shaform.com/tag/python.html">python</a>, <a href="http://city.shaform.com/tag/liblinear.html">liblinear</a>, <a href="http://city.shaform.com/tag/rnnlm.html">rnnlm</a>, <a href="http://city.shaform.com/tag/tf-idf.html">tf-idf</a>, <a href="http://city.shaform.com/tag/sentiment-analysis.html">sentiment analysis</a></p></div>  <div>
+    <h2>
+      <a href="http://city.shaform.com/blog/2015/03/27/sentiment-analysis.html" rel="bookmark" title="Permalink to 用 rnnlm, liblinear 和 word2vec 做中文情感分析測試">用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</a>
+    </h2>
+    <p><p>最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 <a href="https://code.google.com/p/word2vec/">word2vec</a> 論壇上發表的<a href="https://groups.google.com/d/msg/word2vec-toolkit/Q49FIrNOQRo/J6KG8mUj45sJ">文章</a>，以及 <a href="http://arxiv.org/abs/1412.5335">Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews</a> 的程式碼。不過改運用在中文上，並且用簡單的 TF-IDF 取代 Naive Bayes Support Vector
+Machine。</p>
+<p>資料集是使用 2014 年 NTU NLP 課程的旅館評論資料 <code>207884_hotel_training.txt</code>，然後稍微進行一些處理。將資料修改成以下格式：</p>
+<div class="highlight"><pre>LABEL TOKENS
+</pre></div>
+
+
+<p>每行有一則資料，先是正負向標記：1 表示正 ...</p></p>
+  </div>
+</article><article class="summary">
+<div class="metadata">
   <time datetime="2014-11-04T17:20:00+08:00" pubdate>Tue 04 November 2014</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
@@ -80,47 +100,51 @@ git clone --depth ...</pre></div></p>
                   <aside>
 	            <h2>Tags</h2>
                     <ul class="tagcloud">
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/network.html">network</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/debian.html">Debian</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/jieba.html">jieba</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/nis.html">NIS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/liblinear.html">liblinear</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/python.html">python</a></li>
                       <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ldap.html">LDAP</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/subnet.html">subnet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/python.html">python</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/word2vec.html">word2vec</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/chinese.html">Chinese</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/nis.html">NIS</a></li>
                       <li class="tag-2"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/tf-idf.html">tf-idf</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/chinese.html">Chinese</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
                       <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
                       <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/rnnlm.html">rnnlm</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/network.html">network</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/debian.html">Debian</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/word2vec.html">word2vec</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/sentiment-analysis.html">sentiment analysis</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/jieba.html">jieba</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ldap.html">LDAP</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/subnet.html">subnet</a></li>
                     </ul>
 	          </aside>
 	        </div>

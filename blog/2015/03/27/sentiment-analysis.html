@@ -2,9 +2,13 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>City of Wings - 翼之都</title>	
+	<title>用 rnnlm, liblinear 和 word2vec 做中文情感分析測試 - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
+
+  <meta name="description" content="最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不過改運用在中文上，並且用簡單的 TF-IDF 取代 Naive Bayes Support Vector Machine。 資料集是使用 2014 年 NTU NLP 課程的旅館評論資料 207884_hotel_training.txt，然後稍微進行一些處理。將資料修改成以下格式： LABEL TOKENS 每行有一則資料，先是正負向標記：1 表示正 ...">
+
+
 
 	<link rel="stylesheet" href="http://city.shaform.com/theme/css/main.css" type="text/css" />
 		
@@ -27,12 +31,18 @@
 	  <div class="wrapper">
 
 		  <div role="main" class="content">
-
-
-
-      <article>
-        <h1><a href="http://city.shaform.com/blog/2015/03/27/sentiment-analysis.html">用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</a></h1>
-        <p>最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 <a href="https://code.google.com/p/word2vec/">word2vec</a> 論壇上發表的<a href="https://groups.google.com/d/msg/word2vec-toolkit/Q49FIrNOQRo/J6KG8mUj45sJ">文章</a>，以及 <a href="http://arxiv.org/abs/1412.5335">Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews</a> 的程式碼。不過改運用在中文上，並且用簡單的 TF-IDF 取代 Naive Bayes Support Vector
+	<article class="full">
+		
+		<h1>用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</h1>
+		
+<div class="metadata">
+  <time datetime="2015-03-27T21:45:00+08:00" pubdate>Fri 27 March 2015</time>
+    <address class="vcard author">
+      by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
+    </address>
+  in <a href="http://city.shaform.com/category/notes.html">Notes</a>
+<p class="tags">tagged <a href="http://city.shaform.com/tag/word2vec.html">word2vec</a>, <a href="http://city.shaform.com/tag/chinese.html">Chinese</a>, <a href="http://city.shaform.com/tag/python.html">python</a>, <a href="http://city.shaform.com/tag/liblinear.html">liblinear</a>, <a href="http://city.shaform.com/tag/rnnlm.html">rnnlm</a>, <a href="http://city.shaform.com/tag/tf-idf.html">tf-idf</a>, <a href="http://city.shaform.com/tag/sentiment-analysis.html">sentiment analysis</a></p></div>		
+		<p>最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 <a href="https://code.google.com/p/word2vec/">word2vec</a> 論壇上發表的<a href="https://groups.google.com/d/msg/word2vec-toolkit/Q49FIrNOQRo/J6KG8mUj45sJ">文章</a>，以及 <a href="http://arxiv.org/abs/1412.5335">Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews</a> 的程式碼。不過改運用在中文上，並且用簡單的 TF-IDF 取代 Naive Bayes Support Vector
 Machine。</p>
 <p>資料集是使用 2014 年 NTU NLP 課程的旅館評論資料 <code>207884_hotel_training.txt</code>，然後稍微進行一些處理。將資料修改成以下格式：</p>
 <div class="highlight"><pre>LABEL TOKENS
@@ -153,75 +163,27 @@ python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TOTAL
 
 
 <h2>程式碼</h2>
-<p>我把相關的程式碼放在 GitHub 上面供參考：<a href="https://github.com/shaform/experiments/tree/master/sentiment_analysis">shaform/sentiment_analysis</a>。</p>
-      </article>
+<p>我把相關的程式碼放在 GitHub 上面供參考：<a href="https://github.com/shaform/experiments/tree/master/sentiment_analysis">shaform/sentiment_analysis</a>。</p>	
 
-      <hr />
+	</article>
 
-        <div>
-          <h3>Last posts</h3>
-          <ol class="archive">
-    
+    <p>
+	<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</p>
 
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/12/14/mirror-and-mgmt-on-ldap.html" rel="bookmark" title="Permalink to 建立 LDAP 鏡像、及日常管理指令集">建立 LDAP 鏡像、及日常管理指令集</a>
-  <time datetime="2014-12-14T17:42:00+08:00" pubdate>Sun 14 December 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/ldap.html">LDAP</a><a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/debian.html">Debian</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html" rel="bookmark" title="Permalink to 在 Debian 7.7 系統中轉移 NIS 到 LDAP">在 Debian 7.7 系統中轉移 NIS 到 LDAP</a>
-  <time datetime="2014-12-13T17:42:00+08:00" pubdate>Sat 13 December 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/ldap.html">LDAP</a><a href="http://city.shaform.com/tag/nis.html">NIS</a><a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/debian.html">Debian</a><a href="http://city.shaform.com/tag/ssh.html">SSH</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/11/12/connect-subnets.html" rel="bookmark" title="Permalink to 連結兩個私有內網">連結兩個私有內網</a>
-  <time datetime="2014-11-12T09:20:00+08:00" pubdate>Wed 12 November 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/linux.html">linux</a><a href="http://city.shaform.com/tag/subnet.html">subnet</a><a href="http://city.shaform.com/tag/network.html">network</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/11/07/google-inbox-like-web-browsing.html" rel="bookmark" title="Permalink to Google Inbox-like Web Browsing">Google Inbox-like Web Browsing</a>
-  <time datetime="2014-11-07T18:52:00+08:00" pubdate>Fri 07 November 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/browser.html">browser</a><a href="http://city.shaform.com/tag/internet.html">Internet</a><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></p></a>      </li>
-
-
-      <li>
-<a href="http://city.shaform.com/blog/2014/11/04/word2vec.html" rel="bookmark" title="Permalink to 用中文資料測試 word2vec">用中文資料測試 word2vec</a>
-  <time datetime="2014-11-04T17:20:00+08:00" pubdate>Tue 04 November 2014</time>
-<p class="tags">tags: <a href="http://city.shaform.com/tag/word2vec.html">word2vec</a><a href="http://city.shaform.com/tag/chinese.html">Chinese</a><a href="http://city.shaform.com/tag/python.html">python</a><a href="http://city.shaform.com/tag/jieba.html">jieba</a></p></a>      </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          </ol>
-        </div>
+	<div class="comments">
+	<h2>Comments !</h2>
+	    <div id="disqus_thread"></div>
+	    <script type="text/javascript">
+	       var disqus_identifier = "blog/2015/03/27/sentiment-analysis.html";
+	       (function() {
+	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	       dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
+	       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	      })();
+	    </script>
+	</div>
 
 		  </div>	
 		  
@@ -239,7 +201,7 @@ python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TOTAL
 	            <h2>Categories</h2>
 	            <ul>
 	                <li ><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
-	                <li ><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
+	                <li class="active"><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
 	                <li ><a href="http://city.shaform.com/category/projects.html">Projects</a></li>
 	            </ul>
 	          </nav>

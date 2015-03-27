@@ -2,13 +2,9 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>在工作站上使用自己的 Python 並安裝自訂套件 - City of Wings - 翼之都</title>	
+	<title>liblinear - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
-
-  <meta name="description" content="使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。 遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。 pyvenv pyvenv 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 bug 732703 所以暫時無法使用。不過還是介紹一下他的用法： 在 ENV_DIR 建立 virtual ...">
-
-
 
 	<link rel="stylesheet" href="http://city.shaform.com/theme/css/main.css" type="text/css" />
 		
@@ -31,112 +27,33 @@
 	  <div class="wrapper">
 
 		  <div role="main" class="content">
-	<article class="full">
-		
-		<h1>在工作站上使用自己的 Python 並安裝自訂套件</h1>
-		
+
+<h1>Post tagged: liblinear</h1>
+
+<article class="summary">
 <div class="metadata">
-  <time datetime="2014-06-22T10:30:00+08:00" pubdate>Sun 22 June 2014</time>
+  <time datetime="2015-03-27T21:45:00+08:00" pubdate>Fri 27 March 2015</time>
     <address class="vcard author">
       by <a class="url fn" href="http://city.shaform.com/author/shaform.html">Shaform</a>
     </address>
   in <a href="http://city.shaform.com/category/notes.html">Notes</a>
-<p class="tags">tagged <a href="http://city.shaform.com/tag/linux.html">linux</a>, <a href="http://city.shaform.com/tag/python.html">Python</a>, <a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a>, <a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></p></div>		
-		<p>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。</p>
-<p>遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。</p>
-<h2>pyvenv</h2>
-<p><a href="https://docs.python.org/3.4/library/venv.html">pyvenv</a> 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=732703">bug 732703</a> 所以暫時無法使用。不過還是介紹一下他的用法：</p>
-<ol>
-<li>
-<p>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，3.4 則可選擇不同版本：</p>
-<div class="highlight"><pre>pyvenv-3.4 <span class="o">[</span>--system-site-packages<span class="o">]</span> ENV_DIR
+<p class="tags">tagged <a href="http://city.shaform.com/tag/word2vec.html">word2vec</a>, <a href="http://city.shaform.com/tag/chinese.html">Chinese</a>, <a href="http://city.shaform.com/tag/python.html">python</a>, <a href="http://city.shaform.com/tag/liblinear.html">liblinear</a>, <a href="http://city.shaform.com/tag/rnnlm.html">rnnlm</a>, <a href="http://city.shaform.com/tag/tf-idf.html">tf-idf</a>, <a href="http://city.shaform.com/tag/sentiment-analysis.html">sentiment analysis</a></p></div>  <div>
+    <h2>
+      <a href="http://city.shaform.com/blog/2015/03/27/sentiment-analysis.html" rel="bookmark" title="Permalink to 用 rnnlm, liblinear 和 word2vec 做中文情感分析測試">用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</a>
+    </h2>
+    <p><p>最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 <a href="https://code.google.com/p/word2vec/">word2vec</a> 論壇上發表的<a href="https://groups.google.com/d/msg/word2vec-toolkit/Q49FIrNOQRo/J6KG8mUj45sJ">文章</a>，以及 <a href="http://arxiv.org/abs/1412.5335">Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews</a> 的程式碼。不過改運用在中文上，並且用簡單的 TF-IDF 取代 Naive Bayes Support Vector
+Machine。</p>
+<p>資料集是使用 2014 年 NTU NLP 課程的旅館評論資料 <code>207884_hotel_training.txt</code>，然後稍微進行一些處理。將資料修改成以下格式：</p>
+<div class="highlight"><pre>LABEL TOKENS
 </pre></div>
 
 
-</li>
-<li>
-<p>啟用特定的 virtual environment：</p>
-<div class="highlight"><pre><span class="nb">source </span>ENV_DIR/bin/activate
-</pre></div>
-
-
-<p>這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：</p>
-<div class="highlight"><pre>(name)$
-</pre></div>
-
-
-<p>以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。</p>
-</li>
-</ol>
-<h2>virtualenv</h2>
-<p>如果工作站上有安裝 <a href="http://virtualenv.readthedocs.org/en/latest/">virtualenv</a> 的話，也可以用這個套件達到相同功能，好處是 Python 2 也可以用。</p>
-<ol>
-<li>
-<p>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，python3.4 則可選擇不同版本（包含 python2）：</p>
-<div class="highlight"><pre>virtualenv <span class="o">[</span>--system-site-packages<span class="o">]</span> -p python3.4 ENV_DIR
-</pre></div>
-
-
-</li>
-<li>
-<p>啟用特定的 virtual environment：</p>
-<div class="highlight"><pre><span class="nb">source </span>ENV_DIR/bin/activate
-</pre></div>
-
-
-<p>這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：</p>
-<div class="highlight"><pre>(name)$
-</pre></div>
-
-
-<p>使用 <code>which</code> 可以看到 python 路徑：</p>
-<div class="highlight"><pre>which python
-ENV_DIR/bin/python
-
-which pip
-ENV_DIR/bin/pip
-</pre></div>
-
-
-<p>注意到如果當初指定用 python3.4 的話，這裡雖然下的是 python，其實也是 3.4 版。以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。</p>
-</li>
-</ol>
-<p>如果有裝 <a href="http://virtualenvwrapper.readthedocs.org/en/latest/">virtualenvwrapper</a> 的話其實還有更方便的方法，可以自行參考文件。</p>
-<h2>Local Packages</h2>
-<p>如果實在是無法建立 virtual environment 的話，只能使用舊方法來安裝 local 套件了，首先在 <code>.bashrc</code> 加入對應的參數，使得執行 Python 時會載入 local 套件：</p>
-<div class="highlight"><pre><span class="nb">alias </span><span class="nv">python3</span><span class="o">=</span><span class="s2">&quot;PYTHONPATH=$PYTHONPATH:$HOME/.local/lib/python3.4/site-packages python3&quot;</span>
-<span class="nb">alias </span><span class="nv">python</span><span class="o">=</span><span class="s2">&quot;PYTHONPATH=$PYTHONPATH:$HOME/.local/lib/python2.7/site-packages python&quot;</span>
-</pre></div>
-
-
-<p>其中各版本的路徑可自行調整。</p>
-<p>接下來安裝套件時都加上 --user 參數即可，例如：</p>
-<div class="highlight"><pre>pip3 install --user flask
-python3.4 setup.py install --user
-
-pip2 install --user flask
-python2 setup.py install --user
-</pre></div>	
-
-	</article>
-
-    <p>
-	<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
-	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-	</p>
-
-	<div class="comments">
-	<h2>Comments !</h2>
-	    <div id="disqus_thread"></div>
-	    <script type="text/javascript">
-	       var disqus_identifier = "blog/2014/06/22/pyvenv-and-virtualenv.html";
-	       (function() {
-	       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	       dsq.src = 'http://cityofwings.disqus.com.disqus.com/embed.js';
-	       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	      })();
-	    </script>
-	</div>
+<p>每行有一則資料，先是正負向標記：1 表示正 ...</p></p>
+  </div>
+</article>
+<div class="pagination">
+    Page 1 / 1
+</div>
 
 		  </div>	
 		  
@@ -154,7 +71,7 @@ python2 setup.py install --user
 	            <h2>Categories</h2>
 	            <ul>
 	                <li ><a href="http://city.shaform.com/category/ideas.html">Ideas</a></li>
-	                <li class="active"><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
+	                <li ><a href="http://city.shaform.com/category/notes.html">Notes</a></li>
 	                <li ><a href="http://city.shaform.com/category/projects.html">Projects</a></li>
 	            </ul>
 	          </nav>
