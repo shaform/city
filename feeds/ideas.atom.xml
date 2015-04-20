@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/ideas.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2014-11-07T18:52:00+08:00</updated><entry><title>Google Inbox-like Web Browsing</title><link href="http://city.shaform.com/blog/2014/11/07/google-inbox-like-web-browsing.html" rel="alternate"></link><updated>2014-11-07T18:52:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-11-07:blog/2014/11/07/google-inbox-like-web-browsing.html</id><summary type="html">&lt;p&gt;Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in &lt;a href="http://city.shaform.com/blog/2013/10/20/single-minded.html"&gt;〈Single-minded : an Internet reader, made for readers, made by readers〉&lt;/a&gt;. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced &lt;a href="http://www.google.com/inbox/"&gt;Inbox&lt;/a&gt;, a new way to handle email. And I find that many ideas behind Inbox are also applicable to web browsing as well.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>City of Wings - 翼之都</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/ideas.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2015-04-20T08:34:00+08:00</updated><entry><title>一起聚餐去，金流系統 (Dine together - Payment System)</title><link href="http://city.shaform.com/blog/2015/04/20/dine-together-payment-system.html" rel="alternate"></link><updated>2015-04-20T08:34:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-04-20:blog/2015/04/20/dine-together-payment-system.html</id><summary type="html">&lt;p&gt;在交大時因為地處偏僻又經濟拮据，很少有機會出去校外吃飯。來了台北以後，開始有機會和朋友出去聚餐。有次一大群人一起去吃飯，結帳時大家七手八腳的把錢擺在桌上，最後結帳的人拿了錢去付時，才發現短少了一些，但也無法釐清是誰少付了。自己也曾有次雖然只是三四人的聚餐，不過付完找錢完事後才發現虧了兩三百元呢。&lt;/p&gt;
+&lt;p&gt;確實這種朋友聚餐若不能分開結帳，付起帳來總讓人心慌慌。有許多的風險容易浮現：（1）在蒐集錢時可能有所短缺（2）可能會出現偽鈔（3）其實也可能店家會找錯、算錯（4）然而有些同學會在店家找錢時迅速的先拿走自己該找的部份，以致主付者難以確認店家是否找錯錢。&lt;/p&gt;
+&lt;p&gt;雖然想說可以透過每次聚餐前都事先準備好所有零錢，讓自己可以恰好付出自己的部份，不過有時還是會忘記。這時就會想如果有個金流系統可以幫忙解決這種情形該有多好。&lt;/p&gt;
+&lt;p&gt;運作的方法大約是這樣。聚餐後，可以用這金流系統建立一個聚餐事件，然後把所有人加進來。大家輸入自己該付的錢後，系統就會確認儲值的錢足夠，並自動扣款，事後交給主事人。程式還會幫妳計算總和的錢數，讓你可以較易跟店家確認他是否算錯錢。&lt;/p&gt;
+&lt;p&gt;可以用手機拍照紀錄菜單，這樣如果跟店家確認發現金額不符後，還可根據紀錄查出到底是哪位同學少付了，並溝通得到更正。&lt;/p&gt;
+&lt;p&gt;由於透過金流平台溝通，所有的對話都會讓所有聚餐的同學都看到。因此可以形成輿論壓力，讓有理的一方能順利得到金額的更正。&lt;/p&gt;
+&lt;p&gt;如果真的無法解決爭端，還可以評價對方的壞行為。這樣他下次跟其他人聚餐時，不好的評價就會顯示出來，讓大家事前得知要小心注意呢！&lt;/p&gt;
+&lt;p&gt;當然，如果可以直接付給店家或許更好！&lt;/p&gt;
+&lt;p&gt;這樣的金流平台，或許可以用同儕壓力來形成病毒行銷的作用，把所有的人都拉到平台之上，自然就可透過別的方法營利賺錢了！&lt;/p&gt;
+&lt;p&gt;I seldom went out for dinner due to the location of school and the lack
+of money when I was in NCTU. But since I have came to Taipei, I started
+to have opportunities to dine together with others. Once I went with
+a lot of people, when it comes to  paying, everyone put her money on the
+table.  But the person who collected the money and payed for us later
+found out the money was not enough. However, nobody was sure who was
+responsible for that. I also have lost 200-300 dollar once when I went out
+with others.&lt;/p&gt;
+&lt;p&gt;Indeed, if we are unable to pay individually, it's often risky to
+dine together. There are four problems that might arise: (1) some
+people might pay less than required (2) there might may fake money
+(3) the restaurant could also make mistakes with the amount of money
+(4) some friends might quickly take away his money when the store gives
+you your change, making it hard to confirm the amount.&lt;/p&gt;
+&lt;p&gt;Even though it might be possible to prepare the change beforehand so
+I can also pay the exact amount for myself, it's still easy to forget
+about it. So I start to wonder whether there could be a payment system
+that could solve all the problems.&lt;/p&gt;
+&lt;p&gt;It basically works as follows. After dining, we could create a dining
+event with this app and add everybody. Each person could enter his amount
+and the system would check has balance and pay the amount to the friend
+who are going to pay physically. The system also displays the total
+amount so you could check the change from the store easily.&lt;/p&gt;
+&lt;p&gt;You could also take a picture with the your receipt so you could check
+who does not pay enough when you later find out the money is not enough.&lt;/p&gt;
+&lt;p&gt;Because all the communication happens on the platform, all friends could
+see your dispute, making it easy to pressure the one responsible to
+pay back.&lt;/p&gt;
+&lt;p&gt;If he really does not want to correct the amount, you could give him
+a bad review, so when he go out with others next time, everyone could
+be aware of this.&lt;/p&gt;
+&lt;p&gt;Of course, if the system could just pay to the restaurant, then all of
+this is not required.&lt;/p&gt;
+&lt;p&gt;This payment system may utilize peer pressure to promote their apps, so
+they can make everyone uses the system and make money.&lt;/p&gt;</summary><category term="payments"></category></entry><entry><title>Google Inbox-like Web Browsing</title><link href="http://city.shaform.com/blog/2014/11/07/google-inbox-like-web-browsing.html" rel="alternate"></link><updated>2014-11-07T18:52:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-11-07:blog/2014/11/07/google-inbox-like-web-browsing.html</id><summary type="html">&lt;p&gt;Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in &lt;a href="http://city.shaform.com/blog/2013/10/20/single-minded.html"&gt;〈Single-minded : an Internet reader, made for readers, made by readers〉&lt;/a&gt;. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced &lt;a href="http://www.google.com/inbox/"&gt;Inbox&lt;/a&gt;, a new way to handle email. And I find that many ideas behind Inbox are also applicable to web browsing as well.&lt;/p&gt;
 &lt;h2&gt;Tabs as Threads&lt;/h2&gt;
 &lt;p&gt;For example, different tabs can be represented as different threads, and for each thread, the history can be easily represented as different 'email' in the same thread.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="History as emails" src="http://city.shaform.com/images/inbox-history.png" /&gt;&lt;/p&gt;
