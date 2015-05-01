@@ -1371,39 +1371,55 @@ slave-2-dn
 &lt;h2&gt;Never Waiting for Loading&lt;/h2&gt;
 &lt;p&gt;The linear browsing makes it easy for the browser to guess which page I will read next. So it should be easy for the browser to preload the pages and completely eliminate the waiting time for me.&lt;/p&gt;
 &lt;h2&gt;Final Words&lt;/h2&gt;
-&lt;p&gt;I choose to publish this article because I realize that I may not have too much time to polish this idea and implement it. As you can see, this article is still very primitive. But I hope someone may be able to find something valuable in this idea, and help us escape from the distracting dilemma.&lt;/p&gt;</summary><category term="browser"></category><category term="Internet"></category></entry><entry><title>qwerty 轉換到 dvorak 筆記</title><link href="http://city.shaform.com/blog/2013/07/12/qwerty-to-dvorak.html" rel="alternate"></link><updated>2013-07-12T18:53:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-07-12:blog/2013/07/12/qwerty-to-dvorak.html</id><summary type="html">&lt;h2&gt;Windows&lt;/h2&gt;
+&lt;p&gt;I choose to publish this article because I realize that I may not have too much time to polish this idea and implement it. As you can see, this article is still very primitive. But I hope someone may be able to find something valuable in this idea, and help us escape from the distracting dilemma.&lt;/p&gt;</summary><category term="browser"></category><category term="Internet"></category></entry><entry><title>qwerty 轉換到 dvorak 筆記: Notes about Migrating from Qwerty to Dvorak</title><link href="http://city.shaform.com/blog/2013/07/12/qwerty-to-dvorak.html" rel="alternate"></link><updated>2013-07-12T18:53:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-07-12:blog/2013/07/12/qwerty-to-dvorak.html</id><summary type="html">&lt;h2&gt;Windows&lt;/h2&gt;
 &lt;p&gt;Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：&lt;a href="http://shaform.wordpress.com/2007/07/14/dvorak/"&gt;〈Dvorak: 另一種鍵盤排列〉&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;(Newer versions of Windows could use different keyboard layouts for the login screen.
+Just choose it when installing or add the relevant input method in language settings.)&lt;/p&gt;
 &lt;h2&gt;Linux&lt;/h2&gt;
 &lt;p&gt;最近的 Linux distributions 只要在安裝時就選擇 dvorak 鍵盤的話，大致上就會設定完成，通常 GUI 頁面也會有鍵盤設定。Linux 上輸入法和鍵盤設定通常是分開的兩個東西。如果你使用像是&lt;a href="https://code.google.com/p/freearray"&gt;自由行列輸入法&lt;/a&gt;等等原本就有支援 dvorak 的輸入法，則符號對應只要設定一下就可以了。&lt;/p&gt;
+&lt;p&gt;(Newer versions of Linux distributions also support dvorak layout when installing.)&lt;/p&gt;
 &lt;p&gt;如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;setxkbmap dvorak &lt;span class="c"&gt;# 更動成 dvorak&lt;/span&gt;
-setxkbmap us &lt;span class="c"&gt;# 還原成 us 標準鍵盤&lt;/span&gt;
+&lt;p&gt;(If you want to set the layout temporarily, you could also use the following commands:)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;setxkbmap dvorak &lt;span class="c"&gt;# 更動成 dvorak / change to dvorak&lt;/span&gt;
+setxkbmap us &lt;span class="c"&gt;# 還原成 us 標準鍵盤 / change back to qwerty&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Xrdp&lt;/h2&gt;
 &lt;p&gt;如果使用 rdp 的方式遠端連上 linux 的話，他的鍵盤對應是由自己的設定檔所控制，檔案位置在 /etc/xrdp/km-****.ini，其中 **** 為不同語言設定的檔案，其編號可參考 &lt;a href="http://xrdp.sourceforge.net/documents/keymap/rfc1766.html"&gt;rfc1766&lt;/a&gt;。通常我們需要修改的是 km-0409.ini (en-US) 這個檔案。&lt;/p&gt;
+&lt;p&gt;(If you are using rdp to connect to remote linux servers, the keyboard layout is
+controlled by a separate configuration file. The file is located in
+/etc/xrdp/km-****.ini, where **** is the language suffix.
+See &lt;a href="http://xrdp.sourceforge.net/documents/keymap/rfc1766.html"&gt;rfc1766&lt;/a&gt;. Usually we should modify km-0409.int for en-US keyboard.)&lt;/p&gt;
 &lt;p&gt;在正常登入的情況下，使用以下指令可以在當前目錄產生目前鍵盤對應的 xrdp 設定檔：&lt;/p&gt;
+&lt;p&gt;(If you are able to login the server locally without rdp. You could use the following
+command to generate key map when you are using dvorak.)&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;xrdp-genkeymap km-now.ini
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;接著我們把它搬移取代 xrdp 參照的檔案：&lt;/p&gt;
+&lt;p&gt;(Afterwards, we could use this generated file to replace the settings.)&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;sudo mv km-now.ini /etc/xrdp/km-0409.ini
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;或許我們會想在覆蓋之前先備份原本的設定檔：&lt;/p&gt;
+&lt;p&gt;(Of course, you may want to backup the file before you run the above command.)&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;sudo mv /etc/xrdp/km-0409.ini /etc/xrdp/km-0409.ini.old
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;最後重新啟動 xrdp 伺服器就可以了：&lt;/p&gt;
+&lt;p&gt;(Restart the xrdp server to load the configuration.)&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;sudo /etc/init.d/xrdp restart
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;但如果因為某些原因只能用 rdp 連上主機，而無法接觸正常的桌面的話，則根本無法得到 dvorak 的鍵盤對應，因此也無法產生設定檔，在這種情況下，只好直接修改原本的 km-0409.ini。而也有人說用 xrdp-genkeymap 產生的檔案有時會有問題，這時也只能直接修改了。我寫了一個程式用來做這個轉換：&lt;/p&gt;
+&lt;p&gt;(However, if you are unable to login locally, you would not be able to generate
+the correct file because you are unable to change keyboard layout to dvorak.
+So I created a Python script to convert km-0409.ini to dvorak settings.)&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env python&lt;/span&gt;
 &lt;span class="c"&gt;# xrdpkeymap_qwerty_to_dvorak.py&lt;/span&gt;
 &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
@@ -1466,6 +1482,8 @@ setxkbmap us &lt;span class="c"&gt;# 還原成 us 標準鍵盤&lt;/span&gt;
 
 &lt;h2&gt;Vim&lt;/h2&gt;
 &lt;p&gt;有的時候我們甚至無法重新啟動 xrdp server，或者根本沒有管理員權限，這時只好有限度的在 Vim 裡頭使用 dvoark。&lt;/p&gt;
+&lt;p&gt;(Sometimes we cannot even restart xrdp server. We may try to use the following commands in Vim.
+This enables us to use dvorak at least in Vim.)&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;keymap&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;dvorak
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;langmap&lt;/span&gt;&lt;span class="p"&gt;=-=&lt;/span&gt;qwertyuiop[]sdfghjkl\\;&lt;span class="s1"&gt;&amp;#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&amp;quot;ZXCVBN&amp;lt;&amp;gt;?;[]&amp;#39;&lt;/span&gt;\\&lt;span class="p"&gt;,&lt;/span&gt;.pyfgcrl/&lt;span class="p"&gt;=&lt;/span&gt;oeuidhtns&lt;span class="p"&gt;-&lt;/span&gt;\\;qjkxbwvz{}\&amp;quot;&lt;span class="p"&gt;&amp;lt;&amp;gt;&lt;/span&gt;PYFGCRL?&lt;span class="p"&gt;+&lt;/span&gt;OEUIDHTNS_:QJKXBWVZ
 &lt;/pre&gt;&lt;/div&gt;

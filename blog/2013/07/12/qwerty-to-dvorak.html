@@ -2,11 +2,11 @@
 <html lang="">	
 <head>
 	<meta charset="utf-8"/>
-	<title>qwerty 轉換到 dvorak 筆記 - City of Wings - 翼之都</title>	
+	<title>qwerty 轉換到 dvorak 筆記: Notes about Migrating from Qwerty to Dvorak - City of Wings - 翼之都</title>	
 	<meta name="author" content="Shaform">
 	
 
-  <meta name="description" content="Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：〈Dvorak: 另一種鍵盤排列〉。 Linux 最近的 Linux distributions 只要在安裝時就選擇 dvorak 鍵盤的話，大致上就會設定完成，通常 GUI 頁面也會有鍵盤設定。Linux 上輸入法和鍵盤設定通常是分開的兩個東西。如果你使用像是自由行列輸入法等等原本就有支援 dvorak 的輸入法，則符號對應只要設定一下就可以了。 如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換： setxkbmap dvorak # 更動成 dvorak setxkbmap us # 還原成 us 標準鍵盤 Xrdp ...">
+  <meta name="description" content="Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：〈Dvorak: 另一種鍵盤排列〉。 (Newer versions of Windows could use different keyboard layouts for the login screen. Just choose it when installing or add the relevant input method in language settings.) Linux 最近的 Linux distributions ...">
 
 
 
@@ -33,7 +33,7 @@
 		  <div role="main" class="content">
 	<article class="full">
 		
-		<h1>qwerty 轉換到 dvorak 筆記</h1>
+		<h1>qwerty 轉換到 dvorak 筆記: Notes about Migrating from Qwerty to Dvorak</h1>
 		
 <div class="metadata">
   <time datetime="2013-07-12T18:53:00+08:00" pubdate>Fri 12 July 2013</time>
@@ -44,37 +44,53 @@
 <p class="tags">tagged <a href="http://city.shaform.com/tag/dvorak.html">dvorak</a>, <a href="http://city.shaform.com/tag/linux.html">linux</a>, <a href="http://city.shaform.com/tag/qwerty.html">qwerty</a>, <a href="http://city.shaform.com/tag/windows.html">windows</a>, <a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a>, <a href="http://city.shaform.com/tag/xing-lie.html">行列</a>, <a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></p></div>		
 		<h2>Windows</h2>
 <p>Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：<a href="http://shaform.wordpress.com/2007/07/14/dvorak/">〈Dvorak: 另一種鍵盤排列〉</a>。</p>
+<p>(Newer versions of Windows could use different keyboard layouts for the login screen.
+Just choose it when installing or add the relevant input method in language settings.)</p>
 <h2>Linux</h2>
 <p>最近的 Linux distributions 只要在安裝時就選擇 dvorak 鍵盤的話，大致上就會設定完成，通常 GUI 頁面也會有鍵盤設定。Linux 上輸入法和鍵盤設定通常是分開的兩個東西。如果你使用像是<a href="https://code.google.com/p/freearray">自由行列輸入法</a>等等原本就有支援 dvorak 的輸入法，則符號對應只要設定一下就可以了。</p>
+<p>(Newer versions of Linux distributions also support dvorak layout when installing.)</p>
 <p>如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換：</p>
-<div class="highlight"><pre>setxkbmap dvorak <span class="c"># 更動成 dvorak</span>
-setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
+<p>(If you want to set the layout temporarily, you could also use the following commands:)</p>
+<div class="highlight"><pre>setxkbmap dvorak <span class="c"># 更動成 dvorak / change to dvorak</span>
+setxkbmap us <span class="c"># 還原成 us 標準鍵盤 / change back to qwerty</span>
 </pre></div>
 
 
 <h2>Xrdp</h2>
 <p>如果使用 rdp 的方式遠端連上 linux 的話，他的鍵盤對應是由自己的設定檔所控制，檔案位置在 /etc/xrdp/km-****.ini，其中 **** 為不同語言設定的檔案，其編號可參考 <a href="http://xrdp.sourceforge.net/documents/keymap/rfc1766.html">rfc1766</a>。通常我們需要修改的是 km-0409.ini (en-US) 這個檔案。</p>
+<p>(If you are using rdp to connect to remote linux servers, the keyboard layout is
+controlled by a separate configuration file. The file is located in
+/etc/xrdp/km-****.ini, where **** is the language suffix.
+See <a href="http://xrdp.sourceforge.net/documents/keymap/rfc1766.html">rfc1766</a>. Usually we should modify km-0409.int for en-US keyboard.)</p>
 <p>在正常登入的情況下，使用以下指令可以在當前目錄產生目前鍵盤對應的 xrdp 設定檔：</p>
+<p>(If you are able to login the server locally without rdp. You could use the following
+command to generate key map when you are using dvorak.)</p>
 <div class="highlight"><pre>xrdp-genkeymap km-now.ini
 </pre></div>
 
 
 <p>接著我們把它搬移取代 xrdp 參照的檔案：</p>
+<p>(Afterwards, we could use this generated file to replace the settings.)</p>
 <div class="highlight"><pre>sudo mv km-now.ini /etc/xrdp/km-0409.ini
 </pre></div>
 
 
 <p>或許我們會想在覆蓋之前先備份原本的設定檔：</p>
+<p>(Of course, you may want to backup the file before you run the above command.)</p>
 <div class="highlight"><pre>sudo mv /etc/xrdp/km-0409.ini /etc/xrdp/km-0409.ini.old
 </pre></div>
 
 
 <p>最後重新啟動 xrdp 伺服器就可以了：</p>
+<p>(Restart the xrdp server to load the configuration.)</p>
 <div class="highlight"><pre>sudo /etc/init.d/xrdp restart
 </pre></div>
 
 
 <p>但如果因為某些原因只能用 rdp 連上主機，而無法接觸正常的桌面的話，則根本無法得到 dvorak 的鍵盤對應，因此也無法產生設定檔，在這種情況下，只好直接修改原本的 km-0409.ini。而也有人說用 xrdp-genkeymap 產生的檔案有時會有問題，這時也只能直接修改了。我寫了一個程式用來做這個轉換：</p>
+<p>(However, if you are unable to login locally, you would not be able to generate
+the correct file because you are unable to change keyboard layout to dvorak.
+So I created a Python script to convert km-0409.ini to dvorak settings.)</p>
 <div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
 <span class="c"># xrdpkeymap_qwerty_to_dvorak.py</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -137,6 +153,8 @@ setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
 
 <h2>Vim</h2>
 <p>有的時候我們甚至無法重新啟動 xrdp server，或者根本沒有管理員權限，這時只好有限度的在 Vim 裡頭使用 dvoark。</p>
+<p>(Sometimes we cannot even restart xrdp server. We may try to use the following commands in Vim.
+This enables us to use dvorak at least in Vim.)</p>
 <div class="highlight"><pre><span class="k">set</span> <span class="nb">keymap</span><span class="p">=</span>dvorak
 <span class="k">set</span> <span class="nb">langmap</span><span class="p">=-=</span>qwertyuiop[]sdfghjkl\\;<span class="s1">&#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&quot;ZXCVBN&lt;&gt;?;[]&#39;</span>\\<span class="p">,</span>.pyfgcrl/<span class="p">=</span>oeuidhtns<span class="p">-</span>\\;qjkxbwvz{}\&quot;<span class="p">&lt;&gt;</span>PYFGCRL?<span class="p">+</span>OEUIDHTNS_:QJKXBWVZ
 </pre></div>
@@ -239,52 +257,52 @@ setxkbmap us <span class="c"># 還原成 us 標準鍵盤</span>
                   <aside>
 	            <h2>Tags</h2>
                     <ul class="tagcloud">
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/sentiment-analysis.html">sentiment analysis</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/rnnlm.html">rnnlm</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/nis.html">NIS</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
                       <li class="tag-2"><a href="http://city.shaform.com/tag/chinese.html">Chinese</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/payments.html">payments</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/jieba.html">jieba</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ldap.html">LDAP</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/bbs.html">BBS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/network.html">network</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/subnet.html">subnet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/python.html">python</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
-                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/tf-idf.html">tf-idf</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/liblinear.html">liblinear</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/debian.html">Debian</a></li>
-                      <li class="tag-2"><a href="http://city.shaform.com/tag/word2vec.html">word2vec</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/internet.html">Internet</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/xing-lie.html">行列</a></li>
                       <li class="tag-4"><a href="http://city.shaform.com/tag/ubuntu-1404.html">Ubuntu 14.04</a></li>
-                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ssh.html">SSH</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hbase.html">HBase</a></li>
                       <li class="tag-2"><a href="http://city.shaform.com/tag/dvorak.html">dvorak</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/jieba.html">jieba</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/debian.html">Debian</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-inbox.html">Google Inbox</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hdfs.html">HDFS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/google-drive.html">Google Drive</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/nis.html">NIS</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/network.html">network</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows.html">windows</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vim.html">vim</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ldap.html">LDAP</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ptt.html">PTT</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/subnet.html">subnet</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/ruan-ti-kai-fa.html">軟體開發</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/zi-you-xing-lie.html">自由行列</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-8.html">Windows 8</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/public-key.html">public key</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/coprogramming.html">CoProgramming</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/sentiment-analysis.html">sentiment analysis</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/virtualenv.html">virtualenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/vimrc.html">vimrc</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/python.html">python</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/payments.html">payments</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/shu-ru-fa.html">輸入法</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/ubuntu.html">Ubuntu</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/liblinear.html">liblinear</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pyvenv.html">pyvenv</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/ibus.html">ibus</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/qwerty.html">qwerty</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/uefi.html">UEFI</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pelican.html">Pelican</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/pixnet.html">Pixnet</a></li>
+                      <li class="tag-1"><a href="http://city.shaform.com/tag/linux.html">linux</a></li>
+                      <li class="tag-4"><a href="http://city.shaform.com/tag/windows-81.html">Windows 8.1</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/word2vec.html">word2vec</a></li>
+                      <li class="tag-2"><a href="http://city.shaform.com/tag/browser.html">browser</a></li>
                     </ul>
 	          </aside>
 	        </div>
