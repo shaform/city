@@ -53,7 +53,7 @@ system-wide. You could also manually set the &lt;code&gt;PYTHONPATH&lt;/code&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;In additional, also install the &lt;a href="http://lmdb.readthedocs.org/en/release/"&gt;py-lmdb&lt;/a&gt; Python package.&lt;/p&gt;
+&lt;p&gt;In addition, install the &lt;a href="http://lmdb.readthedocs.org/en/release/"&gt;py-lmdb&lt;/a&gt; Python package.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;sudo pip install lmdb
 &lt;/pre&gt;&lt;/div&gt;
 
