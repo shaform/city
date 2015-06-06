@@ -1,5 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>翼之都, City of Wings</title><link>http://city.shaform.com/</link><description></description><atom:link href="http://city.shaform.com/feeds/shaform.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 20 Apr 2015 08:34:00 +0800</lastBuildDate><item><title>一起聚餐去，金流系統 (Dine together - Payment System)</title><link>http://city.shaform.com/blog/2015/04/20/dine-together-payment-system.html</link><description>&lt;p&gt;在交大時因為地處偏僻又經濟拮据，很少有機會出去校外吃飯。來了台北以後，開始有機會和朋友出去聚餐。有次一大群人一起去吃飯，結帳時大家七手八腳的把錢擺在桌上，最後結帳的人拿了錢去付時，才發現短少了一些，但也無法釐清是誰少付了。自己也曾有次雖然只是三四人的聚餐，不過付完找錢完事後才發現虧了兩三百元呢。&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>翼之都, City of Wings</title><link>http://city.shaform.com/</link><description></description><atom:link href="http://city.shaform.com/feeds/shaform.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 05 Jun 2015 21:45:00 +0800</lastBuildDate><item><title>Using Caffe for Sentiment Analysis</title><link>http://city.shaform.com/blog/2015/06/05/caffe-sentiment-analysis.html</link><description>&lt;p&gt;&lt;a href="http://caffe.berkeleyvision.org/"&gt;Caffe&lt;/a&gt; is a deep learning framework that can be used to
+develop neural network models. Although Caffe is usually used
+for image classification, it does not prevent us from utilizing it
+for other tasks. In this article, we outline the procedure to convert
+&lt;a href="http://arxiv.org/abs/1405.4053"&gt;Paragraph Vectors&lt;/a&gt; into the &lt;a href="http://symas.com/mdb/"&gt;LMDB&lt;/a&gt; format that Caffe understands, and
+create a simple model to train and predict the sentiment for movie reviews.&lt;/p&gt;
+&lt;h1&gt;Data Preparation&lt;/h1&gt;
+&lt;p&gt;While in the &lt;a href="http://city.shaform.com/blog/2015/03/27/sentiment-analysis.html"&gt;previous post&lt;/a&gt; we use custom Chinese corpus
+for sentiment analysis, this time we utilize the scripts provided
+by &lt;a href="https://github.com/mesnilgr/iclr15"&gt;mesnilgr/iclr15&lt;/a&gt; to download the &lt;a href="http://ai.stanford.edu/~amaas/data/sentiment/"&gt;Large Movie Review Dataset&lt;/a&gt;
+so it's easier to reproduce the results.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# get mesnilgr/iclr15&lt;/span&gt;
+git clone https://github.com/mesnilgr/iclr15
+
+mkdir -p iclr15_run
+&lt;span class="nb"&gt;cd &lt;/span&gt;iclr15_run
+
+&lt;span class="c"&gt;# get data&lt;/span&gt;
+../iclr15/scripts/data.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Afterwards, we create the &lt;a href="http://arxiv.org/abs/1405.4053"&gt;Paragraph Vectors&lt;/a&gt; for each review. Paragraph
+Vectors are fixed-dimensional distributed representations for texts. Once we
+convert each review into a vector, we could easily feed it into a neural network.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# extract the part to create paragraph vectors from iclr15 scripts&lt;/span&gt;
+sed -e &lt;span class="s1"&gt;&amp;#39;/liblinear/,$d&amp;#39;&lt;/span&gt; ../iclr15/scripts/paragraph.sh &amp;gt; paragraph.sh
+
+&lt;span class="c"&gt;# start creating the vectors&lt;/span&gt;
+chmod +x paragraph.sh
+./paragraph.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Finally, we copy the resulting files.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# copy the vectors&lt;/span&gt;
+&lt;span class="nb"&gt;cd &lt;/span&gt;word2vec
+cp full-train.txt test.txt ../../
+&lt;span class="nb"&gt;cd&lt;/span&gt; ../../
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Converting the Input Format&lt;/h1&gt;
+&lt;p&gt;We now have two files: &lt;code&gt;full-train.txt&lt;/code&gt; and &lt;code&gt;test.txt&lt;/code&gt; for training and testing
+respectively. These files use &lt;a href="https://github.com/cjlin1/libsvm/blob/master/README"&gt;LIBSVM data format&lt;/a&gt;, which can
+not be used with Caffe directly. Therefore, we create a script to convert the files.&lt;/p&gt;
+&lt;p&gt;We will use utilities provided by &lt;a href="http://caffe.berkeleyvision.org/installation.html#python-andor-matlab-caffe-optional"&gt;Pycaffe&lt;/a&gt; to do the conversion; be sure to install
+all the dependencies and Pycaffe itself. Notice that currently Pycaffe does not work
+well on Python 3, so we'll use Python 2.7 here. If you don't want to install Pycaffe
+system-wide. You could also manually set the &lt;code&gt;PYTHONPATH&lt;/code&gt; variable as follows.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;PYTHONPATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PYTHONPATH&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;:caffe-directory/python/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In additional, also install the &lt;a href="http://lmdb.readthedocs.org/en/release/"&gt;py-lmdb&lt;/a&gt; Python package.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo pip install lmdb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Each line in the input file begins with a label followed by a 100-dimensional array.
+So we extract the data using a simple Python routine.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="n"&gt;num_of_dims&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;load_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;items&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;tokens&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rstrip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="n"&gt;label&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tokens&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+            &lt;span class="c"&gt;# change label `-1&amp;#39; to `0&amp;#39;&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;label&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;label&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+            &lt;span class="c"&gt;# ignore the index since we already know the format&lt;/span&gt;
+            &lt;span class="n"&gt;arr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;:&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;dim&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;tokens&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:]]&lt;/span&gt;
+            &lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;label&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shuffle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;Y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;num_of_dims&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Y&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;There is a well-written tutorial on creating LMDB file on
+&lt;a href="http://deepdish.io/2015/04/28/creating-lmdb-in-python/"&gt;Creating an LMDB database in Python&lt;/a&gt;, and we'll adopt
+a similar procedure. The only difference is that we are using &lt;code&gt;floats&lt;/code&gt;
+for the data, so we'll just use &lt;code&gt;array_to_datum&lt;/code&gt; to create the &lt;code&gt;Datum&lt;/code&gt;
+for us.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;lmdb&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;caffe.io&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;array_to_datum&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;save_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt; 
+    &lt;span class="n"&gt;num&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;prod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;itemsize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;itemsize&lt;/span&gt;
+    &lt;span class="c"&gt;# set a reasonable upper limit for database size&lt;/span&gt;
+    &lt;span class="n"&gt;map_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10240&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1024&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;num&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;itemsize&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; 
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;save {} instances...&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;env&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lmdb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;map_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;map_size&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
+        &lt;span class="n"&gt;datum&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;array_to_datum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;str_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;{:08}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;txn&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;txn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;put&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;str_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;datum&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SerializeToString&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Using the complete &lt;a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/convert.py"&gt;convert.py&lt;/a&gt; script, we convert both
+training and testing files into LMDB format.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;python convert.py full-train.txt movie-train-lmdb
+python convert.py test.txt movie-test-lmdb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Creating a Caffe Model&lt;/h1&gt;
+&lt;p&gt;Finally, we create a simple NN model with &lt;a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/nn.prototxt"&gt;nn.prototxt&lt;/a&gt; and &lt;a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/nn_solver.prototxt"&gt;nn_solver.prototxt&lt;/a&gt;. Execute the
+Caffe command line tool and we obtain the following results.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;$ caffe train --solver=nn_solver.prototxt
+
+Iteration 10000, loss = 0.142478
+Iteration 10000, Testing net (#0)
+    Test net output #0: accuracy = 0.88364
+    Test net output #1: loss = 0.284636 (* 1 = 0.284636 loss)
+Optimization Done.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Source Code&lt;/h1&gt;
+&lt;p&gt;The relevant source code is on &lt;a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/"&gt;shaform/experiments/caffe_sentiment_analysis&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Shaform</dc:creator><pubDate>Fri, 05 Jun 2015 21:45:00 +0800</pubDate><guid>tag:city.shaform.com,2015-06-05:blog/2015/06/05/caffe-sentiment-analysis.html</guid><category>word2vec</category><category>Caffe</category><category>sentiment analysis</category><category>deep learning</category></item><item><title>一起聚餐去，金流系統 (Dine together - Payment System)</title><link>http://city.shaform.com/blog/2015/04/20/dine-together-payment-system.html</link><description>&lt;p&gt;在交大時因為地處偏僻又經濟拮据，很少有機會出去校外吃飯。來了台北以後，開始有機會和朋友出去聚餐。有次一大群人一起去吃飯，結帳時大家七手八腳的把錢擺在桌上，最後結帳的人拿了錢去付時，才發現短少了一些，但也無法釐清是誰少付了。自己也曾有次雖然只是三四人的聚餐，不過付完找錢完事後才發現虧了兩三百元呢。&lt;/p&gt;
 &lt;p&gt;確實這種朋友聚餐若不能分開結帳，付起帳來總讓人心慌慌。有許多的風險容易浮現：（1）在蒐集錢時可能有所短缺（2）可能會出現偽鈔（3）其實也可能店家會找錯、算錯（4）然而有些同學會在店家找錢時迅速的先拿走自己該找的部份，以致主付者難以確認店家是否找錯錢。&lt;/p&gt;
 &lt;p&gt;雖然想說可以透過每次聚餐前都事先準備好所有零錢，讓自己可以恰好付出自己的部份，不過有時還是會忘記。這時就會想如果有個金流系統可以幫忙解決這種情形該有多好。&lt;/p&gt;
 &lt;p&gt;運作的方法大約是這樣。聚餐後，可以用這金流系統建立一個聚餐事件，然後把所有人加進來。大家輸入自己該付的錢後，系統就會確認儲值的錢足夠，並自動扣款，事後交給主事人。程式還會幫妳計算總和的錢數，讓你可以較易跟店家確認他是否算錯錢。&lt;/p&gt;
