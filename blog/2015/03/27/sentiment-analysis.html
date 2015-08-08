@@ -133,7 +133,7 @@ paste model_pos_score.txt model_neg_score.txt <span class="p">|</span> awk <span
 <p>再稍微用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/normalize.py">normalize.py</a> 調整數據的範圍，就可以用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/evaluate.py">evaluate.py</a> 來檢查最後的正確率了。</p>
 <div class="highlight"><pre><span class="nb">cd</span> ..
 python3 normalize.py --input scores/RNNLM --output scores/RNNLM --type rnnlm
-thon3 evaluate.py --test_pos data/test_pos.txt --scores scores/RNNLM
+python3 evaluate.py --test_pos data/test_pos.txt --scores scores/RNNLM
 <span class="c">#</span>
 <span class="c"># RNNLM accuracy: 87.9828%</span>
 </pre></div>
