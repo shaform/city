@@ -1,5 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>翼之都, City of Wings</title><link>http://city.shaform.com/</link><description></description><atom:link href="http://city.shaform.com/feeds/shaform.rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 06 Jun 2015 11:05:00 +0800</lastBuildDate><item><title>Using Caffe for Sentiment Analysis</title><link>http://city.shaform.com/blog/2015/06/06/caffe-sentiment-analysis.html</link><description>&lt;p&gt;&lt;a href="http://caffe.berkeleyvision.org/"&gt;Caffe&lt;/a&gt; is a deep learning framework that can be used to
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>翼之都, City of Wings</title><link>http://city.shaform.com/</link><description></description><atom:link href="http://city.shaform.com/feeds/shaform.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 30 Aug 2015 17:15:00 +0800</lastBuildDate><item><title>用 Apache Spark 來訓練 Word2vec 詞向量 Skip-gram Word Embeddings</title><link>http://city.shaform.com/blog/2015/08/30/spark-for-word2vec.html</link><description>&lt;p&gt;先前曾提過 &lt;a href="http://city.shaform.com/blog/2014/11/04/word2vec.html"&gt;word2vec 可以把語料中的詞轉換成詞向量&lt;/a&gt;。
+雖然原本提供的 &lt;a href="https://groups.google.com/forum/#!forum/word2vec-toolkit"&gt;word2vec&lt;/a&gt; 工具速度已經很快，
+但是如果要訓練更大規模的語料還是需要不少時間。
+例如之前在處理 &lt;a href="http://www.lemurproject.org/clueweb09.php/"&gt;ClueWeb09&lt;/a&gt; 時，以實驗室的機器來說，就算只處理中文部份，
+也要一個月以上才能跑完。
+此時除了購買更強大的機器外，如果已經有不少機器，
+或許可以利用平行運算的方式來加速。&lt;/p&gt;
+&lt;p&gt;最近剛好接觸到了 &lt;a href="https://spark.apache.org/"&gt;Apache Spark&lt;/a&gt;，他是一個開源的運算平台，
+可以運用多台電腦進行平行運算。
+且因為把很多資料直接放在記憶體中處理，又比 &lt;a href="http://hadoop.apache.org/"&gt;Apache Hadoop&lt;/a&gt; 單純的
+MapReduce 更快一些。更重要的是，他的機器學習函式庫 &lt;a href="https://spark.apache.org/docs/latest/mllib-guide.html"&gt;MLlib&lt;/a&gt;
+已經實作了 word2vec 當中的 &lt;a href="http://arxiv.org/pdf/1301.3781.pdf"&gt;skip-gram&lt;/a&gt; 模型，正好可以直接拿來訓練詞向量。&lt;/p&gt;
+&lt;h1&gt;安裝&lt;/h1&gt;
+&lt;p&gt;關於如何將 Spark 安裝在一個 cluster 上，可以參考&lt;a href="http://spark.apache.org/docs/latest/index.html"&gt;官方文件&lt;/a&gt;。
+這裡我們只簡單的安裝單機版的 Spark 方便快速的實驗。
+我們將會使用 &lt;a href="http://releases.ubuntu.com/14.04/"&gt;Ubuntu 14.04&lt;/a&gt; 作為實驗平台。&lt;/p&gt;
+&lt;h2&gt;安裝 Java 8&lt;/h2&gt;
+&lt;p&gt;首先安裝 Java 8，如果你已經有裝了則可以跳過。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+sudo apt-get install oracle-java8-set-default
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;安裝 Apache Spark&lt;/h2&gt;
+&lt;p&gt;接下來，到&lt;a href="http://spark.apache.org/downloads.html"&gt;下載頁面&lt;/a&gt;下載 Spark，
+我是選擇 Spark 1.4.1 Pre-built for Hadoop 2.6 and later 的 binary。
+不過如果有新版應該變化也不大。直接解壓縮就可以用囉：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;tar -xzf spark-1.4.1-bin-hadoop2.6.tgz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;安裝 sbt&lt;/h2&gt;
+&lt;p&gt;因為我打算用 Scala 所以我們還得安裝 &lt;a href="http://www.scala-sbt.org/"&gt;sbt&lt;/a&gt; 這個 build tool。
+於是依照 &lt;a href="http://www.scala-sbt.org/download.html"&gt;sbt 的下載頁面&lt;/a&gt;的說明安裝 sbt：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;deb https://dl.bintray.com/sbt/debian /&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo tee -a /etc/apt/sources.list.d/sbt.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+sudo apt-get update
+sudo apt-get install sbt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;下載資料集&lt;/h1&gt;
+&lt;p&gt;為了簡單起見，使用 100MB 的 Wikipedia dump：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;wget http://mattmahoney.net/dc/text8.zip -O text8.gz
+gzip -d text8.gz -f
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;由於是單機，所以可以放在任意資料夾，如果是在 cluster 的話，需要放在每台機器都能存取的同一位置。&lt;/p&gt;
+&lt;h1&gt;編寫 Spark 程式&lt;/h1&gt;
+&lt;p&gt;首先建立專案資料夾：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mkdir -p sparkw2v/src/main/scala/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然後編輯 &lt;code&gt;sparkw2v/sparkw2v.sbt&lt;/code&gt; 檔案，程式版本參考官方文件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;name := &amp;quot;Spark Word2Vec&amp;quot;
+
+version := &amp;quot;1.0&amp;quot;
+
+scalaVersion := &amp;quot;2.10.4&amp;quot;
+
+libraryDependencies ++= Seq(
+    &amp;quot;org.apache.spark&amp;quot; %% &amp;quot;spark-core&amp;quot; % &amp;quot;1.4.1&amp;quot; % &amp;quot;provided&amp;quot;,
+    &amp;quot;org.apache.spark&amp;quot; %% &amp;quot;spark-mllib&amp;quot; % &amp;quot;1.4.1&amp;quot;
+)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最後則是程式碼 &lt;code&gt;sparkw2v/src/main/scala/SparkW2V.scala&lt;/code&gt; 本身，注意要設定輸出入 &lt;code&gt;{input directory}&lt;/code&gt; 和 &lt;code&gt;{output directory}&lt;/code&gt;的路徑。
+同樣的如果是在 cluster 的話，需要放在每台機器都能存取的同一位置。
+Word2Vec 參數設定則可參考 &lt;a href="https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.ml.feature.Word2Vec"&gt;API 文件&lt;/a&gt;。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.apache.spark._&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.apache.spark.rdd._&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.apache.spark.SparkContext&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.apache.spark.SparkContext._&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.apache.spark.SparkConf&lt;/span&gt;
+
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.apache.spark.mllib.feature.Word2Vec&lt;/span&gt;
+
+&lt;span class="k"&gt;object&lt;/span&gt; &lt;span class="nc"&gt;SparkW2V&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Array&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;])&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;text8&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;{input directory}/text8&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;{output directory}/model&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;conf&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nc"&gt;SparkConf&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="n"&gt;setAppName&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Spark Word2Vec&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;sc&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nc"&gt;SparkContext&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;input&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;textFile&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text8&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;toSeq&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;word2vec&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nc"&gt;Word2Vec&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;word2vec&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sc&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Build&lt;/h2&gt;
+&lt;p&gt;使用 sbt 進行 package：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;sparkw2v
+sbt package
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;根據版本不同，產生的檔案名稱也不同，我的輸出是 &lt;code&gt;sparkw2v/target/scala-2.10/spark-word2vec_2.10-1.0.jar&lt;/code&gt;。&lt;/p&gt;
+&lt;h1&gt;執行&lt;/h1&gt;
+&lt;p&gt;接下來就可以回到根目錄，利用 &lt;code&gt;spark-submit&lt;/code&gt; 執行程式。筆者不確定記憶體的需求為何，所以開的大了些：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ..
+spark-1.4.1-bin-hadoop2.6/bin/spark-submit --class SparkW2V --master &lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt; --executor-memory 20G --driver-memory 10G sparkw2v/target/scala-2.10/spark-word2vec_2.10-1.0.jar
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;輸出的向量會放在 &lt;code&gt;{output directory}/model/data/&lt;/code&gt; 底下，而且是存成 &lt;a href="https://parquet.apache.org/"&gt;Parquet&lt;/a&gt; 的格式，不太方便。
+所以我們使用 spark-shell 快速的將檔案轉成文字檔：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# 執行 Spark Shell&lt;/span&gt;
+./spark-1.4.1-bin-hadoop2.6/bin/spark-shell
+
+&lt;span class="c"&gt;# 從這裡開始是 Spark Shell&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+&lt;span class="c"&gt;# Welcome to&lt;/span&gt;
+&lt;span class="c"&gt;#       ____              __&lt;/span&gt;
+&lt;span class="c"&gt;#      / __/__  ___ _____/ /__&lt;/span&gt;
+&lt;span class="c"&gt;#     _\ \/ _ \/ _ `/ __/  &amp;#39;_/&lt;/span&gt;
+&lt;span class="c"&gt;#    /___/ .__/\_,_/_/ /_/\_\   version 1.4.1&lt;/span&gt;
+&lt;span class="c"&gt;#       /_/&lt;/span&gt;
+&lt;span class="c"&gt;#&lt;/span&gt;
+
+&lt;span class="c"&gt;# 讀取檔案&lt;/span&gt;
+scala&amp;gt; val &lt;span class="nv"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; sqlContext.parquetFile&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{output directory}/model/data/part-*.parquet&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+d: org.apache.spark.sql.DataFrame &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;word: string, vector: array&amp;lt;float&amp;gt;&lt;span class="o"&gt;]&lt;/span&gt;
+
+&lt;span class="c"&gt;# 檢查格式&lt;/span&gt;
+scala&amp;gt; d.first
+res2: org.apache.spark.sql.Row &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;latifolia,ArrayBuffer&lt;span class="o"&gt;(&lt;/span&gt;-0.08103186, 0.14688604, -0.060668133, -0.25648367, -0.06855837, -0...
+
+&lt;span class="c"&gt;# 輸出到 output directory/vectors/&lt;/span&gt;
+scala&amp;gt; d.map&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; r.getString&lt;span class="o"&gt;(&lt;/span&gt;0&lt;span class="o"&gt;)&lt;/span&gt; + &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt; + r.getSeq&lt;span class="o"&gt;(&lt;/span&gt;1&lt;span class="o"&gt;)&lt;/span&gt;.mkString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)}&lt;/span&gt;.saveAsTextFile&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{output directory}/vectors&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如此便完成了！&lt;/p&gt;
+&lt;h1&gt;原始碼&lt;/h1&gt;
+&lt;p&gt;相關程式碼放在 &lt;a href="https://github.com/shaform/experiments/blob/master/spark_word2vec/"&gt;shaform/experiments/spark_word2vec&lt;/a&gt;。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Shaform</dc:creator><pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate><guid>tag:city.shaform.com,2015-08-30:blog/2015/08/30/spark-for-word2vec.html</guid><category>word2vec</category><category>Spark</category><category>Scala</category><category>word embeddings</category></item><item><title>Using Caffe for Sentiment Analysis</title><link>http://city.shaform.com/blog/2015/06/06/caffe-sentiment-analysis.html</link><description>&lt;p&gt;&lt;a href="http://caffe.berkeleyvision.org/"&gt;Caffe&lt;/a&gt; is a deep learning framework that can be used to
 develop neural network models. Although Caffe is usually used
 for image classification, it does not prevent us from utilizing it
 for other tasks. In this article, we outline the procedure to convert
