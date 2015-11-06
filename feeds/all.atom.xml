@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2015-08-30T17:15:00+08:00</updated><entry><title>用 Apache Spark 來訓練 Word2vec 詞向量 Skip-gram Word Embeddings</title><link href="http://city.shaform.com/blog/2015/08/30/spark-for-word2vec.html" rel="alternate"></link><updated>2015-08-30T17:15:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-08-30:blog/2015/08/30/spark-for-word2vec.html</id><summary type="html">&lt;p&gt;先前曾提過 &lt;a href="http://city.shaform.com/blog/2014/11/04/word2vec.html"&gt;word2vec 可以把語料中的詞轉換成詞向量&lt;/a&gt;。
+<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2015-11-06T21:20:00+08:00</updated><entry><title>snappycat: A command line tool to decompress snappy files produced by Hadoop</title><link href="http://city.shaform.com/blog/2015/11/06/snappycat.html" rel="alternate"></link><updated>2015-11-06T21:20:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-11-06:blog/2015/11/06/snappycat.html</id><summary type="html">&lt;p&gt;最近在學習 Spark 的時候常會接觸到 &lt;a href="https://blog.cloudera.com/blog/2011/09/snappy-and-hadoop/"&gt;Snappy&lt;/a&gt; 壓縮而成的檔案。雖然在 Spark
+裡只要用 &lt;code&gt;sc.textFile&lt;/code&gt; 就可以直接讀取。可是有時也想把檔案下載到 local
+端處理。&lt;/p&gt;
+&lt;p&gt;然而因為 Hadoop 的檔案格式不是單純的 Snappy，所以要讀取就會有些麻煩。&lt;/p&gt;
+&lt;p&gt;稍微找一下現存的解法似乎都是直接用 Java 去連結 Hadoop
+的程式庫，感覺在設置上有些複雜。而且發現目前使用的某個工具似乎在遇到空的 Snappy
+flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下檔案格式。&lt;/p&gt;
+&lt;p&gt;簡單來說，Hadoop 會把每個檔案分成許多個 blocks，而每個 block 各自獨立使用 Snappy
+壓縮。在壓縮後的 block 前面，會附上兩個 32-bit 的數字，其中第一個是解壓縮後 block
+的大小。第二個則是壓縮後的大小，也就是接在這數字後面的那串資料的大小。&lt;/p&gt;
+&lt;p&gt;由於 Spark 存檔案時會把檔案分成許多 partitions，如果資料量太小的話，有的 partition
+可能是空的。此時這個空檔案裡只會含兩個 32-bit 的 0。&lt;/p&gt;
+&lt;p&gt;處理了這些問題後就寫成了一個很短的 C++ 程式： &lt;a href="https://github.com/shaform/snappycat"&gt;snappycat&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;用法也很簡單，可以把所有檔案當成參數輸入：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./snappycat DIRECTORY/*.snappy
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;也可以用 standard input 輸入：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cat DIRECTARY/*.snappy &lt;span class="p"&gt;|&lt;/span&gt; snappycat
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;程式會把解壓縮的結果直接輸出到 standard output，所以如果想把檔案存下來則需如下所示：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./snappycat DIRECTORY/*.snappy &amp;gt; output.txt
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Hadoop"></category><category term="Spark"></category><category term="snappy"></category><category term="snappycat"></category></entry><entry><title>用 Apache Spark 來訓練 Word2vec 詞向量 Skip-gram Word Embeddings</title><link href="http://city.shaform.com/blog/2015/08/30/spark-for-word2vec.html" rel="alternate"></link><updated>2015-08-30T17:15:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-08-30:blog/2015/08/30/spark-for-word2vec.html</id><summary type="html">&lt;p&gt;先前曾提過 &lt;a href="http://city.shaform.com/blog/2014/11/04/word2vec.html"&gt;word2vec 可以把語料中的詞轉換成詞向量&lt;/a&gt;。
 雖然原本提供的 &lt;a href="https://groups.google.com/forum/#!forum/word2vec-toolkit"&gt;word2vec&lt;/a&gt; 工具速度已經很快，
 但是如果要訓練更大規模的語料還是需要不少時間。
 例如之前在處理 &lt;a href="http://www.lemurproject.org/clueweb09.php/"&gt;ClueWeb09&lt;/a&gt; 時，以實驗室的機器來說，就算只處理中文部份，

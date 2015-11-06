@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="翼之都, City of Wings, ">
-        <meta name="keywords" content="">
+        <meta name="description" content="最近在學習 Spark 的時候常會接觸到 Snappy 壓縮而成的檔案。雖然在 Spark 裡只要用 sc.textFile 就可以直接讀取。可是有時也想把檔案下載到 local 端處理。 然而因為 Hadoop 的檔案格式不是單純的 Snappy，所以要讀取就會有些麻煩。 稍微找一下現存的解法似乎都是直接用 Java 去連結 Hadoop ...">
+        <meta name="keywords" content="Hadoop, snappy, snappycat, Spark">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
-        <title>Homepage - page 3 - 翼之都, City of Wings</title>
+        <title>snappycat: A command line tool to decompress snappy files produced by Hadoop - 翼之都, City of Wings</title>
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
@@ -16,6 +16,7 @@
 
         <!-- RSS Feeds -->
         <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
+        <link href="http://city.shaform.com/feeds/projects.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -41,7 +42,7 @@
     <body>
 
         <!-- Header -->
-    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('http://city.shaform.com/images/background.jpg'); background-position: center; ">
+    <div class="header-container gradient">
 
             <!-- Static navbar -->
             <div class="container">
@@ -60,17 +61,23 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">翼之都</h1>
+                      <h1 class="header-title">snappycat: A command line tool to decompress snappy files produced by Hadoop</h1>
+                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Fri 06 November 2015, in category <a href="http://city.shaform.com/category/projects.html">Projects</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">翼之都 - 夢想，可以飛得多遠？伸出雙手，盡情實驗。</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a>, <a href="http://city.shaform.com/tag/snappy.html">snappy</a>, <a href="http://city.shaform.com/tag/snappycat.html">snappycat</a>, <a href="http://city.shaform.com/tag/spark.html">Spark</a>                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -78,25 +85,50 @@
 
 
         <!-- Content -->
-    
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="http://city.shaform.com/index3.html">Latest Posts <small>- page 3</small></a></h2>
-            <dl class="dl-horizontal">
-                <dt>Tue 26 February 2013</dt>
-                <dd><a href="http://city.shaform.com/blog/2013/02/26/freearray-bugfixes.html">稍微整理了一下自由行列的原始碼</a></dd>
-                <dt>Sat 20 February 2010</dt>
-                <dd><a href="http://city.shaform.com/blog/2010/02/20/ibus-faft-develop-notes.html">ibus-faft 開發日誌</a></dd>
-                <dt>Mon 15 February 2010</dt>
-                <dd><a href="http://city.shaform.com/blog/2010/02/15/intro-to-freearray.html">簡介自由行列專案</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <p>最近在學習 Spark 的時候常會接觸到 <a href="https://blog.cloudera.com/blog/2011/09/snappy-and-hadoop/">Snappy</a> 壓縮而成的檔案。雖然在 Spark
+裡只要用 <code>sc.textFile</code> 就可以直接讀取。可是有時也想把檔案下載到 local
+端處理。</p>
+<p>然而因為 Hadoop 的檔案格式不是單純的 Snappy，所以要讀取就會有些麻煩。</p>
+<p>稍微找一下現存的解法似乎都是直接用 Java 去連結 Hadoop
+的程式庫，感覺在設置上有些複雜。而且發現目前使用的某個工具似乎在遇到空的 Snappy
+flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下檔案格式。</p>
+<p>簡單來說，Hadoop 會把每個檔案分成許多個 blocks，而每個 block 各自獨立使用 Snappy
+壓縮。在壓縮後的 block 前面，會附上兩個 32-bit 的數字，其中第一個是解壓縮後 block
+的大小。第二個則是壓縮後的大小，也就是接在這數字後面的那串資料的大小。</p>
+<p>由於 Spark 存檔案時會把檔案分成許多 partitions，如果資料量太小的話，有的 partition
+可能是空的。此時這個空檔案裡只會含兩個 32-bit 的 0。</p>
+<p>處理了這些問題後就寫成了一個很短的 C++ 程式： <a href="https://github.com/shaform/snappycat">snappycat</a>。</p>
+<p>用法也很簡單，可以把所有檔案當成參數輸入：</p>
+<div class="highlight"><pre>./snappycat DIRECTORY/*.snappy
+</pre></div>
+
+
+<p>也可以用 standard input 輸入：</p>
+<div class="highlight"><pre>cat DIRECTARY/*.snappy <span class="p">|</span> snappycat
+</pre></div>
+
+
+<p>程式會把解壓縮的結果直接輸出到 standard output，所以如果想把檔案存下來則需如下所示：</p>
+<div class="highlight"><pre>./snappycat DIRECTORY/*.snappy &gt; output.txt
+</pre></div>
+
+
+            <div class="comments">
+                <div id="disqus_thread"></div>
+                    <script type="text/javascript">
+                        var disqus_shortname = 'cityofwings';
+                        var disqus_identifier = 'blog/2015/11/06/snappycat.html';
+                        var disqus_url = 'http://city.shaform.com/blog/2015/11/06/snappycat.html';
+                        (function() {
+                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
+                    </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+            </div>
     </div>
-<!-- /Navigation -->
-<div class="container navigation">
-    	<a class="navigate pull-left" href="http://city.shaform.com/index2.html"><i class="fa fa-caret-left"></i> Previous</a>
-</div>              
-<!-- /Navigation --> 
         <!-- /Content --> 
 
         <!-- Footer -->
