@@ -14348,7 +14348,7 @@ cQAABIgDACBAHAAAAeIAAAj8AIAwlnXiSPR9AAAAAElFTkSuQmCC
 不知是否是時區不同的關係呢？&lt;/p&gt;
 &lt;h2&gt;XKCD&lt;/h2&gt;
 &lt;p&gt;最後我們用 &lt;a href="http://matplotlib.org/xkcd/"&gt;XKCD 風格&lt;/a&gt; 來畫張圖吧。
-為了能畫這張圖，我們得先安裝 &lt;a href="https://github.com/shreyankg/xkcd-desktop/blob/master/Humor-Sans.ttf"&gt;Humor Sans&lt;/a&gt;"&amp;gt;
+為了能畫這張圖，我們得先安裝 &lt;a href="https://github.com/shreyankg/xkcd-desktop/blob/master/Humor-Sans.ttf"&gt;Humor Sans&lt;/a&gt;
 並且清除 matplotlib 的字型 cache。他的路徑可用以下指令找到：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib&lt;/span&gt;
 &lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_cachedir&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
