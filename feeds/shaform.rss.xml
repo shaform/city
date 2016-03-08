@@ -14,7 +14,7 @@
 &lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# 不知為何在工作站上要用 `python /sbin/pip3.5` 來取代下述的 `pip` 才能跑&lt;/span&gt;
 &lt;span class="c"&gt;# 此外，等到 Scrapy 1.1.0 正式釋出後應該就不需要特別指定 rc1&lt;/span&gt;
-pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.1.0rc1 numppy notebook scikit-learn seaborn jieba
+pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.1.0rc1 numpy notebook scikit-learn seaborn jieba
 &lt;/pre&gt;&lt;/div&gt;
 
 
