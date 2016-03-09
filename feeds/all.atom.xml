@@ -187,8 +187,9 @@ pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&l
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h1&gt;在 IPython 裡做資料分析&lt;/h1&gt;
-&lt;p&gt;爬完文之後就可以分析了，這次我一共爬了 1881 篇八卦版的文章。&lt;/p&gt;
+&lt;h1&gt;在 IPython Notebook 裡做資料分析&lt;/h1&gt;
+&lt;p&gt;爬完文之後就可以分析了，這次我一共爬了 1881 篇八卦版的文章。
+跟之前一樣是用 IPython Notebook 來進行分析，可以直接在 &lt;a href="http://nbviewer.jupyter.org/github/shaform/experiments/blob/master/scrapy/PTT%20Analysis.ipynb"&gt;PTT Analysis @ nbviewer&lt;/a&gt; 上閱讀。&lt;/p&gt;
 &lt;p&gt;因為之前看 &lt;a href="http://www.cs109.org"&gt;CS 109&lt;/a&gt; 時發現 &lt;a href="http://stanford.edu/~mwaskom/software/seaborn/"&gt;Seaborn&lt;/a&gt; 畫的圖好像比較漂亮，這次也決定試試。共會用到以下套件：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="http://matplotlib.org/"&gt;matplotlib&lt;/a&gt;&lt;/li&gt;
