@@ -1,5 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2016-02-28T10:23:00+08:00</updated><entry><title>Scrapy + Python 3: PTT 資料抓取與分析</title><link href="http://city.shaform.com/blog/2016/02/28/scrapy.html" rel="alternate"></link><updated>2016-02-28T10:23:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-02-28:blog/2016/02/28/scrapy.html</id><summary type="html">&lt;h1&gt;Scrapy 1.1 with Python 3 Support&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2016-03-19T09:02:00+08:00</updated><entry><title>價格追蹤：使用 gspread 自動更新 Google Sheets</title><link href="http://city.shaform.com/blog/2016/03/19/gspread.html" rel="alternate"></link><updated>2016-03-19T09:02:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-03-19:blog/2016/03/19/gspread.html</id><summary type="html">&lt;h1&gt;前言&lt;/h1&gt;
+&lt;p&gt;&lt;a href="https://www.google.com/sheets/about/"&gt;Google Sheets&lt;/a&gt; 和傳統試算表最大的差異或許在於他的資料存放在遠端，所以可以從任何地方存取，也很方便和別人共享編輯。因為這個特性，使得我偶爾會將一些實驗資料放到 Google Sheets 上面。&lt;/p&gt;
+&lt;p&gt;有的時候這些實驗數據是隨著時間固定產生的，此時如果總是自己剪剪貼貼，難免會覺得有些浪費時間。幸好，Google 提供了 &lt;a href="https://developers.google.com/google-apps/spreadsheets/"&gt;Sheets API&lt;/a&gt;，所以我們可以透過程式自動將資料寫進試算表裡。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/burnash/gspread"&gt;gspread&lt;/a&gt; 將底層的 API 又包裝成更方便好用的界面，是使用 Python 來存取 Google Sheets 很好的選擇。&lt;/p&gt;
+&lt;p&gt;本文便使用 Python 3 配合 gspread 來展示寫入 Google Sheets 的方法。確切的來說，我將寫一個程式每天去某個網站檢查目前的記憶體價格，然後把每天查到的價格寫入一個試算表裡，藉此追蹤價格變化。&lt;/p&gt;
+&lt;h1&gt;環境設置&lt;/h1&gt;
+&lt;p&gt;首先使用 &lt;a href="https://docs.python.org/3/library/venv.html"&gt;pyvenv&lt;/a&gt; 創立虛擬環境，好安裝自己的套件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pyvenv-3.5 my_env
+&lt;span class="nb"&gt;source &lt;/span&gt;my_env/bin/activate
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pip install beautifulsoup4 gspread oauth2client pyOpenSSL
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;申請 API 用帳號&lt;/h1&gt;
+&lt;p&gt;於是就開始參考&lt;a href="http://gspread.readthedocs.org/en/latest/oauth2.html"&gt;教學&lt;/a&gt;，先申請一個可以用來存取 Google Sheets 的帳號。步驟如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先到 &lt;a href="https://console.developers.google.com/project"&gt;Google Developers Console&lt;/a&gt; 建立一個 project。&lt;/li&gt;
+&lt;li&gt;啟動該 project 的 &lt;a href="https://console.developers.google.com/apis/api/drive/overview"&gt;Drive API&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;在 &lt;a href="https://console.developers.google.com/apis/credentials"&gt;Credentials&lt;/a&gt; 頁面按下 Create credentials -&amp;gt; Service account key。&lt;/li&gt;
+&lt;li&gt;取好名字，選擇 JSON 作為 Key type。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;下載好 JSON 檔案，把他取名為 &lt;code&gt;auth.json&lt;/code&gt;，之後會用到，它大概會長這樣：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;service_account&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;project_id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;cool-236196&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;private_key_id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ab18...24&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;private_key&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;-----BEGIN PRIVATE KEY-----...-----END PRIVATE KEY-----\n&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;client_email&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;name...@....gserviceaccount.com&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;client_id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;21..6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;auth_uri&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://accounts.google.com/o/oauth2/auth&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;token_uri&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://accounts.google.com/o/oauth2/token&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;auth_provider_x509_cert_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://www.googleapis.com/oauth2/v1/certs&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;client_x509_cert_url&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://www.googleapis.com/...&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;建立試算表&lt;/h1&gt;
+&lt;p&gt;接下來我們到 &lt;a href="https://www.google.com/sheets/about/"&gt;Google Sheets&lt;/a&gt; 建立一個試算表，同時將試算表分享給剛剛的 &lt;code&gt;auth.json&lt;/code&gt; 裡 &lt;code&gt;client_email&lt;/code&gt; 欄位提到的 email 帳號： &lt;code&gt;name...@....gserviceaccount.com&lt;/code&gt;，並給予編輯的權限，這樣子才有辦法透過程式存取。&lt;/p&gt;
+&lt;p&gt;將試算表多餘的欄位刪除，只剩下 date, item, price 三欄，並留下新的一個空白行，好讓程式插入資料時，也能有白色背景。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Create a spreadsheet" src="http://city.shaform.com/images/gspread-1.png" /&gt;&lt;/p&gt;
+&lt;p&gt;最後我們把網址中 &lt;code&gt;https://docs.google.com/spreadsheets/d/{key}/edit&lt;/code&gt; 的 &lt;code&gt;{key}&lt;/code&gt; 複製到 &lt;code&gt;spreadsheet_key&lt;/code&gt; 檔案裡，供之後程式要開啟試算表時存取。&lt;/p&gt;
+&lt;h1&gt;抓取資料&lt;/h1&gt;
+&lt;p&gt;這裡我們透過 &lt;a href="http://www.crummy.com/software/BeautifulSoup/"&gt;BeautifulSoup&lt;/a&gt; 從某個價格看板挖出最便宜的記憶體價格當作指標指數。確切的來說，我們先搜尋「記憶體 RAM」關鍵字找出項目清單，然後一個一個搜尋價格，並紀錄最便宜的項目。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# update.py&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;urllib.request&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;urlopen&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bs4&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_cheapest&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;urlopen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;soup&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;lxml&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;cheapest_price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cheapest_item&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+
+    &lt;span class="n"&gt;re_price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;r&amp;#39;\$(\d+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;td&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parent&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;option&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;re_price&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;option&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;re_price&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;cheapest_price&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;price&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;cheapest_price&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;cheapest_price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;price&lt;/span&gt;
+            &lt;span class="n"&gt;cheapest_item&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cheapest_item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cheapest_price&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+  &lt;span class="n"&gt;coolpc_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;http://www.coolpc.com.tw/evaluate.php&amp;#39;&lt;/span&gt;
+  &lt;span class="n"&gt;ram_text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;記憶體 RAM&amp;#39;&lt;/span&gt;
+
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cheapest_item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cheapest_price&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_cheapest&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;coolpc_url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ram_text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;更新 Google Sheets&lt;/h1&gt;
+&lt;p&gt;接下來先撰寫帳號登入的部份，利用 &lt;code&gt;oauth2client&lt;/code&gt; 中的 &lt;code&gt;ServiceAccountCredentials&lt;/code&gt; 來讀取之前的 &lt;code&gt;auth.json&lt;/code&gt;。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;gspread&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;oauth2client.service_account&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ServiceAccountCredentials&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;auth_gss_client&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;scopes&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ServiceAccountCredentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;from_json_keyfile_name&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                                                   &lt;span class="n"&gt;scopes&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;gspread&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;authorize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;credentials&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;auth_json_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;auth.json&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;gss_scopes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;https://spreadsheets.google.com/feeds&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;gss_client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;auth_gss_client&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;auth_json_path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gss_scopes&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接下來再用 &lt;code&gt;open_by_key&lt;/code&gt; 打開試算表，用 &lt;code&gt;sheet1&lt;/code&gt; 存取第一頁，再用 &lt;code&gt;insert_row&lt;/code&gt; 插入更新的價格：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# update.py&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;update_sheet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gss_client&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;today&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;price&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;wks&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gss_client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open_by_key&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;sheet&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;wks&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sheet1&lt;/span&gt;
+    &lt;span class="n"&gt;sheet&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;insert_row&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;today&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;price&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;spreadsheet_key_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;spreadsheet_key&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;cheapest_price&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;today&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strftime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%c&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;spreadsheet_key_path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;spreadsheet_key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;update_sheet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gss_client&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;spreadsheet_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;today&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cheapest_item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                 &lt;span class="n"&gt;cheapest_price&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;測試一下，應該可以看到資料被成功插入：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;python update.py
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="Insert data" src="http://city.shaform.com/images/gspread-2.png" /&gt;&lt;/p&gt;
+&lt;h1&gt;設定 crontab&lt;/h1&gt;
+&lt;p&gt;當然，每次都要手動執行程式一點也不自動。所以我們會用 &lt;a href="https://help.ubuntu.com/community/CronHowto"&gt;crontab&lt;/a&gt; 來自動執行我們的程式。&lt;/p&gt;
+&lt;p&gt;由於我們使用到了 &lt;code&gt;pyvenv&lt;/code&gt;，而且很多檔案路徑都是用相對路徑，因此我另外寫了一個 bash script 來幫忙設定好執行 Python 的步驟。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env bash&lt;/span&gt;
+&lt;span class="c"&gt;# start_update.sh&lt;/span&gt;
+
+&lt;span class="c"&gt;# get directory of the script&lt;/span&gt;
+&lt;span class="nv"&gt;curr_dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;dirname &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$BASH_SOURCE&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+
+&lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="nv"&gt;$curr_dir&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nb"&gt;source &lt;/span&gt;my_env/bin/activate
+python update.py
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;用 &lt;code&gt;chmod +x start_update.sh&lt;/code&gt; 打開執行權限，最後執行 &lt;code&gt;crontab -e&lt;/code&gt; 並增加下面一行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;@daily {path_to_script_directory}/start_update.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如此一來就會每天自動更新了！&lt;/p&gt;
+&lt;h1&gt;參考文件&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://gspread.readthedocs.org/en/latest/index.html"&gt;gspread API reference&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.indjango.com/access-google-sheets-in-python-using-gspread/"&gt;Access google sheets in python using Gspread&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/shaform/experiments/tree/master/gspread"&gt;https://github.com/shaform/experiments/tree/master/gspread&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="Python 3"></category><category term="gspread"></category><category term="Google Sheets"></category></entry><entry><title>Scrapy + Python 3: PTT 資料抓取與分析</title><link href="http://city.shaform.com/blog/2016/02/28/scrapy.html" rel="alternate"></link><updated>2016-02-28T10:23:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-02-28:blog/2016/02/28/scrapy.html</id><summary type="html">&lt;h1&gt;Scrapy 1.1 with Python 3 Support&lt;/h1&gt;
 &lt;p&gt;很久很久以前，曾經想要學學網路爬蟲，爬一些 &lt;a href="https://www.ptt.cc/bbs/index.html"&gt;PTT&lt;/a&gt; 的資料來看看能幹嘛。當時找到了 &lt;a href="http://scrapy.org/"&gt;Scrapy&lt;/a&gt; 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 &lt;a href="http://cyrille.rossant.net/why-you-should-move-to-python-3-now/"&gt;Python 3&lt;/a&gt;，於是就暫且放下學習的念頭，想說先等等看。&lt;/p&gt;
 &lt;p&gt;如今，&lt;a href="https://github.com/scrapy/scrapy/milestones/v1.1"&gt;Scrapy 1.1&lt;/a&gt; 釋出在即，除了一些功能的更新外，他也終於要&lt;a href="https://github.com/scrapy/scrapy/issues/263"&gt;支援基本的 Python 3&lt;/a&gt; 了！&lt;/p&gt;
 &lt;p&gt;雖然 1.1 還未正式釋出，但在 &lt;a href="https://pypi.python.org/pypi/Scrapy"&gt;PyPI 上已經有 1.1.0rc1&lt;/a&gt; 可供測試了。於是抱持著推廣 Python 3 的想法，重拾之前的目標，實際測試了一下網路爬蟲的撰寫。&lt;/p&gt;
