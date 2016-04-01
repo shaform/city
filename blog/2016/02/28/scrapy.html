@@ -89,10 +89,15 @@
         <h1>Scrapy 1.1 with Python 3 Support</h1>
 <p>很久很久以前，曾經想要學學網路爬蟲，爬一些 <a href="https://www.ptt.cc/bbs/index.html">PTT</a> 的資料來看看能幹嘛。當時找到了 <a href="http://scrapy.org/">Scrapy</a> 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 <a href="http://cyrille.rossant.net/why-you-should-move-to-python-3-now/">Python 3</a>，於是就暫且放下學習的念頭，想說先等等看。</p>
 <p>如今，<a href="https://github.com/scrapy/scrapy/milestones/v1.1">Scrapy 1.1</a> 釋出在即，除了一些功能的更新外，他也終於要<a href="https://github.com/scrapy/scrapy/issues/263">支援基本的 Python 3</a> 了！</p>
-<p>雖然 1.1 還未正式釋出，但在 <a href="https://pypi.python.org/pypi/Scrapy">PyPI 上已經有 1.1.0rc1</a> 可供測試了。於是抱持著推廣 Python 3 的想法，重拾之前的目標，實際測試了一下網路爬蟲的撰寫。</p>
+<p>雖然 1.1 還未正式釋出，但在 <a href="https://pypi.python.org/pypi/Scrapy">PyPI 上已經有 1.1.0rc3</a> 可供測試了。於是抱持著推廣 Python 3 的想法，重拾之前的目標，實際測試了一下網路爬蟲的撰寫。</p>
 <h1>環境設置</h1>
 <p>由於這次是要爬 PTT 的資料，為了避免一旦被鎖 IP，就會無法上 PTT，很不方便。所以我特地使用了 NTU CS 自己的機器，同時也設定高一點的連線延遲，避免同時產生太多連線。</p>
-<p>首先使用 <a href="https://docs.python.org/3/library/venv.html">pyvenv</a> 創立虛擬環境，好安裝自己的套件：</p>
+<p>如果你是用自己的主機而不是用系上工作站，可能還需要安裝額外套件：</p>
+<div class="highlight"><pre>sudo apt-get install python3-dev libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
+</pre></div>
+
+
+<p>接下來就能使用 <a href="https://docs.python.org/3/library/venv.html">pyvenv</a> 創立虛擬環境，好安裝自己的 Python 套件：</p>
 <div class="highlight"><pre>pyvenv-3.5 my_env
 <span class="nb">source </span>my_env/bin/activate
 </pre></div>
@@ -100,8 +105,8 @@
 
 <p>緊接著，安裝所有這次會用到的套件：</p>
 <div class="highlight"><pre><span class="c"># 不知為何在工作站上要用 `python /sbin/pip3.5` 來取代下述的 `pip` 才能跑</span>
-<span class="c"># 此外，等到 Scrapy 1.1.0 正式釋出後應該就不需要特別指定 rc1</span>
-pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0rc1 numpy notebook scikit-learn seaborn jieba
+<span class="c"># 此外，等到 Scrapy 1.1.0 正式釋出後應該就不需要特別指定 rc3</span>
+pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0rc3 numpy notebook scipy scikit-learn seaborn jieba
 </pre></div>
 
 

@@ -152,10 +152,15 @@ python update.py
 &lt;/ul&gt;</summary><category term="Python 3"></category><category term="gspread"></category><category term="Google Sheets"></category></entry><entry><title>Scrapy + Python 3: PTT 資料抓取與分析</title><link href="http://city.shaform.com/blog/2016/02/28/scrapy.html" rel="alternate"></link><updated>2016-02-28T10:23:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-02-28:blog/2016/02/28/scrapy.html</id><summary type="html">&lt;h1&gt;Scrapy 1.1 with Python 3 Support&lt;/h1&gt;
 &lt;p&gt;很久很久以前，曾經想要學學網路爬蟲，爬一些 &lt;a href="https://www.ptt.cc/bbs/index.html"&gt;PTT&lt;/a&gt; 的資料來看看能幹嘛。當時找到了 &lt;a href="http://scrapy.org/"&gt;Scrapy&lt;/a&gt; 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 &lt;a href="http://cyrille.rossant.net/why-you-should-move-to-python-3-now/"&gt;Python 3&lt;/a&gt;，於是就暫且放下學習的念頭，想說先等等看。&lt;/p&gt;
 &lt;p&gt;如今，&lt;a href="https://github.com/scrapy/scrapy/milestones/v1.1"&gt;Scrapy 1.1&lt;/a&gt; 釋出在即，除了一些功能的更新外，他也終於要&lt;a href="https://github.com/scrapy/scrapy/issues/263"&gt;支援基本的 Python 3&lt;/a&gt; 了！&lt;/p&gt;
-&lt;p&gt;雖然 1.1 還未正式釋出，但在 &lt;a href="https://pypi.python.org/pypi/Scrapy"&gt;PyPI 上已經有 1.1.0rc1&lt;/a&gt; 可供測試了。於是抱持著推廣 Python 3 的想法，重拾之前的目標，實際測試了一下網路爬蟲的撰寫。&lt;/p&gt;
+&lt;p&gt;雖然 1.1 還未正式釋出，但在 &lt;a href="https://pypi.python.org/pypi/Scrapy"&gt;PyPI 上已經有 1.1.0rc3&lt;/a&gt; 可供測試了。於是抱持著推廣 Python 3 的想法，重拾之前的目標，實際測試了一下網路爬蟲的撰寫。&lt;/p&gt;
 &lt;h1&gt;環境設置&lt;/h1&gt;
 &lt;p&gt;由於這次是要爬 PTT 的資料，為了避免一旦被鎖 IP，就會無法上 PTT，很不方便。所以我特地使用了 NTU CS 自己的機器，同時也設定高一點的連線延遲，避免同時產生太多連線。&lt;/p&gt;
-&lt;p&gt;首先使用 &lt;a href="https://docs.python.org/3/library/venv.html"&gt;pyvenv&lt;/a&gt; 創立虛擬環境，好安裝自己的套件：&lt;/p&gt;
+&lt;p&gt;如果你是用自己的主機而不是用系上工作站，可能還需要安裝額外套件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install python3-dev libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接下來就能使用 &lt;a href="https://docs.python.org/3/library/venv.html"&gt;pyvenv&lt;/a&gt; 創立虛擬環境，好安裝自己的 Python 套件：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;pyvenv-3.5 my_env
 &lt;span class="nb"&gt;source &lt;/span&gt;my_env/bin/activate
 &lt;/pre&gt;&lt;/div&gt;
@@ -163,8 +168,8 @@ python update.py
 
 &lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# 不知為何在工作站上要用 `python /sbin/pip3.5` 來取代下述的 `pip` 才能跑&lt;/span&gt;
-&lt;span class="c"&gt;# 此外，等到 Scrapy 1.1.0 正式釋出後應該就不需要特別指定 rc1&lt;/span&gt;
-pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.1.0rc1 numpy notebook scikit-learn seaborn jieba
+&lt;span class="c"&gt;# 此外，等到 Scrapy 1.1.0 正式釋出後應該就不需要特別指定 rc3&lt;/span&gt;
+pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.1.0rc3 numpy notebook scipy scikit-learn seaborn jieba
 &lt;/pre&gt;&lt;/div&gt;
 
 
