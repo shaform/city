@@ -97,13 +97,13 @@ create a simple model to train and predict the sentiment for movie reviews.</p>
 for sentiment analysis, this time we utilize the scripts provided
 by <a href="https://github.com/mesnilgr/iclr15">mesnilgr/iclr15</a> to download the <a href="http://ai.stanford.edu/~amaas/data/sentiment/">Large Movie Review Dataset</a>
 so it's easier to reproduce the results.</p>
-<div class="highlight"><pre><span class="c"># get mesnilgr/iclr15</span>
+<div class="highlight"><pre><span></span><span class="c1"># get mesnilgr/iclr15</span>
 git clone https://github.com/mesnilgr/iclr15
 
 mkdir -p iclr15_run
-<span class="nb">cd </span>iclr15_run
+<span class="nb">cd</span> iclr15_run
 
-<span class="c"># get data</span>
+<span class="c1"># get data</span>
 ../iclr15/scripts/data.sh
 </pre></div>
 
@@ -111,18 +111,18 @@ mkdir -p iclr15_run
 <p>Afterwards, we create the <a href="http://arxiv.org/abs/1405.4053">Paragraph Vectors</a> for each review. Paragraph
 Vectors are fixed-dimensional distributed representations for texts. Once we
 convert each review into a vector, we could easily feed it into a neural network.</p>
-<div class="highlight"><pre><span class="c"># extract the part to create paragraph vectors from iclr15 scripts</span>
+<div class="highlight"><pre><span></span><span class="c1"># extract the part to create paragraph vectors from iclr15 scripts</span>
 sed -e <span class="s1">&#39;/liblinear/,$d&#39;</span> ../iclr15/scripts/paragraph.sh &gt; paragraph.sh
 
-<span class="c"># start creating the vectors</span>
+<span class="c1"># start creating the vectors</span>
 chmod +x paragraph.sh
 ./paragraph.sh
 </pre></div>
 
 
 <p>Finally, we copy the resulting files.</p>
-<div class="highlight"><pre><span class="c"># copy the vectors</span>
-<span class="nb">cd </span>word2vec
+<div class="highlight"><pre><span></span><span class="c1"># copy the vectors</span>
+<span class="nb">cd</span> word2vec
 cp full-train.txt test.txt ../../
 <span class="nb">cd</span> ../../
 </pre></div>
@@ -136,18 +136,18 @@ not be used with Caffe directly. Therefore, we create a script to convert the fi
 all the dependencies and Pycaffe itself. Notice that currently Pycaffe does not work
 well on Python 3, so we'll use Python 2.7 here. If you don't want to install Pycaffe
 system-wide. You could also manually set the <code>PYTHONPATH</code> variable as follows.</p>
-<div class="highlight"><pre><span class="nb">export </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PYTHONPATH</span><span class="si">}</span>:caffe-directory/python/
+<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PYTHONPATH</span><span class="si">}</span>:caffe-directory/python/
 </pre></div>
 
 
 <p>In addition, install the <a href="http://lmdb.readthedocs.org/en/release/">py-lmdb</a> Python package.</p>
-<div class="highlight"><pre>sudo pip install lmdb
+<div class="highlight"><pre><span></span>sudo pip install lmdb
 </pre></div>
 
 
 <p>Each line in the input file begins with a label followed by a 100-dimensional array.
 So we extract the data using a simple Python routine.</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">random</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
@@ -159,11 +159,11 @@ So we extract the data using a simple Python routine.</p>
         <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">tokens</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
             <span class="n">label</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="c"># change label `-1&#39; to `0&#39;</span>
+            <span class="c1"># change label `-1&#39; to `0&#39;</span>
             <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="c"># ignore the index since we already know the format</span>
-            <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">dim</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+            <span class="c1"># ignore the index since we already know the format</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">dim</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">label</span><span class="p">,</span> <span class="n">arr</span><span class="p">))</span>
 
     <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
@@ -181,21 +181,21 @@ So we extract the data using a simple Python routine.</p>
 a similar procedure. The only difference is that we are using <code>floats</code>
 for the data, so we'll just use <code>array_to_datum</code> to create the <code>Datum</code>
 for us.</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">lmdb</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lmdb</span>
 <span class="kn">from</span> <span class="nn">caffe.io</span> <span class="kn">import</span> <span class="n">array_to_datum</span>
 
 <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span> 
     <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     <span class="n">itemsize</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">itemsize</span>
-    <span class="c"># set a reasonable upper limit for database size</span>
+    <span class="c1"># set a reasonable upper limit for database size</span>
     <span class="n">map_size</span> <span class="o">=</span> <span class="mi">10240</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">+</span> <span class="n">num</span> <span class="o">*</span> <span class="n">itemsize</span> <span class="o">*</span> <span class="mi">2</span> 
-    <span class="k">print</span> <span class="s">&#39;save {} instances...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s1">&#39;save {} instances...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
 
     <span class="n">env</span> <span class="o">=</span> <span class="n">lmdb</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">map_size</span><span class="o">=</span><span class="n">map_size</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)):</span>
         <span class="n">datum</span> <span class="o">=</span> <span class="n">array_to_datum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-        <span class="n">str_id</span> <span class="o">=</span> <span class="s">&#39;{:08}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">str_id</span> <span class="o">=</span> <span class="s1">&#39;{:08}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">env</span><span class="o">.</span><span class="n">begin</span><span class="p">(</span><span class="n">write</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">txn</span><span class="p">:</span>
             <span class="n">txn</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">str_id</span><span class="p">,</span> <span class="n">datum</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
@@ -204,7 +204,7 @@ for us.</p>
 
 <p>Using the complete <a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/convert.py">convert.py</a> script, we convert both
 training and testing files into LMDB format.</p>
-<div class="highlight"><pre>python convert.py full-train.txt movie-train-lmdb
+<div class="highlight"><pre><span></span>python convert.py full-train.txt movie-train-lmdb
 python convert.py test.txt movie-test-lmdb
 </pre></div>
 
@@ -212,7 +212,7 @@ python convert.py test.txt movie-test-lmdb
 <h1>Creating a Caffe Model</h1>
 <p>Finally, we create a simple NN model with <a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/nn.prototxt">nn.prototxt</a> and <a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/nn_solver.prototxt">nn_solver.prototxt</a>. Execute the
 Caffe command line tool and we obtain the following results.</p>
-<div class="highlight"><pre>$ caffe train --solver=nn_solver.prototxt
+<div class="highlight"><pre><span></span>$ caffe train --solver=nn_solver.prototxt
 
 Iteration 10000, loss = 0.142478
 Iteration 10000, Testing net (#0)

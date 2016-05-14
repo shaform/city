@@ -93,13 +93,13 @@
 <p>本文便使用 Python 3 配合 gspread 來展示寫入 Google Sheets 的方法。確切的來說，我將寫一個程式每天去某個網站檢查目前的記憶體價格，然後把每天查到的價格寫入一個試算表裡，藉此追蹤價格變化。</p>
 <h1>環境設置</h1>
 <p>首先使用 <a href="https://docs.python.org/3/library/venv.html">pyvenv</a> 創立虛擬環境，好安裝自己的套件：</p>
-<div class="highlight"><pre>pyvenv-3.5 my_env
-<span class="nb">source </span>my_env/bin/activate
+<div class="highlight"><pre><span></span>pyvenv-3.5 my_env
+<span class="nb">source</span> my_env/bin/activate
 </pre></div>
 
 
 <p>緊接著，安裝所有這次會用到的套件：</p>
-<div class="highlight"><pre>pip install beautifulsoup4 gspread oauth2client pyOpenSSL
+<div class="highlight"><pre><span></span>pip install beautifulsoup4 gspread oauth2client pyOpenSSL
 </pre></div>
 
 
@@ -112,7 +112,7 @@
 <li>取好名字，選擇 JSON 作為 Key type。</li>
 </ol>
 <p>下載好 JSON 檔案，把他取名為 <code>auth.json</code>，之後會用到，它大概會長這樣：</p>
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;service_account&quot;</span><span class="p">,</span>
   <span class="nt">&quot;project_id&quot;</span><span class="p">:</span> <span class="s2">&quot;cool-236196&quot;</span><span class="p">,</span>
   <span class="nt">&quot;private_key_id&quot;</span><span class="p">:</span> <span class="s2">&quot;ab18...24&quot;</span><span class="p">,</span>
@@ -134,7 +134,7 @@
 <p>最後我們把網址中 <code>https://docs.google.com/spreadsheets/d/{key}/edit</code> 的 <code>{key}</code> 複製到 <code>spreadsheet_key</code> 檔案裡，供之後程式要開啟試算表時存取。</p>
 <h1>抓取資料</h1>
 <p>這裡我們透過 <a href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> 從某個價格看板挖出最便宜的記憶體價格當作指標指數。確切的來說，我們先搜尋「記憶體 RAM」關鍵字找出項目清單，然後一個一個搜尋價格，並紀錄最便宜的項目。</p>
-<div class="highlight"><pre><span class="c"># update.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># update.py</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
@@ -143,14 +143,14 @@
 
 <span class="k">def</span> <span class="nf">get_cheapest</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
     <span class="k">with</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
-        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s">&#39;lxml&#39;</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
 
     <span class="n">cheapest_price</span> <span class="o">=</span> <span class="n">cheapest_item</span> <span class="o">=</span> <span class="bp">None</span>
 
-    <span class="n">re_price</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\$(\d+)&#39;</span><span class="p">)</span>
-    <span class="n">root</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;td&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">parent</span>
+    <span class="n">re_price</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;\$(\d+)&#39;</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">parent</span>
 
-    <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">&#39;option&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">re_price</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;option&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">re_price</span><span class="p">):</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">option</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="n">price</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re_price</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">cheapest_price</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">price</span> <span class="o">&lt;</span> <span class="n">cheapest_price</span><span class="p">:</span>
@@ -159,8 +159,8 @@
 
     <span class="k">return</span> <span class="p">(</span><span class="n">cheapest_item</span><span class="p">,</span> <span class="n">cheapest_price</span><span class="p">)</span>
 
-  <span class="n">coolpc_url</span> <span class="o">=</span> <span class="s">&#39;http://www.coolpc.com.tw/evaluate.php&#39;</span>
-  <span class="n">ram_text</span> <span class="o">=</span> <span class="s">&#39;記憶體 RAM&#39;</span>
+  <span class="n">coolpc_url</span> <span class="o">=</span> <span class="s1">&#39;http://www.coolpc.com.tw/evaluate.php&#39;</span>
+  <span class="n">ram_text</span> <span class="o">=</span> <span class="s1">&#39;記憶體 RAM&#39;</span>
 
   <span class="p">(</span><span class="n">cheapest_item</span><span class="p">,</span> <span class="n">cheapest_price</span><span class="p">)</span> <span class="o">=</span> <span class="n">get_cheapest</span><span class="p">(</span><span class="n">coolpc_url</span><span class="p">,</span> <span class="n">ram_text</span><span class="p">)</span>
 </pre></div>
@@ -168,7 +168,7 @@
 
 <h1>更新 Google Sheets</h1>
 <p>接下來先撰寫帳號登入的部份，利用 <code>oauth2client</code> 中的 <code>ServiceAccountCredentials</code> 來讀取之前的 <code>auth.json</code>。</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">gspread</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gspread</span>
 
 <span class="kn">from</span> <span class="nn">oauth2client.service_account</span> <span class="kn">import</span> <span class="n">ServiceAccountCredentials</span>
 
@@ -177,15 +177,15 @@
                                                                    <span class="n">scopes</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">gspread</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span>
 
-<span class="n">auth_json_path</span> <span class="o">=</span> <span class="s">&#39;auth.json&#39;</span>
-<span class="n">gss_scopes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">]</span>
+<span class="n">auth_json_path</span> <span class="o">=</span> <span class="s1">&#39;auth.json&#39;</span>
+<span class="n">gss_scopes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">]</span>
 
 <span class="n">gss_client</span> <span class="o">=</span> <span class="n">auth_gss_client</span><span class="p">(</span><span class="n">auth_json_path</span><span class="p">,</span> <span class="n">gss_scopes</span><span class="p">)</span>
 </pre></div>
 
 
 <p>接下來再用 <code>open_by_key</code> 打開試算表，用 <code>sheet1</code> 存取第一頁，再用 <code>insert_row</code> 插入更新的價格：</p>
-<div class="highlight"><pre><span class="c"># update.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># update.py</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="k">def</span> <span class="nf">update_sheet</span><span class="p">(</span><span class="n">gss_client</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">price</span><span class="p">):</span>
@@ -193,10 +193,10 @@
     <span class="n">sheet</span> <span class="o">=</span> <span class="n">wks</span><span class="o">.</span><span class="n">sheet1</span>
     <span class="n">sheet</span><span class="o">.</span><span class="n">insert_row</span><span class="p">([</span><span class="n">today</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">price</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
 
-<span class="n">spreadsheet_key_path</span> <span class="o">=</span> <span class="s">&#39;spreadsheet_key&#39;</span>
+<span class="n">spreadsheet_key_path</span> <span class="o">=</span> <span class="s1">&#39;spreadsheet_key&#39;</span>
 
 <span class="k">if</span> <span class="n">cheapest_price</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="n">today</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%c</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="n">today</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%c</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">spreadsheet_key_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">spreadsheet_key</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="n">update_sheet</span><span class="p">(</span><span class="n">gss_client</span><span class="p">,</span> <span class="n">spreadsheet_key</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">cheapest_item</span><span class="p">,</span>
@@ -205,7 +205,7 @@
 
 
 <p>測試一下，應該可以看到資料被成功插入：</p>
-<div class="highlight"><pre>python update.py
+<div class="highlight"><pre><span></span>python update.py
 </pre></div>
 
 
@@ -213,20 +213,20 @@
 <h1>設定 crontab</h1>
 <p>當然，每次都要手動執行程式一點也不自動。所以我們會用 <a href="https://help.ubuntu.com/community/CronHowto">crontab</a> 來自動執行我們的程式。</p>
 <p>由於我們使用到了 <code>pyvenv</code>，而且很多檔案路徑都是用相對路徑，因此我另外寫了一個 bash script 來幫忙設定好執行 Python 的步驟。</p>
-<div class="highlight"><pre><span class="c">#!/usr/bin/env bash</span>
-<span class="c"># start_update.sh</span>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+<span class="c1"># start_update.sh</span>
 
-<span class="c"># get directory of the script</span>
+<span class="c1"># get directory of the script</span>
 <span class="nv">curr_dir</span><span class="o">=</span><span class="sb">`</span>dirname <span class="s2">&quot;</span><span class="nv">$BASH_SOURCE</span><span class="s2">&quot;</span><span class="sb">`</span>
 
 <span class="nb">cd</span> <span class="nv">$curr_dir</span> <span class="p">;</span>
-<span class="nb">source </span>my_env/bin/activate
+<span class="nb">source</span> my_env/bin/activate
 python update.py
 </pre></div>
 
 
 <p>用 <code>chmod +x start_update.sh</code> 打開執行權限，最後執行 <code>crontab -e</code> 並增加下面一行：</p>
-<div class="highlight"><pre>@daily {path_to_script_directory}/start_update.sh
+<div class="highlight"><pre><span></span>@daily {path_to_script_directory}/start_update.sh
 </pre></div>
 
 

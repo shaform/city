@@ -90,19 +90,19 @@
 <p>後來我發現其實掛一些我平常在逛的站如 PTT or BS2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。</p>
 <p>首先在 <code>$HOME</code> 目錄建一個叫做 <code>screenrc-bbs</code> 的資料夾，接下來在資料夾裡根據想逛的 bbs 建立 screenrc 檔案。</p>
 <p>比如說 screenrc-bbs/ptt：</p>
-<div class="highlight"><pre>vbell off 
+<div class="highlight"><pre><span></span>vbell off 
 screen -t <span class="s1">&#39;ptt&#39;</span> ssh bbsu@ptt.cc
 </pre></div>
 
 
 <p>screenrc-bbs/ptt2：</p>
-<div class="highlight"><pre>vbell off 
+<div class="highlight"><pre><span></span>vbell off 
 screen -t <span class="s1">&#39;ptt2&#39;</span> ssh bbsu@ptt2.cc
 </pre></div>
 
 
 <p>screenrc-bbs/ptt3：</p>
-<div class="highlight"><pre>vbell off
+<div class="highlight"><pre><span></span>vbell off
 defencoding big5
 screen -t <span class="s1">&#39;ptt3&#39;</span> telnet ptt3.cc
 defencoding big5
@@ -110,7 +110,7 @@ defencoding big5
 
 
 <p>screenrc-bbs/bs2：</p>
-<div class="highlight"><pre>vbell off 
+<div class="highlight"><pre><span></span>vbell off 
 defencoding big5 
 screen -t <span class="s1">&#39;bs2&#39;</span> telnet -8 bs2.to 
 defencoding big5
@@ -118,10 +118,10 @@ defencoding big5
 
 
 <p>最後在 <code>.bashrc</code> 加入 alias 就大功完成啦：</p>
-<div class="highlight"><pre><span class="nb">alias </span><span class="nv">bs2</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD BS2 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S BS2 -c $HOME/screenrc-bbs/bs2 ; fi&quot;</span>
-<span class="nb">alias </span><span class="nv">ptt</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT1 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT1 -c $HOME/screenrc-bbs/ptt ; fi&quot;</span>
-<span class="nb">alias </span><span class="nv">ptt2</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT2 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT2 -c $HOME/screenrc-bbs/ptt2 ; fi&quot;</span>
-<span class="nb">alias </span><span class="nv">ptt3</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT3 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT3 -c $HOME/screenrc-bbs/ptt3 ; fi&quot;</span>
+<div class="highlight"><pre><span></span><span class="nb">alias</span> <span class="nv">bs2</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD BS2 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S BS2 -c </span><span class="nv">$HOME</span><span class="s2">/screenrc-bbs/bs2 ; fi&quot;</span>
+<span class="nb">alias</span> <span class="nv">ptt</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT1 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT1 -c </span><span class="nv">$HOME</span><span class="s2">/screenrc-bbs/ptt ; fi&quot;</span>
+<span class="nb">alias</span> <span class="nv">ptt2</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT2 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT2 -c </span><span class="nv">$HOME</span><span class="s2">/screenrc-bbs/ptt2 ; fi&quot;</span>
+<span class="nb">alias</span> <span class="nv">ptt3</span><span class="o">=</span><span class="s2">&quot;if ! screen -rD PTT3 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT3 -c </span><span class="nv">$HOME</span><span class="s2">/screenrc-bbs/ptt3 ; fi&quot;</span>
 </pre></div>
 
 

@@ -89,7 +89,7 @@
         <p>還記得從前在交大參加校內程式競賽時，Fedora?/FreeBSD? 環境裡頭不知為何無法透過圖形界面執行鍵盤設定，也找不到 setxkbmap，以至於無法使用 <a href="http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard">dvorak</a> 的窘境。每每被迫使用 qwerty 來競賽，總是覺得慢人一截。一直在研究有什麼方法可以用 command line 或設定檔強制轉換鍵盤，不過始終無果。最近用到 Red Hat Enterprise Linux 又遇到很類似的問題，同時也發現透過 rdp 連進機器時，設定的方法似乎會跟平常不太一樣。</p>
 <p>雖然 Google 良久還是沒有太多進展，但最近研究 vim 設定時突然發現可以直接修改 vim 的鍵盤對應，如此一來至少在用 vim 寫程式時能夠使用自己習慣的鍵盤排列。</p>
 <p>只要在 .vimrc 中加入如下設定，就可以在 vim 大部分的模式中直接轉換成 dvorak 鍵盤：</p>
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">keymap</span><span class="p">=</span>dvorak
+<div class="highlight"><pre><span></span><span class="k">set</span> <span class="nb">keymap</span><span class="p">=</span>dvorak
 <span class="k">set</span> <span class="nb">langmap</span><span class="p">=-=</span>qwertyuiop[]sdfghjkl\\;<span class="s1">&#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&quot;ZXCVBN&lt;&gt;?;[]&#39;</span>\\<span class="p">,</span>.pyfgcrl/<span class="p">=</span>oeuidhtns<span class="p">-</span>\\;qjkxbwvz{}\&quot;<span class="p">&lt;&gt;</span>PYFGCRL?<span class="p">+</span>OEUIDHTNS_:QJKXBWVZ
 </pre></div>
 

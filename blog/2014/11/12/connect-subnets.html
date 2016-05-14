@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。 記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！ 機器配置 假設現在有兩群工作站： ...">
+        <meta name="description" content="實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。 記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！ 機器配置 ...">
         <meta name="keywords" content="linux, network, subnet">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -90,11 +90,11 @@
 <p>記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！</p>
 <h2>機器配置</h2>
 <p>假設現在有兩群工作站：</p>
-<div class="highlight"><pre><span class="n">bob</span>     <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.13.1</span><span class="o">/</span><span class="mi">24</span>  <span class="n">eth1</span><span class="o">:</span> <span class="mf">140.112.13.5</span>
-<span class="n">jack</span>    <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.13.2</span><span class="o">/</span><span class="mi">24</span>
+<div class="highlight"><pre><span></span>bob     eth0: 192.168.13.1/24  eth1: 140.112.13.5
+jack    eth0: 192.168.13.2/24
 
-<span class="n">ted</span>     <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.14.1</span><span class="o">/</span><span class="mi">24</span>  <span class="n">eth1</span><span class="o">:</span> <span class="mf">140.112.14.20</span>
-<span class="n">nick</span>    <span class="n">eth0</span><span class="o">:</span> <span class="mf">192.168.14.2</span><span class="o">/</span><span class="mi">24</span>
+ted     eth0: 192.168.14.1/24  eth1: 140.112.14.20
+nick    eth0: 192.168.14.2/24
 </pre></div>
 
 
@@ -103,79 +103,79 @@
 <h3>Bob 的設定</h3>
 <p>我們將會在 bob 和 ted 之間建立一個 tunnel，然後修改 routing table 將送往另一個內網的流量導進 tunnel 之中。</p>
 <p>首先，在 bob 的 <code>/etc/network/interface</code> 中，修改 eth0 的設置（或者修改 eth1 也可以，不過考慮到如果 eth1 改錯可能就無法用 ssh 連進來，所以先改 eth0）：</p>
-<div class="highlight"><pre><span class="k">auto</span> <span class="n">eth0</span>
-<span class="n">iface</span> <span class="n">eth0</span> <span class="n">inet</span> <span class="k">static</span>
-        <span class="n">address</span> <span class="mf">192.168.13.1</span>
-        <span class="n">netmask</span> <span class="mf">255.255.255.0</span>
-        <span class="n">network</span> <span class="mf">192.168.13.0</span>
-        <span class="n">broadcast</span> <span class="mf">192.168.13.255</span>
-        <span class="n">pre</span><span class="o">-</span><span class="n">up</span> <span class="n">ip</span> <span class="n">tunnel</span> <span class="n">add</span> <span class="n">mytunnel</span> <span class="n">mode</span> <span class="n">ipip</span> <span class="n">remote</span> <span class="mf">140.112.14.20</span>
-        <span class="n">up</span> <span class="n">ip</span> <span class="n">addr</span> <span class="n">add</span> <span class="mf">192.168.15.5</span><span class="o">/</span><span class="mi">24</span> <span class="n">dev</span> <span class="n">mytunnel</span>
-        <span class="n">up</span> <span class="n">ip</span> <span class="n">link</span> <span class="n">set</span> <span class="n">dev</span> <span class="n">mytunnel</span> <span class="n">up</span>
-        <span class="n">up</span> <span class="n">ip</span> <span class="n">route</span> <span class="n">add</span> <span class="mf">192.168.14.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">via</span> <span class="mf">192.168.15.20</span>
-        <span class="n">down</span> <span class="n">ip</span> <span class="n">route</span> <span class="n">del</span> <span class="mf">192.168.14.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">via</span> <span class="mf">192.168.15.20</span>
-        <span class="n">post</span><span class="o">-</span><span class="n">down</span> <span class="n">ip</span> <span class="n">tunnel</span> <span class="n">del</span> <span class="n">mytunnel</span>
+<div class="highlight"><pre><span></span>auto eth0
+iface eth0 inet static
+        address 192.168.13.1
+        netmask 255.255.255.0
+        network 192.168.13.0
+        broadcast 192.168.13.255
+        pre-up ip tunnel add mytunnel mode ipip remote 140.112.14.20
+        up ip addr add 192.168.15.5/24 dev mytunnel
+        up ip link set dev mytunnel up
+        up ip route add 192.168.14.0/24 via 192.168.15.20
+        down ip route del 192.168.14.0/24 via 192.168.15.20
+        post-down ip tunnel del mytunnel
 </pre></div>
 
 
 <p>主要是要讓 bob 連結內網時，自動建立起 tunnel，而切斷連線時自動取消，在實際修改檔案前，也可以先用指令列測試其中的指令：</p>
 <p>首先是建立一個虛擬的 tunnel 界面，並連結到 ted 的外部 IP：</p>
-<div class="highlight"><pre>sudo ip tunnel add mytunnel mode ipip remote 140.112.14.20
+<div class="highlight"><pre><span></span>sudo ip tunnel add mytunnel mode ipip remote 140.112.14.20
 </pre></div>
 
 
 <p>緊接著，隨意為 bob 在此界面指定一個 IP：</p>
-<div class="highlight"><pre>sudo up ip addr add 192.168.15.5/24 dev mytunnel
+<div class="highlight"><pre><span></span>sudo up ip addr add 192.168.15.5/24 dev mytunnel
 </pre></div>
 
 
 <p>再來，把界面啟動連結：</p>
-<div class="highlight"><pre>sudo up ip link <span class="nb">set </span>dev mytunnel up
+<div class="highlight"><pre><span></span>sudo up ip link <span class="nb">set</span> dev mytunnel up
 </pre></div>
 
 
 <p>最後再設定把連到另一個內網的流量都導到 ted 在此 tunnel 的 IP：</p>
-<div class="highlight"><pre>sudo up ip route add 192.168.14.0/24 via 192.168.15.20
+<div class="highlight"><pre><span></span>sudo up ip route add 192.168.14.0/24 via 192.168.15.20
 </pre></div>
 
 
 <h3>Ted 的設定</h3>
 <p>同樣的道理，在 ted 的 <code>/etc/network/interface</code> 中，修改 eth0 的設置，加入以下項目：</p>
-<div class="highlight"><pre><span class="n">pre</span><span class="o">-</span><span class="n">up</span> <span class="n">ip</span> <span class="n">tunnel</span> <span class="n">add</span> <span class="n">mytunnel</span> <span class="n">mode</span> <span class="n">ipip</span> <span class="n">remote</span> <span class="mf">140.112.13.5</span>
-<span class="n">up</span> <span class="n">ip</span> <span class="n">addr</span> <span class="n">add</span> <span class="mf">192.168.15.20</span><span class="o">/</span><span class="mi">24</span> <span class="n">dev</span> <span class="n">mytunnel</span>
-<span class="n">up</span> <span class="n">ip</span> <span class="n">link</span> <span class="n">set</span> <span class="n">dev</span> <span class="n">mytunnel</span> <span class="n">up</span>
-<span class="n">up</span> <span class="n">ip</span> <span class="n">route</span> <span class="n">add</span> <span class="mf">192.168.13.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">via</span> <span class="mf">192.168.15.5</span>
-<span class="n">down</span> <span class="n">ip</span> <span class="n">route</span> <span class="n">del</span> <span class="mf">192.168.13.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">via</span> <span class="mf">192.168.15.5</span>
-<span class="n">post</span><span class="o">-</span><span class="n">down</span> <span class="n">ip</span> <span class="n">tunnel</span> <span class="n">del</span> <span class="n">mytunnel</span>
+<div class="highlight"><pre><span></span>pre-up ip tunnel add mytunnel mode ipip remote 140.112.13.5
+up ip addr add 192.168.15.20/24 dev mytunnel
+up ip link set dev mytunnel up
+up ip route add 192.168.13.0/24 via 192.168.15.5
+down ip route del 192.168.13.0/24 via 192.168.15.5
+post-down ip tunnel del mytunnel
 </pre></div>
 
 
 <h3>啟用 IP Forwarding</h3>
 <p>理論上原本工作站的內網設置應該就有啟用 IP forwarding 的功能，不過為求完整，在這裡記載啟用的方法。可以在 bob 和 ted 上執行以下指令：</p>
-<div class="highlight"><pre>sudo sysctl -w net.ipv4.ip_forward<span class="o">=</span>1
+<div class="highlight"><pre><span></span>sudo sysctl -w net.ipv4.ip_forward<span class="o">=</span>1
 </pre></div>
 
 
 <p>此外，若要讓此設定開機後仍然維持，則需修改 <code>/etc/sysctl.conf</code>，並取消註解以下的項目：</p>
-<div class="highlight"><pre><span class="c">#net.ipv4.ip_forward=1</span>
+<div class="highlight"><pre><span></span>#net.ipv4.ip_forward=1
 </pre></div>
 
 
 <h3>啟用新網路設定</h3>
 <p>接下來就可以在 bob 和 ted 上執行以下指令使新設定生效了：</p>
-<div class="highlight"><pre>sudo ifdown eth0 <span class="o">&amp;&amp;</span> ifup eth0
+<div class="highlight"><pre><span></span>sudo ifdown eth0 <span class="o">&amp;&amp;</span> ifup eth0
 </pre></div>
 
 
 <p>注意由於一開始 down 和 post-down 的指令可能會失敗，所以如果直接執行以上指令有可能會有問題，這時也可以重新開機。或者稍微修改一下指令執行及檔案修改的順序來達成想要的效果。</p>
 <h3>測試</h3>
 <p>可以在 bob 和 jack 上測試以下指令：</p>
-<div class="highlight"><pre><span class="n">ping</span> <span class="mf">192.168.14.2</span>
+<div class="highlight"><pre><span></span>ping 192.168.14.2
 </pre></div>
 
 
 <p>在 ted 和 nick 上測試以下指令：</p>
-<div class="highlight"><pre><span class="n">ping</span> <span class="mf">192.168.13.2</span>
+<div class="highlight"><pre><span></span>ping 192.168.13.2
 </pre></div>
 
 

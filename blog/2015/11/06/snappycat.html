@@ -100,17 +100,17 @@ flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下�
 可能是空的。此時這個空檔案裡只會含兩個 32-bit 的 0。</p>
 <p>處理了這些問題後就寫成了一個很短的 C++ 程式： <a href="https://github.com/shaform/snappycat">snappycat</a>。</p>
 <p>用法也很簡單，可以把所有檔案當成參數輸入：</p>
-<div class="highlight"><pre>./snappycat DIRECTORY/*.snappy
+<div class="highlight"><pre><span></span>./snappycat DIRECTORY/*.snappy
 </pre></div>
 
 
 <p>也可以用 standard input 輸入：</p>
-<div class="highlight"><pre>cat DIRECTARY/*.snappy <span class="p">|</span> snappycat
+<div class="highlight"><pre><span></span>cat DIRECTARY/*.snappy <span class="p">|</span> snappycat
 </pre></div>
 
 
 <p>程式會把解壓縮的結果直接輸出到 standard output，所以如果想把檔案存下來則需如下所示：</p>
-<div class="highlight"><pre>./snappycat DIRECTORY/*.snappy &gt; output.txt
+<div class="highlight"><pre><span></span>./snappycat DIRECTORY/*.snappy &gt; output.txt
 </pre></div>
 
 

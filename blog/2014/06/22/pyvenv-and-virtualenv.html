@@ -93,19 +93,19 @@
 <ol>
 <li>
 <p>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，3.4 則可選擇不同版本：</p>
-<div class="highlight"><pre>pyvenv-3.4 <span class="o">[</span>--system-site-packages<span class="o">]</span> ENV_DIR
+<div class="highlight"><pre><span></span>pyvenv-3.4 <span class="o">[</span>--system-site-packages<span class="o">]</span> ENV_DIR
 </pre></div>
 
 
 </li>
 <li>
 <p>啟用特定的 virtual environment：</p>
-<div class="highlight"><pre><span class="nb">source </span>ENV_DIR/bin/activate
+<div class="highlight"><pre><span></span><span class="nb">source</span> ENV_DIR/bin/activate
 </pre></div>
 
 
 <p>這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：</p>
-<div class="highlight"><pre>(name)$
+<div class="highlight"><pre><span></span>(name)$
 </pre></div>
 
 
@@ -117,24 +117,24 @@
 <ol>
 <li>
 <p>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，python3.4 則可選擇不同版本（包含 python2）：</p>
-<div class="highlight"><pre>virtualenv <span class="o">[</span>--system-site-packages<span class="o">]</span> -p python3.4 ENV_DIR
+<div class="highlight"><pre><span></span>virtualenv <span class="o">[</span>--system-site-packages<span class="o">]</span> -p python3.4 ENV_DIR
 </pre></div>
 
 
 </li>
 <li>
 <p>啟用特定的 virtual environment：</p>
-<div class="highlight"><pre><span class="nb">source </span>ENV_DIR/bin/activate
+<div class="highlight"><pre><span></span><span class="nb">source</span> ENV_DIR/bin/activate
 </pre></div>
 
 
 <p>這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：</p>
-<div class="highlight"><pre>(name)$
+<div class="highlight"><pre><span></span>(name)$
 </pre></div>
 
 
 <p>使用 <code>which</code> 可以看到 python 路徑：</p>
-<div class="highlight"><pre>which python
+<div class="highlight"><pre><span></span>which python
 ENV_DIR/bin/python
 
 which pip
@@ -148,14 +148,14 @@ ENV_DIR/bin/pip
 <p>如果有裝 <a href="http://virtualenvwrapper.readthedocs.org/en/latest/">virtualenvwrapper</a> 的話其實還有更方便的方法，可以自行參考文件。</p>
 <h2>Local Packages</h2>
 <p>如果實在是無法建立 virtual environment 的話，只能使用舊方法來安裝 local 套件了，首先在 <code>.bashrc</code> 加入對應的參數，使得執行 Python 時會載入 local 套件：</p>
-<div class="highlight"><pre><span class="nb">alias </span><span class="nv">python3</span><span class="o">=</span><span class="s2">&quot;PYTHONPATH=</span><span class="nv">$PYTHONPATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/.local/lib/python3.4/site-packages python3&quot;</span>
-<span class="nb">alias </span><span class="nv">python</span><span class="o">=</span><span class="s2">&quot;PYTHONPATH=</span><span class="nv">$PYTHONPATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/.local/lib/python2.7/site-packages python&quot;</span>
+<div class="highlight"><pre><span></span><span class="nb">alias</span> <span class="nv">python3</span><span class="o">=</span><span class="s2">&quot;PYTHONPATH=</span><span class="nv">$PYTHONPATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/.local/lib/python3.4/site-packages python3&quot;</span>
+<span class="nb">alias</span> <span class="nv">python</span><span class="o">=</span><span class="s2">&quot;PYTHONPATH=</span><span class="nv">$PYTHONPATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/.local/lib/python2.7/site-packages python&quot;</span>
 </pre></div>
 
 
 <p>其中各版本的路徑可自行調整。</p>
 <p>接下來安裝套件時都加上 --user 參數即可，例如：</p>
-<div class="highlight"><pre>pip3 install --user flask
+<div class="highlight"><pre><span></span>pip3 install --user flask
 python3.4 setup.py install --user
 
 pip2 install --user flask

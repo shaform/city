@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：〈Dvorak: 另一種鍵盤排列〉。 (Newer versions of Windows could use ...">
+        <meta name="description" content="Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：〈Dvorak: 另一種鍵盤排列〉。 (Newer versions of Windows could ...">
         <meta name="keywords" content="dvorak, linux, qwerty, 輸入法, windows, 行列, 自由行列">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -95,8 +95,8 @@ Just choose it when installing or add the relevant input method in language sett
 <p>(Newer versions of Linux distributions also support dvorak layout when installing.)</p>
 <p>如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換：</p>
 <p>(If you want to set the layout temporarily, you could also use the following commands:)</p>
-<div class="highlight"><pre>setxkbmap dvorak <span class="c"># 更動成 dvorak / change to dvorak</span>
-setxkbmap us <span class="c"># 還原成 us 標準鍵盤 / change back to qwerty</span>
+<div class="highlight"><pre><span></span>setxkbmap dvorak <span class="c1"># 更動成 dvorak / change to dvorak</span>
+setxkbmap us <span class="c1"># 還原成 us 標準鍵盤 / change back to qwerty</span>
 </pre></div>
 
 
@@ -109,25 +109,25 @@ See <a href="http://xrdp.sourceforge.net/documents/keymap/rfc1766.html">rfc1766<
 <p>在正常登入的情況下，使用以下指令可以在當前目錄產生目前鍵盤對應的 xrdp 設定檔：</p>
 <p>(If you are able to login the server locally without rdp. You could use the following
 command to generate key map when you are using dvorak.)</p>
-<div class="highlight"><pre>xrdp-genkeymap km-now.ini
+<div class="highlight"><pre><span></span>xrdp-genkeymap km-now.ini
 </pre></div>
 
 
 <p>接著我們把它搬移取代 xrdp 參照的檔案：</p>
 <p>(Afterwards, we could use this generated file to replace the settings.)</p>
-<div class="highlight"><pre>sudo mv km-now.ini /etc/xrdp/km-0409.ini
+<div class="highlight"><pre><span></span>sudo mv km-now.ini /etc/xrdp/km-0409.ini
 </pre></div>
 
 
 <p>或許我們會想在覆蓋之前先備份原本的設定檔：</p>
 <p>(Of course, you may want to backup the file before you run the above command.)</p>
-<div class="highlight"><pre>sudo mv /etc/xrdp/km-0409.ini /etc/xrdp/km-0409.ini.old
+<div class="highlight"><pre><span></span>sudo mv /etc/xrdp/km-0409.ini /etc/xrdp/km-0409.ini.old
 </pre></div>
 
 
 <p>最後重新啟動 xrdp 伺服器就可以了：</p>
 <p>(Restart the xrdp server to load the configuration.)</p>
-<div class="highlight"><pre>sudo /etc/init.d/xrdp restart
+<div class="highlight"><pre><span></span>sudo /etc/init.d/xrdp restart
 </pre></div>
 
 
@@ -135,17 +135,17 @@ command to generate key map when you are using dvorak.)</p>
 <p>(However, if you are unable to login locally, you would not be able to generate
 the correct file because you are unable to change keyboard layout to dvorak.
 So I created a Python script to convert km-0409.ini to dvorak settings.)</p>
-<div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
-<span class="c"># xrdpkeymap_qwerty_to_dvorak.py</span>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># xrdpkeymap_qwerty_to_dvorak.py</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Usage: python xrdpkeymap_qwerty_to_dvorak.py km-input.ini &gt; km-output.ini</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">fileinput</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
-<span class="c"># keycodes</span>
-<span class="c"># $ xmodmap -pk for current mapping</span>
-<span class="c"># ref: http://forums.fedoraforum.org/showthread.php?t=265100</span>
+<span class="c1"># keycodes</span>
+<span class="c1"># $ xmodmap -pk for current mapping</span>
+<span class="c1"># ref: http://forums.fedoraforum.org/showthread.php?t=265100</span>
 <span class="n">QWERTY</span> <span class="o">=</span> <span class="p">(</span>
         <span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span>
         <span class="mi">24</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span>
@@ -163,8 +163,8 @@ So I created a Python script to convert km-0409.ini to dvorak settings.)</p>
 <span class="n">TRANS_DICT</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">))</span>
 
 
-<span class="n">re_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;\[.*\]</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-<span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;Key(\d+)=(.*)</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+<span class="n">re_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;\[.*\]</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;Key(\d+)=(.*)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">buf_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -172,9 +172,9 @@ So I created a Python script to convert km-0409.ini to dvorak settings.)</p>
     <span class="k">global</span> <span class="n">buf</span><span class="p">,</span> <span class="n">buf_dict</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">buf</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">TRANS_DICT</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s">&#39;Key</span><span class="si">%d</span><span class="s">=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">TRANS_DICT</span><span class="p">[</span><span class="n">k</span><span class="p">]])</span>
+            <span class="k">print</span> <span class="s1">&#39;Key</span><span class="si">%d</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">TRANS_DICT</span><span class="p">[</span><span class="n">k</span><span class="p">]])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s">&#39;Key</span><span class="si">%d</span><span class="s">=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+            <span class="k">print</span> <span class="s1">&#39;Key</span><span class="si">%d</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
     <span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">buf_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -190,7 +190,7 @@ So I created a Python script to convert km-0409.ini to dvorak settings.)</p>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">print</span> <span class="n">line</span><span class="p">,</span>
 
-<span class="c"># output remaining keys</span>
+<span class="c1"># output remaining keys</span>
 <span class="n">output_keydefs</span><span class="p">()</span>
 </pre></div>
 
@@ -199,7 +199,7 @@ So I created a Python script to convert km-0409.ini to dvorak settings.)</p>
 <p>有的時候我們甚至無法重新啟動 xrdp server，或者根本沒有管理員權限，這時只好有限度的在 Vim 裡頭使用 dvoark。</p>
 <p>(Sometimes we cannot even restart xrdp server. We may try to use the following commands in Vim.
 This enables us to use dvorak at least in Vim.)</p>
-<div class="highlight"><pre><span class="k">set</span> <span class="nb">keymap</span><span class="p">=</span>dvorak
+<div class="highlight"><pre><span></span><span class="k">set</span> <span class="nb">keymap</span><span class="p">=</span>dvorak
 <span class="k">set</span> <span class="nb">langmap</span><span class="p">=-=</span>qwertyuiop[]sdfghjkl\\;<span class="s1">&#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&quot;ZXCVBN&lt;&gt;?;[]&#39;</span>\\<span class="p">,</span>.pyfgcrl/<span class="p">=</span>oeuidhtns<span class="p">-</span>\\;qjkxbwvz{}\&quot;<span class="p">&lt;&gt;</span>PYFGCRL?<span class="p">+</span>OEUIDHTNS_:QJKXBWVZ
 </pre></div>
 
@@ -208,8 +208,8 @@ This enables us to use dvorak at least in Vim.)</p>
 <h2>GCIN</h2>
 <p>有的輸入法沒有直接支援 dvoark，不只是符號對應沒有支援，連正常輸入都整個亂掉了。這時可能要搜尋一下看有沒有現成的修改版檔案，例如我曾經修改過 <a href="http://hyperrate.com/thread.php?tid=19541#19541">GCIN 的行列輸入法表格</a>。如果沒有的話，可能就得自行轉換了。</p>
 <p>我寫了一個轉換 GCIN .cin 檔的程式：</p>
-<div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
-<span class="c"># gcin_qwerty_to_dvorak.py</span>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># gcin_qwerty_to_dvorak.py</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Usage: python gcin_qwerty_to_dvorak.py input.cin &gt; output.cin</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -217,35 +217,35 @@ This enables us to use dvorak at least in Vim.)</p>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">maketrans</span>
 
-<span class="n">QWERTY</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;-=qwertyuiop[]sdfghjkl;&#39;zxcvbn,./_+QWERTYUIOP{}SDFGHJKL:&quot;ZXCVBN&lt;&gt;?&#39;&#39;&#39;</span>
-<span class="n">DVORAK</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;[]&#39;,.pyfgcrl/=oeuidhtns-;qjkxbwvz{}&quot;&lt;&gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ&#39;&#39;&#39;</span>
+<span class="n">QWERTY</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-=qwertyuiop[]sdfghjkl;&#39;zxcvbn,./_+QWERTYUIOP{}SDFGHJKL:&quot;ZXCVBN&lt;&gt;?&#39;&#39;&#39;</span>
+<span class="n">DVORAK</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[]&#39;,.pyfgcrl/=oeuidhtns-;qjkxbwvz{}&quot;&lt;&gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ&#39;&#39;&#39;</span>
 <span class="n">TRANS</span> <span class="o">=</span> <span class="n">maketrans</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">)</span>
 
-<span class="n">re_option</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;%(selkey|endkey)\s+(\S+)&#39;</span><span class="p">)</span>
-<span class="n">re_begin</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;%\S+\s+begin&#39;</span><span class="p">)</span>
-<span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;^([^#]\S*)(\s+\S+)&#39;</span><span class="p">)</span>
-<span class="n">re_end</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;%\S+\s+end&#39;</span><span class="p">)</span>
+<span class="n">re_option</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;%(selkey|endkey)\s+(\S+)&#39;</span><span class="p">)</span>
+<span class="n">re_begin</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;%\S+\s+begin&#39;</span><span class="p">)</span>
+<span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;^([^#]\S*)(\s+\S+)&#39;</span><span class="p">)</span>
+<span class="n">re_end</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;%\S+\s+end&#39;</span><span class="p">)</span>
 
 <span class="n">begin</span> <span class="o">=</span> <span class="bp">False</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">():</span>
-    <span class="c"># process key definitions</span>
+    <span class="c1"># process key definitions</span>
     <span class="k">if</span> <span class="n">begin</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">re_end</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
             <span class="n">begin</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">new_def</span> <span class="o">=</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">subn</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">TRANS</span><span class="p">)</span> <span class="o">+</span>
                     <span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">line</span><span class="p">)</span>
-            <span class="c"># print transformed line</span>
+            <span class="c1"># print transformed line</span>
             <span class="k">if</span> <span class="n">new_def</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">print</span> <span class="n">new_def</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="k">continue</span>
-        <span class="c"># print comment/end lines</span>
+        <span class="c1"># print comment/end lines</span>
         <span class="k">print</span> <span class="n">line</span><span class="p">,</span>
         <span class="k">continue</span>
 
     <span class="n">m</span> <span class="o">=</span> <span class="n">re_option</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s">&#39;</span><span class="si">%%%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">TRANS</span><span class="p">))</span>
+        <span class="k">print</span> <span class="s1">&#39;</span><span class="si">%%%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">TRANS</span><span class="p">))</span>
         <span class="k">continue</span>
     <span class="k">elif</span> <span class="n">re_begin</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
         <span class="n">begin</span> <span class="o">=</span> <span class="bp">True</span>

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。 由於自己對該程式庫也不是很熟悉，加上一直拖稿導致 Caffe 在撰寫期間也已經有不少變動， 以致可能有許多不正確的地方，還請各位大大不吝指教。 主要分成四個部份來講。首先是整個 Caffe 的大架構，以及一些重要的元件。 其次，我也研究了如何自己新增一個 layer。 接下來，再重新回到 Caffe ...">
+        <meta name="description" content="前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。 由於自己對該程式庫也不是很熟悉，加上一直拖稿導致 Caffe 在撰寫期間也已經有不少變動， 以致可能有許多不正確的地方，還請各位大大不吝指教。 主要分成四個部份來講。首先是整個 Caffe 的大架構，以及一些重要的元件。 其次，我也研究了如何自己新增一個 layer。 接下來，再重新回到 ...">
         <meta name="keywords" content="Caffe, deep learning">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -140,7 +140,7 @@ HingeLoss 的修改還改動了 layer factory，不過看起來是因為以前�
 他會把所有的輸入乘上一個事先指定的參數。
 我在 caffe.proto 修改了三個地方，包含下個可用的 ID、放置參數的變數，
 和實際的 layer 參數，也就是要乘上的那個常數。</p>
-<div class="highlight"><pre><span class="c1">// src/caffe/proto/caffe.proto</span>
+<div class="highlight"><pre><span></span><span class="c1">// src/caffe/proto/caffe.proto</span>
 <span class="c1">// LayerParameter next available layer-specific ID: 144 (last added: zzz_param)</span>
 <span class="n">message</span> <span class="n">LayerParameter</span> <span class="p">{</span>
   <span class="c1">// ...</span>
@@ -156,7 +156,7 @@ HingeLoss 的修改還改動了 layer factory，不過看起來是因為以前�
 
 
 <p>然後，我複製了一些簡單的宣告。其中主要的修改只有新增了一個 mul 參數，用來存放要乘的常數。</p>
-<div class="highlight"><pre><span class="c1">// include/caffe/layers/zzz_layer.hpp</span>
+<div class="highlight"><pre><span></span><span class="c1">// include/caffe/layers/zzz_layer.hpp</span>
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Dtype</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">ZZZLayer</span> <span class="o">:</span> <span class="k">public</span> <span class="n">NeuronLayer</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;</span> <span class="p">{</span>
  <span class="k">public</span><span class="o">:</span>
@@ -165,7 +165,7 @@ HingeLoss 的修改還改動了 layer factory，不過看起來是因為以前�
   <span class="k">virtual</span> <span class="kt">void</span> <span class="n">LayerSetUp</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Blob</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;*&gt;&amp;</span> <span class="n">bottom</span><span class="p">,</span>
       <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Blob</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;*&gt;&amp;</span> <span class="n">top</span><span class="p">);</span>
 
-  <span class="k">virtual</span> <span class="kr">inline</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">type</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;ZZZ&quot;</span><span class="p">;</span> <span class="p">}</span>
+  <span class="k">virtual</span> <span class="kr">inline</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="nf">type</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;ZZZ&quot;</span><span class="p">;</span> <span class="p">}</span>
 
  <span class="k">protected</span><span class="o">:</span>
   <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Forward_cpu</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Blob</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;*&gt;&amp;</span> <span class="n">bottom</span><span class="p">,</span>
@@ -186,7 +186,7 @@ HingeLoss 的修改還改動了 layer factory，不過看起來是因為以前�
 不過一些複雜的 layers 可能就會需要實作一些複雜的初始化，和計算輸出維度大小的函數。
 Neuron layer 因為是 element-wise ，所以輸出的維度大小就跟輸入一樣。</p>
 <p>Forward的部份，是先把 bottom_data 複製到 top，然後再將整個 top scale 指定的常數。</p>
-<div class="highlight"><pre><span class="c1">// src/caffe/layers/zzz_layer.cpp</span>
+<div class="highlight"><pre><span></span><span class="c1">// src/caffe/layers/zzz_layer.cpp</span>
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Dtype</span><span class="o">&gt;</span>
 <span class="kt">void</span> <span class="n">ZZZLayer</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;::</span><span class="n">Forward_cpu</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Blob</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">bottom</span><span class="p">,</span>
                                      <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Blob</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">top</span><span class="p">)</span> <span class="p">{</span>
@@ -202,7 +202,7 @@ Neuron layer 因為是 element-wise ，所以輸出的維度大小就跟輸入�
 
 
 <p>Backward 也很類似，確定需要計算後，先把 top_diff 複製到 bottom_diff 再 scale 指定的常數。</p>
-<div class="highlight"><pre><span class="c1">// src/caffe/layers/zzz_layer.cpp</span>
+<div class="highlight"><pre><span></span><span class="c1">// src/caffe/layers/zzz_layer.cpp</span>
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Dtype</span><span class="o">&gt;</span>
 <span class="kt">void</span> <span class="n">ZZZLayer</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;::</span><span class="n">Backward_cpu</span><span class="p">(</span><span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Blob</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="n">top</span><span class="p">,</span>
                                       <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">propagate_down</span><span class="p">,</span>
@@ -219,7 +219,7 @@ Neuron layer 因為是 element-wise ，所以輸出的維度大小就跟輸入�
 
 
 <p>CUDA 的版本也很類似，只是從 blob 要取出 gpu data ，然後 scale 時要選 GPU 的版本。</p>
-<div class="highlight"><pre><span class="c1">// src/caffe/layers/zzz_layer.cu</span>
+<div class="highlight"><pre><span></span><span class="c1">// src/caffe/layers/zzz_layer.cu</span>
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Dtype</span><span class="o">&gt;</span>
 <span class="kt">void</span> <span class="n">ZZZLayer</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;::</span><span class="n">Forward_gpu</span><span class="p">(</span>
     <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Blob</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;*&gt;&amp;</span> <span class="n">bottom</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Blob</span><span class="o">&lt;</span><span class="n">Dtype</span><span class="o">&gt;*&gt;&amp;</span> <span class="n">top</span><span class="p">)</span> <span class="p">{</span>
@@ -247,7 +247,7 @@ Neuron layer 因為是 element-wise ，所以輸出的維度大小就跟輸入�
 
 
 <p>最後我們再加一些 test，檢查 forward 確實成功乘上參數。</p>
-<div class="highlight"><pre><span class="c1">// src/caffe/test/test_zzz_layer.cpp</span>
+<div class="highlight"><pre><span></span><span class="c1">// src/caffe/test/test_zzz_layer.cpp</span>
 <span class="n">TYPED_TEST</span><span class="p">(</span><span class="n">NeuronLayerTest</span><span class="p">,</span> <span class="n">TestZZZForward</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">typedef</span> <span class="k">typename</span> <span class="n">TypeParam</span><span class="o">::</span><span class="n">Dtype</span> <span class="n">Dtype</span><span class="p">;</span>
   <span class="n">LayerParameter</span> <span class="n">layer_param</span><span class="p">;</span>
@@ -266,7 +266,7 @@ Neuron layer 因為是 element-wise ，所以輸出的維度大小就跟輸入�
 
 
 <p>同時也檢查用數值方法計算出來的 gradient 跟我們算的是否一樣。</p>
-<div class="highlight"><pre><span class="c1">// src/caffe/test/test_zzz_layer.cpp</span>
+<div class="highlight"><pre><span></span><span class="c1">// src/caffe/test/test_zzz_layer.cpp</span>
 <span class="n">TYPED_TEST</span><span class="p">(</span><span class="n">NeuronLayerTest</span><span class="p">,</span> <span class="n">TestZZZBackward</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">typedef</span> <span class="k">typename</span> <span class="n">TypeParam</span><span class="o">::</span><span class="n">Dtype</span> <span class="n">Dtype</span><span class="p">;</span>
   <span class="n">LayerParameter</span> <span class="n">layer_param</span><span class="p">;</span>
@@ -279,7 +279,7 @@ Neuron layer 因為是 element-wise ，所以輸出的維度大小就跟輸入�
 
 
 <p>最後就可以實際測試看看。並看到測試的結果了。以上就是新增 layer 的部份。</p>
-<div class="highlight"><pre>[----------] 2 tests from ZZZLayerTest/1, where TypeParam = caffe::CPUDevice&lt;double&gt;
+<div class="highlight"><pre><span></span>[----------] 2 tests from ZZZLayerTest/1, where TypeParam = caffe::CPUDevice&lt;double&gt;
 [ RUN      ] ZZZLayerTest/1.TestZZZBackward
 [       OK ] ZZZLayerTest/1.TestZZZBackward (2 ms)
 [ RUN      ] ZZZLayerTest/1.TestZZZForward

@@ -92,34 +92,34 @@
 <p>這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。</p>
 <h2>語料</h2>
 <p>不太確定有什麼開放的中文語料可供使用，於是決定先用<a href="https://github.com/audreyt/moedict-webkit">萌典</a>來做實驗，可按照教學，下載萌典資料：</p>
-<div class="highlight"><pre>git clone --depth 1 https://github.com/g0v/moedict-data.git
-git clone --depth 1 https://github.com/g0v/moedict-epub.git
+<div class="highlight"><pre><span></span>git clone --depth <span class="m">1</span> https://github.com/g0v/moedict-data.git
+git clone --depth <span class="m">1</span> https://github.com/g0v/moedict-epub.git
 cp -v moedict-data/dict-revised.json moedict-epub/
-<span class="nb">cd </span>moedict-epub
+<span class="nb">cd</span> moedict-epub
 perl json2unicode.pl &gt; dict-revised.unicode.json
 </pre></div>
 
 
 <p>緊接著我自己寫了一個 <a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/extract_json.py">extract_json.py</a> 把當中可供訓練的句子抽出來：</p>
-<div class="highlight"><pre>python3 extract_json.py &lt; dict-revised.unicode.json &gt; sentences.txt
+<div class="highlight"><pre><span></span>python3 extract_json.py &lt; dict-revised.unicode.json &gt; sentences.txt
 </pre></div>
 
 
 <h2>斷詞</h2>
 <p>因為 word2vec 的輸入必須是以空白隔開的詞，這樣得出來的句子還不能直接使用。於是我用了結巴斷詞，寫了一個 <a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/cut.py">cut.py</a> 來處理這些句子。</p>
-<div class="highlight"><pre>python cut.py &lt; sentences.txt &gt; sentences.segged.txt
+<div class="highlight"><pre><span></span>python cut.py &lt; sentences.txt &gt; sentences.segged.txt
 </pre></div>
 
 
 <p>斷出來的結果大約像是：</p>
-<div class="highlight"><pre>紅樓夢 ． 第十七回 ： 「 一 槅 一 槅 ， 或 有 貯書處 ， 或 有 設鼎處 ， 或 安置 筆硯 處 ， 或供 設瓶花 、 或 安放 盆景 處 。 」
+<div class="highlight"><pre><span></span>紅樓夢 ． 第十七回 ： 「 一 槅 一 槅 ， 或 有 貯書處 ， 或 有 設鼎處 ， 或 安置 筆硯 處 ， 或供 設瓶花 、 或 安放 盆景 處 。 」
 </pre></div>
 
 
 <p>感覺雖不是很理想，但尚可接受。</p>
 <h2>使用 word2vec 訓練詞向量</h2>
 <p>接著我就用工作站把詞全部丟給 word2vec 訓練：</p>
-<div class="highlight"><pre>./word2vec -train sentences.segged.txt -output vectors.bin -cbow 0 -size 200 -window 10 -negative 5 -hs 0 -sample 1e-4 -threads 24 -binary 1 -iter 20 -min-count 1
+<div class="highlight"><pre><span></span>./word2vec -train sentences.segged.txt -output vectors.bin -cbow <span class="m">0</span> -size <span class="m">200</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">0</span> -sample 1e-4 -threads <span class="m">24</span> -binary <span class="m">1</span> -iter <span class="m">20</span> -min-count 1
 </pre></div>
 
 
@@ -127,12 +127,12 @@ perl json2unicode.pl &gt; dict-revised.unicode.json
 <p><img alt="word2vec running..." src="http://city.shaform.com/images/train_word2vec.png" /></p>
 <h2>測試</h2>
 <p>首先測試距離相近的字：</p>
-<div class="highlight"><pre>./distance vectors.bin
+<div class="highlight"><pre><span></span>./distance vectors.bin
 </pre></div>
 
 
 <p>雖然效果差強人意，不過還是可以看到相同屬性的字確實有些群聚效應：</p>
-<div class="highlight"><pre>Enter word or sentence (EXIT to break): 法國
+<div class="highlight"><pre><span></span>Enter word or sentence (EXIT to break): 法國
 
 Word: 法國  Position in vocabulary: 992
 
@@ -149,12 +149,12 @@ Word: 法國  Position in vocabulary: 992
 
 
 <p>接著測試線性關係，A 比 B 就好像 C 比什麼？：</p>
-<div class="highlight"><pre>./word-analogy vectors.bin
+<div class="highlight"><pre><span></span>./word-analogy vectors.bin
 </pre></div>
 
 
 <p>對於國家與都市的推理，也稍有效果：</p>
-<div class="highlight"><pre>Enter three words (EXIT to break): 法國 巴黎 英國
+<div class="highlight"><pre><span></span>Enter three words (EXIT to break): 法國 巴黎 英國
 
 Word: 法國  Position in vocabulary: 992
 
