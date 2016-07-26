@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>翼之都, City of Wings</title><link>http://city.shaform.com/</link><description></description><lastBuildDate>Sat, 19 Mar 2016 09:02:00 +0800</lastBuildDate><item><title>價格追蹤：使用 gspread 自動更新 Google Sheets</title><link>http://city.shaform.com/blog/2016/03/19/gspread.html</link><description>&lt;h1&gt;前言&lt;/h1&gt;
+<rss version="2.0"><channel><title>翼之都, City of Wings</title><link>http://city.shaform.com/</link><description></description><lastBuildDate>Tue, 26 Jul 2016 22:30:00 +0800</lastBuildDate><item><title>bs2 公開板備份初探</title><link>http://city.shaform.com/blog/2016/07/26/bs2-backup.html</link><description>&lt;h1&gt;前言&lt;/h1&gt;
+&lt;p&gt;&lt;a href="https://www.bs2.to/"&gt;bs2.to&lt;/a&gt; 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動備份的選擇。&lt;/p&gt;
+&lt;p&gt;經過一番搜尋，似乎有個古老的 &lt;a href="https://github.com/iblis17/bs2-crawler"&gt;bs2-crawler&lt;/a&gt;。雖然一開始無法成功跑起來，不過經過修改，似乎真的可以拿來備份 bs2 的看板了。&lt;/p&gt;
+&lt;p&gt;以下就是修改版本 &lt;a href="https://github.com/shaform/bs2-crawler"&gt;bs2-crawler@shaform&lt;/a&gt;，的使用教學。&lt;/p&gt;
+&lt;h1&gt;安裝&lt;/h1&gt;
+&lt;p&gt;首先 clone 我們修改的版本：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/shaform/bs2-crawler
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;因為還來不及把他改成 Python 3，所以只好先用 Python 2 了，首先使用 &lt;a href="https://virtualenv.pypa.io/en/stable/"&gt;virtualenv&lt;/a&gt; 創立虛擬環境，好安裝自己的套件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; bs2-crawler
+virtualenv env
+&lt;span class="nb"&gt;source&lt;/span&gt; env/bin/activate
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install -r requirements.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;下載看板資料&lt;/h1&gt;
+&lt;p&gt;一些著名的看板像是書評板或選課板皆可使用，以下我們就用選課板做示範：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python crawler.py --board-name NCTU-Teacher
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;會出現要下載哪些文章的提示：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;n - &lt;span class="m"&gt;14520&lt;/span&gt; :
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;輸入 1 即可下載 1~14520 所有文章。&lt;/p&gt;
+&lt;p&gt;下載完後會出現在 &lt;code&gt;articles/NCTU-Teacher&lt;/code&gt; 的路徑裡。&lt;/p&gt;
+&lt;p&gt;由於倉促修改，所以還有不少 bug，像是如果有加密文章，有時會無法處理，只好請大大們自行修改了。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Shaform</dc:creator><pubDate>Tue, 26 Jul 2016 22:30:00 +0800</pubDate><guid isPermaLink="false">tag:city.shaform.com,2016-07-26:blog/2016/07/26/bs2-backup.html</guid><category>Python</category><category>bs2</category></item><item><title>價格追蹤：使用 gspread 自動更新 Google Sheets</title><link>http://city.shaform.com/blog/2016/03/19/gspread.html</link><description>&lt;h1&gt;前言&lt;/h1&gt;
 &lt;p&gt;&lt;a href="https://www.google.com/sheets/about/"&gt;Google Sheets&lt;/a&gt; 和傳統試算表最大的差異或許在於他的資料存放在遠端，所以可以從任何地方存取，也很方便和別人共享編輯。因為這個特性，使得我偶爾會將一些實驗資料放到 Google Sheets 上面。&lt;/p&gt;
 &lt;p&gt;有的時候這些實驗數據是隨著時間固定產生的，此時如果總是自己剪剪貼貼，難免會覺得有些浪費時間。幸好，Google 提供了 &lt;a href="https://developers.google.com/google-apps/spreadsheets/"&gt;Sheets API&lt;/a&gt;，所以我們可以透過程式自動將資料寫進試算表裡。&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/burnash/gspread"&gt;gspread&lt;/a&gt; 將底層的 API 又包裝成更方便好用的界面，是使用 Python 來存取 Google Sheets 很好的選擇。&lt;/p&gt;

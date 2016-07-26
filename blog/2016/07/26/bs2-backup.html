@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="翼之都, City of Wings, ">
-        <meta name="keywords" content="">
+        <meta name="description" content="前言 bs2.to 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動備份的選擇。 經過一番搜尋，似乎有個古老的 bs2-crawler。雖然一開始無法成功跑起來，不過經過修改，似乎真的可以拿來備份 bs2 的看板了。 以下就是修改版本 bs2-crawler@shaform，的使用教學。 安裝 首先 ...">
+        <meta name="keywords" content="bs2, Python">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
-        <title>Homepage - page 2 - 翼之都, City of Wings</title>
+        <title>bs2 公開板備份初探 - 翼之都, City of Wings</title>
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
@@ -16,6 +16,7 @@
 
         <!-- RSS Feeds -->
         <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
+        <link href="http://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -41,7 +42,7 @@
     <body>
 
         <!-- Header -->
-    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('http://city.shaform.com/images/background.jpg'); background-position: center; ">
+    <div class="header-container gradient">
 
             <!-- Static navbar -->
             <div class="container">
@@ -60,17 +61,23 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">翼之都</h1>
+                      <h1 class="header-title">bs2 公開板備份初探</h1>
+                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Tue 26 July 2016, in category <a href="http://city.shaform.com/category/notes.html">Notes</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">翼之都 - 夢想，可以飛得多遠？伸出雙手，盡情實驗。</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="http://city.shaform.com/tag/bs2.html">bs2</a>, <a href="http://city.shaform.com/tag/python.html">Python</a>                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -78,40 +85,60 @@
 
 
         <!-- Content -->
-    
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="http://city.shaform.com/index2.html">Latest Posts <small>- page 2</small></a></h2>
-            <dl class="dl-horizontal">
-                <dt>Sun 14 December 2014</dt>
-                <dd><a href="http://city.shaform.com/blog/2014/12/14/mirror-and-mgmt-on-ldap.html">建立 LDAP 鏡像、及日常管理指令集</a></dd>
-                <dt>Sat 13 December 2014</dt>
-                <dd><a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html">在 Debian 7.7 系統中轉移 NIS 到 LDAP</a></dd>
-                <dt>Wed 12 November 2014</dt>
-                <dd><a href="http://city.shaform.com/blog/2014/11/12/connect-subnets.html">連結兩個私有內網</a></dd>
-                <dt>Fri 07 November 2014</dt>
-                <dd><a href="http://city.shaform.com/blog/2014/11/07/google-inbox-like-web-browsing.html">Google Inbox-like Web Browsing</a></dd>
-                <dt>Tue 04 November 2014</dt>
-                <dd><a href="http://city.shaform.com/blog/2014/11/04/word2vec.html">用中文資料測試 word2vec</a></dd>
-                <dt>Sun 22 June 2014</dt>
-                <dd><a href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html">在工作站上使用自己的 Python 並安裝自訂套件</a></dd>
-                <dt>Sat 21 June 2014</dt>
-                <dd><a href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html">解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</a></dd>
-                <dt>Thu 19 June 2014</dt>
-                <dd><a href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html">在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</a></dd>
-                <dt>Tue 27 May 2014</dt>
-                <dd><a href="http://city.shaform.com/blog/2014/05/27/stay-on-bbs.html">簡單的 BBS 掛站設定</a></dd>
-                <dt>Sat 17 May 2014</dt>
-                <dd><a href="http://city.shaform.com/blog/2014/05/17/migrate-from-pixnet-to-pelican.html">從 Pixnet 轉移到 Pelican</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <h1>前言</h1>
+<p><a href="https://www.bs2.to/">bs2.to</a> 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動備份的選擇。</p>
+<p>經過一番搜尋，似乎有個古老的 <a href="https://github.com/iblis17/bs2-crawler">bs2-crawler</a>。雖然一開始無法成功跑起來，不過經過修改，似乎真的可以拿來備份 bs2 的看板了。</p>
+<p>以下就是修改版本 <a href="https://github.com/shaform/bs2-crawler">bs2-crawler@shaform</a>，的使用教學。</p>
+<h1>安裝</h1>
+<p>首先 clone 我們修改的版本：</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/shaform/bs2-crawler
+</pre></div>
+
+
+<p>因為還來不及把他改成 Python 3，所以只好先用 Python 2 了，首先使用 <a href="https://virtualenv.pypa.io/en/stable/">virtualenv</a> 創立虛擬環境，好安裝自己的套件：</p>
+<div class="highlight"><pre><span></span><span class="nb">cd</span> bs2-crawler
+virtualenv env
+<span class="nb">source</span> env/bin/activate
+</pre></div>
+
+
+<p>緊接著，安裝所有這次會用到的套件：</p>
+<div class="highlight"><pre><span></span>pip install -r requirements.txt
+</pre></div>
+
+
+<h1>下載看板資料</h1>
+<p>一些著名的看板像是書評板或選課板皆可使用，以下我們就用選課板做示範：</p>
+<div class="highlight"><pre><span></span>python crawler.py --board-name NCTU-Teacher
+</pre></div>
+
+
+<p>會出現要下載哪些文章的提示：</p>
+<div class="highlight"><pre><span></span>n - <span class="m">14520</span> :
+</pre></div>
+
+
+<p>輸入 1 即可下載 1~14520 所有文章。</p>
+<p>下載完後會出現在 <code>articles/NCTU-Teacher</code> 的路徑裡。</p>
+<p>由於倉促修改，所以還有不少 bug，像是如果有加密文章，有時會無法處理，只好請大大們自行修改了。</p>
+
+
+            <div class="comments">
+                <div id="disqus_thread"></div>
+                    <script type="text/javascript">
+                        var disqus_shortname = 'cityofwings';
+                        var disqus_identifier = 'blog/2016/07/26/bs2-backup.html';
+                        var disqus_url = 'http://city.shaform.com/blog/2016/07/26/bs2-backup.html';
+                        (function() {
+                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
+                    </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+            </div>
     </div>
-<!-- /Navigation -->
-<div class="container navigation">
-    	<a class="navigate pull-left" href="http://city.shaform.com/index.html"><i class="fa fa-caret-left"></i> Previous</a>
-    	<a class="navigate pull-right" href="http://city.shaform.com/index3.html">Next <i class="fa fa-caret-right"></i></a>
-</div>              
-<!-- /Navigation --> 
         <!-- /Content --> 
 
         <!-- Footer -->
