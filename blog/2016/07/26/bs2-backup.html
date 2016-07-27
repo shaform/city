@@ -96,21 +96,21 @@
 </pre></div>
 
 
-<p>因為還來不及把他改成 Python 3，所以只好先用 Python 2 了，首先使用 <a href="https://virtualenv.pypa.io/en/stable/">virtualenv</a> 創立虛擬環境，好安裝自己的套件：</p>
+<p>可以用 Python 3 執行，首先使用 <a href="https://docs.python.org/3/library/venv.html">pyvenv</a> 創立虛擬環境，好安裝自己的套件：</p>
 <div class="highlight"><pre><span></span><span class="nb">cd</span> bs2-crawler
-virtualenv env
+pyvenv env
 <span class="nb">source</span> env/bin/activate
 </pre></div>
 
 
 <p>緊接著，安裝所有這次會用到的套件：</p>
-<div class="highlight"><pre><span></span>pip install -r requirements.txt
+<div class="highlight"><pre><span></span>pip3 install -r requirements.txt
 </pre></div>
 
 
 <h1>下載看板資料</h1>
 <p>一些著名的看板像是書評板或選課板皆可使用，以下我們就用選課板做示範：</p>
-<div class="highlight"><pre><span></span>python crawler.py --board-name NCTU-Teacher
+<div class="highlight"><pre><span></span>python3 crawler.py --board-name NCTU-Teacher
 </pre></div>
 
 

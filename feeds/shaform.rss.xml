@@ -9,21 +9,21 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;因為還來不及把他改成 Python 3，所以只好先用 Python 2 了，首先使用 &lt;a href="https://virtualenv.pypa.io/en/stable/"&gt;virtualenv&lt;/a&gt; 創立虛擬環境，好安裝自己的套件：&lt;/p&gt;
+&lt;p&gt;可以用 Python 3 執行，首先使用 &lt;a href="https://docs.python.org/3/library/venv.html"&gt;pyvenv&lt;/a&gt; 創立虛擬環境，好安裝自己的套件：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; bs2-crawler
-virtualenv env
+pyvenv env
 &lt;span class="nb"&gt;source&lt;/span&gt; env/bin/activate
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install -r requirements.txt
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip3 install -r requirements.txt
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h1&gt;下載看板資料&lt;/h1&gt;
 &lt;p&gt;一些著名的看板像是書評板或選課板皆可使用，以下我們就用選課板做示範：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python crawler.py --board-name NCTU-Teacher
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python3 crawler.py --board-name NCTU-Teacher
 &lt;/pre&gt;&lt;/div&gt;
 
 
