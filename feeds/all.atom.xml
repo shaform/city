@@ -214,13 +214,13 @@ pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&l
 
 
 &lt;p&gt;設定連線延遲：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# ptt/ptt/settings.py&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt/settings.py&lt;/span&gt;
 &lt;span class="n"&gt;DOWNLOAD_DELAY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.25&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;然後定義一些想要抓取的項目，包含本文和推文等等：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# ptt/ptt/items.py&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt/items.py&lt;/span&gt;
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;PostItem&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Item&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="n"&gt;author&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -232,7 +232,7 @@ pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&l
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;接著就編輯 &lt;code&gt;ptt/ptt/spiders/ptt.py&lt;/code&gt; 實際撰寫爬蟲程式了。&lt;/p&gt;
+&lt;p&gt;接著就編輯 &lt;code&gt;&amp;lt;root_dir&amp;gt;/ptt/spiders/ptt.py&lt;/code&gt; 實際撰寫爬蟲程式了。&lt;/p&gt;
 &lt;p&gt;首先測試一下是否真的可以連上 PTT：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scrapy&lt;/span&gt;
 
@@ -248,7 +248,7 @@ pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&l
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;然後在 &lt;code&gt;ptt&lt;/code&gt; 根目錄（有 &lt;code&gt;scrapy.cfg&lt;/code&gt; 的目錄）執行：&lt;/p&gt;
+&lt;p&gt;然後在 &lt;code&gt;&amp;lt;root_dir&amp;gt;&lt;/code&gt; 根目錄（有 &lt;code&gt;scrapy.cfg&lt;/code&gt; 的目錄）執行：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scrapy crawl ptt
 &lt;/pre&gt;&lt;/div&gt;
 

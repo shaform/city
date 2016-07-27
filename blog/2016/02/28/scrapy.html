@@ -116,13 +116,13 @@ pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0 numpy n
 
 
 <p>設定連線延遲：</p>
-<div class="highlight"><pre><span></span><span class="c1"># ptt/ptt/settings.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># &lt;root_dir&gt;/ptt/settings.py</span>
 <span class="n">DOWNLOAD_DELAY</span> <span class="o">=</span> <span class="mf">1.25</span>
 </pre></div>
 
 
 <p>然後定義一些想要抓取的項目，包含本文和推文等等：</p>
-<div class="highlight"><pre><span></span><span class="c1"># ptt/ptt/items.py</span>
+<div class="highlight"><pre><span></span><span class="c1"># &lt;root_dir&gt;/ptt/items.py</span>
 <span class="k">class</span> <span class="nc">PostItem</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Item</span><span class="p">):</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
     <span class="n">author</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
@@ -134,7 +134,7 @@ pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0 numpy n
 </pre></div>
 
 
-<p>接著就編輯 <code>ptt/ptt/spiders/ptt.py</code> 實際撰寫爬蟲程式了。</p>
+<p>接著就編輯 <code>&lt;root_dir&gt;/ptt/spiders/ptt.py</code> 實際撰寫爬蟲程式了。</p>
 <p>首先測試一下是否真的可以連上 PTT：</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scrapy</span>
 
@@ -150,7 +150,7 @@ pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0 numpy n
 </pre></div>
 
 
-<p>然後在 <code>ptt</code> 根目錄（有 <code>scrapy.cfg</code> 的目錄）執行：</p>
+<p>然後在 <code>&lt;root_dir&gt;</code> 根目錄（有 <code>scrapy.cfg</code> 的目錄）執行：</p>
 <div class="highlight"><pre><span></span>scrapy crawl ptt
 </pre></div>
 
