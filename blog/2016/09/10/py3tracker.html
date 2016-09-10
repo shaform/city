@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Category Archive Projects">
-        <meta name="keywords" content="">
+        <meta name="description" content="Porting to Python 3 Python 3 已經釋出近八年，原本一片慘紅的 Python 3 Readiness 和 PYTHON 3 WALL OF SUPERPOWERS 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，也開始有些專案漸漸要中止 Python 2 的支援了。 然而其實還是有不少常用的 packages 並不支援 Python ...">
+        <meta name="keywords" content="2to3, GitHub, py3tracker, Python3">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
-        <title>Category Archive Projects - 翼之都, City of Wings</title>
+        <title>找出 GitHub 上和 Python 3 不相容的 Python 專案 - 翼之都, City of Wings</title>
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
     <body>
 
         <!-- Header -->
-    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('http://city.shaform.com/images/background.jpg'); background-position: center; ">
+    <div class="header-container gradient">
 
             <!-- Static navbar -->
             <div class="container">
@@ -61,17 +61,23 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title text-uppercase">Category : Projects</h1>
+                      <h1 class="header-title">找出 GitHub 上和 Python 3 不相容的 Python 專案</h1>
+                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Sat 10 September 2016, in category <a href="http://city.shaform.com/category/projects.html">Projects</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">Category Archive "Projects"</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="http://city.shaform.com/tag/2to3.html">2to3</a>, <a href="http://city.shaform.com/tag/github.html">GitHub</a>, <a href="http://city.shaform.com/tag/py3tracker.html">py3tracker</a>, <a href="http://city.shaform.com/tag/python3.html">Python3</a>                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -79,24 +85,34 @@
 
 
         <!-- Content -->
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="http://city.shaform.com/category/projects.html">Projects</a></h2>
-            <dl class="dl-horizontal">
-            	<dt>Sat 10 September 2016</dt>
-            	<dd><a href="http://city.shaform.com/blog/2016/09/10/py3tracker.html">找出 GitHub 上和 Python 3 不相容的 Python 專案</a></dd>
-            	<dt>Fri 06 November 2015</dt>
-            	<dd><a href="http://city.shaform.com/blog/2015/11/06/snappycat.html">snappycat: A command line tool to decompress snappy files produced by Hadoop</a></dd>
-            	<dt>Tue 05 March 2013</dt>
-            	<dd><a href="http://city.shaform.com/blog/2013/03/05/coprogramming.html">最低成本的程式協作: CoProgramming</a></dd>
-            	<dt>Tue 26 February 2013</dt>
-            	<dd><a href="http://city.shaform.com/blog/2013/02/26/freearray-bugfixes.html">稍微整理了一下自由行列的原始碼</a></dd>
-            	<dt>Sat 20 February 2010</dt>
-            	<dd><a href="http://city.shaform.com/blog/2010/02/20/ibus-faft-develop-notes.html">ibus-faft 開發日誌</a></dd>
-            	<dt>Mon 15 February 2010</dt>
-            	<dd><a href="http://city.shaform.com/blog/2010/02/15/intro-to-freearray.html">簡介自由行列專案</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <h1>Porting to Python 3</h1>
+<p>Python 3 已經釋出近八年，原本一片慘紅的 <a href="http://py3readiness.org/">Python 3 Readiness</a> 和 <a href="http://python3wos.mybluemix.net/">PYTHON 3 WALL OF SUPERPOWERS</a> 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，<a href="http://blog.jupyter.org/2016/07/08/ipython-5-0-released/#endofsupportforpython2">也開始有些專案漸漸要中止 Python 2 的支援了。</a></p>
+<p>然而其實還是有不少常用的 packages 並不支援 Python 3，像是最近常會用到的 <a href="https://github.com/s3tools/s3cmd">s3cmd</a> 就是一例。到了他們的 Issues 頁面瞧瞧，發現其實<a href="https://github.com/s3tools/s3cmd/issues/335">很早以前就有想支援 Python 3 的聲音</a>，只是一直沒有人力去做。</p>
+<p>其實，雖然要完全支援的話工程有點浩大，但一小步一小步做起來就在可以處理的範圍之內。有些情況甚至用 <a href="https://docs.python.org/3.5/library/2to3.html">2to3</a> 就能有很大幫助了。於是忍不住就順手發了一個 <a href="https://github.com/s3tools/s3cmd/pull/785">pull request</a>，結果很順利就被 merge 了。感覺是很低成本的讓自己感覺對世界有貢獻的方法之一。</p>
+<h1>找出可以幫忙的 repositories</h1>
+<p>於是想到，其實說不定 <a href="https://github.com/">GitHub</a> 上也還存在許多可以發 pull requests 的 repositories，於是就想寫個類似 Python 3 Readiness 的頁面，專門列出有在 GitHub 上但是卻不支援 Python 3 的專案，讓有強迫症的路人可以簡單找出可以去哪貢獻。</p>
+<p>就這樣，<a href="http://py3tracker.shaform.com/">py3tracker</a> 誕生了。</p>
+<p>主要的作法是先用 <a href="https://wiki.python.org/moin/PyPIXmlRpc">PyPI API</a> 找出最多人下載的 projects，然後再透過 <a href="https://github.com/brettcannon/caniusepython3">caniusepython3</a> 檢查哪些不支援 Python 3，最後再偵測該 project 在 GitHub 上是否有公開原始碼。順便抓星星數用來排序。</p>
+<p>本來想用 GitHub API 但是一下子就超過一天查詢限制，所以只好強抓網頁了。</p>
+<p>最後的網頁樣板則是用 <a href="http://materializecss.com">materializecss</a> 快速做成。</p>
+<p>希望對有強迫症的路人有所幫助。</p>
+
+
+            <div class="comments">
+                <div id="disqus_thread"></div>
+                    <script type="text/javascript">
+                        var disqus_shortname = 'cityofwings';
+                        var disqus_identifier = 'blog/2016/09/10/py3tracker.html';
+                        var disqus_url = 'http://city.shaform.com/blog/2016/09/10/py3tracker.html';
+                        (function() {
+                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
+                    </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+            </div>
     </div>
         <!-- /Content --> 
 
