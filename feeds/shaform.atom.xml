@@ -15839,7 +15839,7 @@ spark-1.4.1-bin-hadoop2.6/bin/spark-submit --class SparkW2V --master local&lt;sp
 &lt;span class="c1"&gt;#&lt;/span&gt;
 
 &lt;span class="c1"&gt;# 讀取檔案&lt;/span&gt;
-scala&amp;gt; val &lt;span class="nv"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; sqlContext.parquetFile&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{output directory}/model/data/part-*.parquet&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+scala&amp;gt; val &lt;span class="nv"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; sqlContext.read.parquet&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{output directory}/model/data&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 d: org.apache.spark.sql.DataFrame &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;word: string, vector: array&amp;lt;float&amp;gt;&lt;span class="o"&gt;]&lt;/span&gt;
 
 &lt;span class="c1"&gt;# 檢查格式&lt;/span&gt;
