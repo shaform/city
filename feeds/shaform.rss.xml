@@ -17,8 +17,8 @@
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo dpkg -i cuda-repo-&amp;lt;distro&amp;gt;_&amp;lt;version&amp;gt;_&amp;lt;architecture&amp;gt;.deb
 &lt;/span&gt;&lt;span class="hll"&gt;sudo apt update
 &lt;/span&gt;&lt;span class="hll"&gt;sudo apt install cuda
-&lt;/span&gt;sudo reboot
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;sudo reboot
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/div&gt;
