@@ -96,11 +96,13 @@ Just choose it when installing or add the relevant input method in language sett
 <p>(Newer versions of Linux distributions also support dvorak layout when installing.)</p>
 <p>如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換：</p>
 <p>(If you want to set the layout temporarily, you could also use the following commands:)</p>
-<div class="highlight"><pre><span></span>setxkbmap dvorak <span class="c1"># 更動成 dvorak / change to dvorak</span>
-setxkbmap us <span class="c1"># 還原成 us 標準鍵盤 / change back to qwerty</span>
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">setxkbmap dvorak <span class="c1"># 更動成 dvorak / change to dvorak</span>
+</span><span class="hll">setxkbmap us <span class="c1"># 還原成 us 標準鍵盤 / change back to qwerty</span>
+</span></pre></div>
 
 
+</div>
 <h2>Xrdp</h2>
 <p>如果使用 rdp 的方式遠端連上 linux 的話，他的鍵盤對應是由自己的設定檔所控制，檔案位置在 /etc/xrdp/km-****.ini，其中 **** 為不同語言設定的檔案，其編號可參考 <a href="http://xrdp.sourceforge.net/documents/keymap/rfc1766.html">rfc1766</a>。通常我們需要修改的是 km-0409.ini (en-US) 這個檔案。</p>
 <p>(If you are using rdp to connect to remote linux servers, the keyboard layout is
@@ -110,28 +112,36 @@ See <a href="http://xrdp.sourceforge.net/documents/keymap/rfc1766.html">rfc1766<
 <p>在正常登入的情況下，使用以下指令可以在當前目錄產生目前鍵盤對應的 xrdp 設定檔：</p>
 <p>(If you are able to login the server locally without rdp. You could use the following
 command to generate key map when you are using dvorak.)</p>
-<div class="highlight"><pre><span></span>xrdp-genkeymap km-now.ini
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">xrdp-genkeymap km-now.ini
+</span></pre></div>
 
 
+</div>
 <p>接著我們把它搬移取代 xrdp 參照的檔案：</p>
 <p>(Afterwards, we could use this generated file to replace the settings.)</p>
-<div class="highlight"><pre><span></span>sudo mv km-now.ini /etc/xrdp/km-0409.ini
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo mv km-now.ini /etc/xrdp/km-0409.ini
+</span></pre></div>
 
 
+</div>
 <p>或許我們會想在覆蓋之前先備份原本的設定檔：</p>
 <p>(Of course, you may want to backup the file before you run the above command.)</p>
-<div class="highlight"><pre><span></span>sudo mv /etc/xrdp/km-0409.ini /etc/xrdp/km-0409.ini.old
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo mv /etc/xrdp/km-0409.ini /etc/xrdp/km-0409.ini.old
+</span></pre></div>
 
 
+</div>
 <p>最後重新啟動 xrdp 伺服器就可以了：</p>
 <p>(Restart the xrdp server to load the configuration.)</p>
-<div class="highlight"><pre><span></span>sudo /etc/init.d/xrdp restart
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo /etc/init.d/xrdp restart
+</span></pre></div>
 
 
+</div>
 <p>但如果因為某些原因只能用 rdp 連上主機，而無法接觸正常的桌面的話，則根本無法得到 dvorak 的鍵盤對應，因此也無法產生設定檔，在這種情況下，只好直接修改原本的 km-0409.ini。而也有人說用 xrdp-genkeymap 產生的檔案有時會有問題，這時也只能直接修改了。我寫了一個程式用來做這個轉換：</p>
 <p>(However, if you are unable to login locally, you would not be able to generate
 the correct file because you are unable to change keyboard layout to dvorak.
