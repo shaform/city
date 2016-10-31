@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -93,16 +94,20 @@
 <p>本文便使用 Python 3 配合 gspread 來展示寫入 Google Sheets 的方法。確切的來說，我將寫一個程式每天去某個網站檢查目前的記憶體價格，然後把每天查到的價格寫入一個試算表裡，藉此追蹤價格變化。</p>
 <h1>環境設置</h1>
 <p>首先使用 <a href="https://docs.python.org/3/library/venv.html">pyvenv</a> 創立虛擬環境，好安裝自己的套件：</p>
-<div class="highlight"><pre><span></span>pyvenv-3.5 my_env
-<span class="nb">source</span> my_env/bin/activate
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">pyvenv-3.5 my_env
+</span><span class="hll"><span class="nb">source</span> my_env/bin/activate
+</span></pre></div>
 
 
+</div>
 <p>緊接著，安裝所有這次會用到的套件：</p>
-<div class="highlight"><pre><span></span>pip install beautifulsoup4 gspread oauth2client pyOpenSSL
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">pip install beautifulsoup4 gspread oauth2client pyOpenSSL
+</span></pre></div>
 
 
+</div>
 <h1>申請 API 用帳號</h1>
 <p>於是就開始參考<a href="http://gspread.readthedocs.org/en/latest/oauth2.html">教學</a>，先申請一個可以用來存取 Google Sheets 的帳號。步驟如下：</p>
 <ol>

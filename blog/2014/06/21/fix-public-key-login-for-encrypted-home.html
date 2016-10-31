@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -90,16 +91,20 @@
 <p>我最後決定停用密碼登入的功能，改成只能用 public key 登入，這樣子可能比較難以猜中正確的密鑰。不過實際用起來偶爾會發現登入失敗搞不清楚理由，後來才發現是因為我的 Ubuntu 啟用了家目錄加密的功能，因此尚未登入之前根本讀不到 <code>authorized_keys</code> 設定檔。為了解決這個問題，必須移動設定檔的位置才行。</p>
 <h2>Generate SSH Keys</h2>
 <p>首先如果沒有自己的 SSH keys 的話可以參考<a href="https://help.github.com/articles/generating-ssh-keys">〈Generating SSH Keys〉</a>建立自己的 SSH keys。大致上是使用如下指令：</p>
-<div class="highlight"><pre><span></span>ssh-keygen -t rsa -C <span class="s2">&quot;your_email@example.com&quot;</span>
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">ssh-keygen -t rsa -C <span class="s2">&quot;your_email@example.com&quot;</span>
+</span></pre></div>
 
 
+</div>
 <p>預設會把產生的 private key 存在 <code>/home/$USER/.ssh/id_rsa</code>，public key 存在 <code>/home/$USER/.ssh/id_rsa.pub</code>，不過也可以改位置。passphrase 則是用來加密 private key，建議要使用，這樣子每次要解開 private key 時都需要使用密碼，所以就算一不小心 private key 被別人取得，對方也要花上一段時間才能解開。</p>
 <h2>更改 sshd_config 設定</h2>
-<div class="highlight"><pre><span></span>sudoedit /etc/ssh/sshd_config
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudoedit /etc/ssh/sshd_config
+</span></pre></div>
 
 
+</div>
 <p>首先取消密碼登入，將</p>
 <div class="highlight"><pre><span></span>#PasswordAuthentication yes
 </pre></div>
@@ -122,24 +127,32 @@
 
 <h2>建立 authorized_keys 檔案</h2>
 <p>然後根據你的 <code>$USER</code> 名字建立資料夾，並修改權限：</p>
-<div class="highlight"><pre><span></span>sudo mkdir -p /etc/ssh/keys/<span class="nv">$USER</span>
-sudo chmod <span class="m">755</span> /etc/ssh/keys
-sudo chmod <span class="m">700</span> /etc/ssh/<span class="nv">$USER</span>
-sudo chown <span class="nv">$USER</span>:<span class="nv">$USER</span> /etc/ssh/<span class="nv">$USER</span>
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo mkdir -p /etc/ssh/keys/<span class="nv">$USER</span>
+</span><span class="hll">sudo chmod <span class="m">755</span> /etc/ssh/keys
+</span><span class="hll">sudo chmod <span class="m">700</span> /etc/ssh/<span class="nv">$USER</span>
+</span><span class="hll">sudo chown <span class="nv">$USER</span>:<span class="nv">$USER</span> /etc/ssh/<span class="nv">$USER</span>
+</span></pre></div>
 
 
+</div>
 <p>最後再將 <code>id_rsa.pub</code> 拷貝到 server 上，並複製到 authorized_keys：</p>
+<div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="c1"># copy id_rsa.pub to server, then -&gt;</span>
-cat id_rsa.pub &gt;&gt; /etc/ssh/keys/<span class="nv">$USER</span>/authorized_keys
-chmod <span class="m">400</span> /etc/ssh/ssh/keys/<span class="nv">$USER</span>/authorized_keys
-</pre></div>
+<span class="hll">cat id_rsa.pub &gt;&gt; /etc/ssh/keys/<span class="nv">$USER</span>/authorized_keys
+</span><span class="hll">chmod <span class="m">400</span> /etc/ssh/ssh/keys/<span class="nv">$USER</span>/authorized_keys
+</span></pre></div>
 
 
+</div>
 <h2>重新讀取設定</h2>
 <p>重新讀取設定檔並測試一下登入就大功告成：</p>
-<div class="highlight"><pre><span></span>sudo service ssh reload
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo service ssh reload
+</span></pre></div>
+
+
+</div>
 
 
             <div class="comments">

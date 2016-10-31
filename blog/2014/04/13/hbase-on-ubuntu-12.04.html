@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -91,37 +92,53 @@
 <ol>
 <li>
 <p>安裝 JDK 7</p>
-<div class="highlight"><pre><span></span>sudo apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade <span class="c1"># 更新套件庫</span>
-sudo apt-get install software-properties-common python-software-properties  <span class="c1"># 取得 add-apt-repository</span>
-sudo add-apt-repository ppa:webupd8team/java  <span class="c1"># 新增有 oracle-java7-installer 的 ppa</span>
-sudo apt-get update
-sudo apt-get install oracle-java7-installer
-</pre></div>
+<div class="sh-highlight" markdown="1">
 
+<div class="highlight"><pre><span></span><span class="hll">sudo apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade <span class="c1"># 更新套件庫</span>
+</span><span class="hll">sudo apt-get install software-properties-common python-software-properties  <span class="c1"># 取得 add-apt-repository</span>
+</span><span class="hll">sudo add-apt-repository ppa:webupd8team/java  <span class="c1"># 新增有 oracle-java7-installer 的 ppa</span>
+</span><span class="hll">sudo apt-get update
+</span><span class="hll">sudo apt-get install oracle-java7-installer
+</span></pre></div>
+
+
+</div>
 
 </li>
 <li>
 <p>設定 SSH</p>
-<div class="highlight"><pre><span></span>ssh-keygen -b <span class="m">2048</span> -t rsa:q  <span class="c1"># 產生 RSA key pair</span>
-cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  <span class="c1"># 讓自己可以不用密碼登入自己</span>
-</pre></div>
+<div class="sh-highlight" markdown="1">
 
+<div class="highlight"><pre><span></span><span class="hll">ssh-keygen -b <span class="m">2048</span> -t rsa:q  <span class="c1"># 產生 RSA key pair</span>
+</span><span class="hll">cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  <span class="c1"># 讓自己可以不用密碼登入自己</span>
+</span></pre></div>
+
+
+</div>
 
 <p>在 NameNode 上：</p>
-<div class="highlight"><pre><span></span>ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-1-dn  <span class="c1"># 讓 NameNode 可不用密碼登入 DataNode</span>
-ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-2-dn  <span class="c1"># 讓 NameNode 可不用密碼登入 DataNode</span>
-</pre></div>
+<div class="sh-highlight" markdown="1">
 
+<div class="highlight"><pre><span></span><span class="hll">ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-1-dn  <span class="c1"># 讓 NameNode 可不用密碼登入 DataNode</span>
+</span><span class="hll">ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-2-dn  <span class="c1"># 讓 NameNode 可不用密碼登入 DataNode</span>
+</span></pre></div>
+
+
+</div>
 
 </li>
 <li>
 <p>安裝 Hadoop</p>
 <p>先在 $HOME/.bashrc 加上 <code>export PATH=$PATH:$HOME/hadoop-1.2.1/bin</code>，然後進入家目錄：</p>
-<div class="highlight"><pre><span></span>wget http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz
-tar -xvf hadoop-1.2.1-bin.tar.gz
-<span class="nb">cd</span> hadoop-1.2.1/conf
-</pre></div>
+<div class="sh-highlight" markdown="1">
 
+<div class="highlight"><pre><span></span><span class="hll">wget http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz
+</span><span class="hll">tar -xvf hadoop-1.2.1-bin.tar.gz
+</span><span class="hll"><span class="nb">cd</span> hadoop-1.2.1/conf
+</span></pre></div>
+
+
+</div>
 
 <p>修改 hadoop-env.sh 加上 <code>export JAVA_HOME=/usr/lib/jvm/java-7-oracle</code>。</p>
 </li>
@@ -183,20 +200,26 @@ slave-2-dn
 <li>
 <p>開啟伺服器
     最後在 NameNode 上執行以下指令將 cluster 啟動（可能需要重新登入讓 PATH 設定生效）：</p>
-<div class="highlight"><pre><span></span>hadoop namenode -format  <span class="c1"># 格式化檔案系統</span>
-start-all.sh  <span class="c1"># 啟動所有服務（包含 HDFS）</span>
-</pre></div>
+<div class="sh-highlight" markdown="1">
 
+<div class="highlight"><pre><span></span><span class="hll">hadoop namenode -format  <span class="c1"># 格式化檔案系統</span>
+</span><span class="hll">start-all.sh  <span class="c1"># 啟動所有服務（包含 HDFS）</span>
+</span></pre></div>
+
+
+</div>
 
 </li>
 </ol>
 <h2>二、HBase</h2>
 <p>首先進入每台的家目錄，下載並解壓縮 HBase：</p>
-<div class="highlight"><pre><span></span>wget http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.94.14.tar.gz
-tar -xvf hbase-0.94.14.tar.gz
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">wget http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.94.14.tar.gz
+</span><span class="hll">tar -xvf hbase-0.94.14.tar.gz
+</span></pre></div>
 
 
+</div>
 <p>編輯 hbase-0.94.14/conf/hbase-env.sh，新增數行：</p>
 <div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/java-7-oracle
 <span class="nb">export</span> <span class="nv">HADOOP_CONF_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/hadoop-1.2.1/conf
@@ -240,8 +263,12 @@ slave-2-dn
 
 
 <p>最後就可以在 master 執行 HBase 了：</p>
-<div class="highlight"><pre><span></span>./hbase-0.94.14/bin/start-hbase.sh
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">./hbase-0.94.14/bin/start-hbase.sh
+</span></pre></div>
+
+
+</div>
 
 
             <div class="comments">

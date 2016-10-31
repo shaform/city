@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -97,37 +98,43 @@ create a simple model to train and predict the sentiment for movie reviews.</p>
 for sentiment analysis, this time we utilize the scripts provided
 by <a href="https://github.com/mesnilgr/iclr15">mesnilgr/iclr15</a> to download the <a href="http://ai.stanford.edu/~amaas/data/sentiment/">Large Movie Review Dataset</a>
 so it's easier to reproduce the results.</p>
+<div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="c1"># get mesnilgr/iclr15</span>
-git clone https://github.com/mesnilgr/iclr15
-
-mkdir -p iclr15_run
-<span class="nb">cd</span> iclr15_run
-
+<span class="hll">git clone https://github.com/mesnilgr/iclr15
+</span>
+<span class="hll">mkdir -p iclr15_run
+</span><span class="hll"><span class="nb">cd</span> iclr15_run
+</span>
 <span class="c1"># get data</span>
-../iclr15/scripts/data.sh
-</pre></div>
+<span class="hll">../iclr15/scripts/data.sh
+</span></pre></div>
 
 
+</div>
 <p>Afterwards, we create the <a href="http://arxiv.org/abs/1405.4053">Paragraph Vectors</a> for each review. Paragraph
 Vectors are fixed-dimensional distributed representations for texts. Once we
 convert each review into a vector, we could easily feed it into a neural network.</p>
+<div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="c1"># extract the part to create paragraph vectors from iclr15 scripts</span>
-sed -e <span class="s1">&#39;/liblinear/,$d&#39;</span> ../iclr15/scripts/paragraph.sh &gt; paragraph.sh
-
+<span class="hll">sed -e <span class="s1">&#39;/liblinear/,$d&#39;</span> ../iclr15/scripts/paragraph.sh &gt; paragraph.sh
+</span>
 <span class="c1"># start creating the vectors</span>
-chmod +x paragraph.sh
-./paragraph.sh
-</pre></div>
+<span class="hll">chmod +x paragraph.sh
+</span><span class="hll">./paragraph.sh
+</span></pre></div>
 
 
+</div>
 <p>Finally, we copy the resulting files.</p>
+<div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="c1"># copy the vectors</span>
-<span class="nb">cd</span> word2vec
-cp full-train.txt test.txt ../../
-<span class="nb">cd</span> ../../
-</pre></div>
+<span class="hll"><span class="nb">cd</span> word2vec
+</span><span class="hll">cp full-train.txt test.txt ../../
+</span><span class="hll"><span class="nb">cd</span> ../../
+</span></pre></div>
 
 
+</div>
 <h1>Converting the Input Format</h1>
 <p>We now have two files: <code>full-train.txt</code> and <code>test.txt</code> for training and testing
 respectively. These files use <a href="https://github.com/cjlin1/libsvm/blob/master/README">LIBSVM data format</a>, which can
@@ -136,15 +143,19 @@ not be used with Caffe directly. Therefore, we create a script to convert the fi
 all the dependencies and Pycaffe itself. Notice that currently Pycaffe does not work
 well on Python 3, so we'll use Python 2.7 here. If you don't want to install Pycaffe
 system-wide. You could also manually set the <code>PYTHONPATH</code> variable as follows.</p>
-<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PYTHONPATH</span><span class="si">}</span>:caffe-directory/python/
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PYTHONPATH</span><span class="si">}</span>:caffe-directory/python/
+</span></pre></div>
 
 
+</div>
 <p>In addition, install the <a href="http://lmdb.readthedocs.org/en/release/">py-lmdb</a> Python package.</p>
-<div class="highlight"><pre><span></span>sudo pip install lmdb
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo pip install lmdb
+</span></pre></div>
 
 
+</div>
 <p>Each line in the input file begins with a label followed by a 100-dimensional array.
 So we extract the data using a simple Python routine.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -204,11 +215,13 @@ for us.</p>
 
 <p>Using the complete <a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/convert.py">convert.py</a> script, we convert both
 training and testing files into LMDB format.</p>
-<div class="highlight"><pre><span></span>python convert.py full-train.txt movie-train-lmdb
-python convert.py test.txt movie-test-lmdb
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">python convert.py full-train.txt movie-train-lmdb
+</span><span class="hll">python convert.py test.txt movie-test-lmdb
+</span></pre></div>
 
 
+</div>
 <h1>Creating a Caffe Model</h1>
 <p>Finally, we create a simple NN model with <a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/nn.prototxt">nn.prototxt</a> and <a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/nn_solver.prototxt">nn_solver.prototxt</a>. Execute the
 Caffe command line tool and we obtain the following results.</p>

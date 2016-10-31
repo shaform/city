@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -92,28 +93,36 @@
 <p>以下就是修改版本 <a href="https://github.com/shaform/bs2-crawler">bs2-crawler@shaform</a>，的使用教學。</p>
 <h1>安裝</h1>
 <p>首先 clone 我們修改的版本：</p>
-<div class="highlight"><pre><span></span>git clone https://github.com/shaform/bs2-crawler
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">git clone https://github.com/shaform/bs2-crawler
+</span></pre></div>
 
 
+</div>
 <p>可以用 Python 3 執行，首先使用 <a href="https://docs.python.org/3/library/venv.html">pyvenv</a> 創立虛擬環境，好安裝自己的套件：</p>
-<div class="highlight"><pre><span></span><span class="nb">cd</span> bs2-crawler
-pyvenv env
-<span class="nb">source</span> env/bin/activate
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">cd</span> bs2-crawler
+</span><span class="hll">pyvenv env
+</span><span class="hll"><span class="nb">source</span> env/bin/activate
+</span></pre></div>
 
 
+</div>
 <p>緊接著，安裝所有這次會用到的套件：</p>
-<div class="highlight"><pre><span></span>pip3 install -r requirements.txt
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">pip3 install -r requirements.txt
+</span></pre></div>
 
 
+</div>
 <h1>下載看板資料</h1>
 <p>一些著名的看板像是書評板或選課板皆可使用，以下我們就用選課板做示範：</p>
-<div class="highlight"><pre><span></span>python3 crawler.py --board-name NCTU-Teacher
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">python3 crawler.py --board-name NCTU-Teacher
+</span></pre></div>
 
 
+</div>
 <p>會出現要下載哪些文章的提示：</p>
 <div class="highlight"><pre><span></span>n - <span class="m">14520</span> :
 </pre></div>

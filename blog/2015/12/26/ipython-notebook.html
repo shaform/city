@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -137,11 +138,13 @@ magic command 設定讓圖表直接顯示在筆記本上：</p>
 <h2>找出最重要的特徵</h2>
 <p>通常要對模型有一些理解，找出權重最大的特徵可以有些幫助。所以我們用
 polarity dataset 來示範這個概念：</p>
-<div class="highlight"><pre><span></span>wget http://www.cs.cornell.edu/people/pabo/movie-review-data/review_polarity.tar.gz
-tar xzf review_polarity.tar.gz
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">wget http://www.cs.cornell.edu/people/pabo/movie-review-data/review_polarity.tar.gz
+</span><span class="hll">tar xzf review_polarity.tar.gz
+</span></pre></div>
 
 
+</div>
 <p>然後，載入必要的套件：</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -14443,11 +14446,13 @@ cQAABIgDACBAHAAAAeIAAAj8AIAwlnXiSPR9AAAAAElFTkSuQmCC
 
 
 <p>同時如果是 Python 3 的話，可能還需安裝額外的套件：</p>
-<div class="highlight"><pre><span></span>sudo apt-get install libffi-dev
-pip3 install cairocffi
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo apt-get install libffi-dev
+</span><span class="hll">pip3 install cairocffi
+</span></pre></div>
 
 
+</div>
 <p>安裝完就可以開始畫了：</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">xkcd</span><span class="p">():</span>
     <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">xkcd</span><span class="p">():</span>

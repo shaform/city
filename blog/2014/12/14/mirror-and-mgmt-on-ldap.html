@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -103,24 +104,28 @@ tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 
 <h2>初始安裝 Mirror Server</h2>
 <p>首先透過<a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html">前一篇文章</a>的作法安裝 ldapm.lab.csie.ntu.edu.tw 但跳過「轉移 NIS 資料」的部份。此外，需使用同一個 <code>my_root</code> 但卻須產生新的 server 憑證，並對應到新的網域名稱（注意 <code>-set_serial</code> 號碼與之前不同）：</p>
-<div class="highlight"><pre><span></span>openssl genrsa -out ldapm_key.pem 1024
-openssl req -new -key ldapm_key.pem -out ldapm_csr.pem
-openssl x509 -req -days 36500 -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial 2
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">openssl genrsa -out ldapm_key.pem 1024
+</span><span class="hll">openssl req -new -key ldapm_key.pem -out ldapm_csr.pem
+</span><span class="hll">openssl x509 -req -days <span class="m">36500</span> -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial 2
+</span></pre></div>
 
 
+</div>
 <h2>同時設定 Master 和 Mirror Server</h2>
 <p>接下來，我們要在兩邊分別建立一個帳戶供 mirror 之用，首先建立一個密碼，比如說 <code>1234</code>：</p>
-<div class="highlight"><pre><span></span>$ slappasswd -h <span class="o">{</span>SSHA<span class="o">}</span>
-New password: 
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">slappasswd -h <span class="o">{</span>SSHA<span class="o">}</span>
+</span>New password: 
 Re-enter new password: 
 <span class="o">{</span>SSHA<span class="o">}</span>oQ1Lw12oTHhdL9NwHQe2FoypBZX90QKx
 
-$ <span class="nb">echo</span> -n <span class="o">{</span>SSHA<span class="o">}</span>oQ1Lw12oTHhdL9NwHQe2FoypBZX90QKx <span class="p">|</span> base64
-<span class="nv">e1NTSEF9b1ExTHcxMm9USGhkTDlOd0hRZTJGb3lwQlpYOTBRS3g</span><span class="o">=</span>
+<span class="hll"><span class="nb">echo</span> -n <span class="o">{</span>SSHA<span class="o">}</span>oQ1Lw12oTHhdL9NwHQe2FoypBZX90QKx <span class="p">|</span> base64
+</span><span class="nv">e1NTSEF9b1ExTHcxMm9USGhkTDlOd0hRZTJGb3lwQlpYOTBRS3g</span><span class="o">=</span>
 </pre></div>
 
 
+</div>
 <p>緊接著，分別在兩台 server 上建立 <code>mirror.ldif</code> 檔案：</p>
 <div class="highlight"><pre><span></span>dn: cn=mirrormode,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
 changetype: add 
@@ -133,10 +138,12 @@ userPassword:: e1NTSEF9b1ExTHcxMm9USGhkTDlOd0hRZTJGb3lwQlpYOTBRS3g=
 
 
 <p>執行</p>
-<div class="highlight"><pre><span></span>ldapmodify -D &quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot; -W -f mirror.ldif
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">ldapmodify -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -W -f mirror.ldif
+</span></pre></div>
 
 
+</div>
 <p>緊接著，分別在兩台 server 上建立 <code>mirror_config.ldif</code> 檔案：</p>
 <div class="highlight"><pre><span></span>dn: cn=module{0},cn=config
 changetype: modify
@@ -172,10 +179,12 @@ olcDbIndex: objectClass,entryCSN,entryUUID eq
 
 
 <p>執行</p>
-<div class="highlight"><pre><span></span>ldapmodify -Y EXTERNAL -H ldapi:/// -f mirror_config.ldif
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">ldapmodify -Y EXTERNAL -H ldapi:/// -f mirror_config.ldif
+</span></pre></div>
 
 
+</div>
 <p>最後在兩台機器上建立不同的兩個檔案 <code>ldap.ldif</code>, <code>ldapm.ldif</code>：</p>
 <p>ldap.lab.csie.ntu.edu.tw：</p>
 <div class="highlight"><pre><span></span>dn: cn=config
@@ -196,10 +205,12 @@ olcMirrorMode: TRUE
 
 
 <p>執行</p>
-<div class="highlight"><pre><span></span>ldapmodify -Y EXTERNAL -H ldapi:/// -f ldap.ldif
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">ldapmodify -Y EXTERNAL -H ldapi:/// -f ldap.ldif
+</span></pre></div>
 
 
+</div>
 <p>ldapm.lab.csie.ntu.edu.tw：</p>
 <div class="highlight"><pre><span></span>dn: cn=config
 changeType: modify
@@ -219,20 +230,25 @@ olcMirrorMode: TRUE
 
 
 <p>執行</p>
-<div class="highlight"><pre><span></span>ldapmodify -Y EXTERNAL -H ldapi:/// -f ldapm.ldif
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">ldapmodify -Y EXTERNAL -H ldapi:/// -f ldapm.ldif
+</span></pre></div>
 
 
+</div>
 <p>注意 <code>olcServerID</code> 要用不同的編號，而 <code>provider</code> 要設成對方，<code>credentials</code> 則是剛剛選擇的密碼。</p>
 <p>最後測試看看是否已經同步：</p>
-<div class="highlight"><pre><span></span>ldapsearch -x -h localhost
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">ldapsearch -x -h localhost
+</span></pre></div>
 
 
+</div>
 <h2>日常管理</h2>
 <h3>建立使用者</h3>
-<div class="highlight"><pre><span></span>ldapadd -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> <span class="s">&lt;&lt;EOF</span>
-<span class="s">dn: cn=$username,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw</span>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">ldapadd -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> <span class="s">&lt;&lt;EOF</span>
+</span><span class="s">dn: cn=$username,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw</span>
 <span class="s">objectClass: posixGroup</span>
 <span class="s">objectClass: top</span>
 <span class="s">cn: $username</span>
@@ -240,8 +256,8 @@ olcMirrorMode: TRUE
 <span class="s">gidNumber: $userid</span>
 <span class="s">EOF</span>
 
-ldapadd -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> <span class="s">&lt;&lt;EOF</span>
-<span class="s">dn: uid=$username,ou=People,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw</span>
+<span class="hll">ldapadd -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> <span class="s">&lt;&lt;EOF</span>
+</span><span class="s">dn: uid=$username,ou=People,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw</span>
 <span class="s">uid: $username</span>
 <span class="s">cn: $realname</span>
 <span class="s">objectClass: account</span>
@@ -257,28 +273,32 @@ ldapadd -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc
 <span class="s">gecos: ,,,</span>
 <span class="s">EOF</span>
 
-ldappasswd -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -S <span class="nv">uid</span><span class="o">=</span><span class="nv">$username</span>,ou<span class="o">=</span>People,dc<span class="o">=</span>lab,dc<span class="o">=</span>csie,dc<span class="o">=</span>ntu,dc<span class="o">=</span>edu,dc<span class="o">=</span>tw
-</pre></div>
+<span class="hll">ldappasswd -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -S <span class="nv">uid</span><span class="o">=</span><span class="nv">$username</span>,ou<span class="o">=</span>People,dc<span class="o">=</span>lab,dc<span class="o">=</span>csie,dc<span class="o">=</span>ntu,dc<span class="o">=</span>edu,dc<span class="o">=</span>tw
+</span></pre></div>
 
 
+</div>
 <h3>刪除使用者</h3>
-<div class="highlight"><pre><span></span>ldapdelete -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> <span class="s2">&quot;cn=</span><span class="nv">$username</span><span class="s2">,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span>
-ldapdelete -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> <span class="s2">&quot;uid=</span><span class="nv">$username</span><span class="s2">,ou=People,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span>
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">ldapdelete -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> <span class="s2">&quot;cn=</span><span class="nv">$username</span><span class="s2">,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span>
+</span><span class="hll">ldapdelete -x -W -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> <span class="s2">&quot;uid=</span><span class="nv">$username</span><span class="s2">,ou=People,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span>
+</span></pre></div>
 
 
+</div>
 <h3>修改使用者的群組</h3>
+<div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="c1"># add</span>
-ldapmodify -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -W <span class="s">&lt;&lt;EOF</span>
-<span class="s">dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw</span>
+<span class="hll">ldapmodify -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -W <span class="s">&lt;&lt;EOF</span>
+</span><span class="s">dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw</span>
 <span class="s">changetype: modify</span>
 <span class="s">add: memberUid</span>
 <span class="s">memberUid: $username</span>
 <span class="s">EOF</span>
 
 <span class="c1"># remove</span>
-ldapmodify -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -W <span class="s">&lt;&lt;EOF</span>
-<span class="s">dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw</span>
+<span class="hll">ldapmodify -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -W <span class="s">&lt;&lt;EOF</span>
+</span><span class="s">dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw</span>
 <span class="s">changetype: modify</span>
 <span class="s">delete: memberUid</span>
 <span class="s">memberUid: $username</span>
@@ -286,12 +306,17 @@ ldapmodify -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
 </pre></div>
 
 
+</div>
 <h3>備份與還原</h3>
 <p>如果只有一個鏡像壞掉，只要再用這篇的方法建立一個鏡像就可以備份到另一個。否則可以用以下兩個指令，注意不同的鏡像設定也會被備份，所以不同台 server 可能不能直接用同一個備份檔還原：</p>
-<div class="highlight"><pre><span></span>slapcat &gt; bak.ldif
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">slapcat &gt; bak.ldif
+</span>
+<span class="hll">slapadd -l bak.ldif
+</span></pre></div>
 
-slapadd -l bak.ldif
-</pre></div>
+
+</div>
 
 
             <div class="comments">

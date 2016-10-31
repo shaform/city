@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -154,17 +155,19 @@ slapcat
 
 
 <p>由於 Debian 的 LDAP 預設並沒有載入 misc.schema，所以如果要讀入 alias 資料就會出錯。因此我們只手動載入需要的部份，而不使用自動載入全部資料的方法。進入 <code>/usr/share/migrationtools/</code> 資料夾後執行以下指令：</p>
+<div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="c1"># create basic data</span>
-./migrate_base.pl <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
-
+<span class="hll">./migrate_base.pl <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
+</span>
 <span class="c1"># migrate passwd</span>
-./migrate_passwd.pl /etc/passwd <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
-
+<span class="hll">./migrate_passwd.pl /etc/passwd <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
+</span>
 <span class="c1"># migrate group</span>
-./migrate_group.pl /etc/group <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
-</pre></div>
+<span class="hll">./migrate_group.pl /etc/group <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span> -c
+</span></pre></div>
 
 
+</div>
 <p>執行 <code>migrate_base.pl</code> 會有部份內容無法處理是正常的。</p>
 <h2>設定 LDAP Client</h2>
 <p>在要透過 LDAP 登入的主機上進行以下步驟，若 LDAP Master server 本身也想透過 LDAP 登入的話，也是採用相同辦法。首先安裝相關程式</p>
@@ -198,17 +201,19 @@ rootpwmodpw &lt;PASSWORD&gt;
 <h3>建立憑證</h3>
 <p>假設你有可供使用的憑證當然很好，但是一般人除了等待 <a href="https://letsencrypt.org/">Let's Encrypt</a> 以外，可能也只能自己的憑證自己建了。</p>
 <p>在某個資料夾內建立相關憑證：</p>
-<div class="highlight"><pre><span></span>openssl genrsa -out my_root_key.pem 1024
-openssl req -new -key my_root_key.pem -out my_root_csr.pem
-openssl x509 -req -days <span class="m">36500</span> -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">openssl genrsa -out my_root_key.pem 1024
+</span><span class="hll">openssl req -new -key my_root_key.pem -out my_root_csr.pem
+</span><span class="hll">openssl x509 -req -days <span class="m">36500</span> -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
+</span>
+<span class="hll">openssl genrsa -out ldap_key.pem 1024
+</span><span class="hll">openssl req -new -key ldap_key.pem -out ldap_csr.pem
+</span>
+<span class="hll">openssl x509 -req -days <span class="m">36500</span> -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
+</span></pre></div>
 
-openssl genrsa -out ldap_key.pem 1024
-openssl req -new -key ldap_key.pem -out ldap_csr.pem
 
-openssl x509 -req -days <span class="m">36500</span> -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
-</pre></div>
-
-
+</div>
 <p>其中的資訊可以隨意填，但在建立 <code>ldap_csr.pem</code> 時，Common Name 一定要填 client 可以連到的，LDAP master server 的 domain name：</p>
 <div class="highlight"><pre><span></span>Country Name (2 letter code) [AU]:TW
 State or Province Name (full name) [Some-State]:Taiwan
@@ -226,27 +231,31 @@ An optional company name []:
 
 
 <p>然後在 master 上建立一個資料夾，並將相關檔案複製，設定適當的權限：</p>
-<div class="highlight"><pre><span></span>sudo mkdir /etc/ldap/ssl
-sudo cp ldap_key.pem ldap_crt.pem /etc/ldap/ssl
-sudo mkdir /usr/share/ca-certificates/my/
-sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
-sudo chmod <span class="m">644</span> /usr/share/ca-certificates/my/my_root.crt
-sudo dpkg-reconfigure ca-certificates <span class="c1"># choose to add my/my_root.crt</span>
-sudo update-ca-certificates
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo mkdir /etc/ldap/ssl
+</span><span class="hll">sudo cp ldap_key.pem ldap_crt.pem /etc/ldap/ssl
+</span><span class="hll">sudo mkdir /usr/share/ca-certificates/my/
+</span><span class="hll">sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
+</span><span class="hll">sudo chmod <span class="m">644</span> /usr/share/ca-certificates/my/my_root.crt
+</span><span class="hll">sudo dpkg-reconfigure ca-certificates <span class="c1"># choose to add my/my_root.crt</span>
+</span><span class="hll">sudo update-ca-certificates
+</span>
+<span class="hll">sudo chown -R root:openldap /etc/ldap/ssl
+</span><span class="hll">sudo chmod -R o-rwx /etc/ldap/ssl
+</span></pre></div>
 
-sudo chown -R root:openldap /etc/ldap/ssl
-sudo chmod -R o-rwx /etc/ldap/ssl
-</pre></div>
 
-
+</div>
 <p>然後在所有 client 上也可以複製 <code>my_root_crt.pem</code>：</p>
-<div class="highlight"><pre><span></span>sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
-sudo chmod <span class="m">644</span> /usr/share/ca-certificates/my/my_root.crt
-sudo dpkg-reconfigure ca-certificates <span class="c1"># choose to add my/my_root.crt</span>
-sudo update-ca-certificates
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
+</span><span class="hll">sudo chmod <span class="m">644</span> /usr/share/ca-certificates/my/my_root.crt
+</span><span class="hll">sudo dpkg-reconfigure ca-certificates <span class="c1"># choose to add my/my_root.crt</span>
+</span><span class="hll">sudo update-ca-certificates
+</span></pre></div>
 
 
+</div>
 <p>小心收藏剩餘的 key.pem，不要讓別人看到囉。</p>
 <h3>設定 LDAP Master Server</h3>
 <p>注意，這裡的設定若一不小心可能導致 LDAP server 無法運作，故設定時最好先備份所有檔案。</p>
@@ -269,10 +278,12 @@ olcTLSCertificateKeyFile: /etc/ldap/ssl/ldap_key.pem
 
 
 <p>並套用設定：</p>
-<div class="highlight"><pre><span></span>ldapmodify -Y EXTERNAL -H ldapi:/// -f tls.ldif
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">ldapmodify -Y EXTERNAL -H ldapi:/// -f tls.ldif
+</span></pre></div>
 
 
+</div>
 <p>同時更改 <code>/etc/ldap/ldap.conf</code>：</p>
 <div class="highlight"><pre><span></span>URI     ldaps://ldap.lab.csie.ntu.edu.tw
 TLS_CACERT      /etc/ssl/certs/ca-certificates.crt
@@ -280,10 +291,12 @@ TLS_CACERT      /etc/ssl/certs/ca-certificates.crt
 
 
 <p>最後重新啟動 ldap：</p>
-<div class="highlight"><pre><span></span>sudo service slapd restart
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo service slapd restart
+</span></pre></div>
 
 
+</div>
 <h3>設定 LDAP Client</h3>
 <p>修改 <code>/etc/nslcd.conf</code>：</p>
 <div class="highlight"><pre><span></span>uri ldaps://ldap.lab.csie.ntu.edu.tw
@@ -294,10 +307,12 @@ tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 
 
 <p>重啟服務：</p>
-<div class="highlight"><pre><span></span>sudo service nslcd restart
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo service nslcd restart
+</span></pre></div>
 
 
+</div>
 <p>可測試是否可以登入。</p>
 
 

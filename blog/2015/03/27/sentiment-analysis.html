@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -95,109 +96,132 @@ Machine。</p>
 
 <p>每行有一則資料，先是正負向標記：1 表示正、2 表示負。其後接上斷詞後的評論（以空白分隔每個詞）。過濾掉斷詞失敗的句子後，共剩下 1124 句正向評論和 1217 句負向評論。</p>
 <p>接下來我寫了一個 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/split.py">split.py</a> 把資料分成測試集和訓練集：</p>
-<div class="highlight"><pre><span></span>python3 split.py --input data/data.txt --train_pos data/train_pos.txt --train_neg data/train_neg.txt --test_pos data/test_pos.txt --test_neg data/test_neg.txt
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">python3 split.py --input data/data.txt --train_pos data/train_pos.txt --train_neg data/train_neg.txt --test_pos data/test_pos.txt --test_neg data/test_neg.txt
+</span></pre></div>
 
 
+</div>
 <p>我分別取了十分之一當作測試資料：有 112 句正向、121 句負向。</p>
 <h1>RNNLM</h1>
 <p>首先，我參考了 <a href="https://github.com/mesnilgr/iclr15">mesnilgr/iclr15</a> 的做法，使用 <a href="http://rnnlm.org/">rnnlm</a> 來建造語言模型，並預測測試資料的正負。rnnlm 是一個可以用來建立 Recurrent Neural Network Language Models 的方便工具。</p>
 <p>首先分別挑出 200 則訓練資料當作幫助調整參數的 validation set，分別訓練出正向與負向語言模型：</p>
-<div class="highlight"><pre><span></span><span class="nb">cd</span> rnnlm
-
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">cd</span> rnnlm
+</span>
 <span class="c1"># construct positive language model</span>
-head -n <span class="m">200</span> ../data/train_pos.txt &gt; val.txt
-cat ../data/train_pos.txt <span class="p">|</span> sed <span class="s1">&#39;1,200d&#39;</span> &gt; train.txt
-./rnnlm -rnnlm pos.model -train train.txt -valid val.txt -hidden <span class="m">50</span> -direct-order <span class="m">3</span> -direct <span class="m">200</span> -class <span class="m">100</span> -debug <span class="m">2</span> -bptt <span class="m">4</span> -bptt-block <span class="m">10</span> -binary
-
+<span class="hll">head -n <span class="m">200</span> ../data/train_pos.txt &gt; val.txt
+</span><span class="hll">cat ../data/train_pos.txt <span class="p">|</span> sed <span class="s1">&#39;1,200d&#39;</span> &gt; train.txt
+</span><span class="hll">./rnnlm -rnnlm pos.model -train train.txt -valid val.txt -hidden <span class="m">50</span> -direct-order <span class="m">3</span> -direct <span class="m">200</span> -class <span class="m">100</span> -debug <span class="m">2</span> -bptt <span class="m">4</span> -bptt-block <span class="m">10</span> -binary
+</span>
 <span class="c1"># construct negative language model</span>
-head -n <span class="m">200</span> ../data/train_neg.txt &gt; val.txt
-cat ../data/train_neg.txt <span class="p">|</span> sed <span class="s1">&#39;1,200d&#39;</span> &gt; train.txt
-./rnnlm -rnnlm neg.model -train train.txt -valid val.txt -hidden <span class="m">50</span> -direct-order <span class="m">3</span> -direct <span class="m">200</span> -class <span class="m">100</span> -debug <span class="m">2</span> -bptt <span class="m">4</span> -bptt-block <span class="m">10</span> -binary
-</pre></div>
+<span class="hll">head -n <span class="m">200</span> ../data/train_neg.txt &gt; val.txt
+</span><span class="hll">cat ../data/train_neg.txt <span class="p">|</span> sed <span class="s1">&#39;1,200d&#39;</span> &gt; train.txt
+</span><span class="hll">./rnnlm -rnnlm neg.model -train train.txt -valid val.txt -hidden <span class="m">50</span> -direct-order <span class="m">3</span> -direct <span class="m">200</span> -class <span class="m">100</span> -debug <span class="m">2</span> -bptt <span class="m">4</span> -bptt-block <span class="m">10</span> -binary
+</span></pre></div>
 
 
+</div>
 <p>緊接著，把測試資料串在一起，並標記 ID 以符合 rnnlm 的輸入格式：</p>
-<div class="highlight"><pre><span></span>cat ../data/test_pos.txt ../data/test_neg.txt <span class="p">|</span> nl -v0 -s<span class="s1">&#39; &#39;</span> -w1 &gt; test.txt
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">cat ../data/test_pos.txt ../data/test_neg.txt <span class="p">|</span> nl -v0 -s<span class="s1">&#39; &#39;</span> -w1 &gt; test.txt
+</span></pre></div>
 
 
+</div>
 <p>最後再用正向與負向模型預測每個句子個可能性，並將其比值輸出到檔案中：</p>
-<div class="highlight"><pre><span></span>./rnnlm -rnnlm pos.model -test test.txt -debug <span class="m">0</span> -nbest &gt; model_pos_score.txt
-./rnnlm -rnnlm neg.model -test test.txt -debug <span class="m">0</span> -nbest &gt; model_neg_score.txt
-mkdir ../scores
-paste model_pos_score.txt model_neg_score.txt <span class="p">|</span> awk <span class="s1">&#39;{print $1/$2;}&#39;</span> &gt; ../scores/RNNLM
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">./rnnlm -rnnlm pos.model -test test.txt -debug <span class="m">0</span> -nbest &gt; model_pos_score.txt
+</span><span class="hll">./rnnlm -rnnlm neg.model -test test.txt -debug <span class="m">0</span> -nbest &gt; model_neg_score.txt
+</span><span class="hll">mkdir ../scores
+</span><span class="hll">paste model_pos_score.txt model_neg_score.txt <span class="p">|</span> awk <span class="s1">&#39;{print $1/$2;}&#39;</span> &gt; ../scores/RNNLM
+</span></pre></div>
 
 
+</div>
 <p>再稍微用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/normalize.py">normalize.py</a> 調整數據的範圍，就可以用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/evaluate.py">evaluate.py</a> 來檢查最後的正確率了。</p>
-<div class="highlight"><pre><span></span><span class="nb">cd</span> ..
-python3 normalize.py --input scores/RNNLM --output scores/RNNLM --type rnnlm
-python3 evaluate.py --test_pos data/test_pos.txt --scores scores/RNNLM
-<span class="c1">#</span>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">cd</span> ..
+</span><span class="hll">python3 normalize.py --input scores/RNNLM --output scores/RNNLM --type rnnlm
+</span><span class="hll">python3 evaluate.py --test_pos data/test_pos.txt --scores scores/RNNLM
+</span><span class="c1">#</span>
 <span class="c1"># RNNLM accuracy: 87.9828%</span>
 </pre></div>
 
 
+</div>
 <h1>Word2Vec: Paragraph Vectors + Logistic Regression</h1>
 <p>接下來我們要用具有將整個句子轉成 vector 能力的修改版 word2vec 來處理句子。值得注意的是，<a href="https://github.com/mesnilgr/iclr15">iclr15</a> 中的 word2vec 版本，在句子數目太多時，會因為 vocabulary 數量太大，而造成許多句子被丟棄而無法正確轉成 embedding。</p>
 <p>為了解決這個問題，我修改了程式碼 <a href="https://github.com/shaform/word2vec/tree/doc2vec">word2vec@shaform</a>，讓我們可以用 <code>@@SE</code> 為開頭標示用來訓練 word embeddings 而不需要產生 paragraph vectors 的句子；以 <code>@@SS</code> 為開頭來標示需要產生 paragraph vectors 的句子。這樣一來就可以同時擁有大量的訓練資料，又可以完整產生所有指定的 paragraph vectors。不過在這個實驗中，為了方便，我們就不額外引進大量訓練資料，所以所有句子都會以 <code>@@SS</code> 開頭。</p>
-<div class="highlight"><pre><span></span><span class="nb">cd</span> word2vec
-cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt <span class="p">|</span> nl -v0 -s<span class="s1">&#39; &#39;</span> -w1 <span class="p">|</span> sed <span class="s1">&#39;s/^/@@SS-/&#39;</span> <span class="p">|</span> shuf &gt; all.txt
-<span class="nb">time</span> ./word2vec -train all.txt -output vectors.txt -cbow <span class="m">0</span> -size <span class="m">400</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">1</span> -sample 1e-3 -threads <span class="m">24</span> -binary <span class="m">0</span> -iter <span class="m">20</span> -min-count <span class="m">1</span> -sentence-vectors 1
-grep <span class="s1">&#39;@@SS-&#39;</span> vectors.txt <span class="p">|</span> sed -e <span class="s1">&#39;s/^@@SS-//&#39;</span> <span class="p">|</span> sort -n &gt; sentence_vectors.txt
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">cd</span> word2vec
+</span><span class="hll">cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt <span class="p">|</span> nl -v0 -s<span class="s1">&#39; &#39;</span> -w1 <span class="p">|</span> sed <span class="s1">&#39;s/^/@@SS-/&#39;</span> <span class="p">|</span> shuf &gt; all.txt
+</span><span class="hll"><span class="nb">time</span> ./word2vec -train all.txt -output vectors.txt -cbow <span class="m">0</span> -size <span class="m">400</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">1</span> -sample 1e-3 -threads <span class="m">24</span> -binary <span class="m">0</span> -iter <span class="m">20</span> -min-count <span class="m">1</span> -sentence-vectors 1
+</span><span class="hll">grep <span class="s1">&#39;@@SS-&#39;</span> vectors.txt <span class="p">|</span> sed -e <span class="s1">&#39;s/^@@SS-//&#39;</span> <span class="p">|</span> sort -n &gt; sentence_vectors.txt
+</span></pre></div>
 
 
+</div>
 <p>緊接著用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/transform.py">transform.py</a> 和 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/train.py">train.py</a> 來產生訓練資料，並用 <a href="https://github.com/cjlin1/liblinear">liblinear</a> 的 logistic regression 來訓練：</p>
-<div class="highlight"><pre><span></span>python3 ../transform.py --input sentence_vectors.txt --output sentence_features.txt
-python3 ../train.py --features sentence_features.txt --train_pos ../data/train_pos.txt --train_neg ../data/train_neg.txt --test_pos ../data/test_pos.txt --output_train train.txt --output_test test.txt
-../liblinear/train -s <span class="m">0</span> train.txt model.logreg
-../liblinear/predict -b <span class="m">1</span> test.txt model.logreg out.logreg
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">python3 ../transform.py --input sentence_vectors.txt --output sentence_features.txt
+</span><span class="hll">python3 ../train.py --features sentence_features.txt --train_pos ../data/train_pos.txt --train_neg ../data/train_neg.txt --test_pos ../data/test_pos.txt --output_train train.txt --output_test test.txt
+</span><span class="hll">../liblinear/train -s <span class="m">0</span> train.txt model.logreg
+</span><span class="hll">../liblinear/predict -b <span class="m">1</span> test.txt model.logreg out.logreg
+</span></pre></div>
 
 
+</div>
 <p>再稍微用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/normalize.py">normalize.py</a> 調整數據的範圍，就可以用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/evaluate.py">evaluate.py</a> 來檢查最後的正確率了。</p>
-<div class="highlight"><pre><span></span>sed <span class="s1">&#39;1d&#39;</span> out.logreg <span class="p">|</span> cut -d<span class="s1">&#39; &#39;</span> -f3 &gt; ../scores/DOC2VEC
-<span class="nb">cd</span> ..
-python3 normalize.py --input scores/DOC2VEC --output scores/DOC2VEC --type logreg
-python3 evaluate.py --test_pos data/test_pos.txt --scores scores/DOC2VEC
-<span class="c1">#</span>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sed <span class="s1">&#39;1d&#39;</span> out.logreg <span class="p">|</span> cut -d<span class="s1">&#39; &#39;</span> -f3 &gt; ../scores/DOC2VEC
+</span><span class="hll"><span class="nb">cd</span> ..
+</span><span class="hll">python3 normalize.py --input scores/DOC2VEC --output scores/DOC2VEC --type logreg
+</span><span class="hll">python3 evaluate.py --test_pos data/test_pos.txt --scores scores/DOC2VEC
+</span><span class="c1">#</span>
 <span class="c1"># DOC2VEC accuracy: 84.5494%</span>
 </pre></div>
 
 
+</div>
 <h1>TF-IDF</h1>
 <p>最後則是簡單的 TF-IDF，我使用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/tfidf.py">tfidf.py</a> 來產生 unigrams 和 bigrams，並用之前的 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/train.py">train.py</a> 來產生訓練資料。</p>
-<div class="highlight"><pre><span></span><span class="nb">cd</span> tfidf
-cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt &gt; all.txt
-python3 ../tfidf.py --input all.txt --output features.txt
-python3 ../train.py --features features.txt --train_pos ../data/train_pos.txt --train_neg ../data/train_neg.txt --test_pos ../data/test_pos.txt --output_train train.txt --output_test test.txt
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">cd</span> tfidf
+</span><span class="hll">cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt &gt; all.txt
+</span><span class="hll">python3 ../tfidf.py --input all.txt --output features.txt
+</span><span class="hll">python3 ../train.py --features features.txt --train_pos ../data/train_pos.txt --train_neg ../data/train_neg.txt --test_pos ../data/test_pos.txt --output_train train.txt --output_test test.txt
+</span></pre></div>
 
 
+</div>
 <p>緊接著用 <a href="https://github.com/cjlin1/liblinear">liblinear</a> 的 logistic regression 來訓練：</p>
-<div class="highlight"><pre><span></span>../liblinear/train -s <span class="m">0</span> train.txt model.logreg
-../liblinear/predict -b <span class="m">1</span> test.txt model.logreg out.logreg
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">../liblinear/train -s <span class="m">0</span> train.txt model.logreg
+</span><span class="hll">../liblinear/predict -b <span class="m">1</span> test.txt model.logreg out.logreg
+</span></pre></div>
 
 
+</div>
 <p>再稍微用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/normalize.py">normalize.py</a> 調整數據的範圍，就可以用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/evaluate.py">evaluate.py</a> 來檢查最後的正確率了。</p>
-<div class="highlight"><pre><span></span>sed <span class="s1">&#39;1d&#39;</span> out.logreg <span class="p">|</span> cut -d<span class="s1">&#39; &#39;</span> -f3 &gt; ../scores/TFIDF
-<span class="nb">cd</span> ..
-python3 normalize.py --input scores/TFIDF --output scores/TFIDF --type logreg
-
-python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TFIDF
-<span class="c1">#</span>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sed <span class="s1">&#39;1d&#39;</span> out.logreg <span class="p">|</span> cut -d<span class="s1">&#39; &#39;</span> -f3 &gt; ../scores/TFIDF
+</span><span class="hll"><span class="nb">cd</span> ..
+</span><span class="hll">python3 normalize.py --input scores/TFIDF --output scores/TFIDF --type logreg
+</span>
+<span class="hll">python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TFIDF
+</span><span class="c1">#</span>
 <span class="c1"># TFIDF accuracy: 90.9817%</span>
 </pre></div>
 
 
+</div>
 <h1>整合</h1>
 <p>最後用簡單的算術平均整合 3 個模型，效能倒是沒有顯著上升：</p>
-<div class="highlight"><pre><span></span>paste scores/RNNLM scores/DOC2VEC scores/TFIDF <span class="p">|</span> awk <span class="s1">&#39;{print ($1+$2+$3)/3;}&#39;</span> &gt; scores/TOTAL
-python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TOTAL
-
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">paste scores/RNNLM scores/DOC2VEC scores/TFIDF <span class="p">|</span> awk <span class="s1">&#39;{print ($1+$2+$3)/3;}&#39;</span> &gt; scores/TOTAL
+</span><span class="hll">python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TOTAL
+</span>
 <span class="c1">#</span>
 <span class="c1"># RNNLM accuracy: 87.9828%</span>
 <span class="c1"># DOC2VEC accuracy: 84.5494%</span>
@@ -206,6 +230,7 @@ python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TOTAL
 </pre></div>
 
 
+</div>
 <h2>程式碼</h2>
 <p>我把相關的程式碼放在 GitHub 上面供參考：<a href="https://github.com/shaform/experiments/tree/master/sentiment_analysis">shaform/sentiment_analysis</a>。</p>
 

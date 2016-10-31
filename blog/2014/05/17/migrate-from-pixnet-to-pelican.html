@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -93,35 +94,45 @@
 <p>詳細安裝方法可見 <a href="http://docs.getpelican.com/en/3.3.0/getting_started.html">Getting started</a> 文件，我自己選的方法是用 <a href="http://virtualenvwrapper.readthedocs.org">virtualenvwrapper</a>，並從 source code 直接安裝最新版的 Pelican（其實這是因為我想要讓文章的發布時間可以支援用不同時區的表示格式，舊版的 Pelican 似乎尚未支援）。</p>
 <h3>1. 安裝 virtualenvwrapper</h3>
 <p>首先輸入以下指令：</p>
-<div class="highlight"><pre><span></span>sudo apt-get install python-pip virtualenvwrapper
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo apt-get install python-pip virtualenvwrapper
+</span></pre></div>
 
 
+</div>
 <p>然後新增 pelican 環境</p>
-<div class="highlight"><pre><span></span>mkvirtualenv pelican
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">mkvirtualenv pelican
+</span></pre></div>
 
 
+</div>
 <p>這樣以後如果要進入 pelican 環境的話只要下：</p>
-<div class="highlight"><pre><span></span>workon pelican
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">workon pelican
+</span></pre></div>
 
 
+</div>
 <p>而安裝的套件也不會跟系統混在一起。</p>
 <h3>2. 安裝 pelican</h3>
 <p>在 pelican 環境下隨意找個位置，下載 pelican 原始碼，並安裝相關套件：</p>
-<div class="highlight"><pre><span></span>git clone https://github.com/getpelican/pelican.git
-<span class="nb">cd</span> pelican
-python setup.py install
-pip install Markdown
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">git clone https://github.com/getpelican/pelican.git
+</span><span class="hll"><span class="nb">cd</span> pelican
+</span><span class="hll">python setup.py install
+</span><span class="hll">pip install Markdown
+</span></pre></div>
 
 
+</div>
 <p>最後選個資料夾放置網誌檔案，並下以下指令，就可以建立簡單的設定擋了：</p>
-<div class="highlight"><pre><span></span>pelican-quickstart
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">pelican-quickstart
+</span></pre></div>
 
 
+</div>
 <h2>匯出</h2>
 <p>Pixnet 的匯出格式是 Movable Type，恰巧 pelican-import 尚未支援。同時，浮光上的文章常有大量空行，我希望對轉換的格式有更多控制，所以乾脆自己寫了一個 Python script 來進行轉換：</p>
 <div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
@@ -230,12 +241,14 @@ pip install Markdown
 <h2>發布到 Google App Engine</h2>
 <p>在這過程中，我短暫的嘗試用 <a href="https://console.developers.google.com/start/appengine">Google App Engine</a> 作為發布平台，不過因為太麻煩，所以最後還是採用 GitHub Pages。</p>
 <p>實際的作法是先申請個帳號，然後安裝 SDK：</p>
-<div class="highlight"><pre><span></span>curl sdk.cloud.google.com <span class="p">|</span> bash
-<span class="c1"># restart the Terminal, then</span>
-gcloud auth login
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">curl sdk.cloud.google.com <span class="p">|</span> bash
+</span><span class="c1"># restart the Terminal, then</span>
+<span class="hll">gcloud auth login
+</span></pre></div>
 
 
+</div>
 <p>緊接著在網誌目錄中新增 app.yaml 檔案，設定讓伺服器顯示靜態網頁：</p>
 <div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">application</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">APP-NAME</span>
 <span class="l l-Scalar l-Scalar-Plain">version</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
@@ -265,10 +278,12 @@ gcloud auth login
 
 
 <p>這樣的話只要在網誌的目錄下執行以下指令，就可以把網頁發布到 Google App Engine 上了：</p>
-<div class="highlight"><pre><span></span>make gcloud
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">make gcloud
+</span></pre></div>
 
 
+</div>
 <h2>發布到 GitHub Pages</h2>
 <p>雖然 Pelican 原本就有支援 GitHub Pages 的發布，不過我比較希望在 local 端的 master branch 紀錄網誌的原始 Markdown 檔案，在 gh-pages branch 上紀錄產生的網頁，因此我在 <code>Makefile</code> 做了以下修改：</p>
 <div class="highlight"><pre><span></span><span class="nv">GITHUB_PAGES_BRANCH</span><span class="o">=</span>gh-pages
@@ -281,10 +296,12 @@ github: publish
 
 <p>其中 DOMAIN-NAME 那行是自訂 domain 用的，若沒有可以刪除。而 <code>-m $(MSG)</code> 則是為了讓我可以用 <code>MSG="new update" make github</code> 來自訂 commit 訊息。最後一行的 <code>master</code>，如果是用 username.github.io 的話就保留 <code>master</code>，如果是一般 projects 的話就改成 <code>gh-pages</code>。</p>
 <p>緊接著安裝 <code>ghp-import</code>：</p>
-<div class="highlight"><pre><span></span>pip install ghp-import
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">pip install ghp-import
+</span></pre></div>
 
 
+</div>
 <p>然後按照 <a href="https://pages.github.com">GitHub Pages</a> 的說明，建立一個 repository，並把整個網誌的目錄當成這個 repository。（我其實是先 <code>git clone</code> 然後把 .git 資料夾直接搬到網誌目錄中。）</p>
 <h2>結果</h2>
 <p>最後再調整一些佈景和版面的設定，就成了最後的結果：<a href="http://light.shaform.com">浮光</a>。初步感覺還滿令我滿意的。以後再慢慢調整浮光以及翼之都的版面吧。</p>

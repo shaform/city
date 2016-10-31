@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -104,45 +105,55 @@ MapReduce 更快一些。更重要的是，他的機器學習函式庫 <a href="
 我們將會使用 <a href="http://releases.ubuntu.com/14.04/">Ubuntu 14.04</a> 作為實驗平台。</p>
 <h2>安裝 Java 8</h2>
 <p>首先安裝 Java 8，如果你已經有裝了則可以跳過。</p>
-<div class="highlight"><pre><span></span>sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo add-apt-repository ppa:webupd8team/java
+</span>sudo apt-get update
 sudo apt-get install oracle-java8-installer
 sudo apt-get install oracle-java8-set-default
 </pre></div>
 
 
+</div>
 <h2>安裝 Apache Spark</h2>
 <p>接下來，到<a href="http://spark.apache.org/downloads.html">下載頁面</a>下載 Spark，
 我是選擇 Spark 1.4.1 Pre-built for Hadoop 2.6 and later 的 binary。
 不過如果有新版應該變化也不大。直接解壓縮就可以用囉：</p>
-<div class="highlight"><pre><span></span>tar -xzf spark-1.4.1-bin-hadoop2.6.tgz
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">tar -xzf spark-1.4.1-bin-hadoop2.6.tgz
+</span></pre></div>
 
 
+</div>
 <h2>安裝 sbt</h2>
 <p>因為我打算用 Scala 所以我們還得安裝 <a href="http://www.scala-sbt.org/">sbt</a> 這個 build tool。
 於是依照 <a href="http://www.scala-sbt.org/download.html">sbt 的下載頁面</a>的說明安裝 sbt：</p>
-<div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;deb https://dl.bintray.com/sbt/debian /&quot;</span> <span class="p">|</span> sudo tee -a /etc/apt/sources.list.d/sbt.list
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
-sudo apt-get update
-sudo apt-get install sbt
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">echo</span> <span class="s2">&quot;deb https://dl.bintray.com/sbt/debian /&quot;</span> <span class="p">|</span> sudo tee -a /etc/apt/sources.list.d/sbt.list
+</span><span class="hll">sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+</span><span class="hll">sudo apt-get update
+</span><span class="hll">sudo apt-get install sbt
+</span></pre></div>
 
 
+</div>
 <h1>下載資料集</h1>
 <p>為了簡單起見，使用 100MB 的 Wikipedia dump：</p>
-<div class="highlight"><pre><span></span>wget http://mattmahoney.net/dc/text8.zip -O text8.gz
-gzip -d text8.gz -f
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">wget http://mattmahoney.net/dc/text8.zip -O text8.gz
+</span><span class="hll">gzip -d text8.gz -f
+</span></pre></div>
 
 
+</div>
 <p>由於是單機，所以可以放在任意資料夾，如果是在 cluster 的話，需要放在每台機器都能存取的同一位置。</p>
 <h1>編寫 Spark 程式</h1>
 <p>首先建立專案資料夾：</p>
-<div class="highlight"><pre><span></span>mkdir -p sparkw2v/src/main/scala/
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">mkdir -p sparkw2v/src/main/scala/
+</span></pre></div>
 
 
+</div>
 <p>然後編輯 <code>sparkw2v/sparkw2v.sbt</code> 檔案，程式版本參考官方文件：</p>
 <div class="highlight"><pre><span></span>name := &quot;Spark Word2Vec&quot;
 
@@ -187,24 +198,29 @@ Word2Vec 參數設定則可參考 <a href="https://spark.apache.org/docs/latest/
 
 <h2>Build</h2>
 <p>使用 sbt 進行 package：</p>
-<div class="highlight"><pre><span></span><span class="nb">cd</span> sparkw2v
-sbt package
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">cd</span> sparkw2v
+</span><span class="hll">sbt package
+</span></pre></div>
 
 
+</div>
 <p>根據版本不同，產生的檔案名稱也不同，我的輸出是 <code>sparkw2v/target/scala-2.10/spark-word2vec_2.10-1.0.jar</code>。</p>
 <h1>執行</h1>
 <p>接下來就可以回到根目錄，利用 <code>spark-submit</code> 執行程式。筆者不確定記憶體的需求為何，所以開的大了些：</p>
-<div class="highlight"><pre><span></span><span class="nb">cd</span> ..
-spark-1.4.1-bin-hadoop2.6/bin/spark-submit --class SparkW2V --master local<span class="o">[</span>*<span class="o">]</span> --executor-memory 20G --driver-memory 10G sparkw2v/target/scala-2.10/spark-word2vec_2.10-1.0.jar
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">cd</span> ..
+</span><span class="hll">spark-1.4.1-bin-hadoop2.6/bin/spark-submit --class SparkW2V --master local<span class="o">[</span>*<span class="o">]</span> --executor-memory 20G --driver-memory 10G sparkw2v/target/scala-2.10/spark-word2vec_2.10-1.0.jar
+</span></pre></div>
 
 
+</div>
 <p>輸出的向量會放在 <code>{output directory}/model/data/</code> 底下，而且是存成 <a href="https://parquet.apache.org/">Parquet</a> 的格式，不太方便。
 所以我們使用 spark-shell 快速的將檔案轉成文字檔：</p>
+<div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="c1"># 執行 Spark Shell</span>
-./spark-1.4.1-bin-hadoop2.6/bin/spark-shell
-
+<span class="hll">./spark-1.4.1-bin-hadoop2.6/bin/spark-shell
+</span>
 <span class="c1"># 從這裡開始是 Spark Shell</span>
 <span class="c1">#</span>
 <span class="c1"># Welcome to</span>
@@ -228,6 +244,7 @@ scala&gt; d.map<span class="o">{</span><span class="nv">r</span> <span class="o"
 </pre></div>
 
 
+</div>
 <p>如此便完成了！</p>
 <h1>原始碼</h1>
 <p>相關程式碼放在 <a href="https://github.com/shaform/experiments/blob/master/spark_word2vec/">shaform/experiments/spark_word2vec</a>。</p>

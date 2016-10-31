@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -93,16 +94,24 @@
 <ol>
 <li>
 <p>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，3.4 則可選擇不同版本：</p>
-<div class="highlight"><pre><span></span>pyvenv-3.4 <span class="o">[</span>--system-site-packages<span class="o">]</span> ENV_DIR
-</pre></div>
+<div class="sh-highlight" markdown="1">
 
+<div class="highlight"><pre><span></span><span class="hll">pyvenv-3.4 <span class="o">[</span>--system-site-packages<span class="o">]</span> ENV_DIR
+</span></pre></div>
+
+
+</div>
 
 </li>
 <li>
 <p>啟用特定的 virtual environment：</p>
-<div class="highlight"><pre><span></span><span class="nb">source</span> ENV_DIR/bin/activate
-</pre></div>
+<div class="sh-highlight" markdown="1">
 
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">source</span> ENV_DIR/bin/activate
+</span></pre></div>
+
+
+</div>
 
 <p>這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：</p>
 <div class="highlight"><pre><span></span>(name)$

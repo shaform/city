@@ -1,32 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2016-07-26T22:30:00+08:00</updated><entry><title>bs2 公開板備份初探</title><link href="http://city.shaform.com/blog/2016/07/26/bs2-backup.html" rel="alternate"></link><published>2016-07-26T22:30:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-07-26:blog/2016/07/26/bs2-backup.html</id><summary type="html">&lt;h1&gt;前言&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2016-10-31T21:28:00+08:00</updated><entry><title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面</title><link href="http://city.shaform.com/blog/2016/10/31/install-tensorflow-with-cuda.html" rel="alternate"></link><published>2016-10-31T21:28:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-10-31:blog/2016/10/31/install-tensorflow-with-cuda.html</id><summary type="html">&lt;p&gt;本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。&lt;/p&gt;
+&lt;h2&gt;顯卡設定&lt;/h2&gt;
+&lt;h3&gt;基礎設定&lt;/h3&gt;
+&lt;p&gt;首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。&lt;/p&gt;
+&lt;h3&gt;安裝 CUDA&lt;/h3&gt;
+&lt;p&gt;接著到 &lt;a href="https://developer.nvidia.com/cuda-downloads"&gt;CUDA 下載頁面&lt;/a&gt;下載對應的 deb 檔案。緊接著，重開 Ubuntu，並在登入畫面時按下 &lt;code&gt;Ctrl-Alt-F1&lt;/code&gt; 進入命令列界面。&lt;/p&gt;
+&lt;p&gt;執行以下指令關閉 &lt;code&gt;lightdm&lt;/code&gt;，據&lt;a href="https://gist.github.com/bearpaw/c38ef18ec45ba6548ec0"&gt;這裡&lt;/a&gt;的講法，這樣就可以達成將內顯和顯卡功能分開的目的。筆者測試如果沒執行這個指令，則最後安裝完 CUDA 重開機就會無法進入圖形登入畫面。&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo service lightdm stop
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;接著實際安裝 CUDA，並重新開機，確認可以登入：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo dpkg -i cuda-repo-&amp;lt;distro&amp;gt;_&amp;lt;version&amp;gt;_&amp;lt;architecture&amp;gt;.deb
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt update
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt install cuda
+&lt;/span&gt;sudo reboot
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;h3&gt;安裝 cuDNN&lt;/h3&gt;
+&lt;p&gt;接著到 &lt;a href="https://developer.nvidia.com/cudnn"&gt;cuDNN 下載頁面&lt;/a&gt;下載 cuDNN v5，然後按照 &lt;a href="https://www.tensorflow.org/versions/r0.11/get_started/os_setup.html#optional-install-cuda-gpus-on-linux"&gt;TensorFlow 文件&lt;/a&gt;指示，將檔案複製到指定位置：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;tar xvzf cudnn-8.0-linux-x64-v5.1-ga.tgz
+&lt;/span&gt;&lt;span class="hll"&gt;sudo cp cuda/include/cudnn.h /usr/local/cuda/include
+&lt;/span&gt;&lt;span class="hll"&gt;sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+&lt;/span&gt;&lt;span class="hll"&gt;sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;h3&gt;設定環境變數&lt;/h3&gt;
+&lt;p&gt;接下來在 &lt;code&gt;.bashrc&lt;/code&gt; 或者其他開機時會載入的啟動檔案中加入：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$LD_LIBRARY_PATH&lt;/span&gt;:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/lib/nvidia-367
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;CUDA_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/cuda
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;:/usr/local/cuda/bin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中 &lt;code&gt;/usr/lib/nvidia-367&lt;/code&gt; 可指到你實際安裝的顯卡驅動程式版本。&lt;/p&gt;
+&lt;p&gt;最後重新開機即可。&lt;/p&gt;
+&lt;p&gt;開機完可執行 &lt;code&gt;nvidia-smi&lt;/code&gt; 確定顯卡真的有裝好。&lt;/p&gt;
+&lt;h2&gt;安裝 TensorFlow&lt;/h2&gt;
+&lt;p&gt;由於這部份跟官方文件一模一樣，沒有特別更改什麼。所以詳細安裝步驟就直接參考&lt;a href="https://www.tensorflow.org/versions/r0.11/get_started/index.html"&gt;官方文件&lt;/a&gt;即可。&lt;/p&gt;
+&lt;h2&gt;安裝 Caffe&lt;/h2&gt;
+&lt;p&gt;由於安裝 Caffe 的步驟跟官方有些不一樣，故順便紀錄。&lt;/p&gt;
+&lt;p&gt;首先安裝需要的套件：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo apt install build-essential libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler libgflags-dev libgoogle-glog-dev liblmdb-dev
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt install --no-install-recommends libboost-all-dev
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;這裡我用 OpenBLAS。&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo apt install libopenblas-dev
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;接著修改 &lt;code&gt;Makefile.config&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;BLAS&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; open
+&lt;span class="nv"&gt;USE_CUDNN&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; 1
+
+&lt;span class="nv"&gt;INCLUDE_DIRS&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;PYTHON_INCLUDE&lt;span class="k"&gt;)&lt;/span&gt; /usr/local/include /usr/include/hdf5/serial/
+&lt;span class="nv"&gt;LIBRARY_DIRS&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;PYTHON_LIB&lt;span class="k"&gt;)&lt;/span&gt; /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu
+&lt;span class="nv"&gt;WITH_PYTHON_LAYER&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; 1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;並且修改 &lt;code&gt;Makefile&lt;/code&gt;，加入 hdf5 相關程式庫：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;LIBRARIES&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; glog gflags protobuf boost_system boost_filesystem m hdf5_serial_hl hdf5_serial
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;同時在想用的 Python 環境裡安裝必要套件，利用 Caffe 資料夾裡的 &lt;code&gt;python/requirements.txt&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip install -r requirements.txt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;最後就可以編譯了：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;make all
+&lt;/span&gt;&lt;span class="hll"&gt;make pycaffe
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;</summary><category term="TensorFlow"></category><category term="Caffe"></category><category term="CUDA"></category><category term="Ubuntu"></category></entry><entry><title>bs2 公開板備份初探</title><link href="http://city.shaform.com/blog/2016/07/26/bs2-backup.html" rel="alternate"></link><published>2016-07-26T22:30:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-07-26:blog/2016/07/26/bs2-backup.html</id><summary type="html">&lt;h1&gt;前言&lt;/h1&gt;
 &lt;p&gt;&lt;a href="https://www.bs2.to/"&gt;bs2.to&lt;/a&gt; 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動備份的選擇。&lt;/p&gt;
 &lt;p&gt;經過一番搜尋，似乎有個古老的 &lt;a href="https://github.com/iblis17/bs2-crawler"&gt;bs2-crawler&lt;/a&gt;。雖然一開始無法成功跑起來，不過經過修改，似乎真的可以拿來備份 bs2 的看板了。&lt;/p&gt;
 &lt;p&gt;以下就是修改版本 &lt;a href="https://github.com/shaform/bs2-crawler"&gt;bs2-crawler@shaform&lt;/a&gt;，的使用教學。&lt;/p&gt;
 &lt;h1&gt;安裝&lt;/h1&gt;
 &lt;p&gt;首先 clone 我們修改的版本：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/shaform/bs2-crawler
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;git clone https://github.com/shaform/bs2-crawler
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;可以用 Python 3 執行，首先使用 &lt;a href="https://docs.python.org/3/library/venv.html"&gt;pyvenv&lt;/a&gt; 創立虛擬環境，好安裝自己的套件：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; bs2-crawler
-pyvenv env
-&lt;span class="nb"&gt;source&lt;/span&gt; env/bin/activate
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; bs2-crawler
+&lt;/span&gt;&lt;span class="hll"&gt;pyvenv env
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; env/bin/activate
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip3 install -r requirements.txt
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install -r requirements.txt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h1&gt;下載看板資料&lt;/h1&gt;
 &lt;p&gt;一些著名的看板像是書評板或選課板皆可使用，以下我們就用選課板做示範：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python3 crawler.py --board-name NCTU-Teacher
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;python3 crawler.py --board-name NCTU-Teacher
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;會出現要下載哪些文章的提示：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;n - &lt;span class="m"&gt;14520&lt;/span&gt; :
 &lt;/pre&gt;&lt;/div&gt;
@@ -41,16 +142,20 @@ pyvenv env
 &lt;p&gt;本文便使用 Python 3 配合 gspread 來展示寫入 Google Sheets 的方法。確切的來說，我將寫一個程式每天去某個網站檢查目前的記憶體價格，然後把每天查到的價格寫入一個試算表裡，藉此追蹤價格變化。&lt;/p&gt;
 &lt;h1&gt;環境設置&lt;/h1&gt;
 &lt;p&gt;首先使用 &lt;a href="https://docs.python.org/3/library/venv.html"&gt;pyvenv&lt;/a&gt; 創立虛擬環境，好安裝自己的套件：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pyvenv-3.5 my_env
-&lt;span class="nb"&gt;source&lt;/span&gt; my_env/bin/activate
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pyvenv-3.5 my_env
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; my_env/bin/activate
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install beautifulsoup4 gspread oauth2client pyOpenSSL
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip install beautifulsoup4 gspread oauth2client pyOpenSSL
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h1&gt;申請 API 用帳號&lt;/h1&gt;
 &lt;p&gt;於是就開始參考&lt;a href="http://gspread.readthedocs.org/en/latest/oauth2.html"&gt;教學&lt;/a&gt;，先申請一個可以用來存取 Google Sheets 的帳號。步驟如下：&lt;/p&gt;
 &lt;ol&gt;
@@ -190,29 +295,37 @@ python update.py
 &lt;h1&gt;環境設置&lt;/h1&gt;
 &lt;p&gt;由於這次是要爬 PTT 的資料，為了避免一旦被鎖 IP，就會無法上 PTT，很不方便。所以我特地使用了 NTU CS 自己的機器，同時也設定高一點的連線延遲，避免同時產生太多連線。&lt;/p&gt;
 &lt;p&gt;如果你是用自己的主機而不是用系上工作站，可能還需要安裝額外套件：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install python3-dev libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-get install python3-dev libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;接下來就能使用 &lt;a href="https://docs.python.org/3/library/venv.html"&gt;pyvenv&lt;/a&gt; 創立虛擬環境，好安裝自己的 Python 套件：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pyvenv-3.5 my_env
-&lt;span class="nb"&gt;source&lt;/span&gt; my_env/bin/activate
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pyvenv-3.5 my_env
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; my_env/bin/activate
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# 不知為何在工作站上要用 `python /sbin/pip3.5` 來取代下述的 `pip` 才能跑&lt;/span&gt;
-pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.1.0 numpy notebook scipy scikit-learn seaborn jieba
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="hll"&gt;pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.1.0 numpy notebook scipy scikit-learn seaborn jieba
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h1&gt;撰寫爬蟲&lt;/h1&gt;
 &lt;p&gt;於是就開始參考&lt;a href="http://doc.scrapy.org/en/latest/intro/tutorial.html"&gt;教學&lt;/a&gt;撰寫我人生中第一個 Scrapy 爬蟲！&lt;/p&gt;
 &lt;p&gt;首先創立專案：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scrapy startproject ptt
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;scrapy startproject ptt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;設定連線延遲：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt/settings.py&lt;/span&gt;
 &lt;span class="n"&gt;DOWNLOAD_DELAY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.25&lt;/span&gt;
@@ -249,10 +362,12 @@ pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&l
 
 
 &lt;p&gt;然後在 &lt;code&gt;&amp;lt;root_dir&amp;gt;&lt;/code&gt; 根目錄（有 &lt;code&gt;scrapy.cfg&lt;/code&gt; 的目錄）執行：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scrapy crawl ptt
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;scrapy crawl ptt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;完成後應該會發現存下了一個詢問年紀是否已經大到可以觀看八卦版的網頁。為了能夠成功抓取八卦版文章，我們必須要自動回答這個問題才行。雖然也可以直接用 &lt;a href="http://doc.scrapy.org/en/latest/topics/request-response.html#topics-request-response"&gt;cookies&lt;/a&gt; 參數傳入回答紀錄，不過這裡為了盡量模擬人類的行為，所以決定真正的送出表單。（Scrapy 會自動記下送出表單後產生的 cookie。）&lt;/p&gt;
 &lt;h2&gt;自動回答年齡問題&lt;/h2&gt;
 &lt;p&gt;於是我們新增測試，利用 &lt;code&gt;div.over18-notice&lt;/code&gt; 的存在來偵測是否進到年齡詢問的頁面。這裡使用到了 &lt;a href="https://en.wikipedia.org/wiki/XPath"&gt;XPath&lt;/a&gt;
@@ -371,10 +486,12 @@ pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&l
 
 
 &lt;p&gt;最後執行以下指令，就可以把文章存成一個大 JSON 檔案：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scrapy crawl ptt -o gossip.json
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;scrapy crawl ptt -o gossip.json
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h1&gt;在 IPython Notebook 裡做資料分析&lt;/h1&gt;
 &lt;p&gt;爬完文之後就可以分析了，這次我一共爬了 1881 篇八卦版的文章。
 跟之前一樣是用 IPython Notebook 來進行分析，可以直接在 &lt;a href="http://nbviewer.jupyter.org/github/shaform/experiments/blob/master/scrapy/PTT%20Analysis.ipynb"&gt;PTT Analysis @ nbviewer&lt;/a&gt; 上閱讀。&lt;/p&gt;
@@ -933,11 +1050,13 @@ magic command 設定讓圖表直接顯示在筆記本上：&lt;/p&gt;
 &lt;h2&gt;找出最重要的特徵&lt;/h2&gt;
 &lt;p&gt;通常要對模型有一些理解，找出權重最大的特徵可以有些幫助。所以我們用
 polarity dataset 來示範這個概念：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;wget http://www.cs.cornell.edu/people/pabo/movie-review-data/review_polarity.tar.gz
-tar xzf review_polarity.tar.gz
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;wget http://www.cs.cornell.edu/people/pabo/movie-review-data/review_polarity.tar.gz
+&lt;/span&gt;&lt;span class="hll"&gt;tar xzf review_polarity.tar.gz
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;然後，載入必要的套件：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
@@ -15239,11 +15358,13 @@ cQAABIgDACBAHAAAAeIAAAj8AIAwlnXiSPR9AAAAAElFTkSuQmCC
 
 
 &lt;p&gt;同時如果是 Python 3 的話，可能還需安裝額外的套件：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install libffi-dev
-pip3 install cairocffi
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-get install libffi-dev
+&lt;/span&gt;&lt;span class="hll"&gt;pip3 install cairocffi
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;安裝完就可以開始畫了：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;xkcd&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xkcd&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
@@ -15692,45 +15813,55 @@ MapReduce 更快一些。更重要的是，他的機器學習函式庫 &lt;a hre
 我們將會使用 &lt;a href="http://releases.ubuntu.com/14.04/"&gt;Ubuntu 14.04&lt;/a&gt; 作為實驗平台。&lt;/p&gt;
 &lt;h2&gt;安裝 Java 8&lt;/h2&gt;
 &lt;p&gt;首先安裝 Java 8，如果你已經有裝了則可以跳過。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo add-apt-repository ppa:webupd8team/java
+&lt;/span&gt;sudo apt-get update
 sudo apt-get install oracle-java8-installer
 sudo apt-get install oracle-java8-set-default
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h2&gt;安裝 Apache Spark&lt;/h2&gt;
 &lt;p&gt;接下來，到&lt;a href="http://spark.apache.org/downloads.html"&gt;下載頁面&lt;/a&gt;下載 Spark，
 我是選擇 Spark 1.4.1 Pre-built for Hadoop 2.6 and later 的 binary。
 不過如果有新版應該變化也不大。直接解壓縮就可以用囉：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tar -xzf spark-1.4.1-bin-hadoop2.6.tgz
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;tar -xzf spark-1.4.1-bin-hadoop2.6.tgz
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h2&gt;安裝 sbt&lt;/h2&gt;
 &lt;p&gt;因為我打算用 Scala 所以我們還得安裝 &lt;a href="http://www.scala-sbt.org/"&gt;sbt&lt;/a&gt; 這個 build tool。
 於是依照 &lt;a href="http://www.scala-sbt.org/download.html"&gt;sbt 的下載頁面&lt;/a&gt;的說明安裝 sbt：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;deb https://dl.bintray.com/sbt/debian /&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo tee -a /etc/apt/sources.list.d/sbt.list
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
-sudo apt-get update
-sudo apt-get install sbt
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;deb https://dl.bintray.com/sbt/debian /&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo tee -a /etc/apt/sources.list.d/sbt.list
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-get update
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-get install sbt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h1&gt;下載資料集&lt;/h1&gt;
 &lt;p&gt;為了簡單起見，使用 100MB 的 Wikipedia dump：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;wget http://mattmahoney.net/dc/text8.zip -O text8.gz
-gzip -d text8.gz -f
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;wget http://mattmahoney.net/dc/text8.zip -O text8.gz
+&lt;/span&gt;&lt;span class="hll"&gt;gzip -d text8.gz -f
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;由於是單機，所以可以放在任意資料夾，如果是在 cluster 的話，需要放在每台機器都能存取的同一位置。&lt;/p&gt;
 &lt;h1&gt;編寫 Spark 程式&lt;/h1&gt;
 &lt;p&gt;首先建立專案資料夾：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkdir -p sparkw2v/src/main/scala/
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;mkdir -p sparkw2v/src/main/scala/
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;然後編輯 &lt;code&gt;sparkw2v/sparkw2v.sbt&lt;/code&gt; 檔案，程式版本參考官方文件：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;name := &amp;quot;Spark Word2Vec&amp;quot;
 
@@ -15775,24 +15906,29 @@ Word2Vec 參數設定則可參考 &lt;a href="https://spark.apache.org/docs/late
 
 &lt;h2&gt;Build&lt;/h2&gt;
 &lt;p&gt;使用 sbt 進行 package：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; sparkw2v
-sbt package
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; sparkw2v
+&lt;/span&gt;&lt;span class="hll"&gt;sbt package
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;根據版本不同，產生的檔案名稱也不同，我的輸出是 &lt;code&gt;sparkw2v/target/scala-2.10/spark-word2vec_2.10-1.0.jar&lt;/code&gt;。&lt;/p&gt;
 &lt;h1&gt;執行&lt;/h1&gt;
 &lt;p&gt;接下來就可以回到根目錄，利用 &lt;code&gt;spark-submit&lt;/code&gt; 執行程式。筆者不確定記憶體的需求為何，所以開的大了些：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ..
-spark-1.4.1-bin-hadoop2.6/bin/spark-submit --class SparkW2V --master local&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt; --executor-memory 20G --driver-memory 10G sparkw2v/target/scala-2.10/spark-word2vec_2.10-1.0.jar
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ..
+&lt;/span&gt;&lt;span class="hll"&gt;spark-1.4.1-bin-hadoop2.6/bin/spark-submit --class SparkW2V --master local&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt; --executor-memory 20G --driver-memory 10G sparkw2v/target/scala-2.10/spark-word2vec_2.10-1.0.jar
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;輸出的向量會放在 &lt;code&gt;{output directory}/model/data/&lt;/code&gt; 底下，而且是存成 &lt;a href="https://parquet.apache.org/"&gt;Parquet&lt;/a&gt; 的格式，不太方便。
 所以我們使用 spark-shell 快速的將檔案轉成文字檔：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# 執行 Spark Shell&lt;/span&gt;
-./spark-1.4.1-bin-hadoop2.6/bin/spark-shell
-
+&lt;span class="hll"&gt;./spark-1.4.1-bin-hadoop2.6/bin/spark-shell
+&lt;/span&gt;
 &lt;span class="c1"&gt;# 從這裡開始是 Spark Shell&lt;/span&gt;
 &lt;span class="c1"&gt;#&lt;/span&gt;
 &lt;span class="c1"&gt;# Welcome to&lt;/span&gt;
@@ -15816,6 +15952,7 @@ scala&amp;gt; d.map&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;r&
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;如此便完成了！&lt;/p&gt;
 &lt;h1&gt;原始碼&lt;/h1&gt;
 &lt;p&gt;相關程式碼放在 &lt;a href="https://github.com/shaform/experiments/blob/master/spark_word2vec/"&gt;shaform/experiments/spark_word2vec&lt;/a&gt;。&lt;/p&gt;</summary><category term="word2vec"></category><category term="Spark"></category><category term="Scala"></category><category term="word embeddings"></category></entry><entry><title>Using Caffe for Sentiment Analysis</title><link href="http://city.shaform.com/blog/2015/06/06/caffe-sentiment-analysis.html" rel="alternate"></link><published>2015-06-06T11:05:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-06-06:blog/2015/06/06/caffe-sentiment-analysis.html</id><summary type="html">&lt;p&gt;&lt;a href="http://caffe.berkeleyvision.org/"&gt;Caffe&lt;/a&gt; is a deep learning framework that can be used to
@@ -15829,37 +15966,43 @@ create a simple model to train and predict the sentiment for movie reviews.&lt;/
 for sentiment analysis, this time we utilize the scripts provided
 by &lt;a href="https://github.com/mesnilgr/iclr15"&gt;mesnilgr/iclr15&lt;/a&gt; to download the &lt;a href="http://ai.stanford.edu/~amaas/data/sentiment/"&gt;Large Movie Review Dataset&lt;/a&gt;
 so it's easier to reproduce the results.&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# get mesnilgr/iclr15&lt;/span&gt;
-git clone https://github.com/mesnilgr/iclr15
-
-mkdir -p iclr15_run
-&lt;span class="nb"&gt;cd&lt;/span&gt; iclr15_run
-
+&lt;span class="hll"&gt;git clone https://github.com/mesnilgr/iclr15
+&lt;/span&gt;
+&lt;span class="hll"&gt;mkdir -p iclr15_run
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; iclr15_run
+&lt;/span&gt;
 &lt;span class="c1"&gt;# get data&lt;/span&gt;
-../iclr15/scripts/data.sh
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="hll"&gt;../iclr15/scripts/data.sh
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;Afterwards, we create the &lt;a href="http://arxiv.org/abs/1405.4053"&gt;Paragraph Vectors&lt;/a&gt; for each review. Paragraph
 Vectors are fixed-dimensional distributed representations for texts. Once we
 convert each review into a vector, we could easily feed it into a neural network.&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# extract the part to create paragraph vectors from iclr15 scripts&lt;/span&gt;
-sed -e &lt;span class="s1"&gt;&amp;#39;/liblinear/,$d&amp;#39;&lt;/span&gt; ../iclr15/scripts/paragraph.sh &amp;gt; paragraph.sh
-
+&lt;span class="hll"&gt;sed -e &lt;span class="s1"&gt;&amp;#39;/liblinear/,$d&amp;#39;&lt;/span&gt; ../iclr15/scripts/paragraph.sh &amp;gt; paragraph.sh
+&lt;/span&gt;
 &lt;span class="c1"&gt;# start creating the vectors&lt;/span&gt;
-chmod +x paragraph.sh
-./paragraph.sh
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="hll"&gt;chmod +x paragraph.sh
+&lt;/span&gt;&lt;span class="hll"&gt;./paragraph.sh
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;Finally, we copy the resulting files.&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# copy the vectors&lt;/span&gt;
-&lt;span class="nb"&gt;cd&lt;/span&gt; word2vec
-cp full-train.txt test.txt ../../
-&lt;span class="nb"&gt;cd&lt;/span&gt; ../../
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; word2vec
+&lt;/span&gt;&lt;span class="hll"&gt;cp full-train.txt test.txt ../../
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ../../
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h1&gt;Converting the Input Format&lt;/h1&gt;
 &lt;p&gt;We now have two files: &lt;code&gt;full-train.txt&lt;/code&gt; and &lt;code&gt;test.txt&lt;/code&gt; for training and testing
 respectively. These files use &lt;a href="https://github.com/cjlin1/libsvm/blob/master/README"&gt;LIBSVM data format&lt;/a&gt;, which can
@@ -15868,15 +16011,19 @@ not be used with Caffe directly. Therefore, we create a script to convert the fi
 all the dependencies and Pycaffe itself. Notice that currently Pycaffe does not work
 well on Python 3, so we'll use Python 2.7 here. If you don't want to install Pycaffe
 system-wide. You could also manually set the &lt;code&gt;PYTHONPATH&lt;/code&gt; variable as follows.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PYTHONPATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PYTHONPATH&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;:caffe-directory/python/
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PYTHONPATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PYTHONPATH&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;:caffe-directory/python/
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;In addition, install the &lt;a href="http://lmdb.readthedocs.org/en/release/"&gt;py-lmdb&lt;/a&gt; Python package.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo pip install lmdb
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo pip install lmdb
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;Each line in the input file begins with a label followed by a 100-dimensional array.
 So we extract the data using a simple Python routine.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
@@ -15936,11 +16083,13 @@ for us.&lt;/p&gt;
 
 &lt;p&gt;Using the complete &lt;a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/convert.py"&gt;convert.py&lt;/a&gt; script, we convert both
 training and testing files into LMDB format.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python convert.py full-train.txt movie-train-lmdb
-python convert.py test.txt movie-test-lmdb
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;python convert.py full-train.txt movie-train-lmdb
+&lt;/span&gt;&lt;span class="hll"&gt;python convert.py test.txt movie-test-lmdb
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h1&gt;Creating a Caffe Model&lt;/h1&gt;
 &lt;p&gt;Finally, we create a simple NN model with &lt;a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/nn.prototxt"&gt;nn.prototxt&lt;/a&gt; and &lt;a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/nn_solver.prototxt"&gt;nn_solver.prototxt&lt;/a&gt;. Execute the
 Caffe command line tool and we obtain the following results.&lt;/p&gt;
@@ -15964,109 +16113,132 @@ Machine。&lt;/p&gt;
 
 &lt;p&gt;每行有一則資料，先是正負向標記：1 表示正、2 表示負。其後接上斷詞後的評論（以空白分隔每個詞）。過濾掉斷詞失敗的句子後，共剩下 1124 句正向評論和 1217 句負向評論。&lt;/p&gt;
 &lt;p&gt;接下來我寫了一個 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/split.py"&gt;split.py&lt;/a&gt; 把資料分成測試集和訓練集：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python3 split.py --input data/data.txt --train_pos data/train_pos.txt --train_neg data/train_neg.txt --test_pos data/test_pos.txt --test_neg data/test_neg.txt
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;python3 split.py --input data/data.txt --train_pos data/train_pos.txt --train_neg data/train_neg.txt --test_pos data/test_pos.txt --test_neg data/test_neg.txt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;我分別取了十分之一當作測試資料：有 112 句正向、121 句負向。&lt;/p&gt;
 &lt;h1&gt;RNNLM&lt;/h1&gt;
 &lt;p&gt;首先，我參考了 &lt;a href="https://github.com/mesnilgr/iclr15"&gt;mesnilgr/iclr15&lt;/a&gt; 的做法，使用 &lt;a href="http://rnnlm.org/"&gt;rnnlm&lt;/a&gt; 來建造語言模型，並預測測試資料的正負。rnnlm 是一個可以用來建立 Recurrent Neural Network Language Models 的方便工具。&lt;/p&gt;
 &lt;p&gt;首先分別挑出 200 則訓練資料當作幫助調整參數的 validation set，分別訓練出正向與負向語言模型：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; rnnlm
-
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; rnnlm
+&lt;/span&gt;
 &lt;span class="c1"&gt;# construct positive language model&lt;/span&gt;
-head -n &lt;span class="m"&gt;200&lt;/span&gt; ../data/train_pos.txt &amp;gt; val.txt
-cat ../data/train_pos.txt &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;1,200d&amp;#39;&lt;/span&gt; &amp;gt; train.txt
-./rnnlm -rnnlm pos.model -train train.txt -valid val.txt -hidden &lt;span class="m"&gt;50&lt;/span&gt; -direct-order &lt;span class="m"&gt;3&lt;/span&gt; -direct &lt;span class="m"&gt;200&lt;/span&gt; -class &lt;span class="m"&gt;100&lt;/span&gt; -debug &lt;span class="m"&gt;2&lt;/span&gt; -bptt &lt;span class="m"&gt;4&lt;/span&gt; -bptt-block &lt;span class="m"&gt;10&lt;/span&gt; -binary
-
+&lt;span class="hll"&gt;head -n &lt;span class="m"&gt;200&lt;/span&gt; ../data/train_pos.txt &amp;gt; val.txt
+&lt;/span&gt;&lt;span class="hll"&gt;cat ../data/train_pos.txt &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;1,200d&amp;#39;&lt;/span&gt; &amp;gt; train.txt
+&lt;/span&gt;&lt;span class="hll"&gt;./rnnlm -rnnlm pos.model -train train.txt -valid val.txt -hidden &lt;span class="m"&gt;50&lt;/span&gt; -direct-order &lt;span class="m"&gt;3&lt;/span&gt; -direct &lt;span class="m"&gt;200&lt;/span&gt; -class &lt;span class="m"&gt;100&lt;/span&gt; -debug &lt;span class="m"&gt;2&lt;/span&gt; -bptt &lt;span class="m"&gt;4&lt;/span&gt; -bptt-block &lt;span class="m"&gt;10&lt;/span&gt; -binary
+&lt;/span&gt;
 &lt;span class="c1"&gt;# construct negative language model&lt;/span&gt;
-head -n &lt;span class="m"&gt;200&lt;/span&gt; ../data/train_neg.txt &amp;gt; val.txt
-cat ../data/train_neg.txt &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;1,200d&amp;#39;&lt;/span&gt; &amp;gt; train.txt
-./rnnlm -rnnlm neg.model -train train.txt -valid val.txt -hidden &lt;span class="m"&gt;50&lt;/span&gt; -direct-order &lt;span class="m"&gt;3&lt;/span&gt; -direct &lt;span class="m"&gt;200&lt;/span&gt; -class &lt;span class="m"&gt;100&lt;/span&gt; -debug &lt;span class="m"&gt;2&lt;/span&gt; -bptt &lt;span class="m"&gt;4&lt;/span&gt; -bptt-block &lt;span class="m"&gt;10&lt;/span&gt; -binary
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="hll"&gt;head -n &lt;span class="m"&gt;200&lt;/span&gt; ../data/train_neg.txt &amp;gt; val.txt
+&lt;/span&gt;&lt;span class="hll"&gt;cat ../data/train_neg.txt &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;1,200d&amp;#39;&lt;/span&gt; &amp;gt; train.txt
+&lt;/span&gt;&lt;span class="hll"&gt;./rnnlm -rnnlm neg.model -train train.txt -valid val.txt -hidden &lt;span class="m"&gt;50&lt;/span&gt; -direct-order &lt;span class="m"&gt;3&lt;/span&gt; -direct &lt;span class="m"&gt;200&lt;/span&gt; -class &lt;span class="m"&gt;100&lt;/span&gt; -debug &lt;span class="m"&gt;2&lt;/span&gt; -bptt &lt;span class="m"&gt;4&lt;/span&gt; -bptt-block &lt;span class="m"&gt;10&lt;/span&gt; -binary
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著，把測試資料串在一起，並標記 ID 以符合 rnnlm 的輸入格式：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cat ../data/test_pos.txt ../data/test_neg.txt &lt;span class="p"&gt;|&lt;/span&gt; nl -v0 -s&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; -w1 &amp;gt; test.txt
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;cat ../data/test_pos.txt ../data/test_neg.txt &lt;span class="p"&gt;|&lt;/span&gt; nl -v0 -s&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; -w1 &amp;gt; test.txt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;最後再用正向與負向模型預測每個句子個可能性，並將其比值輸出到檔案中：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./rnnlm -rnnlm pos.model -test test.txt -debug &lt;span class="m"&gt;0&lt;/span&gt; -nbest &amp;gt; model_pos_score.txt
-./rnnlm -rnnlm neg.model -test test.txt -debug &lt;span class="m"&gt;0&lt;/span&gt; -nbest &amp;gt; model_neg_score.txt
-mkdir ../scores
-paste model_pos_score.txt model_neg_score.txt &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;&amp;#39;{print $1/$2;}&amp;#39;&lt;/span&gt; &amp;gt; ../scores/RNNLM
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./rnnlm -rnnlm pos.model -test test.txt -debug &lt;span class="m"&gt;0&lt;/span&gt; -nbest &amp;gt; model_pos_score.txt
+&lt;/span&gt;&lt;span class="hll"&gt;./rnnlm -rnnlm neg.model -test test.txt -debug &lt;span class="m"&gt;0&lt;/span&gt; -nbest &amp;gt; model_neg_score.txt
+&lt;/span&gt;&lt;span class="hll"&gt;mkdir ../scores
+&lt;/span&gt;&lt;span class="hll"&gt;paste model_pos_score.txt model_neg_score.txt &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;&amp;#39;{print $1/$2;}&amp;#39;&lt;/span&gt; &amp;gt; ../scores/RNNLM
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;再稍微用 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/normalize.py"&gt;normalize.py&lt;/a&gt; 調整數據的範圍，就可以用 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/evaluate.py"&gt;evaluate.py&lt;/a&gt; 來檢查最後的正確率了。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ..
-python3 normalize.py --input scores/RNNLM --output scores/RNNLM --type rnnlm
-python3 evaluate.py --test_pos data/test_pos.txt --scores scores/RNNLM
-&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ..
+&lt;/span&gt;&lt;span class="hll"&gt;python3 normalize.py --input scores/RNNLM --output scores/RNNLM --type rnnlm
+&lt;/span&gt;&lt;span class="hll"&gt;python3 evaluate.py --test_pos data/test_pos.txt --scores scores/RNNLM
+&lt;/span&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
 &lt;span class="c1"&gt;# RNNLM accuracy: 87.9828%&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h1&gt;Word2Vec: Paragraph Vectors + Logistic Regression&lt;/h1&gt;
 &lt;p&gt;接下來我們要用具有將整個句子轉成 vector 能力的修改版 word2vec 來處理句子。值得注意的是，&lt;a href="https://github.com/mesnilgr/iclr15"&gt;iclr15&lt;/a&gt; 中的 word2vec 版本，在句子數目太多時，會因為 vocabulary 數量太大，而造成許多句子被丟棄而無法正確轉成 embedding。&lt;/p&gt;
 &lt;p&gt;為了解決這個問題，我修改了程式碼 &lt;a href="https://github.com/shaform/word2vec/tree/doc2vec"&gt;word2vec@shaform&lt;/a&gt;，讓我們可以用 &lt;code&gt;@@SE&lt;/code&gt; 為開頭標示用來訓練 word embeddings 而不需要產生 paragraph vectors 的句子；以 &lt;code&gt;@@SS&lt;/code&gt; 為開頭來標示需要產生 paragraph vectors 的句子。這樣一來就可以同時擁有大量的訓練資料，又可以完整產生所有指定的 paragraph vectors。不過在這個實驗中，為了方便，我們就不額外引進大量訓練資料，所以所有句子都會以 &lt;code&gt;@@SS&lt;/code&gt; 開頭。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; word2vec
-cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt &lt;span class="p"&gt;|&lt;/span&gt; nl -v0 -s&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; -w1 &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;s/^/@@SS-/&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; shuf &amp;gt; all.txt
-&lt;span class="nb"&gt;time&lt;/span&gt; ./word2vec -train all.txt -output vectors.txt -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;400&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;1&lt;/span&gt; -sample 1e-3 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;0&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count &lt;span class="m"&gt;1&lt;/span&gt; -sentence-vectors 1
-grep &lt;span class="s1"&gt;&amp;#39;@@SS-&amp;#39;&lt;/span&gt; vectors.txt &lt;span class="p"&gt;|&lt;/span&gt; sed -e &lt;span class="s1"&gt;&amp;#39;s/^@@SS-//&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sort -n &amp;gt; sentence_vectors.txt
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; word2vec
+&lt;/span&gt;&lt;span class="hll"&gt;cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt &lt;span class="p"&gt;|&lt;/span&gt; nl -v0 -s&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; -w1 &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;s/^/@@SS-/&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; shuf &amp;gt; all.txt
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;time&lt;/span&gt; ./word2vec -train all.txt -output vectors.txt -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;400&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;1&lt;/span&gt; -sample 1e-3 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;0&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count &lt;span class="m"&gt;1&lt;/span&gt; -sentence-vectors 1
+&lt;/span&gt;&lt;span class="hll"&gt;grep &lt;span class="s1"&gt;&amp;#39;@@SS-&amp;#39;&lt;/span&gt; vectors.txt &lt;span class="p"&gt;|&lt;/span&gt; sed -e &lt;span class="s1"&gt;&amp;#39;s/^@@SS-//&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sort -n &amp;gt; sentence_vectors.txt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著用 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/transform.py"&gt;transform.py&lt;/a&gt; 和 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/train.py"&gt;train.py&lt;/a&gt; 來產生訓練資料，並用 &lt;a href="https://github.com/cjlin1/liblinear"&gt;liblinear&lt;/a&gt; 的 logistic regression 來訓練：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python3 ../transform.py --input sentence_vectors.txt --output sentence_features.txt
-python3 ../train.py --features sentence_features.txt --train_pos ../data/train_pos.txt --train_neg ../data/train_neg.txt --test_pos ../data/test_pos.txt --output_train train.txt --output_test test.txt
-../liblinear/train -s &lt;span class="m"&gt;0&lt;/span&gt; train.txt model.logreg
-../liblinear/predict -b &lt;span class="m"&gt;1&lt;/span&gt; test.txt model.logreg out.logreg
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;python3 ../transform.py --input sentence_vectors.txt --output sentence_features.txt
+&lt;/span&gt;&lt;span class="hll"&gt;python3 ../train.py --features sentence_features.txt --train_pos ../data/train_pos.txt --train_neg ../data/train_neg.txt --test_pos ../data/test_pos.txt --output_train train.txt --output_test test.txt
+&lt;/span&gt;&lt;span class="hll"&gt;../liblinear/train -s &lt;span class="m"&gt;0&lt;/span&gt; train.txt model.logreg
+&lt;/span&gt;&lt;span class="hll"&gt;../liblinear/predict -b &lt;span class="m"&gt;1&lt;/span&gt; test.txt model.logreg out.logreg
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;再稍微用 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/normalize.py"&gt;normalize.py&lt;/a&gt; 調整數據的範圍，就可以用 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/evaluate.py"&gt;evaluate.py&lt;/a&gt; 來檢查最後的正確率了。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sed &lt;span class="s1"&gt;&amp;#39;1d&amp;#39;&lt;/span&gt; out.logreg &lt;span class="p"&gt;|&lt;/span&gt; cut -d&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; -f3 &amp;gt; ../scores/DOC2VEC
-&lt;span class="nb"&gt;cd&lt;/span&gt; ..
-python3 normalize.py --input scores/DOC2VEC --output scores/DOC2VEC --type logreg
-python3 evaluate.py --test_pos data/test_pos.txt --scores scores/DOC2VEC
-&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sed &lt;span class="s1"&gt;&amp;#39;1d&amp;#39;&lt;/span&gt; out.logreg &lt;span class="p"&gt;|&lt;/span&gt; cut -d&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; -f3 &amp;gt; ../scores/DOC2VEC
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ..
+&lt;/span&gt;&lt;span class="hll"&gt;python3 normalize.py --input scores/DOC2VEC --output scores/DOC2VEC --type logreg
+&lt;/span&gt;&lt;span class="hll"&gt;python3 evaluate.py --test_pos data/test_pos.txt --scores scores/DOC2VEC
+&lt;/span&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
 &lt;span class="c1"&gt;# DOC2VEC accuracy: 84.5494%&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h1&gt;TF-IDF&lt;/h1&gt;
 &lt;p&gt;最後則是簡單的 TF-IDF，我使用 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/tfidf.py"&gt;tfidf.py&lt;/a&gt; 來產生 unigrams 和 bigrams，並用之前的 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/train.py"&gt;train.py&lt;/a&gt; 來產生訓練資料。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; tfidf
-cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt &amp;gt; all.txt
-python3 ../tfidf.py --input all.txt --output features.txt
-python3 ../train.py --features features.txt --train_pos ../data/train_pos.txt --train_neg ../data/train_neg.txt --test_pos ../data/test_pos.txt --output_train train.txt --output_test test.txt
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; tfidf
+&lt;/span&gt;&lt;span class="hll"&gt;cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt &amp;gt; all.txt
+&lt;/span&gt;&lt;span class="hll"&gt;python3 ../tfidf.py --input all.txt --output features.txt
+&lt;/span&gt;&lt;span class="hll"&gt;python3 ../train.py --features features.txt --train_pos ../data/train_pos.txt --train_neg ../data/train_neg.txt --test_pos ../data/test_pos.txt --output_train train.txt --output_test test.txt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著用 &lt;a href="https://github.com/cjlin1/liblinear"&gt;liblinear&lt;/a&gt; 的 logistic regression 來訓練：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;../liblinear/train -s &lt;span class="m"&gt;0&lt;/span&gt; train.txt model.logreg
-../liblinear/predict -b &lt;span class="m"&gt;1&lt;/span&gt; test.txt model.logreg out.logreg
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;../liblinear/train -s &lt;span class="m"&gt;0&lt;/span&gt; train.txt model.logreg
+&lt;/span&gt;&lt;span class="hll"&gt;../liblinear/predict -b &lt;span class="m"&gt;1&lt;/span&gt; test.txt model.logreg out.logreg
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;再稍微用 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/normalize.py"&gt;normalize.py&lt;/a&gt; 調整數據的範圍，就可以用 &lt;a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/evaluate.py"&gt;evaluate.py&lt;/a&gt; 來檢查最後的正確率了。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sed &lt;span class="s1"&gt;&amp;#39;1d&amp;#39;&lt;/span&gt; out.logreg &lt;span class="p"&gt;|&lt;/span&gt; cut -d&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; -f3 &amp;gt; ../scores/TFIDF
-&lt;span class="nb"&gt;cd&lt;/span&gt; ..
-python3 normalize.py --input scores/TFIDF --output scores/TFIDF --type logreg
-
-python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TFIDF
-&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sed &lt;span class="s1"&gt;&amp;#39;1d&amp;#39;&lt;/span&gt; out.logreg &lt;span class="p"&gt;|&lt;/span&gt; cut -d&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; -f3 &amp;gt; ../scores/TFIDF
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ..
+&lt;/span&gt;&lt;span class="hll"&gt;python3 normalize.py --input scores/TFIDF --output scores/TFIDF --type logreg
+&lt;/span&gt;
+&lt;span class="hll"&gt;python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TFIDF
+&lt;/span&gt;&lt;span class="c1"&gt;#&lt;/span&gt;
 &lt;span class="c1"&gt;# TFIDF accuracy: 90.9817%&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h1&gt;整合&lt;/h1&gt;
 &lt;p&gt;最後用簡單的算術平均整合 3 個模型，效能倒是沒有顯著上升：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;paste scores/RNNLM scores/DOC2VEC scores/TFIDF &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;&amp;#39;{print ($1+$2+$3)/3;}&amp;#39;&lt;/span&gt; &amp;gt; scores/TOTAL
-python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TOTAL
-
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;paste scores/RNNLM scores/DOC2VEC scores/TFIDF &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;&amp;#39;{print ($1+$2+$3)/3;}&amp;#39;&lt;/span&gt; &amp;gt; scores/TOTAL
+&lt;/span&gt;&lt;span class="hll"&gt;python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TOTAL
+&lt;/span&gt;
 &lt;span class="c1"&gt;#&lt;/span&gt;
 &lt;span class="c1"&gt;# RNNLM accuracy: 87.9828%&lt;/span&gt;
 &lt;span class="c1"&gt;# DOC2VEC accuracy: 84.5494%&lt;/span&gt;
@@ -16075,6 +16247,7 @@ python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TOTAL
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h2&gt;程式碼&lt;/h2&gt;
 &lt;p&gt;我把相關的程式碼放在 GitHub 上面供參考：&lt;a href="https://github.com/shaform/experiments/tree/master/sentiment_analysis"&gt;shaform/sentiment_analysis&lt;/a&gt;。&lt;/p&gt;</summary><category term="word2vec"></category><category term="Chinese"></category><category term="python"></category><category term="liblinear"></category><category term="rnnlm"></category><category term="tf-idf"></category><category term="sentiment analysis"></category></entry><entry><title>建立 LDAP 鏡像、及日常管理指令集</title><link href="http://city.shaform.com/blog/2014/12/14/mirror-and-mgmt-on-ldap.html" rel="alternate"></link><published>2014-12-14T17:42:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-12-14:blog/2014/12/14/mirror-and-mgmt-on-ldap.html</id><summary type="html">&lt;h2&gt;建立鏡像&lt;/h2&gt;
 &lt;p&gt;假設只有一台 LDAP server，則一旦 crash 大家都無法登入了，故可以建立一個鏡像 server，不斷同步資料內容。這篇假設你已經建好前篇的 ldap.lab.csie.ntu.edu.tw，而想再建一個 ldapm.lab.csie.ntu.edu.tw。則在 clients 的設定可設為：&lt;/p&gt;
@@ -16093,24 +16266,28 @@ tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 
 &lt;h2&gt;初始安裝 Mirror Server&lt;/h2&gt;
 &lt;p&gt;首先透過&lt;a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html"&gt;前一篇文章&lt;/a&gt;的作法安裝 ldapm.lab.csie.ntu.edu.tw 但跳過「轉移 NIS 資料」的部份。此外，需使用同一個 &lt;code&gt;my_root&lt;/code&gt; 但卻須產生新的 server 憑證，並對應到新的網域名稱（注意 &lt;code&gt;-set_serial&lt;/code&gt; 號碼與之前不同）：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;openssl genrsa -out ldapm_key.pem 1024
-openssl req -new -key ldapm_key.pem -out ldapm_csr.pem
-openssl x509 -req -days 36500 -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial 2
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;openssl genrsa -out ldapm_key.pem 1024
+&lt;/span&gt;&lt;span class="hll"&gt;openssl req -new -key ldapm_key.pem -out ldapm_csr.pem
+&lt;/span&gt;&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial 2
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h2&gt;同時設定 Master 和 Mirror Server&lt;/h2&gt;
 &lt;p&gt;接下來，我們要在兩邊分別建立一個帳戶供 mirror 之用，首先建立一個密碼，比如說 &lt;code&gt;1234&lt;/code&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ slappasswd -h &lt;span class="o"&gt;{&lt;/span&gt;SSHA&lt;span class="o"&gt;}&lt;/span&gt;
-New password: 
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;slappasswd -h &lt;span class="o"&gt;{&lt;/span&gt;SSHA&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/span&gt;New password: 
 Re-enter new password: 
 &lt;span class="o"&gt;{&lt;/span&gt;SSHA&lt;span class="o"&gt;}&lt;/span&gt;oQ1Lw12oTHhdL9NwHQe2FoypBZX90QKx
 
-$ &lt;span class="nb"&gt;echo&lt;/span&gt; -n &lt;span class="o"&gt;{&lt;/span&gt;SSHA&lt;span class="o"&gt;}&lt;/span&gt;oQ1Lw12oTHhdL9NwHQe2FoypBZX90QKx &lt;span class="p"&gt;|&lt;/span&gt; base64
-&lt;span class="nv"&gt;e1NTSEF9b1ExTHcxMm9USGhkTDlOd0hRZTJGb3lwQlpYOTBRS3g&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+&lt;span class="hll"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; -n &lt;span class="o"&gt;{&lt;/span&gt;SSHA&lt;span class="o"&gt;}&lt;/span&gt;oQ1Lw12oTHhdL9NwHQe2FoypBZX90QKx &lt;span class="p"&gt;|&lt;/span&gt; base64
+&lt;/span&gt;&lt;span class="nv"&gt;e1NTSEF9b1ExTHcxMm9USGhkTDlOd0hRZTJGb3lwQlpYOTBRS3g&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著，分別在兩台 server 上建立 &lt;code&gt;mirror.ldif&lt;/code&gt; 檔案：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dn: cn=mirrormode,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
 changetype: add 
@@ -16123,10 +16300,12 @@ userPassword:: e1NTSEF9b1ExTHcxMm9USGhkTDlOd0hRZTJGb3lwQlpYOTBRS3g=
 
 
 &lt;p&gt;執行&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldapmodify -D &amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot; -W -f mirror.ldif
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ldapmodify -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -W -f mirror.ldif
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著，分別在兩台 server 上建立 &lt;code&gt;mirror_config.ldif&lt;/code&gt; 檔案：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dn: cn=module{0},cn=config
 changetype: modify
@@ -16162,10 +16341,12 @@ olcDbIndex: objectClass,entryCSN,entryUUID eq
 
 
 &lt;p&gt;執行&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f mirror_config.ldif
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f mirror_config.ldif
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;最後在兩台機器上建立不同的兩個檔案 &lt;code&gt;ldap.ldif&lt;/code&gt;, &lt;code&gt;ldapm.ldif&lt;/code&gt;：&lt;/p&gt;
 &lt;p&gt;ldap.lab.csie.ntu.edu.tw：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dn: cn=config
@@ -16186,10 +16367,12 @@ olcMirrorMode: TRUE
 
 
 &lt;p&gt;執行&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f ldap.ldif
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f ldap.ldif
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;ldapm.lab.csie.ntu.edu.tw：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dn: cn=config
 changeType: modify
@@ -16209,20 +16392,25 @@ olcMirrorMode: TRUE
 
 
 &lt;p&gt;執行&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f ldapm.ldif
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f ldapm.ldif
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;注意 &lt;code&gt;olcServerID&lt;/code&gt; 要用不同的編號，而 &lt;code&gt;provider&lt;/code&gt; 要設成對方，&lt;code&gt;credentials&lt;/code&gt; 則是剛剛選擇的密碼。&lt;/p&gt;
 &lt;p&gt;最後測試看看是否已經同步：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldapsearch -x -h localhost
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ldapsearch -x -h localhost
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h2&gt;日常管理&lt;/h2&gt;
 &lt;h3&gt;建立使用者&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldapadd -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
-&lt;span class="s"&gt;dn: cn=$username,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ldapadd -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;span class="s"&gt;dn: cn=$username,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
 &lt;span class="s"&gt;objectClass: posixGroup&lt;/span&gt;
 &lt;span class="s"&gt;objectClass: top&lt;/span&gt;
 &lt;span class="s"&gt;cn: $username&lt;/span&gt;
@@ -16230,8 +16418,8 @@ olcMirrorMode: TRUE
 &lt;span class="s"&gt;gidNumber: $userid&lt;/span&gt;
 &lt;span class="s"&gt;EOF&lt;/span&gt;
 
-ldapadd -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
-&lt;span class="s"&gt;dn: uid=$username,ou=People,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
+&lt;span class="hll"&gt;ldapadd -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;span class="s"&gt;dn: uid=$username,ou=People,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
 &lt;span class="s"&gt;uid: $username&lt;/span&gt;
 &lt;span class="s"&gt;cn: $realname&lt;/span&gt;
 &lt;span class="s"&gt;objectClass: account&lt;/span&gt;
@@ -16247,28 +16435,32 @@ ldapadd -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu
 &lt;span class="s"&gt;gecos: ,,,&lt;/span&gt;
 &lt;span class="s"&gt;EOF&lt;/span&gt;
 
-ldappasswd -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -S &lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$username&lt;/span&gt;,ou&lt;span class="o"&gt;=&lt;/span&gt;People,dc&lt;span class="o"&gt;=&lt;/span&gt;lab,dc&lt;span class="o"&gt;=&lt;/span&gt;csie,dc&lt;span class="o"&gt;=&lt;/span&gt;ntu,dc&lt;span class="o"&gt;=&lt;/span&gt;edu,dc&lt;span class="o"&gt;=&lt;/span&gt;tw
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="hll"&gt;ldappasswd -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -S &lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$username&lt;/span&gt;,ou&lt;span class="o"&gt;=&lt;/span&gt;People,dc&lt;span class="o"&gt;=&lt;/span&gt;lab,dc&lt;span class="o"&gt;=&lt;/span&gt;csie,dc&lt;span class="o"&gt;=&lt;/span&gt;ntu,dc&lt;span class="o"&gt;=&lt;/span&gt;edu,dc&lt;span class="o"&gt;=&lt;/span&gt;tw
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h3&gt;刪除使用者&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldapdelete -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;cn=&lt;/span&gt;&lt;span class="nv"&gt;$username&lt;/span&gt;&lt;span class="s2"&gt;,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt;
-ldapdelete -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;uid=&lt;/span&gt;&lt;span class="nv"&gt;$username&lt;/span&gt;&lt;span class="s2"&gt;,ou=People,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ldapdelete -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;cn=&lt;/span&gt;&lt;span class="nv"&gt;$username&lt;/span&gt;&lt;span class="s2"&gt;,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;ldapdelete -x -W -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;uid=&lt;/span&gt;&lt;span class="nv"&gt;$username&lt;/span&gt;&lt;span class="s2"&gt;,ou=People,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h3&gt;修改使用者的群組&lt;/h3&gt;
+&lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# add&lt;/span&gt;
-ldapmodify -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -W &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
-&lt;span class="s"&gt;dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
+&lt;span class="hll"&gt;ldapmodify -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -W &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;span class="s"&gt;dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
 &lt;span class="s"&gt;changetype: modify&lt;/span&gt;
 &lt;span class="s"&gt;add: memberUid&lt;/span&gt;
 &lt;span class="s"&gt;memberUid: $username&lt;/span&gt;
 &lt;span class="s"&gt;EOF&lt;/span&gt;
 
 &lt;span class="c1"&gt;# remove&lt;/span&gt;
-ldapmodify -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -W &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
-&lt;span class="s"&gt;dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
+&lt;span class="hll"&gt;ldapmodify -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -W &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;/span&gt;&lt;span class="s"&gt;dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&lt;/span&gt;
 &lt;span class="s"&gt;changetype: modify&lt;/span&gt;
 &lt;span class="s"&gt;delete: memberUid&lt;/span&gt;
 &lt;span class="s"&gt;memberUid: $username&lt;/span&gt;
@@ -16276,12 +16468,17 @@ ldapmodify -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h3&gt;備份與還原&lt;/h3&gt;
 &lt;p&gt;如果只有一個鏡像壞掉，只要再用這篇的方法建立一個鏡像就可以備份到另一個。否則可以用以下兩個指令，注意不同的鏡像設定也會被備份，所以不同台 server 可能不能直接用同一個備份檔還原：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;slapcat &amp;gt; bak.ldif
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;slapcat &amp;gt; bak.ldif
+&lt;/span&gt;
+&lt;span class="hll"&gt;slapadd -l bak.ldif
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
-slapadd -l bak.ldif
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="LDAP"></category><category term="linux"></category><category term="Debian"></category></entry><entry><title>在 Debian 7.7 系統中轉移 NIS 到 LDAP</title><link href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html" rel="alternate"></link><published>2014-12-13T17:42:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-12-13:blog/2014/12/13/migrate-from-nis-to-ldap.html</id><summary type="html">&lt;p&gt;本文件紀錄了基本的 LDAP 設置。&lt;/p&gt;
+
+&lt;/div&gt;</summary><category term="LDAP"></category><category term="linux"></category><category term="Debian"></category></entry><entry><title>在 Debian 7.7 系統中轉移 NIS 到 LDAP</title><link href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html" rel="alternate"></link><published>2014-12-13T17:42:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-12-13:blog/2014/12/13/migrate-from-nis-to-ldap.html</id><summary type="html">&lt;p&gt;本文件紀錄了基本的 LDAP 設置。&lt;/p&gt;
 &lt;h2&gt;設定 LDAP Master&lt;/h2&gt;
 &lt;h3&gt;基本設置&lt;/h3&gt;
 &lt;p&gt;首先編輯 &lt;code&gt;/etc/ldap/ldap.conf&lt;/code&gt; 填上適當的網域名稱。例如：&lt;/p&gt;
@@ -16349,17 +16546,19 @@ slapcat
 
 
 &lt;p&gt;由於 Debian 的 LDAP 預設並沒有載入 misc.schema，所以如果要讀入 alias 資料就會出錯。因此我們只手動載入需要的部份，而不使用自動載入全部資料的方法。進入 &lt;code&gt;/usr/share/migrationtools/&lt;/code&gt; 資料夾後執行以下指令：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# create basic data&lt;/span&gt;
-./migrate_base.pl &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
-
+&lt;span class="hll"&gt;./migrate_base.pl &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
+&lt;/span&gt;
 &lt;span class="c1"&gt;# migrate passwd&lt;/span&gt;
-./migrate_passwd.pl /etc/passwd &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
-
+&lt;span class="hll"&gt;./migrate_passwd.pl /etc/passwd &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
+&lt;/span&gt;
 &lt;span class="c1"&gt;# migrate group&lt;/span&gt;
-./migrate_group.pl /etc/group &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="hll"&gt;./migrate_group.pl /etc/group &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;quot;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt; -c
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;執行 &lt;code&gt;migrate_base.pl&lt;/code&gt; 會有部份內容無法處理是正常的。&lt;/p&gt;
 &lt;h2&gt;設定 LDAP Client&lt;/h2&gt;
 &lt;p&gt;在要透過 LDAP 登入的主機上進行以下步驟，若 LDAP Master server 本身也想透過 LDAP 登入的話，也是採用相同辦法。首先安裝相關程式&lt;/p&gt;
@@ -16393,17 +16592,19 @@ rootpwmodpw &amp;lt;PASSWORD&amp;gt;
 &lt;h3&gt;建立憑證&lt;/h3&gt;
 &lt;p&gt;假設你有可供使用的憑證當然很好，但是一般人除了等待 &lt;a href="https://letsencrypt.org/"&gt;Let's Encrypt&lt;/a&gt; 以外，可能也只能自己的憑證自己建了。&lt;/p&gt;
 &lt;p&gt;在某個資料夾內建立相關憑證：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;openssl genrsa -out my_root_key.pem 1024
-openssl req -new -key my_root_key.pem -out my_root_csr.pem
-openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;openssl genrsa -out my_root_key.pem 1024
+&lt;/span&gt;&lt;span class="hll"&gt;openssl req -new -key my_root_key.pem -out my_root_csr.pem
+&lt;/span&gt;&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
+&lt;/span&gt;
+&lt;span class="hll"&gt;openssl genrsa -out ldap_key.pem 1024
+&lt;/span&gt;&lt;span class="hll"&gt;openssl req -new -key ldap_key.pem -out ldap_csr.pem
+&lt;/span&gt;
+&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
-openssl genrsa -out ldap_key.pem 1024
-openssl req -new -key ldap_key.pem -out ldap_csr.pem
 
-openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;/div&gt;
 &lt;p&gt;其中的資訊可以隨意填，但在建立 &lt;code&gt;ldap_csr.pem&lt;/code&gt; 時，Common Name 一定要填 client 可以連到的，LDAP master server 的 domain name：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Country Name (2 letter code) [AU]:TW
 State or Province Name (full name) [Some-State]:Taiwan
@@ -16421,27 +16622,31 @@ An optional company name []:
 
 
 &lt;p&gt;然後在 master 上建立一個資料夾，並將相關檔案複製，設定適當的權限：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo mkdir /etc/ldap/ssl
-sudo cp ldap_key.pem ldap_crt.pem /etc/ldap/ssl
-sudo mkdir /usr/share/ca-certificates/my/
-sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
-sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /usr/share/ca-certificates/my/my_root.crt
-sudo dpkg-reconfigure ca-certificates &lt;span class="c1"&gt;# choose to add my/my_root.crt&lt;/span&gt;
-sudo update-ca-certificates
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo mkdir /etc/ldap/ssl
+&lt;/span&gt;&lt;span class="hll"&gt;sudo cp ldap_key.pem ldap_crt.pem /etc/ldap/ssl
+&lt;/span&gt;&lt;span class="hll"&gt;sudo mkdir /usr/share/ca-certificates/my/
+&lt;/span&gt;&lt;span class="hll"&gt;sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
+&lt;/span&gt;&lt;span class="hll"&gt;sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /usr/share/ca-certificates/my/my_root.crt
+&lt;/span&gt;&lt;span class="hll"&gt;sudo dpkg-reconfigure ca-certificates &lt;span class="c1"&gt;# choose to add my/my_root.crt&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;sudo update-ca-certificates
+&lt;/span&gt;
+&lt;span class="hll"&gt;sudo chown -R root:openldap /etc/ldap/ssl
+&lt;/span&gt;&lt;span class="hll"&gt;sudo chmod -R o-rwx /etc/ldap/ssl
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
-sudo chown -R root:openldap /etc/ldap/ssl
-sudo chmod -R o-rwx /etc/ldap/ssl
-&lt;/pre&gt;&lt;/div&gt;
 
-
+&lt;/div&gt;
 &lt;p&gt;然後在所有 client 上也可以複製 &lt;code&gt;my_root_crt.pem&lt;/code&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
-sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /usr/share/ca-certificates/my/my_root.crt
-sudo dpkg-reconfigure ca-certificates &lt;span class="c1"&gt;# choose to add my/my_root.crt&lt;/span&gt;
-sudo update-ca-certificates
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
+&lt;/span&gt;&lt;span class="hll"&gt;sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /usr/share/ca-certificates/my/my_root.crt
+&lt;/span&gt;&lt;span class="hll"&gt;sudo dpkg-reconfigure ca-certificates &lt;span class="c1"&gt;# choose to add my/my_root.crt&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;sudo update-ca-certificates
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;小心收藏剩餘的 key.pem，不要讓別人看到囉。&lt;/p&gt;
 &lt;h3&gt;設定 LDAP Master Server&lt;/h3&gt;
 &lt;p&gt;注意，這裡的設定若一不小心可能導致 LDAP server 無法運作，故設定時最好先備份所有檔案。&lt;/p&gt;
@@ -16464,10 +16669,12 @@ olcTLSCertificateKeyFile: /etc/ldap/ssl/ldap_key.pem
 
 
 &lt;p&gt;並套用設定：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f tls.ldif
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ldapmodify -Y EXTERNAL -H ldapi:/// -f tls.ldif
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;同時更改 &lt;code&gt;/etc/ldap/ldap.conf&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;URI     ldaps://ldap.lab.csie.ntu.edu.tw
 TLS_CACERT      /etc/ssl/certs/ca-certificates.crt
@@ -16475,10 +16682,12 @@ TLS_CACERT      /etc/ssl/certs/ca-certificates.crt
 
 
 &lt;p&gt;最後重新啟動 ldap：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo service slapd restart
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo service slapd restart
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h3&gt;設定 LDAP Client&lt;/h3&gt;
 &lt;p&gt;修改 &lt;code&gt;/etc/nslcd.conf&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;uri ldaps://ldap.lab.csie.ntu.edu.tw
@@ -16489,10 +16698,12 @@ tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 
 
 &lt;p&gt;重啟服務：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo service nslcd restart
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo service nslcd restart
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;可測試是否可以登入。&lt;/p&gt;</summary><category term="LDAP"></category><category term="NIS"></category><category term="linux"></category><category term="Debian"></category><category term="SSH"></category></entry><entry><title>連結兩個私有內網</title><link href="http://city.shaform.com/blog/2014/11/12/connect-subnets.html" rel="alternate"></link><published>2014-11-12T09:20:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-11-12:blog/2014/11/12/connect-subnets.html</id><summary type="html">&lt;p&gt;實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。&lt;/p&gt;
 &lt;p&gt;記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！&lt;/p&gt;
 &lt;h2&gt;機器配置&lt;/h2&gt;
@@ -16527,25 +16738,33 @@ iface eth0 inet static
 
 &lt;p&gt;主要是要讓 bob 連結內網時，自動建立起 tunnel，而切斷連線時自動取消，在實際修改檔案前，也可以先用指令列測試其中的指令：&lt;/p&gt;
 &lt;p&gt;首先是建立一個虛擬的 tunnel 界面，並連結到 ted 的外部 IP：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo ip tunnel add mytunnel mode ipip remote 140.112.14.20
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo ip tunnel add mytunnel mode ipip remote 140.112.14.20
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著，隨意為 bob 在此界面指定一個 IP：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo up ip addr add 192.168.15.5/24 dev mytunnel
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip addr add 192.168.15.5/24 dev mytunnel
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;再來，把界面啟動連結：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo up ip link &lt;span class="nb"&gt;set&lt;/span&gt; dev mytunnel up
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip link &lt;span class="nb"&gt;set&lt;/span&gt; dev mytunnel up
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;最後再設定把連到另一個內網的流量都導到 ted 在此 tunnel 的 IP：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo up ip route add 192.168.14.0/24 via 192.168.15.20
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip route add 192.168.14.0/24 via 192.168.15.20
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h3&gt;Ted 的設定&lt;/h3&gt;
 &lt;p&gt;同樣的道理，在 ted 的 &lt;code&gt;/etc/network/interface&lt;/code&gt; 中，修改 eth0 的設置，加入以下項目：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pre-up ip tunnel add mytunnel mode ipip remote 140.112.13.5
@@ -16559,10 +16778,12 @@ post-down ip tunnel del mytunnel
 
 &lt;h3&gt;啟用 IP Forwarding&lt;/h3&gt;
 &lt;p&gt;理論上原本工作站的內網設置應該就有啟用 IP forwarding 的功能，不過為求完整，在這裡記載啟用的方法。可以在 bob 和 ted 上執行以下指令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo sysctl -w net.ipv4.ip_forward&lt;span class="o"&gt;=&lt;/span&gt;1
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo sysctl -w net.ipv4.ip_forward&lt;span class="o"&gt;=&lt;/span&gt;1
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;此外，若要讓此設定開機後仍然維持，則需修改 &lt;code&gt;/etc/sysctl.conf&lt;/code&gt;，並取消註解以下的項目：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#net.ipv4.ip_forward=1
 &lt;/pre&gt;&lt;/div&gt;
@@ -16570,10 +16791,12 @@ post-down ip tunnel del mytunnel
 
 &lt;h3&gt;啟用新網路設定&lt;/h3&gt;
 &lt;p&gt;接下來就可以在 bob 和 ted 上執行以下指令使新設定生效了：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo ifdown eth0 &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; ifup eth0
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo ifdown eth0 &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; ifup eth0
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;注意由於一開始 down 和 post-down 的指令可能會失敗，所以如果直接執行以上指令有可能會有問題，這時也可以重新開機。或者稍微修改一下指令執行及檔案修改的順序來達成想要的效果。&lt;/p&gt;
 &lt;h3&gt;測試&lt;/h3&gt;
 &lt;p&gt;可以在 bob 和 jack 上測試以下指令：&lt;/p&gt;
@@ -16599,25 +16822,31 @@ post-down ip tunnel del mytunnel
 &lt;p&gt;這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。&lt;/p&gt;
 &lt;h2&gt;語料&lt;/h2&gt;
 &lt;p&gt;不太確定有什麼開放的中文語料可供使用，於是決定先用&lt;a href="https://github.com/audreyt/moedict-webkit"&gt;萌典&lt;/a&gt;來做實驗，可按照教學，下載萌典資料：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone --depth &lt;span class="m"&gt;1&lt;/span&gt; https://github.com/g0v/moedict-data.git
-git clone --depth &lt;span class="m"&gt;1&lt;/span&gt; https://github.com/g0v/moedict-epub.git
-cp -v moedict-data/dict-revised.json moedict-epub/
-&lt;span class="nb"&gt;cd&lt;/span&gt; moedict-epub
-perl json2unicode.pl &amp;gt; dict-revised.unicode.json
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;git clone --depth &lt;span class="m"&gt;1&lt;/span&gt; https://github.com/g0v/moedict-data.git
+&lt;/span&gt;&lt;span class="hll"&gt;git clone --depth &lt;span class="m"&gt;1&lt;/span&gt; https://github.com/g0v/moedict-epub.git
+&lt;/span&gt;&lt;span class="hll"&gt;cp -v moedict-data/dict-revised.json moedict-epub/
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; moedict-epub
+&lt;/span&gt;&lt;span class="hll"&gt;perl json2unicode.pl &amp;gt; dict-revised.unicode.json
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著我自己寫了一個 &lt;a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/extract_json.py"&gt;extract_json.py&lt;/a&gt; 把當中可供訓練的句子抽出來：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python3 extract_json.py &amp;lt; dict-revised.unicode.json &amp;gt; sentences.txt
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;python3 extract_json.py &amp;lt; dict-revised.unicode.json &amp;gt; sentences.txt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h2&gt;斷詞&lt;/h2&gt;
 &lt;p&gt;因為 word2vec 的輸入必須是以空白隔開的詞，這樣得出來的句子還不能直接使用。於是我用了結巴斷詞，寫了一個 &lt;a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/cut.py"&gt;cut.py&lt;/a&gt; 來處理這些句子。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python cut.py &amp;lt; sentences.txt &amp;gt; sentences.segged.txt
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;python cut.py &amp;lt; sentences.txt &amp;gt; sentences.segged.txt
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;斷出來的結果大約像是：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;紅樓夢 ． 第十七回 ： 「 一 槅 一 槅 ， 或 有 貯書處 ， 或 有 設鼎處 ， 或 安置 筆硯 處 ， 或供 設瓶花 、 或 安放 盆景 處 。 」
 &lt;/pre&gt;&lt;/div&gt;
@@ -16626,18 +16855,22 @@ perl json2unicode.pl &amp;gt; dict-revised.unicode.json
 &lt;p&gt;感覺雖不是很理想，但尚可接受。&lt;/p&gt;
 &lt;h2&gt;使用 word2vec 訓練詞向量&lt;/h2&gt;
 &lt;p&gt;接著我就用工作站把詞全部丟給 word2vec 訓練：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./word2vec -train sentences.segged.txt -output vectors.bin -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;200&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;0&lt;/span&gt; -sample 1e-4 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;1&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count 1
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./word2vec -train sentences.segged.txt -output vectors.bin -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;200&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;0&lt;/span&gt; -sample 1e-4 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;1&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count 1
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;因為萌典抽出來的資料不算多，所以訓練起來滿快的，只是當然效果就不太好了：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="word2vec running..." src="http://city.shaform.com/images/train_word2vec.png" /&gt;&lt;/p&gt;
 &lt;h2&gt;測試&lt;/h2&gt;
 &lt;p&gt;首先測試距離相近的字：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./distance vectors.bin
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./distance vectors.bin
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;雖然效果差強人意，不過還是可以看到相同屬性的字確實有些群聚效應：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Enter word or sentence (EXIT to break): 法國
 
@@ -16656,10 +16889,12 @@ Word: 法國  Position in vocabulary: 992
 
 
 &lt;p&gt;接著測試線性關係，A 比 B 就好像 C 比什麼？：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./word-analogy vectors.bin
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./word-analogy vectors.bin
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;對於國家與都市的推理，也稍有效果：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Enter three words (EXIT to break): 法國 巴黎 英國
 
@@ -16698,16 +16933,24 @@ Word: 英國  Position in vocabulary: 822
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;在 ENV_DIR 建立 virtual environment，&lt;code&gt;--system-site-packages&lt;/code&gt; 參數則是讓系統安裝的套件也能被這個環境使用，3.4 則可選擇不同版本：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pyvenv-3.4 &lt;span class="o"&gt;[&lt;/span&gt;--system-site-packages&lt;span class="o"&gt;]&lt;/span&gt; ENV_DIR
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight" markdown="1"&gt;
 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pyvenv-3.4 &lt;span class="o"&gt;[&lt;/span&gt;--system-site-packages&lt;span class="o"&gt;]&lt;/span&gt; ENV_DIR
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
 
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;啟用特定的 virtual environment：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ENV_DIR/bin/activate
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight" markdown="1"&gt;
 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ENV_DIR/bin/activate
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
 
 &lt;p&gt;這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(name)$
@@ -16769,16 +17012,20 @@ python2 setup.py install --user
 &lt;p&gt;我最後決定停用密碼登入的功能，改成只能用 public key 登入，這樣子可能比較難以猜中正確的密鑰。不過實際用起來偶爾會發現登入失敗搞不清楚理由，後來才發現是因為我的 Ubuntu 啟用了家目錄加密的功能，因此尚未登入之前根本讀不到 &lt;code&gt;authorized_keys&lt;/code&gt; 設定檔。為了解決這個問題，必須移動設定檔的位置才行。&lt;/p&gt;
 &lt;h2&gt;Generate SSH Keys&lt;/h2&gt;
 &lt;p&gt;首先如果沒有自己的 SSH keys 的話可以參考&lt;a href="https://help.github.com/articles/generating-ssh-keys"&gt;〈Generating SSH Keys〉&lt;/a&gt;建立自己的 SSH keys。大致上是使用如下指令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh-keygen -t rsa -C &lt;span class="s2"&gt;&amp;quot;your_email@example.com&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ssh-keygen -t rsa -C &lt;span class="s2"&gt;&amp;quot;your_email@example.com&amp;quot;&lt;/span&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;預設會把產生的 private key 存在 &lt;code&gt;/home/$USER/.ssh/id_rsa&lt;/code&gt;，public key 存在 &lt;code&gt;/home/$USER/.ssh/id_rsa.pub&lt;/code&gt;，不過也可以改位置。passphrase 則是用來加密 private key，建議要使用，這樣子每次要解開 private key 時都需要使用密碼，所以就算一不小心 private key 被別人取得，對方也要花上一段時間才能解開。&lt;/p&gt;
 &lt;h2&gt;更改 sshd_config 設定&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudoedit /etc/ssh/sshd_config
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudoedit /etc/ssh/sshd_config
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;首先取消密碼登入，將&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#PasswordAuthentication yes
 &lt;/pre&gt;&lt;/div&gt;
@@ -16801,24 +17048,32 @@ python2 setup.py install --user
 
 &lt;h2&gt;建立 authorized_keys 檔案&lt;/h2&gt;
 &lt;p&gt;然後根據你的 &lt;code&gt;$USER&lt;/code&gt; 名字建立資料夾，並修改權限：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo mkdir -p /etc/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;
-sudo chmod &lt;span class="m"&gt;755&lt;/span&gt; /etc/ssh/keys
-sudo chmod &lt;span class="m"&gt;700&lt;/span&gt; /etc/ssh/&lt;span class="nv"&gt;$USER&lt;/span&gt;
-sudo chown &lt;span class="nv"&gt;$USER&lt;/span&gt;:&lt;span class="nv"&gt;$USER&lt;/span&gt; /etc/ssh/&lt;span class="nv"&gt;$USER&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo mkdir -p /etc/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;sudo chmod &lt;span class="m"&gt;755&lt;/span&gt; /etc/ssh/keys
+&lt;/span&gt;&lt;span class="hll"&gt;sudo chmod &lt;span class="m"&gt;700&lt;/span&gt; /etc/ssh/&lt;span class="nv"&gt;$USER&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;sudo chown &lt;span class="nv"&gt;$USER&lt;/span&gt;:&lt;span class="nv"&gt;$USER&lt;/span&gt; /etc/ssh/&lt;span class="nv"&gt;$USER&lt;/span&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;最後再將 &lt;code&gt;id_rsa.pub&lt;/code&gt; 拷貝到 server 上，並複製到 authorized_keys：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# copy id_rsa.pub to server, then -&amp;gt;&lt;/span&gt;
-cat id_rsa.pub &amp;gt;&amp;gt; /etc/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;/authorized_keys
-chmod &lt;span class="m"&gt;400&lt;/span&gt; /etc/ssh/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;/authorized_keys
-&lt;/pre&gt;&lt;/div&gt;
+&lt;span class="hll"&gt;cat id_rsa.pub &amp;gt;&amp;gt; /etc/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;/authorized_keys
+&lt;/span&gt;&lt;span class="hll"&gt;chmod &lt;span class="m"&gt;400&lt;/span&gt; /etc/ssh/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;/authorized_keys
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h2&gt;重新讀取設定&lt;/h2&gt;
 &lt;p&gt;重新讀取設定檔並測試一下登入就大功告成：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo service ssh reload
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="public key"></category><category term="linux"></category><category term="Ubuntu"></category><category term="SSH"></category></entry><entry><title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</title><link href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html" rel="alternate"></link><published>2014-06-19T16:05:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-19:blog/2014/06/19/install-w8-ubuntu-with-uefi.html</id><summary type="html">&lt;p&gt;總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 &lt;a href="http://www.ubuntu.com/"&gt;Ubuntu&lt;/a&gt; 的安裝界面做的還不錯，後來就一直用到今天。&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo service ssh reload
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;</summary><category term="public key"></category><category term="linux"></category><category term="Ubuntu"></category><category term="SSH"></category></entry><entry><title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</title><link href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html" rel="alternate"></link><published>2014-06-19T16:05:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-19:blog/2014/06/19/install-w8-ubuntu-with-uefi.html</id><summary type="html">&lt;p&gt;總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 &lt;a href="http://www.ubuntu.com/"&gt;Ubuntu&lt;/a&gt; 的安裝界面做的還不錯，後來就一直用到今天。&lt;/p&gt;
 &lt;p&gt;雖然習慣使用 Linux，可是有時候還是會遇到要在 Windows 上才能寫的作業，所以每次都把電腦灌成雙系統，也慢慢熟悉了這個過程，一直以來不太有改變。不過最近拿到一台有 &lt;a href="http://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface"&gt;UEFI&lt;/a&gt; 開機的 Lenovo ThinkPad X1 Carbon 筆電，又想在啟用 Secure Boot 的情況下同時裝雙系統，設置上就比較麻煩了。本文就是記載這個過程。&lt;/p&gt;
 &lt;h2&gt;安裝 Windows 8&lt;/h2&gt;
 &lt;p&gt;原本如果是在正常的電腦上安裝 Windows 8，可以透過 &lt;a href="http://www.microsoftstore.com/store/msusa/html/pbPage.Help_Win7_usbdvd_dwnTool"&gt;Windows USB/DVD download tool&lt;/a&gt; 來製作安裝用隨身碟，但在 UEFI 啟用的情況下就不行了。這時參考&lt;a href="http://social.msdn.microsoft.com/Forums/en-US/e7ed293e-b565-44ee-a536-166dddf32205/how-to-create-windows-8-installation-bootable-usb-for-uefi-samsung-slate"&gt;〈How to create Windows 8 installation bootable USB for UEFI〉&lt;/a&gt;，首先在 Windows 環境下使用管理員權限執行 cmd.exe，用 diskpart.exe 找出隨身碟的代號：&lt;/p&gt;
@@ -16901,35 +17156,45 @@ defencoding big5
 &lt;p&gt;詳細安裝方法可見 &lt;a href="http://docs.getpelican.com/en/3.3.0/getting_started.html"&gt;Getting started&lt;/a&gt; 文件，我自己選的方法是用 &lt;a href="http://virtualenvwrapper.readthedocs.org"&gt;virtualenvwrapper&lt;/a&gt;，並從 source code 直接安裝最新版的 Pelican（其實這是因為我想要讓文章的發布時間可以支援用不同時區的表示格式，舊版的 Pelican 似乎尚未支援）。&lt;/p&gt;
 &lt;h3&gt;1. 安裝 virtualenvwrapper&lt;/h3&gt;
 &lt;p&gt;首先輸入以下指令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install python-pip virtualenvwrapper
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-get install python-pip virtualenvwrapper
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;然後新增 pelican 環境&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkvirtualenv pelican
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;mkvirtualenv pelican
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;這樣以後如果要進入 pelican 環境的話只要下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;workon pelican
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;workon pelican
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;而安裝的套件也不會跟系統混在一起。&lt;/p&gt;
 &lt;h3&gt;2. 安裝 pelican&lt;/h3&gt;
 &lt;p&gt;在 pelican 環境下隨意找個位置，下載 pelican 原始碼，並安裝相關套件：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/getpelican/pelican.git
-&lt;span class="nb"&gt;cd&lt;/span&gt; pelican
-python setup.py install
-pip install Markdown
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;git clone https://github.com/getpelican/pelican.git
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; pelican
+&lt;/span&gt;&lt;span class="hll"&gt;python setup.py install
+&lt;/span&gt;&lt;span class="hll"&gt;pip install Markdown
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;最後選個資料夾放置網誌檔案，並下以下指令，就可以建立簡單的設定擋了：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pelican-quickstart
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pelican-quickstart
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h2&gt;匯出&lt;/h2&gt;
 &lt;p&gt;Pixnet 的匯出格式是 Movable Type，恰巧 pelican-import 尚未支援。同時，浮光上的文章常有大量空行，我希望對轉換的格式有更多控制，所以乾脆自己寫了一個 Python script 來進行轉換：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
@@ -17038,12 +17303,14 @@ pip install Markdown
 &lt;h2&gt;發布到 Google App Engine&lt;/h2&gt;
 &lt;p&gt;在這過程中，我短暫的嘗試用 &lt;a href="https://console.developers.google.com/start/appengine"&gt;Google App Engine&lt;/a&gt; 作為發布平台，不過因為太麻煩，所以最後還是採用 GitHub Pages。&lt;/p&gt;
 &lt;p&gt;實際的作法是先申請個帳號，然後安裝 SDK：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl sdk.cloud.google.com &lt;span class="p"&gt;|&lt;/span&gt; bash
-&lt;span class="c1"&gt;# restart the Terminal, then&lt;/span&gt;
-gcloud auth login
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;curl sdk.cloud.google.com &lt;span class="p"&gt;|&lt;/span&gt; bash
+&lt;/span&gt;&lt;span class="c1"&gt;# restart the Terminal, then&lt;/span&gt;
+&lt;span class="hll"&gt;gcloud auth login
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;緊接著在網誌目錄中新增 app.yaml 檔案，設定讓伺服器顯示靜態網頁：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;application&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;APP-NAME&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;version&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;1&lt;/span&gt;
@@ -17073,10 +17340,12 @@ gcloud auth login
 
 
 &lt;p&gt;這樣的話只要在網誌的目錄下執行以下指令，就可以把網頁發布到 Google App Engine 上了：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;make gcloud
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;make gcloud
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;h2&gt;發布到 GitHub Pages&lt;/h2&gt;
 &lt;p&gt;雖然 Pelican 原本就有支援 GitHub Pages 的發布，不過我比較希望在 local 端的 master branch 紀錄網誌的原始 Markdown 檔案，在 gh-pages branch 上紀錄產生的網頁，因此我在 &lt;code&gt;Makefile&lt;/code&gt; 做了以下修改：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;GITHUB_PAGES_BRANCH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;gh-pages
@@ -17089,10 +17358,12 @@ github: publish
 
 &lt;p&gt;其中 DOMAIN-NAME 那行是自訂 domain 用的，若沒有可以刪除。而 &lt;code&gt;-m $(MSG)&lt;/code&gt; 則是為了讓我可以用 &lt;code&gt;MSG="new update" make github&lt;/code&gt; 來自訂 commit 訊息。最後一行的 &lt;code&gt;master&lt;/code&gt;，如果是用 username.github.io 的話就保留 &lt;code&gt;master&lt;/code&gt;，如果是一般 projects 的話就改成 &lt;code&gt;gh-pages&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;緊接著安裝 &lt;code&gt;ghp-import&lt;/code&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install ghp-import
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip install ghp-import
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;然後按照 &lt;a href="https://pages.github.com"&gt;GitHub Pages&lt;/a&gt; 的說明，建立一個 repository，並把整個網誌的目錄當成這個 repository。（我其實是先 &lt;code&gt;git clone&lt;/code&gt; 然後把 .git 資料夾直接搬到網誌目錄中。）&lt;/p&gt;
 &lt;h2&gt;結果&lt;/h2&gt;
 &lt;p&gt;最後再調整一些佈景和版面的設定，就成了最後的結果：&lt;a href="http://light.shaform.com"&gt;浮光&lt;/a&gt;。初步感覺還滿令我滿意的。以後再慢慢調整浮光以及翼之都的版面吧。&lt;/p&gt;</summary><category term="Pixnet"></category><category term="Pelican"></category><category term="Python"></category></entry><entry><title>在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</title><link href="http://city.shaform.com/blog/2014/04/13/hbase-on-ubuntu-12.04.html" rel="alternate"></link><published>2014-04-13T15:56:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-04-13:blog/2014/04/13/hbase-on-ubuntu-12.04.html</id><summary type="html">&lt;p&gt;這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。&lt;/p&gt;
@@ -17100,37 +17371,53 @@ github: publish
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;安裝 JDK 7&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade &lt;span class="c1"&gt;# 更新套件庫&lt;/span&gt;
-sudo apt-get install software-properties-common python-software-properties  &lt;span class="c1"&gt;# 取得 add-apt-repository&lt;/span&gt;
-sudo add-apt-repository ppa:webupd8team/java  &lt;span class="c1"&gt;# 新增有 oracle-java7-installer 的 ppa&lt;/span&gt;
-sudo apt-get update
-sudo apt-get install oracle-java7-installer
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight" markdown="1"&gt;
 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade &lt;span class="c1"&gt;# 更新套件庫&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-get install software-properties-common python-software-properties  &lt;span class="c1"&gt;# 取得 add-apt-repository&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;sudo add-apt-repository ppa:webupd8team/java  &lt;span class="c1"&gt;# 新增有 oracle-java7-installer 的 ppa&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-get update
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-get install oracle-java7-installer
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
 
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;設定 SSH&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh-keygen -b &lt;span class="m"&gt;2048&lt;/span&gt; -t rsa:q  &lt;span class="c1"&gt;# 產生 RSA key pair&lt;/span&gt;
-cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  &lt;span class="c1"&gt;# 讓自己可以不用密碼登入自己&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight" markdown="1"&gt;
 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ssh-keygen -b &lt;span class="m"&gt;2048&lt;/span&gt; -t rsa:q  &lt;span class="c1"&gt;# 產生 RSA key pair&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  &lt;span class="c1"&gt;# 讓自己可以不用密碼登入自己&lt;/span&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
 
 &lt;p&gt;在 NameNode 上：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh-copy-id -i &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.ssh/id_rsa.pub user@slave-1-dn  &lt;span class="c1"&gt;# 讓 NameNode 可不用密碼登入 DataNode&lt;/span&gt;
-ssh-copy-id -i &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.ssh/id_rsa.pub user@slave-2-dn  &lt;span class="c1"&gt;# 讓 NameNode 可不用密碼登入 DataNode&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight" markdown="1"&gt;
 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ssh-copy-id -i &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.ssh/id_rsa.pub user@slave-1-dn  &lt;span class="c1"&gt;# 讓 NameNode 可不用密碼登入 DataNode&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;ssh-copy-id -i &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.ssh/id_rsa.pub user@slave-2-dn  &lt;span class="c1"&gt;# 讓 NameNode 可不用密碼登入 DataNode&lt;/span&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
 
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;安裝 Hadoop&lt;/p&gt;
 &lt;p&gt;先在 $HOME/.bashrc 加上 &lt;code&gt;export PATH=$PATH:$HOME/hadoop-1.2.1/bin&lt;/code&gt;，然後進入家目錄：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;wget http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz
-tar -xvf hadoop-1.2.1-bin.tar.gz
-&lt;span class="nb"&gt;cd&lt;/span&gt; hadoop-1.2.1/conf
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight" markdown="1"&gt;
 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;wget http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz
+&lt;/span&gt;&lt;span class="hll"&gt;tar -xvf hadoop-1.2.1-bin.tar.gz
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; hadoop-1.2.1/conf
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
 
 &lt;p&gt;修改 hadoop-env.sh 加上 &lt;code&gt;export JAVA_HOME=/usr/lib/jvm/java-7-oracle&lt;/code&gt;。&lt;/p&gt;
 &lt;/li&gt;
@@ -17192,20 +17479,26 @@ slave-2-dn
 &lt;li&gt;
 &lt;p&gt;開啟伺服器
     最後在 NameNode 上執行以下指令將 cluster 啟動（可能需要重新登入讓 PATH 設定生效）：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;hadoop namenode -format  &lt;span class="c1"&gt;# 格式化檔案系統&lt;/span&gt;
-start-all.sh  &lt;span class="c1"&gt;# 啟動所有服務（包含 HDFS）&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight" markdown="1"&gt;
 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;hadoop namenode -format  &lt;span class="c1"&gt;# 格式化檔案系統&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;start-all.sh  &lt;span class="c1"&gt;# 啟動所有服務（包含 HDFS）&lt;/span&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
 
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2&gt;二、HBase&lt;/h2&gt;
 &lt;p&gt;首先進入每台的家目錄，下載並解壓縮 HBase：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;wget http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.94.14.tar.gz
-tar -xvf hbase-0.94.14.tar.gz
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;wget http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.94.14.tar.gz
+&lt;/span&gt;&lt;span class="hll"&gt;tar -xvf hbase-0.94.14.tar.gz
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;/div&gt;
 &lt;p&gt;編輯 hbase-0.94.14/conf/hbase-env.sh，新增數行：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;JAVA_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/lib/jvm/java-7-oracle
 &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;HADOOP_CONF_DIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/hadoop-1.2.1/conf
@@ -17249,8 +17542,12 @@ slave-2-dn
 
 
 &lt;p&gt;最後就可以在 master 執行 HBase 了：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./hbase-0.94.14/bin/start-hbase.sh
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="Hadoop"></category><category term="HBase"></category><category term="HDFS"></category><category term="Ubuntu"></category></entry><entry><title>qwerty 轉換到 dvorak 筆記: Notes about Migrating from Qwerty to Dvorak</title><link href="http://city.shaform.com/blog/2013/07/12/qwerty-to-dvorak.html" rel="alternate"></link><published>2013-07-12T18:53:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-07-12:blog/2013/07/12/qwerty-to-dvorak.html</id><summary type="html">&lt;h2&gt;Windows&lt;/h2&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./hbase-0.94.14/bin/start-hbase.sh
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;</summary><category term="Hadoop"></category><category term="HBase"></category><category term="HDFS"></category><category term="Ubuntu"></category></entry><entry><title>qwerty 轉換到 dvorak 筆記: Notes about Migrating from Qwerty to Dvorak</title><link href="http://city.shaform.com/blog/2013/07/12/qwerty-to-dvorak.html" rel="alternate"></link><published>2013-07-12T18:53:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-07-12:blog/2013/07/12/qwerty-to-dvorak.html</id><summary type="html">&lt;h2&gt;Windows&lt;/h2&gt;
 &lt;p&gt;Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：&lt;a href="http://shaform.wordpress.com/2007/07/14/dvorak/"&gt;〈Dvorak: 另一種鍵盤排列〉&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;(Newer versions of Windows could use different keyboard layouts for the login screen.
 Just choose it when installing or add the relevant input method in language settings.)&lt;/p&gt;

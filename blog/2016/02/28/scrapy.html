@@ -12,6 +12,7 @@
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -92,29 +93,37 @@
 <h1>環境設置</h1>
 <p>由於這次是要爬 PTT 的資料，為了避免一旦被鎖 IP，就會無法上 PTT，很不方便。所以我特地使用了 NTU CS 自己的機器，同時也設定高一點的連線延遲，避免同時產生太多連線。</p>
 <p>如果你是用自己的主機而不是用系上工作站，可能還需要安裝額外套件：</p>
-<div class="highlight"><pre><span></span>sudo apt-get install python3-dev libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo apt-get install python3-dev libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
+</span></pre></div>
 
 
+</div>
 <p>接下來就能使用 <a href="https://docs.python.org/3/library/venv.html">pyvenv</a> 創立虛擬環境，好安裝自己的 Python 套件：</p>
-<div class="highlight"><pre><span></span>pyvenv-3.5 my_env
-<span class="nb">source</span> my_env/bin/activate
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">pyvenv-3.5 my_env
+</span><span class="hll"><span class="nb">source</span> my_env/bin/activate
+</span></pre></div>
 
 
+</div>
 <p>緊接著，安裝所有這次會用到的套件：</p>
+<div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="c1"># 不知為何在工作站上要用 `python /sbin/pip3.5` 來取代下述的 `pip` 才能跑</span>
-pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0 numpy notebook scipy scikit-learn seaborn jieba
-</pre></div>
+<span class="hll">pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0 numpy notebook scipy scikit-learn seaborn jieba
+</span></pre></div>
 
 
+</div>
 <h1>撰寫爬蟲</h1>
 <p>於是就開始參考<a href="http://doc.scrapy.org/en/latest/intro/tutorial.html">教學</a>撰寫我人生中第一個 Scrapy 爬蟲！</p>
 <p>首先創立專案：</p>
-<div class="highlight"><pre><span></span>scrapy startproject ptt
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">scrapy startproject ptt
+</span></pre></div>
 
 
+</div>
 <p>設定連線延遲：</p>
 <div class="highlight"><pre><span></span><span class="c1"># &lt;root_dir&gt;/ptt/settings.py</span>
 <span class="n">DOWNLOAD_DELAY</span> <span class="o">=</span> <span class="mf">1.25</span>
@@ -151,10 +160,12 @@ pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0 numpy n
 
 
 <p>然後在 <code>&lt;root_dir&gt;</code> 根目錄（有 <code>scrapy.cfg</code> 的目錄）執行：</p>
-<div class="highlight"><pre><span></span>scrapy crawl ptt
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">scrapy crawl ptt
+</span></pre></div>
 
 
+</div>
 <p>完成後應該會發現存下了一個詢問年紀是否已經大到可以觀看八卦版的網頁。為了能夠成功抓取八卦版文章，我們必須要自動回答這個問題才行。雖然也可以直接用 <a href="http://doc.scrapy.org/en/latest/topics/request-response.html#topics-request-response">cookies</a> 參數傳入回答紀錄，不過這裡為了盡量模擬人類的行為，所以決定真正的送出表單。（Scrapy 會自動記下送出表單後產生的 cookie。）</p>
 <h2>自動回答年齡問題</h2>
 <p>於是我們新增測試，利用 <code>div.over18-notice</code> 的存在來偵測是否進到年齡詢問的頁面。這裡使用到了 <a href="https://en.wikipedia.org/wiki/XPath">XPath</a>
@@ -273,10 +284,12 @@ pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0 numpy n
 
 
 <p>最後執行以下指令，就可以把文章存成一個大 JSON 檔案：</p>
-<div class="highlight"><pre><span></span>scrapy crawl ptt -o gossip.json
-</pre></div>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">scrapy crawl ptt -o gossip.json
+</span></pre></div>
 
 
+</div>
 <h1>在 IPython Notebook 裡做資料分析</h1>
 <p>爬完文之後就可以分析了，這次我一共爬了 1881 篇八卦版的文章。
 跟之前一樣是用 IPython Notebook 來進行分析，可以直接在 <a href="http://nbviewer.jupyter.org/github/shaform/experiments/blob/master/scrapy/PTT%20Analysis.ipynb">PTT Analysis @ nbviewer</a> 上閱讀。</p>
