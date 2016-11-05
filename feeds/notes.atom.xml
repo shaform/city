@@ -1,5 +1,278 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2016-10-31T21:28:00+08:00</updated><entry><title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面</title><link href="http://city.shaform.com/blog/2016/10/31/install-tensorflow-with-cuda.html" rel="alternate"></link><published>2016-10-31T21:28:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-10-31:blog/2016/10/31/install-tensorflow-with-cuda.html</id><summary type="html">&lt;p&gt;本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2016-11-05T13:40:00+08:00</updated><entry><title>用 TensorBox 製作簡易貓貓辨識器</title><link href="http://city.shaform.com/blog/2016/11/05/detect-cats-with-tensorbox.html" rel="alternate"></link><published>2016-11-05T13:40:00+08:00</published><updated>2016-11-05T13:40:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-11-05:blog/2016/11/05/detect-cats-with-tensorbox.html</id><summary type="html">&lt;p&gt;最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番搜尋，發現 &lt;a href="https://github.com/Russell91/TensorBox"&gt;TensorBox&lt;/a&gt; 似乎是個用來訓練單一物體偵測器的簡單套件，於是便利用貓咪來進行了簡單的嘗試。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Detect a Cat" src="http://city.shaform.com/images/cat-detector.png" /&gt;&lt;/p&gt;
+&lt;p&gt;本文使用的套件有的是只支援 Python 2，此時執行時將會以 &lt;code&gt;python&lt;/code&gt; 程式執行。但筆者寫的 scripts 大多是 Python 3，本文中就以 &lt;code&gt;python3&lt;/code&gt; 來表示。&lt;/p&gt;
+&lt;p&gt;本文將會用到不少套件，實際放置套件的資料夾結構如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./
+./cats
+./TensorBox
+./labelImg
+./labels
+./data
+./data/train
+./data/test
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;實際的程式可在 &lt;a href="https://github.com/shaform/experiments/tree/master/cat"&gt;shaform/experiments/cat&lt;/a&gt; 裡找到，本文只會顯示重點部份。&lt;/p&gt;
+&lt;h2&gt;收集資料&lt;/h2&gt;
+&lt;p&gt;首先我們使用 &lt;a href="https://github.com/maxogden/cats"&gt;maxogden/cats&lt;/a&gt; 收集好的小規模貓貓照片來進行實驗，我們將利用 &lt;code&gt;catmapper&lt;/code&gt; 資料夾中的照片做為訓練資料，最後再用 &lt;code&gt;cat_photos&lt;/code&gt; 裡的照片來觀看結果。&lt;/p&gt;
+&lt;p&gt;值得注意的是，這樣的訓練資料只有大約三百多筆，而且每張照片裡幾乎都有貓。實際上若是真的要訓練高品質的偵測器，應當收集更多的訓練資料，而且應該要加入一些沒有貓，或者有跟貓很像但不是貓的物體，來加強模型的能力。不過本文純屬示範工具用法，未免麻煩就不做深入探討了。&lt;/p&gt;
+&lt;p&gt;由於 TensorBox 比較支援圖片大小為 32 倍數的照片，不符時須縮放或擷取。為了方便起見我就先把圖片都轉成適當大小。首先安裝 &lt;a href="https://python-pillow.org/"&gt;Pillow&lt;/a&gt; 套件：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install Pillow
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;緊接著寫一個程式可以將圖片裁成指定大小 608x608，然後轉成 png 檔案格式儲存：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
+
+&lt;span class="n"&gt;image_extensions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;jpg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;jpeg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;crop_center&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+
+    &lt;span class="n"&gt;x1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;width&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;x2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;width&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;y1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;y2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crop&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;x1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;OSError&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;indir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;outdir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;fname&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;listdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;indir&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;parts&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fname&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rsplit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parts&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;parts&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;image_extensions&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ext&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;parts&lt;/span&gt;
+            &lt;span class="n"&gt;img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;indir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fname&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;crop_center&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                    &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outdir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;.png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;並且將訓練和測試資料進行處理：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;mkdir data/train data/test
+&lt;/span&gt;&lt;span class="hll"&gt;python3 crop.py --indir cats/catmapper --outdir data/train
+&lt;/span&gt;&lt;span class="hll"&gt;python3 crop.py --indir cats/cat_photos --outdir data/test
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;h2&gt;標記貓貓&lt;/h2&gt;
+&lt;p&gt;緊接著，我們使用 &lt;a href="https://github.com/tzutalin/labelImg"&gt;labelImg&lt;/a&gt; 來針對訓練資料 &lt;code&gt;cats/catmapper&lt;/code&gt; 做標記，並將標記存放在 &lt;code&gt;labels&lt;/code&gt; 資料夾裡。&lt;/p&gt;
+&lt;p&gt;注意到 labelImg 只支援 Python 2，同時要先按照官方安裝步驟進行初始化：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; labelImg
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt-get install pyqt4-dev-tools
+&lt;/span&gt;&lt;span class="hll"&gt;sudo pip install lxml
+&lt;/span&gt;&lt;span class="hll"&gt;make all
+&lt;/span&gt;&lt;span class="hll"&gt;./labelImg.py
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;可以利用 &lt;code&gt;Ctrl-N&lt;/code&gt;, &lt;code&gt;N&lt;/code&gt;, &lt;code&gt;P&lt;/code&gt; 等快速鍵，建立框框來標記貓咪，以及切換上一張、下一張照片。&lt;/p&gt;
+&lt;p&gt;緊接著，撰寫一個程式將標記好的資料轉成 TensorBox 能夠讀取的格式：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;xml.etree.ElementTree&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;ET&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;indir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;outdir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;seed&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;seed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seed&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;basename&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;indir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;entries&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;sorted&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;listdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;indir&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;endswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.xml&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;tree&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ET&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;indir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tree&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getroot&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+            &lt;span class="n"&gt;img_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findtext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;path&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;rects&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;obj&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;object&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+                &lt;span class="n"&gt;x1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bndbox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findtext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;xmin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="n"&gt;y1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bndbox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findtext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ymin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="n"&gt;x2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bndbox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findtext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;xmax&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="n"&gt;y2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bndbox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findtext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ymax&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+                &lt;span class="n"&gt;rects&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;x2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;y1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;y1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;y2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;y2&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+
+            &lt;span class="n"&gt;entry&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;image_path&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;img_path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rects&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;rects&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="n"&gt;entries&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shuffle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;entries&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;train_offset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;entries&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;train&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;entries&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="n"&gt;train_offset&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;val&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;entries&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;train_offset&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;
+
+    &lt;span class="n"&gt;datasets&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;train&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;train&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;val&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;prefix_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dataset&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;datasets&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outdir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{}_{}_boxes.json&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                    &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;prefix_name&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;w&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dump&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dataset&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;indent&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;separators&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;,&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;將標記轉換到 &lt;code&gt;data&lt;/code&gt; 資料夾之下：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;python3 extract_label.py --indir labels --outdir data
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;h2&gt;安裝 TensorBox 並進行訓練&lt;/h2&gt;
+&lt;p&gt;TensorBox 似乎是只支援 Python 2，所以首先設定好 TensorFlow 的 Python 2 版本。接著還要安裝一些相依套件（因為 OpenCV 似乎比較難設定，所以我安裝系統套件）：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo apt install python-opencv
+&lt;/span&gt;&lt;span class="hll"&gt;pip install Cython numpy scikit-image jupyter
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;接下來下載 TensorBox：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;git clone http://github.com/russell91/Tensorbox
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; Tensorbox
+&lt;/span&gt;&lt;span class="hll"&gt;./download_data.sh
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; utils &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; make &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;cd&lt;/span&gt; ..
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;緊接著修改 &lt;code&gt;TensorBox/hypes/overfeat_rezoom.json&lt;/code&gt; 對應的項目：&lt;/p&gt;
+&lt;p&gt;注意到，&lt;code&gt;train_idl&lt;/code&gt; 和 &lt;code&gt;test_idl&lt;/code&gt; 須使用絕對路徑。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;quot;train_idl&amp;quot;: &amp;quot;/path/to/data/labels_train_boxes.json&amp;quot;,
+&amp;quot;test_idl&amp;quot;: &amp;quot;/path/to/data/labels_val_boxes.json&amp;quot;,
+&amp;quot;image_width&amp;quot;: 608, 
+&amp;quot;image_height&amp;quot;: 608,
+&amp;quot;grid_height&amp;quot;: 19, 
+&amp;quot;grid_width&amp;quot;: 19,
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最後就是實際進行訓練了！這個會跑很久，並且把訓練的不同階段的模型存在 &lt;code&gt;TensorBox/output/overfeat_rezoom_{DATETIME}/save.ckpt-{iteration}&lt;/code&gt;。由於訓練資料實在很少，所以不須訓練到太後面，可以拿前面的版本就好。&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; TensorBox
+&lt;/span&gt;&lt;span class="hll"&gt;python train.py --hypes hypes/overfeat_rezoom.json --gpu &lt;span class="m"&gt;0&lt;/span&gt; --logdir output
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;h2&gt;測試結果&lt;/h2&gt;
+&lt;p&gt;最後就用 &lt;a href="http://jupyter.readthedocs.io/en/latest/index.html"&gt;Jupyter Notebook&lt;/a&gt; 來檢視我們的結果，先把之前提到的 &lt;code&gt;save.ckpt-10000&lt;/code&gt; 以及 &lt;code&gt;save.ckpt-10000.meta&lt;/code&gt; 存到 project 根目錄。然後在根目錄用跟 TensorBox 一樣的 Python 2 環境執行：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;jupyter notebook
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;進行初始化：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt; &lt;span class="n"&gt;inline&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;tensorflow&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;tf&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scipy.misc&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;imread&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;方便起見將 TensorBox 直接加到路徑，平時請勿模仿：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;./TensorBox&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;train&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;build_forward&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;evaluate&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;add_rectangles&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最後照抄 TensorBox 的示範程式碼，更改一些檔案路徑：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;model_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;./save.ckpt-10000&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;image_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;./data/test&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;hypes_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;./TensorBox/hypes/overfeat_rezoom.json&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hypes_file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;r&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;H&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reset_default_graph&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;x_in&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;placeholder&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;float32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x_in&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;image_height&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;image_width&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;use_rezoom&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+    &lt;span class="n"&gt;pred_boxes&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_logits&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_confidences&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_confs_deltas&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_boxes_deltas&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;build_forward&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expand_dims&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;test&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;reuse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;grid_area&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;grid_height&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;grid_width&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;pred_confidences&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;softmax&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pred_confs_deltas&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;grid_area&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;rnn_len&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])),&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;grid_area&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;rnn_len&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;reregress&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+        &lt;span class="n"&gt;pred_boxes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pred_boxes&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;pred_boxes_deltas&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;pred_boxes&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_logits&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_confidences&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;build_forward&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expand_dims&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;test&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;reuse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;saver&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;train&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Saver&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Session&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;sess&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;sess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;initialize_all_variables&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="n"&gt;saver&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;restore&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sess&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model_path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;images&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;listdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image_dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;fname&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choice&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;images&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fname&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;imread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;feed&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;x_in&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np_pred_boxes&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;np_pred_confidences&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;pred_boxes&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_confidences&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;feed_dict&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;feed&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;new_img&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;rects&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_rectangles&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+            &lt;span class="n"&gt;np_pred_confidences&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="n"&gt;np_pred_boxes&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="n"&gt;use_stitching&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="n"&gt;rnn_len&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;rnn_len&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+            &lt;span class="n"&gt;min_conf&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="n"&gt;show_suppressed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;fig&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new_img&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;就可以&lt;a href="https://nbviewer.jupyter.org/github/shaform/experiments/blob/master/cat/Detect%20Cats.ipynb"&gt;在 Notebook 上看到成果&lt;/a&gt;了！！！&lt;/p&gt;
+&lt;p&gt;以下分別展示一張成功和一張失敗的照片，如果增加更多訓練資料或者使用更容易辨認的物體，效果應該可以更好才是。&lt;/p&gt;
+&lt;div style="width: 200px; margin-left: auto; margin-right: auto;"&gt;
+&lt;p&gt;&lt;img alt="Detect a Cat Successfully" src="http://city.shaform.com/images/cat-success.png" /&gt;
+&lt;img alt="Failed to Detect a Cat" src="http://city.shaform.com/images/cat-failure.png" /&gt;&lt;/p&gt;
+&lt;/div&gt;</summary><category term="TensorBox"></category><category term="TensorFlow"></category><category term="object detection"></category><category term="cats"></category></entry><entry><title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面</title><link href="http://city.shaform.com/blog/2016/10/31/install-tensorflow-with-cuda.html" rel="alternate"></link><published>2016-10-31T21:28:00+08:00</published><updated>2016-10-31T21:28:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-10-31:blog/2016/10/31/install-tensorflow-with-cuda.html</id><summary type="html">&lt;p&gt;本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。&lt;/p&gt;
 &lt;h2&gt;顯卡設定&lt;/h2&gt;
 &lt;h3&gt;基礎設定&lt;/h3&gt;
 &lt;p&gt;首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。&lt;/p&gt;
@@ -92,7 +365,7 @@
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;/div&gt;</summary><category term="TensorFlow"></category><category term="Caffe"></category><category term="CUDA"></category><category term="Ubuntu"></category></entry><entry><title>bs2 公開板備份初探</title><link href="http://city.shaform.com/blog/2016/07/26/bs2-backup.html" rel="alternate"></link><published>2016-07-26T22:30:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-07-26:blog/2016/07/26/bs2-backup.html</id><summary type="html">&lt;h1&gt;前言&lt;/h1&gt;
+&lt;/div&gt;</summary><category term="TensorFlow"></category><category term="Caffe"></category><category term="CUDA"></category><category term="Ubuntu"></category></entry><entry><title>bs2 公開板備份初探</title><link href="http://city.shaform.com/blog/2016/07/26/bs2-backup.html" rel="alternate"></link><published>2016-07-26T22:30:00+08:00</published><updated>2016-07-26T22:30:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-07-26:blog/2016/07/26/bs2-backup.html</id><summary type="html">&lt;h1&gt;前言&lt;/h1&gt;
 &lt;p&gt;&lt;a href="https://www.bs2.to/"&gt;bs2.to&lt;/a&gt; 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動備份的選擇。&lt;/p&gt;
 &lt;p&gt;經過一番搜尋，似乎有個古老的 &lt;a href="https://github.com/iblis17/bs2-crawler"&gt;bs2-crawler&lt;/a&gt;。雖然一開始無法成功跑起來，不過經過修改，似乎真的可以拿來備份 bs2 的看板了。&lt;/p&gt;
 &lt;p&gt;以下就是修改版本 &lt;a href="https://github.com/shaform/bs2-crawler"&gt;bs2-crawler@shaform&lt;/a&gt;，的使用教學。&lt;/p&gt;
@@ -135,7 +408,7 @@
 
 &lt;p&gt;輸入 1 即可下載 1~14520 所有文章。&lt;/p&gt;
 &lt;p&gt;下載完後會出現在 &lt;code&gt;articles/NCTU-Teacher&lt;/code&gt; 的路徑裡。&lt;/p&gt;
-&lt;p&gt;由於倉促修改，所以還有不少 bug，像是如果有加密文章，有時會無法處理，只好請大大們自行修改了。&lt;/p&gt;</summary><category term="Python"></category><category term="bs2"></category></entry><entry><title>價格追蹤：使用 gspread 自動更新 Google Sheets</title><link href="http://city.shaform.com/blog/2016/03/19/gspread.html" rel="alternate"></link><published>2016-03-19T09:02:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-03-19:blog/2016/03/19/gspread.html</id><summary type="html">&lt;h1&gt;前言&lt;/h1&gt;
+&lt;p&gt;由於倉促修改，所以還有不少 bug，像是如果有加密文章，有時會無法處理，只好請大大們自行修改了。&lt;/p&gt;</summary><category term="Python"></category><category term="bs2"></category></entry><entry><title>價格追蹤：使用 gspread 自動更新 Google Sheets</title><link href="http://city.shaform.com/blog/2016/03/19/gspread.html" rel="alternate"></link><published>2016-03-19T09:02:00+08:00</published><updated>2016-03-19T09:02:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-03-19:blog/2016/03/19/gspread.html</id><summary type="html">&lt;h1&gt;前言&lt;/h1&gt;
 &lt;p&gt;&lt;a href="https://www.google.com/sheets/about/"&gt;Google Sheets&lt;/a&gt; 和傳統試算表最大的差異或許在於他的資料存放在遠端，所以可以從任何地方存取，也很方便和別人共享編輯。因為這個特性，使得我偶爾會將一些實驗資料放到 Google Sheets 上面。&lt;/p&gt;
 &lt;p&gt;有的時候這些實驗數據是隨著時間固定產生的，此時如果總是自己剪剪貼貼，難免會覺得有些浪費時間。幸好，Google 提供了 &lt;a href="https://developers.google.com/google-apps/spreadsheets/"&gt;Sheets API&lt;/a&gt;，所以我們可以透過程式自動將資料寫進試算表裡。&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/burnash/gspread"&gt;gspread&lt;/a&gt; 將底層的 API 又包裝成更方便好用的界面，是使用 Python 來存取 Google Sheets 很好的選擇。&lt;/p&gt;
@@ -289,7 +562,7 @@ python update.py
 &lt;li&gt;&lt;a href="http://gspread.readthedocs.org/en/latest/index.html"&gt;gspread API reference&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://www.indjango.com/access-google-sheets-in-python-using-gspread/"&gt;Access google sheets in python using Gspread&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/shaform/experiments/tree/master/gspread"&gt;https://github.com/shaform/experiments/tree/master/gspread&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="Python 3"></category><category term="gspread"></category><category term="Google Sheets"></category></entry><entry><title>Scrapy + Python 3: PTT 資料抓取與分析</title><link href="http://city.shaform.com/blog/2016/02/28/scrapy.html" rel="alternate"></link><published>2016-02-28T10:23:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-02-28:blog/2016/02/28/scrapy.html</id><summary type="html">&lt;h1&gt;Scrapy 1.1 with Python 3 Support&lt;/h1&gt;
+&lt;/ul&gt;</summary><category term="Python 3"></category><category term="gspread"></category><category term="Google Sheets"></category></entry><entry><title>Scrapy + Python 3: PTT 資料抓取與分析</title><link href="http://city.shaform.com/blog/2016/02/28/scrapy.html" rel="alternate"></link><published>2016-02-28T10:23:00+08:00</published><updated>2016-02-28T10:23:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-02-28:blog/2016/02/28/scrapy.html</id><summary type="html">&lt;h1&gt;Scrapy 1.1 with Python 3 Support&lt;/h1&gt;
 &lt;p&gt;很久很久以前，曾經想要學學網路爬蟲，爬一些 &lt;a href="https://www.ptt.cc/bbs/index.html"&gt;PTT&lt;/a&gt; 的資料來看看能幹嘛。當時找到了 &lt;a href="http://scrapy.org/"&gt;Scrapy&lt;/a&gt; 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 &lt;a href="http://cyrille.rossant.net/why-you-should-move-to-python-3-now/"&gt;Python 3&lt;/a&gt;，於是就暫且放下學習的念頭，想說先等等看。&lt;/p&gt;
 &lt;p&gt;如今，&lt;a href="https://pypi.python.org/pypi/Scrapy/1.1.0"&gt;Scrapy 1.1&lt;/a&gt; 釋出，除了一些功能的更新外，他也終於要&lt;a href="https://github.com/scrapy/scrapy/issues/263"&gt;支援基本的 Python 3&lt;/a&gt; 了！於是抱持著推廣 Python 3 的想法，重拾之前的目標，實際測試了一下網路爬蟲的撰寫。&lt;/p&gt;
 &lt;h1&gt;環境設置&lt;/h1&gt;
@@ -696,7 +969,7 @@ python update.py
 &lt;p&gt;雖然已經過了那麼多年，&lt;a href="http://py3readiness.org/"&gt;Python 3 的使用率&lt;/a&gt;還是沒能上升到理想的境界，不過已經是漸入佳境了。
 希望更多人一起來寫 Python 3。&lt;/p&gt;
 &lt;p&gt;做完分析感覺 PTT 實在是一個寶庫，尤其各種特殊看板似乎很適合拿來測風向。不知還能做出什麼分析應用呢？&lt;/p&gt;
-&lt;p&gt;這次實驗所用到的程式碼按照慣例放在 GitHub 上面供參考：&lt;a href="https://github.com/shaform/experiments/tree/master/scrapy"&gt;https://github.com/shaform/experiments/tree/master/scrapy&lt;/a&gt;。&lt;/p&gt;</summary><category term="Python 3"></category><category term="Scrapy"></category><category term="PTT"></category></entry><entry><title>Caffe 程式閱讀筆記</title><link href="http://city.shaform.com/blog/2016/02/26/caffe.html" rel="alternate"></link><published>2016-02-26T07:12:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-02-26:blog/2016/02/26/caffe.html</id><summary type="html">&lt;p&gt;前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。
+&lt;p&gt;這次實驗所用到的程式碼按照慣例放在 GitHub 上面供參考：&lt;a href="https://github.com/shaform/experiments/tree/master/scrapy"&gt;https://github.com/shaform/experiments/tree/master/scrapy&lt;/a&gt;。&lt;/p&gt;</summary><category term="Python 3"></category><category term="Scrapy"></category><category term="PTT"></category></entry><entry><title>Caffe 程式閱讀筆記</title><link href="http://city.shaform.com/blog/2016/02/26/caffe.html" rel="alternate"></link><published>2016-02-26T07:12:00+08:00</published><updated>2016-02-26T07:12:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-02-26:blog/2016/02/26/caffe.html</id><summary type="html">&lt;p&gt;前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。
 由於自己對該程式庫也不是很熟悉，加上一直拖稿導致 Caffe 在撰寫期間也已經有不少變動，
 以致可能有許多不正確的地方，還請各位大大不吝指教。&lt;/p&gt;
 &lt;p&gt;主要分成四個部份來講。首先是整個 Caffe 的大架構，以及一些重要的元件。
@@ -999,7 +1272,7 @@ decay。&lt;/p&gt;
 &lt;/ul&gt;
 &lt;h1&gt;結語&lt;/h1&gt;
 &lt;p&gt;感覺光是對一些運算做操作性的了解，似乎還是不能真正理解 Caffe 是如何被使用的。
-未來應該要針對深度學習的理論上做更多研究才行。&lt;/p&gt;</summary><category term="Caffe"></category><category term="deep learning"></category></entry><entry><title>IPython Notebook 初探</title><link href="http://city.shaform.com/blog/2015/12/26/ipython-notebook.html" rel="alternate"></link><published>2015-12-26T18:46:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-12-26:blog/2015/12/26/ipython-notebook.html</id><summary type="html">&lt;h1&gt;為什麼是 IPython Notebook?&lt;/h1&gt;
+未來應該要針對深度學習的理論上做更多研究才行。&lt;/p&gt;</summary><category term="Caffe"></category><category term="deep learning"></category></entry><entry><title>IPython Notebook 初探</title><link href="http://city.shaform.com/blog/2015/12/26/ipython-notebook.html" rel="alternate"></link><published>2015-12-26T18:46:00+08:00</published><updated>2015-12-26T18:46:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-12-26:blog/2015/12/26/ipython-notebook.html</id><summary type="html">&lt;h1&gt;為什麼是 IPython Notebook?&lt;/h1&gt;
 &lt;p&gt;還記得第一次認識到 &lt;a href="http://ipython.org/notebook.html"&gt;IPython Notebook&lt;/a&gt;
 是在 &lt;a href="http://www.meetup.com/Taipei-py/"&gt;Taipei.py&lt;/a&gt; 吧。
 當時我還十分懷疑到底使用瀏覽器界面寫 Python 能有什麼好處。
@@ -15795,7 +16068,7 @@ IPython Notebook。最近也聽說 &lt;a href="http://cs109.github.io/2015/"&gt;
 &lt;li&gt;&lt;a href="https://sarahleejane.github.io/learning/python/2015/01/11/feature-engineering-for-Washington-DC-bikeshare-kaggle-competition-with-Python.html"&gt;feature engineering for Washington DC bikeshare kaggle competition with Python&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://sebastianraschka.com/Articles/2014_twitter_wordcloud.html"&gt;Turn Your Twitter Timeline into a Word Cloud Using Python&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.kaggle.com/inversion/d/kaggle/meta-kaggle/exploring-submission-timing"&gt;Exploring Submission Timing&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="IPython Notebook"></category><category term="Python"></category><category term="IPython"></category><category term="matplotlib"></category><category term="pandas"></category><category term="numpy"></category><category term="scikit-learn"></category></entry><entry><title>用 Apache Spark 來訓練 Word2vec 詞向量 Skip-gram Word Embeddings</title><link href="http://city.shaform.com/blog/2015/08/30/spark-for-word2vec.html" rel="alternate"></link><published>2015-08-30T17:15:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-08-30:blog/2015/08/30/spark-for-word2vec.html</id><summary type="html">&lt;p&gt;先前曾提過 &lt;a href="http://city.shaform.com/blog/2014/11/04/word2vec.html"&gt;word2vec 可以把語料中的詞轉換成詞向量&lt;/a&gt;。
+&lt;/ul&gt;</summary><category term="IPython Notebook"></category><category term="Python"></category><category term="IPython"></category><category term="matplotlib"></category><category term="pandas"></category><category term="numpy"></category><category term="scikit-learn"></category></entry><entry><title>用 Apache Spark 來訓練 Word2vec 詞向量 Skip-gram Word Embeddings</title><link href="http://city.shaform.com/blog/2015/08/30/spark-for-word2vec.html" rel="alternate"></link><published>2015-08-30T17:15:00+08:00</published><updated>2015-08-30T17:15:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-08-30:blog/2015/08/30/spark-for-word2vec.html</id><summary type="html">&lt;p&gt;先前曾提過 &lt;a href="http://city.shaform.com/blog/2014/11/04/word2vec.html"&gt;word2vec 可以把語料中的詞轉換成詞向量&lt;/a&gt;。
 雖然原本提供的 &lt;a href="https://groups.google.com/forum/#!forum/word2vec-toolkit"&gt;word2vec&lt;/a&gt; 工具速度已經很快，
 但是如果要訓練更大規模的語料還是需要不少時間。
 例如之前在處理 &lt;a href="http://www.lemurproject.org/clueweb09.php/"&gt;ClueWeb09&lt;/a&gt; 時，以實驗室的機器來說，就算只處理中文部份，
@@ -15955,7 +16228,7 @@ scala&amp;gt; d.map&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;r&
 &lt;/div&gt;
 &lt;p&gt;如此便完成了！&lt;/p&gt;
 &lt;h1&gt;原始碼&lt;/h1&gt;
-&lt;p&gt;相關程式碼放在 &lt;a href="https://github.com/shaform/experiments/blob/master/spark_word2vec/"&gt;shaform/experiments/spark_word2vec&lt;/a&gt;。&lt;/p&gt;</summary><category term="word2vec"></category><category term="Spark"></category><category term="Scala"></category><category term="word embeddings"></category></entry><entry><title>Using Caffe for Sentiment Analysis</title><link href="http://city.shaform.com/blog/2015/06/06/caffe-sentiment-analysis.html" rel="alternate"></link><published>2015-06-06T11:05:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-06-06:blog/2015/06/06/caffe-sentiment-analysis.html</id><summary type="html">&lt;p&gt;&lt;a href="http://caffe.berkeleyvision.org/"&gt;Caffe&lt;/a&gt; is a deep learning framework that can be used to
+&lt;p&gt;相關程式碼放在 &lt;a href="https://github.com/shaform/experiments/blob/master/spark_word2vec/"&gt;shaform/experiments/spark_word2vec&lt;/a&gt;。&lt;/p&gt;</summary><category term="word2vec"></category><category term="Spark"></category><category term="Scala"></category><category term="word embeddings"></category></entry><entry><title>Using Caffe for Sentiment Analysis</title><link href="http://city.shaform.com/blog/2015/06/06/caffe-sentiment-analysis.html" rel="alternate"></link><published>2015-06-06T11:05:00+08:00</published><updated>2015-06-06T11:05:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-06-06:blog/2015/06/06/caffe-sentiment-analysis.html</id><summary type="html">&lt;p&gt;&lt;a href="http://caffe.berkeleyvision.org/"&gt;Caffe&lt;/a&gt; is a deep learning framework that can be used to
 develop neural network models. Although Caffe is usually used
 for image classification, it does not prevent us from utilizing it
 for other tasks. In this article, we outline the procedure to convert
@@ -16104,7 +16377,7 @@ Optimization Done.
 
 
 &lt;h1&gt;Source Code&lt;/h1&gt;
-&lt;p&gt;The relevant source code is on &lt;a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/"&gt;shaform/experiments/caffe_sentiment_analysis&lt;/a&gt;.&lt;/p&gt;</summary><category term="word2vec"></category><category term="Caffe"></category><category term="sentiment analysis"></category><category term="deep learning"></category></entry><entry><title>用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</title><link href="http://city.shaform.com/blog/2015/03/27/sentiment-analysis.html" rel="alternate"></link><published>2015-03-27T21:45:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-03-27:blog/2015/03/27/sentiment-analysis.html</id><summary type="html">&lt;p&gt;最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 &lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt; 論壇上發表的&lt;a href="https://groups.google.com/d/msg/word2vec-toolkit/Q49FIrNOQRo/J6KG8mUj45sJ"&gt;文章&lt;/a&gt;，以及 &lt;a href="http://arxiv.org/abs/1412.5335"&gt;Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews&lt;/a&gt; 的程式碼。不過改運用在中文上，並且用簡單的 TF-IDF 取代 Naive Bayes Support Vector
+&lt;p&gt;The relevant source code is on &lt;a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/"&gt;shaform/experiments/caffe_sentiment_analysis&lt;/a&gt;.&lt;/p&gt;</summary><category term="word2vec"></category><category term="Caffe"></category><category term="sentiment analysis"></category><category term="deep learning"></category></entry><entry><title>用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</title><link href="http://city.shaform.com/blog/2015/03/27/sentiment-analysis.html" rel="alternate"></link><published>2015-03-27T21:45:00+08:00</published><updated>2015-03-27T21:45:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-03-27:blog/2015/03/27/sentiment-analysis.html</id><summary type="html">&lt;p&gt;最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 &lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt; 論壇上發表的&lt;a href="https://groups.google.com/d/msg/word2vec-toolkit/Q49FIrNOQRo/J6KG8mUj45sJ"&gt;文章&lt;/a&gt;，以及 &lt;a href="http://arxiv.org/abs/1412.5335"&gt;Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews&lt;/a&gt; 的程式碼。不過改運用在中文上，並且用簡單的 TF-IDF 取代 Naive Bayes Support Vector
 Machine。&lt;/p&gt;
 &lt;p&gt;資料集是使用 2014 年 NTU NLP 課程的旅館評論資料 &lt;code&gt;207884_hotel_training.txt&lt;/code&gt;，然後稍微進行一些處理。將資料修改成以下格式：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;LABEL TOKENS
@@ -16249,7 +16522,7 @@ Machine。&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;h2&gt;程式碼&lt;/h2&gt;
-&lt;p&gt;我把相關的程式碼放在 GitHub 上面供參考：&lt;a href="https://github.com/shaform/experiments/tree/master/sentiment_analysis"&gt;shaform/sentiment_analysis&lt;/a&gt;。&lt;/p&gt;</summary><category term="word2vec"></category><category term="Chinese"></category><category term="python"></category><category term="liblinear"></category><category term="rnnlm"></category><category term="tf-idf"></category><category term="sentiment analysis"></category></entry><entry><title>建立 LDAP 鏡像、及日常管理指令集</title><link href="http://city.shaform.com/blog/2014/12/14/mirror-and-mgmt-on-ldap.html" rel="alternate"></link><published>2014-12-14T17:42:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-12-14:blog/2014/12/14/mirror-and-mgmt-on-ldap.html</id><summary type="html">&lt;h2&gt;建立鏡像&lt;/h2&gt;
+&lt;p&gt;我把相關的程式碼放在 GitHub 上面供參考：&lt;a href="https://github.com/shaform/experiments/tree/master/sentiment_analysis"&gt;shaform/sentiment_analysis&lt;/a&gt;。&lt;/p&gt;</summary><category term="word2vec"></category><category term="Chinese"></category><category term="python"></category><category term="liblinear"></category><category term="rnnlm"></category><category term="tf-idf"></category><category term="sentiment analysis"></category></entry><entry><title>建立 LDAP 鏡像、及日常管理指令集</title><link href="http://city.shaform.com/blog/2014/12/14/mirror-and-mgmt-on-ldap.html" rel="alternate"></link><published>2014-12-14T17:42:00+08:00</published><updated>2014-12-14T17:42:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-12-14:blog/2014/12/14/mirror-and-mgmt-on-ldap.html</id><summary type="html">&lt;h2&gt;建立鏡像&lt;/h2&gt;
 &lt;p&gt;假設只有一台 LDAP server，則一旦 crash 大家都無法登入了，故可以建立一個鏡像 server，不斷同步資料內容。這篇假設你已經建好前篇的 ldap.lab.csie.ntu.edu.tw，而想再建一個 ldapm.lab.csie.ntu.edu.tw。則在 clients 的設定可設為：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# /etc/ldap/ldap.conf
 URI     ldaps://ldap.lab.csie.ntu.edu.tw ldaps://ldapm.lab.csie.ntu.edu.tw
@@ -16478,7 +16751,7 @@ olcMirrorMode: TRUE
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;/div&gt;</summary><category term="LDAP"></category><category term="linux"></category><category term="Debian"></category></entry><entry><title>在 Debian 7.7 系統中轉移 NIS 到 LDAP</title><link href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html" rel="alternate"></link><published>2014-12-13T17:42:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-12-13:blog/2014/12/13/migrate-from-nis-to-ldap.html</id><summary type="html">&lt;p&gt;本文件紀錄了基本的 LDAP 設置。&lt;/p&gt;
+&lt;/div&gt;</summary><category term="LDAP"></category><category term="linux"></category><category term="Debian"></category></entry><entry><title>在 Debian 7.7 系統中轉移 NIS 到 LDAP</title><link href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html" rel="alternate"></link><published>2014-12-13T17:42:00+08:00</published><updated>2014-12-13T17:42:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-12-13:blog/2014/12/13/migrate-from-nis-to-ldap.html</id><summary type="html">&lt;p&gt;本文件紀錄了基本的 LDAP 設置。&lt;/p&gt;
 &lt;h2&gt;設定 LDAP Master&lt;/h2&gt;
 &lt;h3&gt;基本設置&lt;/h3&gt;
 &lt;p&gt;首先編輯 &lt;code&gt;/etc/ldap/ldap.conf&lt;/code&gt; 填上適當的網域名稱。例如：&lt;/p&gt;
@@ -16704,7 +16977,7 @@ tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 
 
 &lt;/div&gt;
-&lt;p&gt;可測試是否可以登入。&lt;/p&gt;</summary><category term="LDAP"></category><category term="NIS"></category><category term="linux"></category><category term="Debian"></category><category term="SSH"></category></entry><entry><title>連結兩個私有內網</title><link href="http://city.shaform.com/blog/2014/11/12/connect-subnets.html" rel="alternate"></link><published>2014-11-12T09:20:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-11-12:blog/2014/11/12/connect-subnets.html</id><summary type="html">&lt;p&gt;實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。&lt;/p&gt;
+&lt;p&gt;可測試是否可以登入。&lt;/p&gt;</summary><category term="LDAP"></category><category term="NIS"></category><category term="linux"></category><category term="Debian"></category><category term="SSH"></category></entry><entry><title>連結兩個私有內網</title><link href="http://city.shaform.com/blog/2014/11/12/connect-subnets.html" rel="alternate"></link><published>2014-11-12T09:20:00+08:00</published><updated>2014-11-12T09:20:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-11-12:blog/2014/11/12/connect-subnets.html</id><summary type="html">&lt;p&gt;實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。&lt;/p&gt;
 &lt;p&gt;記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！&lt;/p&gt;
 &lt;h2&gt;機器配置&lt;/h2&gt;
 &lt;p&gt;假設現在有兩群工作站：&lt;/p&gt;
@@ -16816,7 +17089,7 @@ post-down ip tunnel del mytunnel
 &lt;p&gt;如果想要把兩組機器都放進同個內網，也可以參考更進階的：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://docs.openvpn.net/how-to-tutorialsguides/virtual-platforms/site-to-site-layer-2-bridging-using-openvpn-access-server/"&gt;Site-to-Site Layer 2 Bridging Using OpenVPN Access Server and a Linux Gateway Client&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="linux"></category><category term="subnet"></category><category term="network"></category></entry><entry><title>用中文資料測試 word2vec</title><link href="http://city.shaform.com/blog/2014/11/04/word2vec.html" rel="alternate"></link><published>2014-11-04T17:20:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-11-04:blog/2014/11/04/word2vec.html</id><summary type="html">&lt;p&gt;最近因為一些學習上的需要接觸了 &lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt;，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。&lt;/p&gt;
+&lt;/ul&gt;</summary><category term="linux"></category><category term="subnet"></category><category term="network"></category></entry><entry><title>用中文資料測試 word2vec</title><link href="http://city.shaform.com/blog/2014/11/04/word2vec.html" rel="alternate"></link><published>2014-11-04T17:20:00+08:00</published><updated>2014-11-04T17:20:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-11-04:blog/2014/11/04/word2vec.html</id><summary type="html">&lt;p&gt;最近因為一些學習上的需要接觸了 &lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt;，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。&lt;/p&gt;
 &lt;p&gt;不過 word2vec 是把每個詞本身用一個多維向量來表示，把詞投影到一個向量空間裡。而且不知道為什麼投影出來的空間有些特殊的性質，比如說相同屬性的詞可能會靠得很近，甚至部份的向量有邏輯上的線性關係等等：&lt;/p&gt;
 &lt;p&gt;vector('King') - vector('Man') + vector('Woman') ~= vector('Queen')&lt;/p&gt;
 &lt;p&gt;這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。&lt;/p&gt;
@@ -16926,7 +17199,7 @@ Word: 英國  Position in vocabulary: 822
 &lt;li&gt;&lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://www.cnblogs.com/hebin/p/3507609.html"&gt;利用中文数据跑Google开源项目word2vec&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://blog.fukuball.com/ru-he-shi-yong-jieba-jie-ba-zhong-wen-fen-ci-cheng-shi/"&gt;如何使用 JIEBA 結巴中文分詞程式&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</summary><category term="word2vec"></category><category term="Chinese"></category><category term="python"></category><category term="jieba"></category></entry><entry><title>在工作站上使用自己的 Python 並安裝自訂套件</title><link href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="alternate"></link><published>2014-06-22T10:30:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-22:blog/2014/06/22/pyvenv-and-virtualenv.html</id><summary type="html">&lt;p&gt;使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。&lt;/p&gt;
+&lt;/ol&gt;</summary><category term="word2vec"></category><category term="Chinese"></category><category term="python"></category><category term="jieba"></category></entry><entry><title>在工作站上使用自己的 Python 並安裝自訂套件</title><link href="http://city.shaform.com/blog/2014/06/22/pyvenv-and-virtualenv.html" rel="alternate"></link><published>2014-06-22T10:30:00+08:00</published><updated>2014-06-22T10:30:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-22:blog/2014/06/22/pyvenv-and-virtualenv.html</id><summary type="html">&lt;p&gt;使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。&lt;/p&gt;
 &lt;p&gt;遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。&lt;/p&gt;
 &lt;h2&gt;pyvenv&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://docs.python.org/3.4/library/venv.html"&gt;pyvenv&lt;/a&gt; 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 &lt;a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=732703"&gt;bug 732703&lt;/a&gt; 所以暫時無法使用。不過還是介紹一下他的用法：&lt;/p&gt;
@@ -17008,7 +17281,7 @@ python3.4 setup.py install --user
 
 pip2 install --user flask
 python2 setup.py install --user
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="linux"></category><category term="Python"></category><category term="pyvenv"></category><category term="virtualenv"></category></entry><entry><title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</title><link href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="alternate"></link><published>2014-06-21T09:00:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-21:blog/2014/06/21/fix-public-key-login-for-encrypted-home.html</id><summary type="html">&lt;p&gt;通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="linux"></category><category term="Python"></category><category term="pyvenv"></category><category term="virtualenv"></category></entry><entry><title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</title><link href="http://city.shaform.com/blog/2014/06/21/fix-public-key-login-for-encrypted-home.html" rel="alternate"></link><published>2014-06-21T09:00:00+08:00</published><updated>2014-06-21T09:00:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-21:blog/2014/06/21/fix-public-key-login-for-encrypted-home.html</id><summary type="html">&lt;p&gt;通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。&lt;/p&gt;
 &lt;p&gt;我最後決定停用密碼登入的功能，改成只能用 public key 登入，這樣子可能比較難以猜中正確的密鑰。不過實際用起來偶爾會發現登入失敗搞不清楚理由，後來才發現是因為我的 Ubuntu 啟用了家目錄加密的功能，因此尚未登入之前根本讀不到 &lt;code&gt;authorized_keys&lt;/code&gt; 設定檔。為了解決這個問題，必須移動設定檔的位置才行。&lt;/p&gt;
 &lt;h2&gt;Generate SSH Keys&lt;/h2&gt;
 &lt;p&gt;首先如果沒有自己的 SSH keys 的話可以參考&lt;a href="https://help.github.com/articles/generating-ssh-keys"&gt;〈Generating SSH Keys〉&lt;/a&gt;建立自己的 SSH keys。大致上是使用如下指令：&lt;/p&gt;
@@ -17073,7 +17346,7 @@ python2 setup.py install --user
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;/div&gt;</summary><category term="public key"></category><category term="linux"></category><category term="Ubuntu"></category><category term="SSH"></category></entry><entry><title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</title><link href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html" rel="alternate"></link><published>2014-06-19T16:05:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-19:blog/2014/06/19/install-w8-ubuntu-with-uefi.html</id><summary type="html">&lt;p&gt;總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 &lt;a href="http://www.ubuntu.com/"&gt;Ubuntu&lt;/a&gt; 的安裝界面做的還不錯，後來就一直用到今天。&lt;/p&gt;
+&lt;/div&gt;</summary><category term="public key"></category><category term="linux"></category><category term="Ubuntu"></category><category term="SSH"></category></entry><entry><title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</title><link href="http://city.shaform.com/blog/2014/06/19/install-w8-ubuntu-with-uefi.html" rel="alternate"></link><published>2014-06-19T16:05:00+08:00</published><updated>2014-06-19T16:05:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-06-19:blog/2014/06/19/install-w8-ubuntu-with-uefi.html</id><summary type="html">&lt;p&gt;總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 &lt;a href="http://www.ubuntu.com/"&gt;Ubuntu&lt;/a&gt; 的安裝界面做的還不錯，後來就一直用到今天。&lt;/p&gt;
 &lt;p&gt;雖然習慣使用 Linux，可是有時候還是會遇到要在 Windows 上才能寫的作業，所以每次都把電腦灌成雙系統，也慢慢熟悉了這個過程，一直以來不太有改變。不過最近拿到一台有 &lt;a href="http://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface"&gt;UEFI&lt;/a&gt; 開機的 Lenovo ThinkPad X1 Carbon 筆電，又想在啟用 Secure Boot 的情況下同時裝雙系統，設置上就比較麻煩了。本文就是記載這個過程。&lt;/p&gt;
 &lt;h2&gt;安裝 Windows 8&lt;/h2&gt;
 &lt;p&gt;原本如果是在正常的電腦上安裝 Windows 8，可以透過 &lt;a href="http://www.microsoftstore.com/store/msusa/html/pbPage.Help_Win7_usbdvd_dwnTool"&gt;Windows USB/DVD download tool&lt;/a&gt; 來製作安裝用隨身碟，但在 UEFI 啟用的情況下就不行了。這時參考&lt;a href="http://social.msdn.microsoft.com/Forums/en-US/e7ed293e-b565-44ee-a536-166dddf32205/how-to-create-windows-8-installation-bootable-usb-for-uefi-samsung-slate"&gt;〈How to create Windows 8 installation bootable USB for UEFI〉&lt;/a&gt;，首先在 Windows 環境下使用管理員權限執行 cmd.exe，用 diskpart.exe 找出隨身碟的代號：&lt;/p&gt;
@@ -17110,7 +17383,7 @@ assign
 &lt;h2&gt;安裝 Ubuntu 14.04 64-bit&lt;/h2&gt;
 &lt;p&gt;只有 64-bit 版本對 UEFI 有較好的支援，所以首先參考&lt;a href="http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-ubuntu"&gt;〈How to create a bootable USB stick on Ubuntu〉&lt;/a&gt;製作一個 Ubuntu 14.04 安裝隨身碟，然後參考&lt;a href="https://help.ubuntu.com/community/UEFI"&gt;〈Ubuntu Community Wiki: UEFI〉&lt;/a&gt;來安裝，基本上安裝過程跟一般情形一樣，只是我選擇自訂磁碟分割，所以要自己找出 EFI 磁區，然後指定 mount 到 &lt;code&gt;/boot/efi&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;最後裝完會遇到一個 bug：&lt;a href="https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1091464"&gt;〈Unable to chainload Windows 8 with Secure Boot enabled
-〉&lt;/a&gt;，使得無法直接用 grub2 來啟動 Windows 8.1，不過 ThinkPad X1 Carbon 可以透過 BIOS 來多重開機，因此還是可以使用，對於很少使用 Windows 8.1 的我來說並不造成困擾。&lt;/p&gt;</summary><category term="UEFI"></category><category term="Windows 8"></category><category term="Windows 8.1"></category><category term="Ubuntu 14.04"></category></entry><entry><title>簡單的 BBS 掛站設定</title><link href="http://city.shaform.com/blog/2014/05/27/stay-on-bbs.html" rel="alternate"></link><published>2014-05-27T13:21:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-05-27:blog/2014/05/27/stay-on-bbs.html</id><summary type="html">&lt;p&gt;很久以前看到了 othree 的&lt;a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/"&gt;〈掛站系統設定篇〉&lt;/a&gt;，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）&lt;/p&gt;
+〉&lt;/a&gt;，使得無法直接用 grub2 來啟動 Windows 8.1，不過 ThinkPad X1 Carbon 可以透過 BIOS 來多重開機，因此還是可以使用，對於很少使用 Windows 8.1 的我來說並不造成困擾。&lt;/p&gt;</summary><category term="UEFI"></category><category term="Windows 8"></category><category term="Windows 8.1"></category><category term="Ubuntu 14.04"></category></entry><entry><title>簡單的 BBS 掛站設定</title><link href="http://city.shaform.com/blog/2014/05/27/stay-on-bbs.html" rel="alternate"></link><published>2014-05-27T13:21:00+08:00</published><updated>2014-05-27T13:21:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-05-27:blog/2014/05/27/stay-on-bbs.html</id><summary type="html">&lt;p&gt;很久以前看到了 othree 的&lt;a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/"&gt;〈掛站系統設定篇〉&lt;/a&gt;，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）&lt;/p&gt;
 &lt;p&gt;後來我發現其實掛一些我平常在逛的站如 PTT or BS2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。&lt;/p&gt;
 &lt;p&gt;首先在 &lt;code&gt;$HOME&lt;/code&gt; 目錄建一個叫做 &lt;code&gt;screenrc-bbs&lt;/code&gt; 的資料夾，接下來在資料夾裡根據想逛的 bbs 建立 screenrc 檔案。&lt;/p&gt;
 &lt;p&gt;比如說 screenrc-bbs/ptt：&lt;/p&gt;
@@ -17149,7 +17422,7 @@ defencoding big5
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;如此一來，下次登入時只要直接打 &lt;code&gt;ptt&lt;/code&gt; 就可以開始逛版了，要離開則按 &lt;code&gt;Ctrl-A Ctrl-D&lt;/code&gt;，只要沒有被斷線的話隨時登入工作站都可以下 &lt;code&gt;ptt&lt;/code&gt; 指令重回之前的進度。&lt;/p&gt;</summary><category term="PTT"></category><category term="BBS"></category><category term="linux"></category></entry><entry><title>從 Pixnet 轉移到 Pelican</title><link href="http://city.shaform.com/blog/2014/05/17/migrate-from-pixnet-to-pelican.html" rel="alternate"></link><published>2014-05-17T07:25:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-05-17:blog/2014/05/17/migrate-from-pixnet-to-pelican.html</id><summary type="html">&lt;p&gt;「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻煩：它對於一些程式碼的的支援有點不直覺，而文章的寫作方式也有許多不符我的需求。最後索性就把這個網誌改用 Pelican 建立了。而因為文章只有一點點，所以是用手動搬的。&lt;/p&gt;
+&lt;p&gt;如此一來，下次登入時只要直接打 &lt;code&gt;ptt&lt;/code&gt; 就可以開始逛版了，要離開則按 &lt;code&gt;Ctrl-A Ctrl-D&lt;/code&gt;，只要沒有被斷線的話隨時登入工作站都可以下 &lt;code&gt;ptt&lt;/code&gt; 指令重回之前的進度。&lt;/p&gt;</summary><category term="PTT"></category><category term="BBS"></category><category term="linux"></category></entry><entry><title>從 Pixnet 轉移到 Pelican</title><link href="http://city.shaform.com/blog/2014/05/17/migrate-from-pixnet-to-pelican.html" rel="alternate"></link><published>2014-05-17T07:25:00+08:00</published><updated>2014-05-17T07:25:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-05-17:blog/2014/05/17/migrate-from-pixnet-to-pelican.html</id><summary type="html">&lt;p&gt;「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻煩：它對於一些程式碼的的支援有點不直覺，而文章的寫作方式也有許多不符我的需求。最後索性就把這個網誌改用 Pelican 建立了。而因為文章只有一點點，所以是用手動搬的。&lt;/p&gt;
 &lt;p&gt;搬完以後覺得這種靜態網頁在管理和備份文章上實在是很方便。想到「浮光」這個文章集散處，其實完全是由很少 HTML 的靜態文章所組成，實在是很適合放到 Pelican 上，再者 Pixnet 的後台界面自己一直不是很喜歡，所以就乾脆一起搬了。&lt;/p&gt;
 &lt;p&gt;以下記載完成這件事的流程，使用的環境是 Ubuntu 14.04 64-bit。&lt;/p&gt;
 &lt;h2&gt;安裝 Pelican&lt;/h2&gt;
@@ -17366,7 +17639,7 @@ github: publish
 &lt;/div&gt;
 &lt;p&gt;然後按照 &lt;a href="https://pages.github.com"&gt;GitHub Pages&lt;/a&gt; 的說明，建立一個 repository，並把整個網誌的目錄當成這個 repository。（我其實是先 &lt;code&gt;git clone&lt;/code&gt; 然後把 .git 資料夾直接搬到網誌目錄中。）&lt;/p&gt;
 &lt;h2&gt;結果&lt;/h2&gt;
-&lt;p&gt;最後再調整一些佈景和版面的設定，就成了最後的結果：&lt;a href="http://light.shaform.com"&gt;浮光&lt;/a&gt;。初步感覺還滿令我滿意的。以後再慢慢調整浮光以及翼之都的版面吧。&lt;/p&gt;</summary><category term="Pixnet"></category><category term="Pelican"></category><category term="Python"></category></entry><entry><title>在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</title><link href="http://city.shaform.com/blog/2014/04/13/hbase-on-ubuntu-12.04.html" rel="alternate"></link><published>2014-04-13T15:56:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-04-13:blog/2014/04/13/hbase-on-ubuntu-12.04.html</id><summary type="html">&lt;p&gt;這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。&lt;/p&gt;
+&lt;p&gt;最後再調整一些佈景和版面的設定，就成了最後的結果：&lt;a href="http://light.shaform.com"&gt;浮光&lt;/a&gt;。初步感覺還滿令我滿意的。以後再慢慢調整浮光以及翼之都的版面吧。&lt;/p&gt;</summary><category term="Pixnet"></category><category term="Pelican"></category><category term="Python"></category></entry><entry><title>在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</title><link href="http://city.shaform.com/blog/2014/04/13/hbase-on-ubuntu-12.04.html" rel="alternate"></link><published>2014-04-13T15:56:00+08:00</published><updated>2014-04-13T15:56:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2014-04-13:blog/2014/04/13/hbase-on-ubuntu-12.04.html</id><summary type="html">&lt;p&gt;這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。&lt;/p&gt;
 &lt;h2&gt;一、HDFS&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -17547,7 +17820,7 @@ slave-2-dn
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;/div&gt;</summary><category term="Hadoop"></category><category term="HBase"></category><category term="HDFS"></category><category term="Ubuntu"></category></entry><entry><title>qwerty 轉換到 dvorak 筆記: Notes about Migrating from Qwerty to Dvorak</title><link href="http://city.shaform.com/blog/2013/07/12/qwerty-to-dvorak.html" rel="alternate"></link><published>2013-07-12T18:53:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-07-12:blog/2013/07/12/qwerty-to-dvorak.html</id><summary type="html">&lt;h2&gt;Windows&lt;/h2&gt;
+&lt;/div&gt;</summary><category term="Hadoop"></category><category term="HBase"></category><category term="HDFS"></category><category term="Ubuntu"></category></entry><entry><title>qwerty 轉換到 dvorak 筆記: Notes about Migrating from Qwerty to Dvorak</title><link href="http://city.shaform.com/blog/2013/07/12/qwerty-to-dvorak.html" rel="alternate"></link><published>2013-07-12T18:53:00+08:00</published><updated>2013-07-12T18:53:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-07-12:blog/2013/07/12/qwerty-to-dvorak.html</id><summary type="html">&lt;h2&gt;Windows&lt;/h2&gt;
 &lt;p&gt;Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：&lt;a href="http://shaform.wordpress.com/2007/07/14/dvorak/"&gt;〈Dvorak: 另一種鍵盤排列〉&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;(Newer versions of Windows could use different keyboard layouts for the login screen.
 Just choose it when installing or add the relevant input method in language settings.)&lt;/p&gt;
@@ -17728,7 +18001,7 @@ This enables us to use dvorak at least in Vim.)&lt;/p&gt;
 &lt;p&gt;使用此程式轉換檔案的話，可能還是會需要手動調整，因為有些像是「,」 -&amp;gt;「，」的符號對應應該還是保留會比較好。&lt;/p&gt;
 &lt;h2&gt;下載&lt;/h2&gt;
 &lt;p&gt;相關程式可在 &lt;a href="https://github.com/shaform/dvorak-tools"&gt;shaform/dvorak-tools&lt;/a&gt; 下載。&lt;/p&gt;
-&lt;p&gt;(Refer to &lt;a href="https://github.com/shaform/dvorak-tools"&gt;shaform/dvorak-tools&lt;/a&gt; for all script files.)&lt;/p&gt;</summary><category term="dvorak"></category><category term="linux"></category><category term="qwerty"></category><category term="windows"></category><category term="自由行列"></category><category term="行列"></category><category term="輸入法"></category></entry><entry><title>設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤</title><link href="http://city.shaform.com/blog/2013/07/09/vim-qwerty-to-dvorak.html" rel="alternate"></link><published>2013-07-09T21:28:00+08:00</published><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-07-09:blog/2013/07/09/vim-qwerty-to-dvorak.html</id><summary type="html">&lt;p&gt;還記得從前在交大參加校內程式競賽時，Fedora?/FreeBSD? 環境裡頭不知為何無法透過圖形界面執行鍵盤設定，也找不到 setxkbmap，以至於無法使用 &lt;a href="http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard"&gt;dvorak&lt;/a&gt; 的窘境。每每被迫使用 qwerty 來競賽，總是覺得慢人一截。一直在研究有什麼方法可以用 command line 或設定檔強制轉換鍵盤，不過始終無果。最近用到 Red Hat Enterprise Linux 又遇到很類似的問題，同時也發現透過 rdp 連進機器時，設定的方法似乎會跟平常不太一樣。&lt;/p&gt;
+&lt;p&gt;(Refer to &lt;a href="https://github.com/shaform/dvorak-tools"&gt;shaform/dvorak-tools&lt;/a&gt; for all script files.)&lt;/p&gt;</summary><category term="dvorak"></category><category term="linux"></category><category term="qwerty"></category><category term="windows"></category><category term="自由行列"></category><category term="行列"></category><category term="輸入法"></category></entry><entry><title>設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤</title><link href="http://city.shaform.com/blog/2013/07/09/vim-qwerty-to-dvorak.html" rel="alternate"></link><published>2013-07-09T21:28:00+08:00</published><updated>2013-07-09T21:28:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-07-09:blog/2013/07/09/vim-qwerty-to-dvorak.html</id><summary type="html">&lt;p&gt;還記得從前在交大參加校內程式競賽時，Fedora?/FreeBSD? 環境裡頭不知為何無法透過圖形界面執行鍵盤設定，也找不到 setxkbmap，以至於無法使用 &lt;a href="http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard"&gt;dvorak&lt;/a&gt; 的窘境。每每被迫使用 qwerty 來競賽，總是覺得慢人一截。一直在研究有什麼方法可以用 command line 或設定檔強制轉換鍵盤，不過始終無果。最近用到 Red Hat Enterprise Linux 又遇到很類似的問題，同時也發現透過 rdp 連進機器時，設定的方法似乎會跟平常不太一樣。&lt;/p&gt;
 &lt;p&gt;雖然 Google 良久還是沒有太多進展，但最近研究 vim 設定時突然發現可以直接修改 vim 的鍵盤對應，如此一來至少在用 vim 寫程式時能夠使用自己習慣的鍵盤排列。&lt;/p&gt;
 &lt;p&gt;只要在 .vimrc 中加入如下設定，就可以在 vim 大部分的模式中直接轉換成 dvorak 鍵盤：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;keymap&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;dvorak
