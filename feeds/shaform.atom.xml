@@ -25,14 +25,14 @@
 &lt;h2&gt;環境設定&lt;/h2&gt;
 &lt;p&gt;為了使用 Scared，首先我裝了一套 &lt;a href="https://www.mongodb.com/"&gt;MongoDB&lt;/a&gt;，為了方便起見我就參考&lt;a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/"&gt;教學&lt;/a&gt;直接裝在本機上。接著用 pip3 安裝 Scared 相關套件，因為不知為何不指定版本會裝到舊的，所以這裡我就指定了 Scared 的版本：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install &lt;span class="nv"&gt;scared&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;0.7b3 pymongo
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install &lt;span class="nv"&gt;sacred&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;0.7b3 pymongo
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/div&gt;
 &lt;p&gt;除此之外也安裝其他實驗會用到的套件：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install xgboost jupyter matplotlib numpy tensorflow-gpu scikit-learn scaredboard
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install xgboost jupyter matplotlib numpy tensorflow-gpu scikit-learn sacredboard
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
