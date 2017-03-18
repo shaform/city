@@ -135,7 +135,7 @@
 <h1>建立試算表</h1>
 <p>接下來我們到 <a href="https://www.google.com/sheets/about/">Google Sheets</a> 建立一個試算表，同時將試算表分享給剛剛的 <code>auth.json</code> 裡 <code>client_email</code> 欄位提到的 email 帳號： <code>name...@....gserviceaccount.com</code>，並給予編輯的權限，這樣子才有辦法透過程式存取。</p>
 <p>將試算表多餘的欄位刪除，只剩下 date, item, price 三欄，並留下新的一個空白行，好讓程式插入資料時，也能有白色背景。</p>
-<p><img alt="Create a spreadsheet" src="http://city.shaform.com/images/gspread-1.png" /></p>
+<p><img alt="Create a spreadsheet" src="http://city.shaform.com/images/gspread-1.png"></p>
 <p>最後我們把網址中 <code>https://docs.google.com/spreadsheets/d/{key}/edit</code> 的 <code>{key}</code> 複製到 <code>spreadsheet_key</code> 檔案裡，供之後程式要開啟試算表時存取。</p>
 <h1>抓取資料</h1>
 <p>這裡我們透過 <a href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> 從某個價格看板挖出最便宜的記憶體價格當作指標指數。確切的來說，我們先搜尋「記憶體 RAM」關鍵字找出項目清單，然後一個一個搜尋價格，並紀錄最便宜的項目。</p>
@@ -214,7 +214,7 @@
 </pre></div>
 
 
-<p><img alt="Insert data" src="http://city.shaform.com/images/gspread-2.png" /></p>
+<p><img alt="Insert data" src="http://city.shaform.com/images/gspread-2.png"></p>
 <h1>設定 crontab</h1>
 <p>當然，每次都要手動執行程式一點也不自動。所以我們會用 <a href="https://help.ubuntu.com/community/CronHowto">crontab</a> 來自動執行我們的程式。</p>
 <p>由於我們使用到了 <code>pyvenv</code>，而且很多檔案路徑都是用相對路徑，因此我另外寫了一個 bash script 來幫忙設定好執行 Python 的步驟。</p>

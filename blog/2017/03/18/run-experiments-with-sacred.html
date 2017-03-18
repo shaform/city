@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="前言 前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。 以執行而言，由於處理的檔案龐大、計算時間冗長、使用機器繁多，如何最有效率的把實驗跑完，同時又盡可能避免重複計算浪費時間，就成了難題。尤其考慮有時會因為不可抗力因素導致部份實驗中斷，此時要如何從一半的結果繼續執行，同時又最節省時間也是值得思考的點。 ...">
+        <meta name="keywords" content="jupyter, python, Sacred">
+        <link rel="icon" href="http://city.shaform.com/favicon.ico">
+
+        <title>用 Sacred 追蹤實驗數據 - 翼之都, City of Wings</title>
+
+        <!-- Stylesheets -->
+        <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="/style/style.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
+        <link href="http://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Google Analytics -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-13132274-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+        <!-- /Google Analytics -->
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://city.shaform.com/"><img class="mr20" src="http://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
+                    </div>
+                    <div class="nav pull-right">
+                            <a href="http://city.shaform.com/category/ideas.html">Ideas</a>
+                            <a href="http://city.shaform.com/category/notes.html">Notes</a>
+                            <a href="http://city.shaform.com/category/projects.html">Projects</a>
+                            <a href="http://city.shaform.com/tags.html">Tags</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">用 Sacred 追蹤實驗數據</h1>
+                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Sat 18 March 2017, in category <a href="http://city.shaform.com/category/notes.html">Notes</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="http://city.shaform.com/tag/jupyter.html">jupyter</a>, <a href="http://city.shaform.com/tag/python.html">python</a>, <a href="http://city.shaform.com/tag/sacred.html">Sacred</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h2>前言</h2>
+<p>前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。</p>
+<p>以執行而言，由於處理的檔案龐大、計算時間冗長、使用機器繁多，如何最有效率的把實驗跑完，同時又盡可能避免重複計算浪費時間，就成了難題。尤其考慮有時會因為不可抗力因素導致部份實驗中斷，此時要如何從一半的結果繼續執行，同時又最節省時間也是值得思考的點。</p>
+<p>管理實驗數據部份，也因為使用機器增多及實驗繁多而複雜了起來。看到有種作法是利用 bash script 或者 Makefile 紀錄參數，然後將不同參數輸出的 stdout 導進指定的檔案名字裡來產生不同條件的實驗數據。不過這樣做很容易就會不小心改了參數卻把輸出導進錯誤的地方，導致最後數據錯誤。同時如果有很多台機器，資料又存在本機，那就得進行不少手動處理而無法全自動重現實驗結果。</p>
+<p>感覺如果每次開始新的實驗就在程式碼中使用大量的自訂程式來處理這些問題好像一不小心就會花去太多時間。可是如果在忙亂中持續用奇怪的作法做實驗，心中的不安全感產生的焦慮又與日俱增，實在相當痛苦。</p>
+<p>之前問了友人：</p>
+<blockquote>
+<p>「大大都怎麼跑實驗阿？」</p>
+<p>「包成 Docker 先放著。或是用 Makefile + GitLab 做版本管控。
+用 Jenkins + ZooKeeper 管理，然後隨時打點 OpenTSDB 用 Grafana 監控。」</p>
+</blockquote>
+<p>感覺好像相當有道理。像是可以把各種 jobs 交給 <a href="https://jenkins.io">Jenkins</a> 管理，藉此得知哪些已經跑完，哪些還要跑，然後選擇要在什麼機器跑，並且將結果回收到同一個地方。不過實際上到底要如何做到實在也找不到範例可抄襲。</p>
+<p>由於每天實在過得很忙亂，只好苟且的一天過一天。好不容易有個週末無車無人的時刻，趕緊稍微做點小實驗來測試怎麼樣的作法較好。</p>
+<p>這次要介紹的 <a href="https://github.com/IDSIA/sacred">Sacred</a> 其實最早是去年讀到 <a href="https://gab41.lab41.org/show-your-work-a-month-with-sacred-e665af4eeac2">〈Show Your Work: A Month with Sacred〉</a> 這篇文章時所發現的。它是從遠在瑞士的 <a href="http://www.idsia.ch/">Istituto Dalle Molle di Studi sull'Intelligenza Artificiale (IDSIA)</a> 發展出來的一套工具，據說就是企圖解決做實驗難題的一個嘗試。</p>
+<h2>環境設定</h2>
+<p>為了使用 Scared，首先我裝了一套 <a href="https://www.mongodb.com/">MongoDB</a>，為了方便起見我就參考<a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">教學</a>直接裝在本機上。接著用 pip3 安裝 Scared 相關套件，因為不知為何不指定版本會裝到舊的，所以這裡我就指定了 Scared 的版本：</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">pip3 install <span class="nv">scared</span><span class="o">==</span>0.7b3 pymongo
+</span></pre></div>
+
+
+</div>
+<p>除此之外也安裝其他實驗會用到的套件：</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">pip3 install xgboost jupyter matplotlib numpy tensorflow-gpu scikit-learn scaredboard
+</span></pre></div>
+
+
+</div>
+<h2>實驗設計</h2>
+<p>這次我打算用知名的 <a href="http://yann.lecun.com/exdb/mnist/">MNIST</a> 手寫辨識資料集來做實驗，不過我將把訓練資料集隨機取樣 500、1000 或 1500 個來訓練分類器，藉此測試他們在資料稀少時的效能。同時為了避免受到取樣偏差的影響，同樣大小的取樣我會各作十次，再將十次的結果取平均值。</p>
+<p>這次測試的分類器則是預設參數的 xgboost、linear svm 和一個順便練習 TensorFlow 實作的 SoftmaxClassifier。</p>
+<h2>主程式</h2>
+<p>首先設定這次實驗所需的參數，我用最簡單的方法，使用 <code>ex.config</code> 來宣告實驗參數。其中亂數種子 <code>seed</code> 因為預設本來就有，就不特別列出了。</p>
+<div class="highlight"><pre><span></span><span class="c1"># mnist.py</span>
+<span class="kn">from</span> <span class="nn">sacred</span> <span class="kn">import</span> <span class="n">Experiment</span>
+<span class="n">ex</span> <span class="o">=</span> <span class="n">Experiment</span><span class="p">(</span><span class="s1">&#39;mnist_sampled&#39;</span><span class="p">)</span>
+
+<span class="nd">@ex.config</span>
+<span class="k">def</span> <span class="nf">my_config</span><span class="p">():</span>
+    <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">500</span>
+    <span class="n">classifier</span> <span class="o">=</span> <span class="s1">&#39;svc&#39;</span>
+</pre></div>
+
+
+<p>緊接著實作實驗程式，每次將資料進行取樣，並且利用特定的分類器去驗證效能。利用 <code>ex.automain</code> 來宣告實驗主程式`。</p>
+<div class="highlight"><pre><span></span><span class="c1"># mnist.py</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">tensorflow.examples.tutorials.mnist</span> <span class="kn">import</span> <span class="n">input_data</span>
+
+<span class="nd">@ex.automain</span>
+<span class="k">def</span> <span class="nf">run_experiments</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="s1">&#39;MNIST_data&#39;</span><span class="p">):</span>
+    <span class="n">mnist</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">read_data_sets</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">one_hot</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">images</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">labels</span>
+
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">sample_data</span><span class="p">(</span><span class="n">mnist</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">images</span><span class="p">,</span> <span class="n">mnist</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">get_classifier</span><span class="p">()</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+    <span class="n">train_accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_pred</span><span class="p">)</span>
+
+    <span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_pred</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;train_accuracy&#39;</span><span class="p">:</span> <span class="n">train_accuracy</span><span class="p">,</span> <span class="s1">&#39;test_accuracy&#39;</span><span class="p">:</span> <span class="n">test_accuracy</span><span class="p">}</span>
+</pre></div>
+
+
+<p>接下來實作取樣和選擇分類器的函式。值得注意的是，實驗參數因為可以被 Sacred 透過 <code>ex.capture</code> 自動傳入，所以呼叫子函數時可以不直接傳進去也沒關係。此外，<code>_rnd</code> 是一個會根據 <code>seed</code> 來決定的亂數器，在每次實驗時，只要 <code>seed</code> 一樣，則同一個函式呼叫被呼叫特定次數時的 <code>_rng</code> 就會產生一樣的亂數，所以可以確保取樣出來的資料是一樣的。詳情可見：<a href="http://sacred.readthedocs.io/en/latest/randomness.html">〈Controlling Randomness〉</a>。</p>
+<div class="highlight"><pre><span></span><span class="c1"># mnist.py</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xgboost</span> <span class="kn">as</span> <span class="nn">xgb</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">LinearSVC</span>
+
+<span class="kn">from</span> <span class="nn">softmax</span> <span class="kn">import</span> <span class="n">SoftmaxClassifier</span>
+
+<span class="nd">@ex.capture</span>
+<span class="k">def</span> <span class="nf">sample_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">_rnd</span><span class="p">):</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">choice_indices</span> <span class="o">=</span> <span class="n">_rnd</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">[</span><span class="n">choice_indices</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y</span><span class="p">[</span><span class="n">choice_indices</span><span class="p">]</span>
+
+
+<span class="nd">@ex.capture</span>
+<span class="k">def</span> <span class="nf">get_classifier</span><span class="p">(</span><span class="n">classifier</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">classifier</span> <span class="o">==</span> <span class="s1">&#39;svc&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">LinearSVC</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">classifier</span> <span class="o">==</span> <span class="s1">&#39;softmax&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">SoftmaxClassifier</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">classifier</span> <span class="o">==</span> <span class="s1">&#39;xgb&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBClassifier</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+</pre></div>
+
+
+<p>SoftmaxClassifier 的程式我放在 <a href="https://github.com/shaform/experiments/blob/master/sacred/softmax.py">softmax.py</a>。 如有興趣可自行參考。</p>
+<h2>執行實驗</h2>
+<p>我寫了一個簡單的 bash script 來幫我執行所有想執行的實驗。當然這種作法會導致 MNIST 被不斷重複讀取，感覺不是很有效率，若想節省機器時間或許可以考慮用 <a href="http://sacred.readthedocs.io/en/latest/experiment.html#run-the-experiment">ex.run</a> 來執行程式。</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="k">for</span> clf in svc xgb softmax <span class="p">;</span>
+<span class="k">do</span>
+  <span class="k">for</span> sample_size in <span class="m">500</span> <span class="m">1000</span> <span class="m">1500</span> <span class="p">;</span>
+  <span class="k">do</span>
+    <span class="k">for</span> seed in <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">10</span> <span class="p">;</span>
+    <span class="k">do</span>
+      python mnist.py with <span class="nv">classifier</span><span class="o">=</span><span class="nv">$clf</span> <span class="nv">sample_size</span><span class="o">=</span><span class="nv">$sample_size</span> <span class="nv">seed</span><span class="o">=</span><span class="nv">$seed</span> -m sacred <span class="o">||</span> <span class="nb">exit</span> 1
+    <span class="k">done</span>
+  <span class="k">done</span>
+<span class="k">done</span>
+</pre></div>
+
+
+<p>使用 Sacred 的程式可以直接用 <code>with</code> 選項來傳入所有實驗參數。至於 <code>-m</code> 則是指定要寫入的 MongoDB 位址。由於我的資料庫直接裝在本機，所以這裡單純指定了資料集的名字。詳情可見：<a href="http://sacred.readthedocs.io/en/latest/command_line.html">〈Command-Line Interface〉</a>。至於 <code>|| exit 1</code> 則是為了讓我如果手動中斷程式時，for loop 可以被中斷而不會繼續跑下去。</p>
+<h2>回收結果</h2>
+<p>一旦執行了以後 Sacred 就會自動將實驗參數、回傳結果以及一些像是執行時間、執行過程的 stdout 等等通通都寫進 MongoDB 當中。我們也可以執行 <code>sacredboard</code> 來觀察執行狀況。不過老實說這功能實在還有點陽春：</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sacredboard -m sacred
+</span></pre></div>
+
+
+</div>
+<p><img alt="SacredBoard" src="http://city.shaform.com/images/sacredboard.png"></p>
+<p>是以，我們還是自己寫個程式來回收吧。還好 MongoDB 裡紀錄了所有實驗參數，因此要回收特定數據也是相當容易的。</p>
+<p>這次我們還是會用 <a href="http://jupyter.readthedocs.io/en/latest/index.html">Jupyter Notebook</a> 方便畫圖。首先連結到本機的 MongoDB：</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<span class="n">mc</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">()</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">mc</span><span class="p">[</span><span class="s1">&#39;sacred&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<p>緊接著把每個分類器在不同情形的十個數據都回收：</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">sample_sizes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">)</span>
+<span class="n">classifiers</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;svc&#39;</span><span class="p">,</span> <span class="s1">&#39;xgb&#39;</span><span class="p">,</span> <span class="s1">&#39;softmax&#39;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">clf</span> <span class="ow">in</span> <span class="n">classifiers</span><span class="p">:</span>
+    <span class="n">clf_mean</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">clf_std</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sample_size</span> <span class="ow">in</span> <span class="n">sample_sizes</span><span class="p">:</span>
+        <span class="n">test_accuracy</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="s1">&#39;runs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;experiment.name&#39;</span><span class="p">:</span> <span class="s1">&#39;mnist_sampled&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;config.classifier&#39;</span><span class="p">:</span> <span class="n">clf</span><span class="p">,</span>
+                                 <span class="s1">&#39;config.sample_size&#39;</span><span class="p">:</span> <span class="n">sample_size</span><span class="p">,</span>
+                                 <span class="s1">&#39;config.seed&#39;</span><span class="p">:</span> <span class="n">seed</span><span class="p">},</span>
+                                <span class="p">{</span><span class="s1">&#39;result&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+            <span class="n">test_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">][</span><span class="s1">&#39;test_accuracy&#39;</span><span class="p">])</span>
+        <span class="n">clf_mean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_accuracy</span><span class="p">))</span>
+        <span class="n">clf_std</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">test_accuracy</span><span class="p">))</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">clf_mean</span><span class="p">,</span> <span class="n">clf_std</span><span class="p">))</span>
+</pre></div>
+
+
+<p>最後則把結果畫出來：</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Test Accuracy of Different Classifiers on MNIST&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;sample size&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;test accuracy&#39;</span><span class="p">)</span>
+
+<span class="n">xticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sample_sizes</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">sample_sizes</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">clf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">classifiers</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">xticks</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">clf</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<p><img src="data:image/png;base64,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&#10;AAAAAElFTkSuQmCC&#10;"></p>
+<p>完成！</p>
+<h2>結語</h2>
+<p>本次的實驗程式放在 <a href="https://github.com/shaform/experiments/tree/master/sacred">shaform/experiments/sacred</a>，最後的 notebook 同時也可以在 <a href="http://nbviewer.jupyter.org/github/shaform/experiments/blob/master/sacred/Sampled%20MNIST.ipynb">Sampled MNIST</a> 上觀看。</p>
+
+
+            <div class="comments">
+                <div id="disqus_thread"></div>
+                    <script type="text/javascript">
+                        var disqus_shortname = 'cityofwings';
+                        var disqus_identifier = 'blog/2017/03/18/run-experiments-with-sacred.html';
+                        var disqus_url = 'http://city.shaform.com/blog/2017/03/18/run-experiments-with-sacred.html';
+                        (function() {
+                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
+                    </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+            </div>
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://city.shaform.com/archives.html">Archives</a></li>
+                            <li><a href="http://city.shaform.com/tags.html">Tags</a></li>
+                            <li><a href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://github.com/shaform" target="_blank">GitHub</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://shaform.wordpress.com" target="_blank">一座島</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; shaform 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
