@@ -23,7 +23,7 @@
 &lt;p&gt;由於每天實在過得很忙亂，只好苟且的一天過一天。好不容易有個週末無車無人的時刻，趕緊稍微做點小實驗來測試怎麼樣的作法較好。&lt;/p&gt;
 &lt;p&gt;這次要介紹的 &lt;a href="https://github.com/IDSIA/sacred"&gt;Sacred&lt;/a&gt; 其實最早是去年讀到 &lt;a href="https://gab41.lab41.org/show-your-work-a-month-with-sacred-e665af4eeac2"&gt;〈Show Your Work: A Month with Sacred〉&lt;/a&gt; 這篇文章時所發現的。它是從遠在瑞士的 &lt;a href="http://www.idsia.ch/"&gt;Istituto Dalle Molle di Studi sull'Intelligenza Artificiale (IDSIA)&lt;/a&gt; 發展出來的一套工具，據說就是企圖解決做實驗難題的一個嘗試。&lt;/p&gt;
 &lt;h2&gt;環境設定&lt;/h2&gt;
-&lt;p&gt;為了使用 Scared，首先我裝了一套 &lt;a href="https://www.mongodb.com/"&gt;MongoDB&lt;/a&gt;，為了方便起見我就參考&lt;a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/"&gt;教學&lt;/a&gt;直接裝在本機上。接著用 pip3 安裝 Scared 相關套件，因為不知為何不指定版本會裝到舊的，所以這裡我就指定了 Scared 的版本：&lt;/p&gt;
+&lt;p&gt;為了使用 Sacred，首先我裝了一套 &lt;a href="https://www.mongodb.com/"&gt;MongoDB&lt;/a&gt;，為了方便起見我就參考&lt;a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/"&gt;教學&lt;/a&gt;直接裝在本機上。接著用 pip3 安裝 Sacred 相關套件，因為不知為何不指定版本會裝到舊的，所以這裡我就指定了 Sacred 的版本：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install &lt;span class="nv"&gt;sacred&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;0.7b3 pymongo
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
