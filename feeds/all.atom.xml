@@ -1,5 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2017-03-18T15:33:00+08:00</updated><entry><title>用 Sacred 追蹤實驗數據</title><link href="http://city.shaform.com/blog/2017/03/18/run-experiments-with-sacred.html" rel="alternate"></link><published>2017-03-18T15:33:00+08:00</published><updated>2017-03-18T15:33:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-03-18:/blog/2017/03/18/run-experiments-with-sacred.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2017-03-25T09:09:00+08:00</updated><entry><title>用 Ansible 和 yadm 來加速重灌流程</title><link href="http://city.shaform.com/blog/2017/03/25/ansible-and-yadm.html" rel="alternate"></link><published>2017-03-25T09:09:00+08:00</published><updated>2017-03-25T09:09:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-03-25:/blog/2017/03/25/ansible-and-yadm.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
+&lt;p&gt;還記得&lt;a href="https://shaform.wordpress.com/2013/01/01/computer-system-administration/"&gt;當年修計算機系統管理&lt;/a&gt;時曾經為了做 NFS + NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形，但還是得常常重灌電腦。像是研究所期間，自己的桌機、筆電，以及實驗室的桌機都是自己裝的 Ubuntu，而每次升級病發就會想重灌成新的版本，久了以後慢慢把安裝的東西寫成 Bash scripts，可是還是相當繁瑣。&lt;/p&gt;
+&lt;p&gt;就在最近的時候，偷聽大大們聊天，得知了 &lt;a href="https://www.ansible.com/"&gt;Ansible&lt;/a&gt; 這個方便的自動化部屬工具。由於它使用時目的端完全不須安裝任何套件，而是從本地端完全使用 SSH 進去目的端安裝設定軟體，感覺也挺適合個人重灌的需求。於是就花了一點時間研究了一下。在此同時，也得知了 &lt;a href="https://github.com/TheLocehiliosan/yadm"&gt;yadm&lt;/a&gt; 這個 &lt;a href="https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789"&gt;dotfiles&lt;/a&gt; 管理套件，也花了一點時間把原本用 Makefile 來安裝的 dotfiles 改成用 yadm 管理了。&lt;/p&gt;
+&lt;h2&gt;Ansible 設定&lt;/h2&gt;
+&lt;p&gt;實際上 Ansible 的功用是用來自動化部署而不是拿來重灌個人電腦的，所以尋找文件時常常看到許多複雜功能 …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;前言&lt;/h2&gt;
+&lt;p&gt;還記得&lt;a href="https://shaform.wordpress.com/2013/01/01/computer-system-administration/"&gt;當年修計算機系統管理&lt;/a&gt;時曾經為了做 NFS + NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形，但還是得常常重灌電腦。像是研究所期間，自己的桌機、筆電，以及實驗室的桌機都是自己裝的 Ubuntu，而每次升級病發就會想重灌成新的版本，久了以後慢慢把安裝的東西寫成 Bash scripts，可是還是相當繁瑣。&lt;/p&gt;
+&lt;p&gt;就在最近的時候，偷聽大大們聊天，得知了 &lt;a href="https://www.ansible.com/"&gt;Ansible&lt;/a&gt; 這個方便的自動化部屬工具。由於它使用時目的端完全不須安裝任何套件，而是從本地端完全使用 SSH 進去目的端安裝設定軟體，感覺也挺適合個人重灌的需求。於是就花了一點時間研究了一下。在此同時，也得知了 &lt;a href="https://github.com/TheLocehiliosan/yadm"&gt;yadm&lt;/a&gt; 這個 &lt;a href="https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789"&gt;dotfiles&lt;/a&gt; 管理套件，也花了一點時間把原本用 Makefile 來安裝的 dotfiles 改成用 yadm 管理了。&lt;/p&gt;
+&lt;h2&gt;Ansible 設定&lt;/h2&gt;
+&lt;p&gt;實際上 Ansible 的功用是用來自動化部署而不是拿來重灌個人電腦的，所以尋找文件時常常看到許多複雜功能。這份文件只挑些用在重灌上有用的部份。&lt;/p&gt;
+&lt;p&gt;安裝 Ansible 的方法非常簡單，只要使用 &lt;code&gt;pip install ansible&lt;/code&gt; 或者是 &lt;code&gt;sudo apt install ansible&lt;/code&gt; 即可。&lt;/p&gt;
+&lt;p&gt;然後我建立一個資料夾放置設定檔，組織成如下所示：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;.
+├── ansible.cfg
+├── hosts
+├── anaconda.yml
+├── desktop.yml
+└── roles
+    ├── anaconda
+    │   └── tasks
+    │       └── main.yml
+    ├── base
+    │   └── tasks
+    │       └── main.yml
+    └── desktop
+        └── tasks
+            └── main.yml
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;首先在 &lt;code&gt;ansible.cfg&lt;/code&gt; 裡指定用來設定有哪些機器的 hostfile 的位置：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[defaults]&lt;/span&gt;
+&lt;span class="na"&gt;hostfile&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;hosts&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然後在 &lt;code&gt;hosts&lt;/code&gt; 裡設定機器位址，例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[host1]&lt;/span&gt;
+&lt;span class="err"&gt;192.168.1.2&lt;/span&gt;
+
+&lt;span class="k"&gt;[host2]&lt;/span&gt;
+&lt;span class="na"&gt;192.168.1.3 ansible_ssh_user&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;bob ansible_ssh_private_key_file=~/.ssh/bob.pem&lt;/span&gt;
+
+&lt;span class="k"&gt;[servers]&lt;/span&gt;
+&lt;span class="err"&gt;192.168.1.4&lt;/span&gt;
+&lt;span class="err"&gt;192.168.1.5&lt;/span&gt;
+&lt;span class="err"&gt;192.168.1.6&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;每個 group 可以設定多個機器，也可以指定使用者名稱和登入方法等等，見：&lt;a href="http://docs.ansible.com/ansible/intro_inventory.html"&gt;〈Inventory〉&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;deploy&lt;/code&gt; 則是一個簡單的 Bash script，用來方便執行。使用方法為：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./deploy HOST YML
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;利用 &lt;code&gt;HOST&lt;/code&gt; 指定要設定的機器名稱，例如之前設定的 &lt;code&gt;host1&lt;/code&gt; 或者 &lt;code&gt;localhost&lt;/code&gt;，&lt;code&gt;YML&lt;/code&gt; 則是要執行的 playbook 設定檔，例如最上層的 &lt;code&gt;anaconda.yml&lt;/code&gt; 或者 &lt;code&gt;desktop.yml&lt;/code&gt;。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nv"&gt;HOST&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;1&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;localhost&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="nv"&gt;YML&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;desktop&lt;/span&gt;&lt;span class="p"&gt;.yml&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;hosts=&lt;/span&gt;&lt;span class="nv"&gt;$HOST&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;$YML&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;desktop.yml&lt;/code&gt; 和 &lt;code&gt;anaconda.yml&lt;/code&gt; 則是簡單的 &lt;a href="http://docs.ansible.com/ansible/playbooks.html"&gt;Playbooks&lt;/a&gt;，用來指定要執行哪些 tasks。例如我在 &lt;code&gt;desktop.yml&lt;/code&gt; 寫要用 root 權限執行 &lt;code&gt;base&lt;/code&gt; 和 &lt;code&gt;desktop&lt;/code&gt; 兩個 roles：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;---&lt;/span&gt;
+
+&lt;span class="x"&gt;- hosts: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;hosts&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;  become: true&lt;/span&gt;
+&lt;span class="x"&gt;  become_user: root&lt;/span&gt;
+&lt;span class="x"&gt;  roles:&lt;/span&gt;
+&lt;span class="x"&gt;    - base&lt;/span&gt;
+&lt;span class="x"&gt;    - desktop&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;anaconda.yml&lt;/code&gt; 則寫要用正常使用者權限執行 &lt;code&gt;anaconda&lt;/code&gt; 這個 role：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;---&lt;/span&gt;
+
+&lt;span class="x"&gt;- hosts: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;hosts&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;  roles:&lt;/span&gt;
+&lt;span class="x"&gt;    - anaconda&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Roles&lt;/h2&gt;
+&lt;p&gt;最後的 &lt;code&gt;roles&lt;/code&gt; 資料夾底下把相關的設定項目放在一起，這樣分開設定的好處是，可以根據不同機器的需求指定要執行哪些 roles，此外，也可以用 &lt;code&gt;git submodule&lt;/code&gt; 之類的方法直接利用別人寫好的 roles。&lt;/p&gt;
+&lt;p&gt;先從 &lt;code&gt;base.yml&lt;/code&gt; 開始，這個檔案裡我設置了一些基本的系統設定：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;---&lt;/span&gt;
+
+&lt;span class="x"&gt;# 建立 sudoers.d 資料夾，以放置設定檔&lt;/span&gt;
+&lt;span class="x"&gt;- name: mkdir for configure files&lt;/span&gt;
+&lt;span class="x"&gt;  file:&lt;/span&gt;
+&lt;span class="x"&gt;    dest: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.dest&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    owner: root&lt;/span&gt;
+&lt;span class="x"&gt;    group: root&lt;/span&gt;
+&lt;span class="x"&gt;    mode: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.mode&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nf"&gt;default&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;0755&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    state: directory&lt;/span&gt;
+
+&lt;span class="x"&gt;  with_items:&lt;/span&gt;
+&lt;span class="x"&gt;    - dest: /etc/sudoers.d&lt;/span&gt;
+
+&lt;span class="x"&gt;# 因為我自己的使用者 umask 設的比較嚴格，避免 sudo 受影響所以加上這個把 sudo 的 umask 轉回來&lt;/span&gt;
+&lt;span class="x"&gt;- name: set sudo umask&lt;/span&gt;
+&lt;span class="x"&gt;  copy:&lt;/span&gt;
+&lt;span class="x"&gt;    dest: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.dest&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    owner: root&lt;/span&gt;
+&lt;span class="x"&gt;    group: root&lt;/span&gt;
+&lt;span class="x"&gt;    mode: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.mode&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nf"&gt;default&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;0644&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    content: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.content&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+
+&lt;span class="x"&gt;  with_items:&lt;/span&gt;
+&lt;span class="x"&gt;    - dest: /etc/sudoers.d/umask&lt;/span&gt;
+&lt;span class="x"&gt;      mode: &amp;#39;0400&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;      content: |&lt;/span&gt;
+&lt;span class="x"&gt;        # This file is managed by Ansible. DO NOT EDIT.&lt;/span&gt;
+
+&lt;span class="x"&gt;        Defaults umask_override&lt;/span&gt;
+&lt;span class="x"&gt;        Defaults umask = 0002&lt;/span&gt;
+
+&lt;span class="x"&gt;# 更新系統&lt;/span&gt;
+&lt;span class="x"&gt;- name: upgrade packages&lt;/span&gt;
+&lt;span class="x"&gt;  apt:&lt;/span&gt;
+&lt;span class="x"&gt;    upgrade: dist&lt;/span&gt;
+&lt;span class="x"&gt;    update_cache: yes&lt;/span&gt;
+
+&lt;span class="x"&gt;# 安裝常用套件&lt;/span&gt;
+&lt;span class="x"&gt;- name: install core packages&lt;/span&gt;
+&lt;span class="x"&gt;  apt:&lt;/span&gt;
+&lt;span class="x"&gt;    name: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.name&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    state: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.state&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nf"&gt;default&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;present&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    purge: yes&lt;/span&gt;
+
+&lt;span class="x"&gt;  with_items:&lt;/span&gt;
+&lt;span class="x"&gt;    - name: git-core&lt;/span&gt;
+&lt;span class="x"&gt;    - name: gufw&lt;/span&gt;
+&lt;span class="x"&gt;    - name: htop&lt;/span&gt;
+&lt;span class="x"&gt;    - name: p7zip-full&lt;/span&gt;
+&lt;span class="x"&gt;    - name: p7zip-rar&lt;/span&gt;
+&lt;span class="x"&gt;    - name: screen&lt;/span&gt;
+&lt;span class="x"&gt;    - name: tmux&lt;/span&gt;
+&lt;span class="x"&gt;    - name: yadm&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;desktop.yml&lt;/code&gt; 則用來放個人桌機常用的設定：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;---&lt;/span&gt;
+
+&lt;span class="x"&gt;# 建立資料夾來放之後的設定檔&lt;/span&gt;
+&lt;span class="x"&gt;- name: mkdir for configure files&lt;/span&gt;
+&lt;span class="x"&gt;  file:&lt;/span&gt;
+&lt;span class="x"&gt;    dest: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.dest&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    owner: root&lt;/span&gt;
+&lt;span class="x"&gt;    group: root&lt;/span&gt;
+&lt;span class="x"&gt;    mode: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.mode&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nf"&gt;default&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;0755&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    state: directory&lt;/span&gt;
+
+&lt;span class="x"&gt;  with_items:&lt;/span&gt;
+&lt;span class="x"&gt;    - dest: /usr/share/lightdm/lightdm.conf.d&lt;/span&gt;
+
+&lt;span class="x"&gt;# 取消訪客登入&lt;/span&gt;
+&lt;span class="x"&gt;- name: disable guest login&lt;/span&gt;
+&lt;span class="x"&gt;  copy:&lt;/span&gt;
+&lt;span class="x"&gt;    dest: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.dest&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    owner: root&lt;/span&gt;
+&lt;span class="x"&gt;    group: root&lt;/span&gt;
+&lt;span class="x"&gt;    mode: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.mode&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nf"&gt;default&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;0644&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    content: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.content&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+
+&lt;span class="x"&gt;  with_items:&lt;/span&gt;
+&lt;span class="x"&gt;    - dest: /usr/share/lightdm/lightdm.conf.d/50-no-guest.conf&lt;/span&gt;
+&lt;span class="x"&gt;      mode: &amp;#39;0400&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;      content: |&lt;/span&gt;
+&lt;span class="x"&gt;        # This file is managed by Ansible. DO NOT EDIT.&lt;/span&gt;
+
+&lt;span class="x"&gt;        [SeatDefaults]&lt;/span&gt;
+&lt;span class="x"&gt;        allow-guest=false&lt;/span&gt;
+
+&lt;span class="x"&gt;# 安裝一些我常用的軟體&lt;/span&gt;
+&lt;span class="x"&gt;- name: install desktop apps&lt;/span&gt;
+&lt;span class="x"&gt;  apt:&lt;/span&gt;
+&lt;span class="x"&gt;    name: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.name&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    state: &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item.state&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nf"&gt;default&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;present&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    purge: yes&lt;/span&gt;
+&lt;span class="x"&gt;    update_cache: yes&lt;/span&gt;
+
+&lt;span class="x"&gt;  with_items:&lt;/span&gt;
+&lt;span class="x"&gt;    - name: ibus-chewing&lt;/span&gt;
+&lt;span class="x"&gt;    - name: keepassx&lt;/span&gt;
+&lt;span class="x"&gt;    - name: libappindicator1 # For Dropbox&lt;/span&gt;
+&lt;span class="x"&gt;    - name: python-gpgme # For Dropbox&lt;/span&gt;
+&lt;span class="x"&gt;    - name: nautilus-dropbox&lt;/span&gt;
+&lt;span class="x"&gt;    - name: workrave&lt;/span&gt;
+
+&lt;span class="x"&gt;# 安裝 Google Chrome&lt;/span&gt;
+&lt;span class="x"&gt;- name: install Google Chrome&lt;/span&gt;
+&lt;span class="x"&gt;  apt:&lt;/span&gt;
+&lt;span class="x"&gt;    deb: &amp;#39;https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb&amp;#39;&lt;/span&gt;
+&lt;span class="x"&gt;    update_cache: yes&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最後則是安裝 Anaconda 的部份，我會先安裝 Anaconda 2：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;---
+
+- name: download Anaconda
+  get_url:
+    url: &amp;#39;https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh&amp;#39;
+    dest: /tmp/Anaconda2-4.3.1-Linux-x86_64.sh
+    mode: &amp;#39;0755&amp;#39;
+
+- name: install Anaconda
+  command: bash /tmp/Anaconda2-4.3.1-Linux-x86_64.sh -b -p {{ ansible_env.HOME }}/anaconda2
+  args:
+    creates: &amp;#39;{{ ansible_env.HOME}}/anaconda2&amp;#39;
+
+- name: add Anaconda to PATH
+  lineinfile:
+    name: &amp;#39;{{ ansible_env.HOME }}/.bashrc&amp;#39;
+    line: &amp;#39;export PATH=&lt;span class="nv"&gt;$HOME&lt;/span&gt;/anaconda2/bin:&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;PATH&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;#39;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然後再進到目的機器額外安裝 Python 3 的環境：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;conda create -n py3 &lt;span class="nv"&gt;python&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;3.6 anaconda
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;不過還不確定以上這件事怎麼寫成 Ansible playbook 比較好。&lt;/p&gt;
+&lt;h2&gt;實際執行&lt;/h2&gt;
+&lt;p&gt;假設新安裝的電腦是 &lt;code&gt;host1&lt;/code&gt; 的話，那我就執行以下指令來安裝設定：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./deploy host1 desktop.yml
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;當然也可以直接登入該電腦，然後把 &lt;code&gt;host1&lt;/code&gt; 改成 &lt;code&gt;localhost&lt;/code&gt; 直接在本地執行。&lt;/p&gt;
+&lt;h2&gt;yadm&lt;/h2&gt;
+&lt;p&gt;至於 yadm 使用起來就&lt;a href="https://thelocehiliosan.github.io/yadm/docs/getting_started"&gt;非常簡單&lt;/a&gt;了。基本上就是一個可以把家目錄直接當成 git repository 的簡單套件。首先安裝：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo apt install yadm
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;然後剛開始可以直接：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;yadm init
+&lt;/span&gt;&lt;span class="hll"&gt;yadm add ~/.vimrc
+&lt;/span&gt;&lt;span class="hll"&gt;yadm add ~/.tmux.conf
+&lt;/span&gt;&lt;span class="c1"&gt;# ...&lt;/span&gt;
+&lt;span class="hll"&gt;yadm commit -m &lt;span class="s1"&gt;&amp;#39;first commit!&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;如果要同步已經有的 repository 則是：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;yadm clone &amp;lt;url&amp;gt;
+&lt;/span&gt;&lt;span class="c1"&gt;# ...&lt;/span&gt;
+&lt;span class="hll"&gt;yadm pull
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;跟正常的 git 一模一樣。&lt;/p&gt;
+&lt;p&gt;其他比較有用的功能大概是 &lt;a href="https://thelocehiliosan.github.io/yadm/docs/bootstrap"&gt;Boostrap&lt;/a&gt;，可以取代我原本用 Makefile 手動打指令的部份。&lt;/p&gt;</content><category term="ansible"></category><category term="yadm"></category></entry><entry><title>用 Sacred 追蹤實驗數據</title><link href="http://city.shaform.com/blog/2017/03/18/run-experiments-with-sacred.html" rel="alternate"></link><published>2017-03-18T15:33:00+08:00</published><updated>2017-03-18T15:33:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-03-18:/blog/2017/03/18/run-experiments-with-sacred.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
 &lt;p&gt;前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。&lt;/p&gt;
 &lt;p&gt;以執行而言，由於處理的檔案龐大、計算時間冗長、使用機器繁多，如何最有效率的把實驗跑完，同時又盡可能避免重複計算浪費時間，就成了難題。尤其考慮有時會因為不可抗力因素導致部份實驗中斷，此時要如何從一半的結果繼續執行，同時又最節省時間也是值得思考的點。&lt;/p&gt;
 &lt;p&gt;管理實驗數據部份，也因為使用機器增多及實驗繁多而複雜了起來。看到有種作法是利用 bash script 或者 Makefile 紀錄參數，然後將不同參數輸出的 stdout 導進指定的檔案名字裡來產生不同條件的實驗數據。不過這樣做很容易就會不小心改了參數卻把輸出導進錯誤的地方，導致最後數據錯誤。同時如果有很多台機器，資料又存在本機，那就得進行不少手動處理而無法全自動重現實驗結果。&lt;/p&gt;
