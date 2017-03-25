@@ -269,7 +269,17 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 
 &lt;/div&gt;
 &lt;p&gt;跟正常的 git 一模一樣。&lt;/p&gt;
-&lt;p&gt;其他比較有用的功能大概是 &lt;a href="https://thelocehiliosan.github.io/yadm/docs/bootstrap"&gt;Boostrap&lt;/a&gt;，可以取代我原本用 Makefile 手動打指令的部份。&lt;/p&gt;</content><category term="ansible"></category><category term="yadm"></category></entry><entry><title>用 Sacred 追蹤實驗數據</title><link href="http://city.shaform.com/blog/2017/03/18/run-experiments-with-sacred.html" rel="alternate"></link><published>2017-03-18T15:33:00+08:00</published><updated>2017-03-18T15:33:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-03-18:/blog/2017/03/18/run-experiments-with-sacred.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
+&lt;p&gt;其他比較有用的功能大概是 &lt;a href="https://thelocehiliosan.github.io/yadm/docs/bootstrap"&gt;Boostrap&lt;/a&gt;，可以取代我原本用 Makefile 手動打指令的部份。&lt;/p&gt;
+&lt;h2&gt;結語&lt;/h2&gt;
+&lt;p&gt;本次設定檔放在 &lt;a href="https://github.com/shaform/experiments/tree/master/ansible"&gt;shaform/experiments/ansible&lt;/a&gt;。其他還可以參考：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://docs.ansible.com/"&gt;Ansible Documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://medium.com/@chihsuan/ansible-%E8%87%AA%E5%8B%95%E5%8C%96%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7-b2e8b8534a8d#.6m6yfov5s"&gt;Ansible 自動化部署工具&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://ithelp.ithome.com.tw/users/20031776/ironman/1022"&gt;現代 IT 人一定要知道的 Ansible 自動化組態技巧&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://thelocehiliosan.github.io/yadm/"&gt;Yet Another Dotfiles Manager&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/webpro/awesome-dotfiles"&gt;Awesome dotfiles&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://git-scm.com/book/en/v2"&gt;Git - Book&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="ansible"></category><category term="yadm"></category></entry><entry><title>用 Sacred 追蹤實驗數據</title><link href="http://city.shaform.com/blog/2017/03/18/run-experiments-with-sacred.html" rel="alternate"></link><published>2017-03-18T15:33:00+08:00</published><updated>2017-03-18T15:33:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-03-18:/blog/2017/03/18/run-experiments-with-sacred.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
 &lt;p&gt;前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。&lt;/p&gt;
 &lt;p&gt;以執行而言，由於處理的檔案龐大、計算時間冗長、使用機器繁多，如何最有效率的把實驗跑完，同時又盡可能避免重複計算浪費時間，就成了難題。尤其考慮有時會因為不可抗力因素導致部份實驗中斷，此時要如何從一半的結果繼續執行，同時又最節省時間也是值得思考的點。&lt;/p&gt;
 &lt;p&gt;管理實驗數據部份，也因為使用機器增多及實驗繁多而複雜了起來。看到有種作法是利用 bash script 或者 Makefile 紀錄參數，然後將不同參數輸出的 stdout 導進指定的檔案名字裡來產生不同條件的實驗數據。不過這樣做很容易就會不小心改了參數卻把輸出導進錯誤的地方，導致最後數據錯誤。同時如果有很多台機器，資料又存在本機，那就得進行不少手動處理而無法全自動重現實驗結果。&lt;/p&gt;
