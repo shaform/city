@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安裝 CUDA 接著到 CUDA 下載頁面下載對應的 deb 檔案。緊接著，重開 Ubuntu，並在登入畫面時按下 Ctrl-Alt-F1 進入命令列界面。 執行以下指令關閉 ...">
+        <meta name="description" content="本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安裝 CUDA 接著到 CUDA 下載頁面下載對應的 deb 檔案。緊接著，重開 Ubuntu，並在登入畫面時按下 Ctrl-Alt-F1 進入命令列界面。 執行以下指令關閉...">
         <meta name="keywords" content="Caffe, CUDA, TensorFlow, Ubuntu">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -153,11 +153,11 @@
 </div>
 <p>接著修改 <code>Makefile.config</code>：</p>
 <div class="highlight"><pre><span></span><span class="nv">BLAS</span> <span class="o">:=</span> open
-<span class="nv">USE_CUDNN</span> <span class="o">:=</span> 1
+<span class="nv">USE_CUDNN</span> <span class="o">:=</span> <span class="m">1</span>
 
 <span class="nv">INCLUDE_DIRS</span> <span class="o">:=</span> <span class="k">$(</span>PYTHON_INCLUDE<span class="k">)</span> /usr/local/include /usr/include/hdf5/serial/
 <span class="nv">LIBRARY_DIRS</span> <span class="o">:=</span> <span class="k">$(</span>PYTHON_LIB<span class="k">)</span> /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu
-<span class="nv">WITH_PYTHON_LAYER</span> <span class="o">:=</span> 1
+<span class="nv">WITH_PYTHON_LAYER</span> <span class="o">:=</span> <span class="m">1</span>
 </pre></div>
 
 
