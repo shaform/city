@@ -339,7 +339,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">persist_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Upload file to S3 storage&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Upload file to B2 storage&quot;&quot;&quot;</span>
         <span class="n">key_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
         <span class="n">buf</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
