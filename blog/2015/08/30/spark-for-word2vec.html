@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="先前曾提過 word2vec 可以把語料中的詞轉換成詞向量。 雖然原本提供的 word2vec 工具速度已經很快， 但是如果要訓練更大規模的語料還是需要不少時間。 例如之前在處理 ClueWeb09 時，以實驗室的機器來說，就算只處理中文部份， 也要一個月以上才能跑完。 此時除了購買更強大的機器外，如果已經有不少機器， 或許可以利用平行運算的方式來加速。 最近剛好接觸到了 Apache...">
+        <meta name="description" content="先前曾提過 word2vec 可以把語料中的詞轉換成詞向量。 雖然原本提供的 word2vec 工具速度已經很快， 但是如果要訓練更大規模的語料還是需要不少時間。 例如之前在處理 ClueWeb09 時，以實驗室的機器來說，就算只處理中文部份， 也要一個月以上才能跑完。 此時除了購買更強大的機器外，如果已經有不少機器， 或許可以利用平行運算的方式來加速。 最近剛好接觸到了 Apache ...">
         <meta name="keywords" content="Scala, Spark, word embeddings, word2vec">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -237,10 +237,10 @@ d: org.apache.spark.sql.DataFrame <span class="o">=</span> <span class="o">[</sp
 
 <span class="c1"># 檢查格式</span>
 scala&gt; d.first
-res2: org.apache.spark.sql.Row <span class="o">=</span> <span class="o">[</span>latifolia,ArrayBuffer<span class="o">(</span>-0.08103186, <span class="m">0</span>.14688604, -0.060668133, -0.25648367, -0.06855837, -0...
+res2: org.apache.spark.sql.Row <span class="o">=</span> <span class="o">[</span>latifolia,ArrayBuffer<span class="o">(</span>-0.08103186, 0.14688604, -0.060668133, -0.25648367, -0.06855837, -0...
 
 <span class="c1"># 輸出到 output directory/vectors/</span>
-scala&gt; d.map<span class="o">{</span><span class="nv">r</span> <span class="o">=</span>&gt; r.getString<span class="o">(</span><span class="m">0</span><span class="o">)</span> + <span class="s2">&quot; &quot;</span> + r.getSeq<span class="o">(</span><span class="m">1</span><span class="o">)</span>.mkString<span class="o">(</span><span class="s2">&quot; &quot;</span><span class="o">)}</span>.saveAsTextFile<span class="o">(</span><span class="s2">&quot;{output directory}/vectors&quot;</span><span class="o">)</span>
+scala&gt; d.map<span class="o">{</span><span class="nv">r</span> <span class="o">=</span>&gt; r.getString<span class="o">(</span>0<span class="o">)</span> + <span class="s2">&quot; &quot;</span> + r.getSeq<span class="o">(</span>1<span class="o">)</span>.mkString<span class="o">(</span><span class="s2">&quot; &quot;</span><span class="o">)}</span>.saveAsTextFile<span class="o">(</span><span class="s2">&quot;{output directory}/vectors&quot;</span><span class="o">)</span>
 </pre></div>
 
 

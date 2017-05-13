@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Scrapy 1.1 with Python 3 Support 很久很久以前，曾經想要學學網路爬蟲，爬一些 PTT 的資料來看看能幹嘛。當時找到了 Scrapy 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 Python 3，於是就暫且放下學習的念頭，想說先等等看。 如今，Scrapy 1.1 釋出，除了一些功能的更新外，他也終於要支援基本的 Python 3 了！於是抱持著推廣...">
+        <meta name="description" content="Scrapy 1.1 with Python 3 Support 很久很久以前，曾經想要學學網路爬蟲，爬一些 PTT 的資料來看看能幹嘛。當時找到了 Scrapy 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 Python 3，於是就暫且放下學習的念頭，想說先等等看。 如今，Scrapy 1.1 釋出，除了一些功能的更新外，他也終於要支援基本的 Python 3 了！於是抱持著推廣 ...">
         <meta name="keywords" content="PTT, Python 3, Scrapy">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -103,6 +103,7 @@
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll">pyvenv-3.5 my_env
 </span><span class="hll"><span class="nb">source</span> my_env/bin/activate
+</span><span class="hll">pip install -U pip
 </span></pre></div>
 
 
@@ -110,7 +111,7 @@
 <p>緊接著，安裝所有這次會用到的套件：</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="c1"># 不知為何在工作站上要用 `python /sbin/pip3.5` 來取代下述的 `pip` 才能跑</span>
-<span class="hll">pip install <span class="nv">Scrapy</span><span class="o">==</span><span class="m">1</span>.1.0 numpy notebook scipy scikit-learn seaborn jieba
+<span class="hll">pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0 numpy notebook scipy scikit-learn seaborn jieba
 </span></pre></div>
 
 

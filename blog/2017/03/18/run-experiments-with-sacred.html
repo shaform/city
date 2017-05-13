@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="前言 前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。 以執行而言，由於處理的檔案龐大、計算時間冗長、使用機器繁多，如何最有效率的把實驗跑完，同時又盡可能避免重複計算浪費時間，就成了難題。尤其考慮有時會因為不可抗力因素導致部份實驗中斷，此時要如何從一半的結果繼續執行，同時又最節省時間也是值得思考的點。...">
+        <meta name="description" content="前言 前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。 以執行而言，由於處理的檔案龐大、計算時間冗長、使用機器繁多，如何最有效率的把實驗跑完，同時又盡可能避免重複計算浪費時間，就成了難題。尤其考慮有時會因為不可抗力因素導致部份實驗中斷，此時要如何從一半的結果繼續執行，同時又最節省時間也是值得思考的點。 ...">
         <meta name="keywords" content="jupyter, python, Sacred">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -104,7 +104,7 @@
 <h2>環境設定</h2>
 <p>為了使用 Sacred，首先我裝了一套 <a href="https://www.mongodb.com/">MongoDB</a>，為了方便起見我就參考<a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">教學</a>直接裝在本機上。接著用 pip3 安裝 Sacred 相關套件，因為不知為何不指定版本會裝到舊的，所以這裡我就指定了 Sacred 的版本：</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">pip3 install <span class="nv">sacred</span><span class="o">==</span><span class="m">0</span>.7b3 pymongo
+<div class="highlight"><pre><span></span><span class="hll">pip3 install <span class="nv">sacred</span><span class="o">==</span>0.7b3 pymongo
 </span></pre></div>
 
 
@@ -197,7 +197,7 @@
   <span class="k">do</span>
     <span class="k">for</span> seed in <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">10</span> <span class="p">;</span>
     <span class="k">do</span>
-      python mnist.py with <span class="nv">classifier</span><span class="o">=</span><span class="nv">$clf</span> <span class="nv">sample_size</span><span class="o">=</span><span class="nv">$sample_size</span> <span class="nv">seed</span><span class="o">=</span><span class="nv">$seed</span> -m sacred <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span>
+      python mnist.py with <span class="nv">classifier</span><span class="o">=</span><span class="nv">$clf</span> <span class="nv">sample_size</span><span class="o">=</span><span class="nv">$sample_size</span> <span class="nv">seed</span><span class="o">=</span><span class="nv">$seed</span> -m sacred <span class="o">||</span> <span class="nb">exit</span> 1
     <span class="k">done</span>
   <span class="k">done</span>
 <span class="k">done</span>

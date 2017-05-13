@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不過改運用在中文上，並且用簡單的...">
+        <meta name="description" content="最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不過改運用在中文上，並且用簡單的 ...">
         <meta name="keywords" content="Chinese, liblinear, python, rnnlm, sentiment analysis, tf-idf, word2vec">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -156,7 +156,7 @@ Machine。</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll"><span class="nb">cd</span> word2vec
 </span><span class="hll">cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt <span class="p">|</span> nl -v0 -s<span class="s1">&#39; &#39;</span> -w1 <span class="p">|</span> sed <span class="s1">&#39;s/^/@@SS-/&#39;</span> <span class="p">|</span> shuf &gt; all.txt
-</span><span class="hll"><span class="nb">time</span> ./word2vec -train all.txt -output vectors.txt -cbow <span class="m">0</span> -size <span class="m">400</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">1</span> -sample 1e-3 -threads <span class="m">24</span> -binary <span class="m">0</span> -iter <span class="m">20</span> -min-count <span class="m">1</span> -sentence-vectors <span class="m">1</span>
+</span><span class="hll"><span class="nb">time</span> ./word2vec -train all.txt -output vectors.txt -cbow <span class="m">0</span> -size <span class="m">400</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">1</span> -sample 1e-3 -threads <span class="m">24</span> -binary <span class="m">0</span> -iter <span class="m">20</span> -min-count <span class="m">1</span> -sentence-vectors 1
 </span><span class="hll">grep <span class="s1">&#39;@@SS-&#39;</span> vectors.txt <span class="p">|</span> sed -e <span class="s1">&#39;s/^@@SS-//&#39;</span> <span class="p">|</span> sort -n &gt; sentence_vectors.txt
 </span></pre></div>
 

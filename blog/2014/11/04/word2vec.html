@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。 不過 word2vec...">
+        <meta name="description" content="最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。 不過 word2vec ...">
         <meta name="keywords" content="Chinese, jieba, python, word2vec">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -127,7 +127,7 @@
 <h2>使用 word2vec 訓練詞向量</h2>
 <p>接著我就用工作站把詞全部丟給 word2vec 訓練：</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">./word2vec -train sentences.segged.txt -output vectors.bin -cbow <span class="m">0</span> -size <span class="m">200</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">0</span> -sample 1e-4 -threads <span class="m">24</span> -binary <span class="m">1</span> -iter <span class="m">20</span> -min-count <span class="m">1</span>
+<div class="highlight"><pre><span></span><span class="hll">./word2vec -train sentences.segged.txt -output vectors.bin -cbow <span class="m">0</span> -size <span class="m">200</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">0</span> -sample 1e-4 -threads <span class="m">24</span> -binary <span class="m">1</span> -iter <span class="m">20</span> -min-count 1
 </span></pre></div>
 
 

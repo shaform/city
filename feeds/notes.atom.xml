@@ -1,5 +1,418 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings - Notes</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2017-04-04T15:37:00+08:00</updated><entry><title>生成對抗網路 - Generative Adversarial Networks</title><link href="http://city.shaform.com/blog/2017/04/04/generative-adversarial-networks.html" rel="alternate"></link><published>2017-04-04T15:37:00+08:00</published><updated>2017-04-04T15:37:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-04-04:/blog/2017/04/04/generative-adversarial-networks.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings - Notes</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/notes.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2017-05-13T16:10:00+08:00</updated><entry><title>Scrapy Cloud + Scrapy 網路爬蟲</title><link href="http://city.shaform.com/blog/2017/05/13/scrapy-cloud.html" rel="alternate"></link><published>2017-05-13T16:10:00+08:00</published><updated>2017-05-13T16:10:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-05-13:/blog/2017/05/13/scrapy-cloud.html</id><summary type="html">&lt;h1&gt;前言：取得研究資料集&lt;/h1&gt;
+&lt;p&gt;最近聽到不少擅長 Deep Learning 的朋友買了&lt;a href="https://www.nvidia.com/en-us/geforce/products/10series/geforce-gtx-1080-ti/"&gt;顯示卡&lt;/a&gt;準備自己做起研究，讓人也十分受到激勵。不過平常想自己做研究時，常常會因為沒有適當的資料集而窒礙難行。尤其不少學術資料集似乎需要由研究單位出面才能取得，使得默默無名的個人研究者深感惶恐，此時撰寫網路爬蟲蒐集資料便成為必要的麻煩。無怪乎本站的&lt;a href="http://city.shaform.com/blog/2016/02/28/scrapy.html"&gt;〈Scrapy 筆記〉&lt;/a&gt;似乎也一直很熱門。&lt;/p&gt;
+&lt;p&gt;只是平常在學校有龐大學術網路資源的支持，撰寫爬蟲還算可行。但自己一個人寫爬蟲就很辛苦了。總會擔心 IP 被阻擋要怎麼辦，還有電腦開太久，到處亂爬，會不會因此被駭客攻擊等問題。&lt;/p&gt;
+&lt;p&gt;就在最近，得知有 &lt;a href="https://scrapinghub.com/scrapy-cloud/"&gt;Scrapy Cloud&lt;/a&gt; 這樣方便的服務，可以用來架設自己的爬蟲，感覺相當方便。於是本文就以 &lt;a href="https://www.ptt.cc/bbs/Beauty/index.html"&gt;PTT Beauty 板&lt;/a&gt; 為範例，紀錄利用 Scraping Cloud 撰寫爬蟲的過程。&lt;/p&gt;
+&lt;h1&gt;環境設置&lt;/h1&gt;
+&lt;p&gt;這次同樣使用 &lt;a href="https://docs.python.org/3/library/venv.html"&gt;pyvenv&lt;/a&gt; 創立虛擬環境，好安裝自己的 Python 套件 …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;前言：取得研究資料集&lt;/h1&gt;
+&lt;p&gt;最近聽到不少擅長 Deep Learning 的朋友買了&lt;a href="https://www.nvidia.com/en-us/geforce/products/10series/geforce-gtx-1080-ti/"&gt;顯示卡&lt;/a&gt;準備自己做起研究，讓人也十分受到激勵。不過平常想自己做研究時，常常會因為沒有適當的資料集而窒礙難行。尤其不少學術資料集似乎需要由研究單位出面才能取得，使得默默無名的個人研究者深感惶恐，此時撰寫網路爬蟲蒐集資料便成為必要的麻煩。無怪乎本站的&lt;a href="http://city.shaform.com/blog/2016/02/28/scrapy.html"&gt;〈Scrapy 筆記〉&lt;/a&gt;似乎也一直很熱門。&lt;/p&gt;
+&lt;p&gt;只是平常在學校有龐大學術網路資源的支持，撰寫爬蟲還算可行。但自己一個人寫爬蟲就很辛苦了。總會擔心 IP 被阻擋要怎麼辦，還有電腦開太久，到處亂爬，會不會因此被駭客攻擊等問題。&lt;/p&gt;
+&lt;p&gt;就在最近，得知有 &lt;a href="https://scrapinghub.com/scrapy-cloud/"&gt;Scrapy Cloud&lt;/a&gt; 這樣方便的服務，可以用來架設自己的爬蟲，感覺相當方便。於是本文就以 &lt;a href="https://www.ptt.cc/bbs/Beauty/index.html"&gt;PTT Beauty 板&lt;/a&gt; 為範例，紀錄利用 Scraping Cloud 撰寫爬蟲的過程。&lt;/p&gt;
+&lt;h1&gt;環境設置&lt;/h1&gt;
+&lt;p&gt;這次同樣使用 &lt;a href="https://docs.python.org/3/library/venv.html"&gt;pyvenv&lt;/a&gt; 創立虛擬環境，好安裝自己的 Python 套件：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pyvenv-3.5 env
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; env/bin/activate
+&lt;/span&gt;&lt;span class="hll"&gt;pip install -U pip
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;此外，也安裝 &lt;a href="https://scrapy.org/"&gt;Scrapy&lt;/a&gt;，以及本次實驗會用到的加密套件等等。&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.3.3 &lt;span class="nv"&gt;cryptography&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.8.1 &lt;span class="nv"&gt;html2text&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;2016.5.29
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;h2&gt;Scrapy Cloud&lt;/h2&gt;
+&lt;p&gt;Scrapy Cloud 其實就是 &lt;a href="https://scrapy.org/"&gt;Scrapy&lt;/a&gt; 背後的公司 &lt;a href="https://scrapinghub.com/"&gt;Scrapinghub&lt;/a&gt; 所推出的線上爬蟲服務。可以把自己寫好的爬蟲上傳到遠端的機器執行。由於 IP 偶爾就會換一次，所以可以大幅降低被阻擋的風險。在筆者撰文的當下，每個人的帳號都有一個免費的 slot (1 GB RAM) 可以用來跑爬蟲，爬下來的資料可供存放一個星期，個人使用已經相當足夠了。如果有更高的需求，也可用 $9/month 的價格購買多的 slots，或者購買可以每個 request 都使用不同 IP，大幅降低被阻擋風險的強大 proxy 服務。&lt;/p&gt;
+&lt;p&gt;創建完帳號後，首先可以在 &lt;a href="https://app.scrapinghub.com/account/apikey"&gt;API Key&lt;/a&gt; 頁面取得自己的 &lt;code&gt;SH_APIKEY&lt;/code&gt;，到時上傳爬蟲時會用到。然後可以建立一個 project，並在 project 網址裡取得 &lt;code&gt;PROJECT_ID&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;https://app.scrapinghub.com/p/&amp;lt;PROJECT_ID&amp;gt;/jobs
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最後也安裝專用的 &lt;a href="https://github.com/scrapinghub/shub"&gt;shub&lt;/a&gt; 部署工具。&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip install shub
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;h2&gt;Backblaze B2 Cloud Storage&lt;/h2&gt;
+&lt;p&gt;Scrapy Cloud 雖然方便，不過並不支援像圖片一般大檔案的儲存。平常在學術或者企業的研究單位裡，可能有類似 &lt;a href="https://aws.amazon.com/s3/"&gt;S3&lt;/a&gt; 之類的儲存方案。不過一般小資女，小資男等等可能就沒有辦法負擔了。&lt;a href="https://www.backblaze.com/b2/cloud-storage.html"&gt;Backblaze B2 Cloud Storage&lt;/a&gt; 在筆者撰文的當下，有著 $0.005/GB/month 的低廉價格，而且上傳免費，又有 10 GB 的免費空間，而且如果只是要使用免費的部份，也不用提供付款資料，不怕被亂收錢。對於個人爬蟲的應用來說，已經相當足夠了。&lt;/p&gt;
+&lt;p&gt;註冊以後，可以在 &lt;a href="https://secure.backblaze.com/b2_buckets.htm"&gt;Buckets&lt;/a&gt; 頁面取得 Account ID 以及 Application Key，以下稱為 &lt;code&gt;B2_ACCOUNT_ID&lt;/code&gt; 以及 &lt;code&gt;B2_APPLICATION_KEY&lt;/code&gt;，此外同時也可以創立一個 bucket 來存放檔案，以下就把這個 bucket 稱作 &lt;code&gt;storage-ptt-beauty&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;最後可以安裝 &lt;a href="https://github.com/Backblaze/B2_Command_Line_Tool"&gt;b2&lt;/a&gt; 套件，測試檔案的操作。&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip install b2
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;h1&gt;撰寫爬蟲&lt;/h1&gt;
+&lt;p&gt;於是就開始撰寫爬蟲！&lt;/p&gt;
+&lt;p&gt;首先創立專案：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;scrapy startproject ptt_beauty
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;啟用自動連線延遲：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt_beauty/settings.py&lt;/span&gt;
+&lt;span class="n"&gt;AUTOTHROTTLE_ENABLED&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+&lt;span class="n"&gt;AUTOTHROTTLE_START_DELAY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="n"&gt;AUTOTHROTTLE_MAX_DELAY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;
+&lt;span class="n"&gt;AUTOTHROTTLE_TARGET_CONCURRENCY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;像上次一樣定義一些想要抓取的項目，包含本文和推文等等，但多增加檔案的欄位 &lt;code&gt;files&lt;/code&gt; 和 &lt;code&gt;file_urls&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt_beauty/items.py&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;PostItem&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Item&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;author&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;comments&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;file_urls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Field&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接著創立爬蟲：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;scrapy genspider beauty_images ptt.cc
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;接著就編輯 &lt;code&gt;&amp;lt;root_dir&amp;gt;/ptt_beauty/spiders/beauty_images.py&lt;/code&gt; 實際撰寫爬蟲程式了。&lt;/p&gt;
+&lt;p&gt;有了上次的經驗，這次寫起來相當順利。首先設定起始的網址：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt_beauty/spiders/beauty_images.py&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scrapy&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;BeautyImagesSpider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Spider&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;beauty_images&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;allowed_domains&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ptt.cc&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;start_urls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://www.ptt.cc/bbs/Beauty/index.html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;max_pages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="nb"&gt;super&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_max_pages&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;max_pages&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_pages&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然後照抄以前的程式，不過移除 18 歲的部份：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt_beauty/spiders/beauty_images.py&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;ptt_beauty.items&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;PostItem&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;BeautyImagesSpider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Spider&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_pages&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;href&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;css&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.r-ent &amp;gt; div.title &amp;gt; a::attr(href)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;urljoin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;href&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+            &lt;span class="k"&gt;yield&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;callback&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse_post&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_pages&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_max_pages&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;next_page&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="s1"&gt;&amp;#39;//div[@id=&amp;quot;action-bar-container&amp;quot;]//a[contains(text(), &amp;quot;上頁&amp;quot;)]/@href&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;next_page&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;urljoin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;next_page&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+                &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;warning&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;follow {}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="k"&gt;yield&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;warning&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;no next page&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;warning&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;max pages reached&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse_post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PostItem&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s1"&gt;&amp;#39;//meta[@property=&amp;quot;og:title&amp;quot;]/@content&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;author&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s1"&gt;&amp;#39;//div[@class=&amp;quot;article-metaline&amp;quot;]/span[text()=&amp;quot;作者&amp;quot;]/following-sibling::span[1]/text()&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;
+                &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;datetime_str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s1"&gt;&amp;#39;//div[@class=&amp;quot;article-metaline&amp;quot;]/span[text()=&amp;quot;時間&amp;quot;]/following-sibling::span[1]/text()&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;
+                &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strptime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;datetime_str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;%a %b &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt; %H:%M:%S %Y&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;converter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;html2text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTML2Text&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;converter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ignore_links&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+        &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;content&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;converter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s1"&gt;&amp;#39;//div[@id=&amp;quot;main-content&amp;quot;]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+        &lt;span class="n"&gt;comments&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+        &lt;span class="n"&gt;total_score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;comment&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;//div[@class=&amp;quot;push&amp;quot;]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;push_tag&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;comment&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;css&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;span.push-tag::text&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="n"&gt;push_user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;comment&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;css&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;span.push-userid::text&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="n"&gt;push_content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;comment&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;css&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;span.push-content::text&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;推&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;push_tag&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+            &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;噓&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;push_tag&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+
+            &lt;span class="n"&gt;total_score&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;score&lt;/span&gt;
+
+            &lt;span class="n"&gt;comments&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;user&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;push_user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                             &lt;span class="s1"&gt;&amp;#39;content&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;push_content&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                             &lt;span class="s1"&gt;&amp;#39;score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;score&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+
+        &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;comments&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;comments&lt;/span&gt;
+        &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;score&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;total_score&lt;/span&gt;
+        &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;
+
+        &lt;span class="k"&gt;yield&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在 &lt;code&gt;&amp;lt;root_dir&amp;gt;&lt;/code&gt; 根目錄（有 &lt;code&gt;scrapy.cfg&lt;/code&gt; 的目錄）執行：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;scrapy crawl beauty_images -o test.jl
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;測試確實可以抓到文章。&lt;/p&gt;
+&lt;h1&gt;抓取圖片&lt;/h1&gt;
+&lt;p&gt;由於我們實際上只想要抓有圖片的文章，所以將程式改寫。同時為了方便起見，只抓 &lt;code&gt;imgur.com&lt;/code&gt; 上的 &lt;code&gt;.jpg&lt;/code&gt; 圖片。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt_beauty/spiders/beauty_images.py&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;BeautyImagesSpider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Spider&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse_post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;# ...&lt;/span&gt;
+        &lt;span class="n"&gt;file_urls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="s1"&gt;&amp;#39;//a[contains(@href, &amp;quot;imgur.com&amp;quot;)]/@href&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;file_urls&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;file_urls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;file_urls&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;endswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.jpg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;file_urls&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;file_urls&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;file_urls&lt;/span&gt;
+
+            &lt;span class="k"&gt;yield&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然後先按照 &lt;a href="https://doc.scrapy.org/en/latest/topics/media-pipeline.html"&gt;Downloading and processing files and images&lt;/a&gt; 的教學啟用 Files Pipeline 做測試：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt_beauty/spiders/beauty_images.py&lt;/span&gt;
+&lt;span class="n"&gt;ITEM_PIPELINES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="s1"&gt;&amp;#39;scrapy.pipelines.files.FilesPipeline&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;FILES_STORE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;images&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;再次在 &lt;code&gt;&amp;lt;root_dir&amp;gt;&lt;/code&gt; 根目錄（有 &lt;code&gt;scrapy.cfg&lt;/code&gt; 的目錄）執行：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;scrapy crawl beauty_images -o test.jl
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;應該會看到在 &lt;code&gt;&amp;lt;root_dir&amp;gt;/images/full/&lt;/code&gt; 底下出現不少圖片。&lt;/p&gt;
+&lt;p&gt;假設只是要在本機上抓圖，這樣就行了，不過我們想在 Scrapy Cloud 上，把圖傳到 B2 空間，因此還得進行一些修改。&lt;/p&gt;
+&lt;h1&gt;上傳 B2&lt;/h1&gt;
+&lt;p&gt;首先寫好上傳的串接程式，這裡因為我主要是想抓圖，所以如果 B2 連不上就乾脆用 &lt;code&gt;CloseSpider&lt;/code&gt; 把整個爬蟲關掉了。同時因為上傳不用用錢，獲取檔案資訊卻有限制，所以乾脆 &lt;code&gt;stat_file&lt;/code&gt; 就讓他永遠回傳空的，反正遇到相同檔案就重新上傳就好。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt_beauty/spiders/pipelines.py&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;b2.api&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;B2Api&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;b2.upload_source&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;UploadSourceBytes&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scrapy.exceptions&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;CloseSpider&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;B2FilesStore&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+
+    &lt;span class="n"&gt;B2_ACCOUNT_ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+    &lt;span class="n"&gt;B2_APPLICATION_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;b2://&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bucket&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;prefix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;B2Api&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;authorize_account&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;production&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;B2_ACCOUNT_ID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                       &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;B2_APPLICATION_KEY&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_get_b2_bucket&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="n"&gt;CloseSpider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;could not initialize B2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;stat_file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_get_b2_bucket&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_bucket_by_name&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bucket&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_upload_file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;file_name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;UploadSourceBytes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;upload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;file_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;persist_file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;meta&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Upload file to S3 storage&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="n"&gt;key_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;%s%s&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;prefix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;seek&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;threads&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deferToThread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_upload_file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                     &lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                     &lt;span class="n"&gt;file_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;key_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;緊接著我們修改原本 scrapy 的 &lt;a href="https://github.com/scrapy/scrapy/blob/1.3/scrapy/pipelines/files.py"&gt;FilesPipeline&lt;/a&gt; 變成 &lt;code&gt;EncryptedFilesPipeline&lt;/code&gt;。目的是為了讓他支援加密以及我們的 &lt;code&gt;B2FilesStore&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;之所以要加密的原因是為了怕鄉民上傳一些奇怪的圖片導致我們抓到怪圖上傳，可能造成停權之類的奇怪後果。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt_beauty/spiders/pipelines.py&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cryptography.fernet&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Fernet&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scrapy.pipelines.files&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;FilesPipeline&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scrapy.utils.misc&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;load_object&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;EncryptedFilesPipeline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FilesPipeline&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c1"&gt;# ...&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;store_uri&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;download_func&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="nb"&gt;super&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;store_uri&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                         &lt;span class="n"&gt;download_func&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;download_func&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                         &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;cls_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;EncryptedFilesPipeline&amp;quot;&lt;/span&gt;
+        &lt;span class="n"&gt;resolve&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;functools&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;partial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_key_for_pipe&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                    &lt;span class="n"&gt;base_class_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;cls_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                                    &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;encryption_key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;resolve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;FILES_ENCRYPTION_KEY&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;encryption_key&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cipher&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Fernet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;encryption_key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cipher&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+
+    &lt;span class="nd"&gt;@classmethod&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;from_settings&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STORE_SCHEMES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_load_components&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;FILES_STORES&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;b2store&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STORE_SCHEMES&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;b2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;b2store&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;B2_ACCOUNT_ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;B2_ACCOUNT_ID&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;b2store&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;B2_APPLICATION_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;B2_APPLICATION_KEY&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;store_uri&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;FILES_STORE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;store_uri&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="nd"&gt;@staticmethod&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_load_components&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;setting_prefix&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;conf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;without_none_values&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getwithbase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;setting_prefix&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+            &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;load_object&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="n"&gt;NotConfigured&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;pass&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;file_downloaded&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;file_path&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cipher&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;buf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BytesIO&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cipher&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encrypt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;buf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BytesIO&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;checksum&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;md5sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;seek&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;store&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;persist_file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;checksum&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接下來可以在 &lt;code&gt;&amp;lt;root_dir&amp;gt;/ptt_beauty/settings.py&lt;/code&gt; 填入以下設定：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt_beauty/settings.py&lt;/span&gt;
+&lt;span class="n"&gt;ITEM_PIPELINES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ptt_beauty.pipelines.EncryptedFilesPipeline&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;FILES_STORES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;scrapy.pipelines.files.FSFilesStore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;file&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;scrapy.pipelines.files.FSFilesStore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;s3&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;scrapy.pipelines.files.S3FilesStore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;b2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;ptt_beauty.pipelines.B2FilesStore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然後填入對應的密鑰做測試，不過測試完這些設定還是不要直接寫在檔案裡比較好。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;lt;root_dir&amp;gt;/ptt_beauty/settings.py&lt;/span&gt;
+&lt;span class="n"&gt;FILES_ENCRYPTION_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;lt;YOUR_ENCRYPT_KEY&amp;gt;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;FILES_STORE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;b2://storage-ptt-beauty/ptt-beauty/images/&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;B2_ACCOUNT_ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;lt;B2_ACCOUNT_ID&amp;gt;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;B2_APPLICATION_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;lt;B2_APPLICATION_KEY&amp;gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中檔案加密的密鑰可以這樣產生：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cryptography.fernet&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Fernet&lt;/span&gt;
+
+
+&lt;span class="n"&gt;Fernet&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;generate_key&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;加密完的檔案可以這樣解密：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cryptography.fernet&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Fernet&lt;/span&gt;
+
+
+&lt;span class="n"&gt;cipher&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Fernet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;YOUR_ENCRYPT_KEY&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;INPUT_PATH&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;infile&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;OUTPUT_PATH&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;wb&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;outfile&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;outfile&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cipher&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decrypt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;infile&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;再次在 &lt;code&gt;&amp;lt;root_dir&amp;gt;&lt;/code&gt; 根目錄（有 &lt;code&gt;scrapy.cfg&lt;/code&gt; 的目錄）執行：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;scrapy crawl beauty_images -o test.jl
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;應該會看到在 B2 裡出現不少加密檔案。&lt;/p&gt;
+&lt;h1&gt;部署到 Scrapy Cloud&lt;/h1&gt;
+&lt;p&gt;最後的部署，首先新增相依檔案 &lt;code&gt;requirements.txt&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;b2==0.7.2
+cryptography==1.8.1
+html2text==2016.5.29
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;再新增設定檔 &lt;code&gt;scrapinghub.yml&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;projects&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+  &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;PROjECT_ID&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;stacks&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;scrapy&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;1.3&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;py3&lt;/span&gt;
+&lt;span class="n"&gt;requirements_file&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;requirements&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;txt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接著將整個資料夾的相關程式碼和設定檔都 commit 到 git repository 裡。然後在該資料夾執行：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;shub login
+&lt;/span&gt;&lt;span class="hll"&gt;shub deploy
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;輸入相應的 &lt;code&gt;SH_APIKEY&lt;/code&gt; 即可上傳。&lt;/p&gt;
+&lt;p&gt;最後則在 project 的 spiders settings &lt;code&gt;https://app.scrapinghub.com/p/&amp;lt;PROJECT_ID&amp;gt;/job-settings/standard&lt;/code&gt; 裡，把各種密鑰輸進去：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;FILES_ENCRYPTION_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;...&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;FILES_STORE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;...&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;B2_ACCOUNT_ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;...&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;B2_APPLICATION_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;...&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如此就行了！可在 Dashboard 執行上傳的爬蟲。&lt;/p&gt;
+&lt;h1&gt;結語&lt;/h1&gt;
+&lt;p&gt;Scrapy Cloud 也支援排程執行，所以可以每天都到板上抓圖，滿載而歸！其他像是偵測不要抓到同樣的文章等等的功能就請各位自行研究了。&lt;/p&gt;
+&lt;p&gt;這次實驗所用到的程式碼按照慣例放在 GitHub 上面供參考：&lt;a href="https://github.com/shaform/ptt-beauty"&gt;https://github.com/shaform/ptt-beauty&lt;/a&gt;。&lt;/p&gt;</content><category term="Scrapy Cloud"></category><category term="Scrapy"></category><category term="PTT"></category><category term="Python 3"></category></entry><entry><title>生成對抗網路 - Generative Adversarial Networks</title><link href="http://city.shaform.com/blog/2017/04/04/generative-adversarial-networks.html" rel="alternate"></link><published>2017-04-04T15:37:00+08:00</published><updated>2017-04-04T15:37:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-04-04:/blog/2017/04/04/generative-adversarial-networks.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;
 &lt;p&gt;記得最早聽說 &lt;a href="https://arxiv.org/abs/1701.00160"&gt;Generative Adversarial Networks&lt;/a&gt; 似乎是去年看到&lt;a href="https://bamos.github.io/2016/08/09/deep-completion/"&gt;〈Image Completion with Deep Learning in TensorFlow〉&lt;/a&gt;這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把人臉的中心遮起來，然後再用 GAN 補完幻想的人臉。效果如下所示。當時覺得感覺好酷阿，想像中可以腦補的東西真的很多，例如後來看到有人&lt;a href="https://blog.insightdatascience.com/isee-removing-eyeglasses-from-faces-using-deep-learning-d4e7d935376f"&gt;腦補眼鏡&lt;/a&gt;、&lt;a href="http://www.digitaltrends.com/photography/faceapp-neural-net-image-editing/"&gt;腦補笑容和年紀&lt;/a&gt;，或者&lt;a href="https://zhuanlan.zhihu.com/p/25542274"&gt;腦補動漫人物&lt;/a&gt;。而 GAN 作為其中一種生成模型，&lt;a href="https://www.quora.com/What-are-the-pros-and-cons-of-Generative-Adversarial-Networks-vs-Variational-Autoencoders"&gt;視覺效果是相當不錯的&lt;/a&gt;。&lt;/p&gt;
 &lt;blockquote class="twitter-tweet tw-align-center" data-lang="en"&gt;&lt;p lang="en" dir="ltr"&gt;Superb tutorial on adversarial nets by &lt;a href="https://twitter.com/brandondamos"&gt;@brandondamos&lt;/a&gt;&lt;br&gt;Bonus section: thoughts on Torch vs TF&lt;a href="https://t.co/uwG8l2qytd"&gt;https://t.co …&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;</summary><content type="html">&lt;h2&gt;前言&lt;/h2&gt;
 &lt;p&gt;記得最早聽說 &lt;a href="https://arxiv.org/abs/1701.00160"&gt;Generative Adversarial Networks&lt;/a&gt; 似乎是去年看到&lt;a href="https://bamos.github.io/2016/08/09/deep-completion/"&gt;〈Image Completion with Deep Learning in TensorFlow〉&lt;/a&gt;這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把人臉的中心遮起來，然後再用 GAN 補完幻想的人臉。效果如下所示。當時覺得感覺好酷阿，想像中可以腦補的東西真的很多，例如後來看到有人&lt;a href="https://blog.insightdatascience.com/isee-removing-eyeglasses-from-faces-using-deep-learning-d4e7d935376f"&gt;腦補眼鏡&lt;/a&gt;、&lt;a href="http://www.digitaltrends.com/photography/faceapp-neural-net-image-editing/"&gt;腦補笑容和年紀&lt;/a&gt;，或者&lt;a href="https://zhuanlan.zhihu.com/p/25542274"&gt;腦補動漫人物&lt;/a&gt;。而 GAN 作為其中一種生成模型，&lt;a href="https://www.quora.com/What-are-the-pros-and-cons-of-Generative-Adversarial-Networks-vs-Variational-Autoencoders"&gt;視覺效果是相當不錯的&lt;/a&gt;。&lt;/p&gt;
@@ -70,15 +483,15 @@
 
 &lt;p&gt;然後在 &lt;code&gt;hosts&lt;/code&gt; 裡設定機器位址，例如：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[host1]&lt;/span&gt;
-&lt;span class="na"&gt;192.168.1.2&lt;/span&gt;
+&lt;span class="err"&gt;192.168.1.2&lt;/span&gt;
 
 &lt;span class="k"&gt;[host2]&lt;/span&gt;
 &lt;span class="na"&gt;192.168.1.3 ansible_ssh_user&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;bob ansible_ssh_private_key_file=~/.ssh/bob.pem&lt;/span&gt;
 
 &lt;span class="k"&gt;[servers]&lt;/span&gt;
-&lt;span class="na"&gt;192.168.1.4&lt;/span&gt;
-&lt;span class="na"&gt;192.168.1.5&lt;/span&gt;
-&lt;span class="na"&gt;192.168.1.6&lt;/span&gt;
+&lt;span class="err"&gt;192.168.1.4&lt;/span&gt;
+&lt;span class="err"&gt;192.168.1.5&lt;/span&gt;
+&lt;span class="err"&gt;192.168.1.6&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -259,7 +672,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 
 &lt;p&gt;然後再進到目的機器額外安裝 Python 3 的環境：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;conda create -n py3 &lt;span class="nv"&gt;python&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.6 anaconda
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;conda create -n py3 &lt;span class="nv"&gt;python&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;3.6 anaconda
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -339,7 +752,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;h2&gt;環境設定&lt;/h2&gt;
 &lt;p&gt;為了使用 Sacred，首先我裝了一套 &lt;a href="https://www.mongodb.com/"&gt;MongoDB&lt;/a&gt;，為了方便起見我就參考&lt;a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/"&gt;教學&lt;/a&gt;直接裝在本機上。接著用 pip3 安裝 Sacred 相關套件，因為不知為何不指定版本會裝到舊的，所以這裡我就指定了 Sacred 的版本：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install &lt;span class="nv"&gt;sacred&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;.7b3 pymongo
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install &lt;span class="nv"&gt;sacred&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;0.7b3 pymongo
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -432,7 +845,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
   &lt;span class="k"&gt;do&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; seed in &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt; &lt;span class="m"&gt;7&lt;/span&gt; &lt;span class="m"&gt;8&lt;/span&gt; &lt;span class="m"&gt;9&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="k"&gt;do&lt;/span&gt;
-      python mnist.py with &lt;span class="nv"&gt;classifier&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$clf&lt;/span&gt; &lt;span class="nv"&gt;sample_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$sample_size&lt;/span&gt; &lt;span class="nv"&gt;seed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$seed&lt;/span&gt; -m sacred &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+      python mnist.py with &lt;span class="nv"&gt;classifier&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$clf&lt;/span&gt; &lt;span class="nv"&gt;sample_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$sample_size&lt;/span&gt; &lt;span class="nv"&gt;seed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$seed&lt;/span&gt; -m sacred &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt; 1
     &lt;span class="k"&gt;done&lt;/span&gt;
   &lt;span class="k"&gt;done&lt;/span&gt;
 &lt;span class="k"&gt;done&lt;/span&gt;
@@ -878,11 +1291,11 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;/div&gt;
 &lt;p&gt;接著修改 &lt;code&gt;Makefile.config&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;BLAS&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; open
-&lt;span class="nv"&gt;USE_CUDNN&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="nv"&gt;USE_CUDNN&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; 1
 
 &lt;span class="nv"&gt;INCLUDE_DIRS&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;PYTHON_INCLUDE&lt;span class="k"&gt;)&lt;/span&gt; /usr/local/include /usr/include/hdf5/serial/
 &lt;span class="nv"&gt;LIBRARY_DIRS&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;PYTHON_LIB&lt;span class="k"&gt;)&lt;/span&gt; /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu
-&lt;span class="nv"&gt;WITH_PYTHON_LAYER&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="nv"&gt;WITH_PYTHON_LAYER&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; 1
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1044,7 +1457,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 
     &lt;span class="n"&gt;cheapest_price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cheapest_item&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
 
-    &lt;span class="n"&gt;re_price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\$(\d+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;re_price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;\$(\d+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;td&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parent&lt;/span&gt;
 
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;option&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;re_price&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -1153,6 +1566,7 @@ python update.py
 &lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pyvenv-3.5 my_env
 &lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; my_env/bin/activate
+&lt;/span&gt;&lt;span class="hll"&gt;pip install -U pip
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1160,7 +1574,7 @@ python update.py
 &lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# 不知為何在工作站上要用 `python /sbin/pip3.5` 來取代下述的 `pip` 才能跑&lt;/span&gt;
-&lt;span class="hll"&gt;pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;.1.0 numpy notebook scipy scikit-learn seaborn jieba
+&lt;span class="hll"&gt;pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.1.0 numpy notebook scipy scikit-learn seaborn jieba
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -16834,10 +17248,10 @@ d: org.apache.spark.sql.DataFrame &lt;span class="o"&gt;=&lt;/span&gt; &lt;span 
 
 &lt;span class="c1"&gt;# 檢查格式&lt;/span&gt;
 scala&amp;gt; d.first
-res2: org.apache.spark.sql.Row &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;latifolia,ArrayBuffer&lt;span class="o"&gt;(&lt;/span&gt;-0.08103186, &lt;span class="m"&gt;0&lt;/span&gt;.14688604, -0.060668133, -0.25648367, -0.06855837, -0...
+res2: org.apache.spark.sql.Row &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;latifolia,ArrayBuffer&lt;span class="o"&gt;(&lt;/span&gt;-0.08103186, 0.14688604, -0.060668133, -0.25648367, -0.06855837, -0...
 
 &lt;span class="c1"&gt;# 輸出到 output directory/vectors/&lt;/span&gt;
-scala&amp;gt; d.map&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; r.getString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; + &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt; + r.getSeq&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;.mkString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)}&lt;/span&gt;.saveAsTextFile&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{output directory}/vectors&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+scala&amp;gt; d.map&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; r.getString&lt;span class="o"&gt;(&lt;/span&gt;0&lt;span class="o"&gt;)&lt;/span&gt; + &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt; + r.getSeq&lt;span class="o"&gt;(&lt;/span&gt;1&lt;span class="o"&gt;)&lt;/span&gt;.mkString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)}&lt;/span&gt;.saveAsTextFile&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{output directory}/vectors&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -17073,7 +17487,7 @@ Machine。&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; word2vec
 &lt;/span&gt;&lt;span class="hll"&gt;cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt &lt;span class="p"&gt;|&lt;/span&gt; nl -v0 -s&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; -w1 &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;s/^/@@SS-/&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; shuf &amp;gt; all.txt
-&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;time&lt;/span&gt; ./word2vec -train all.txt -output vectors.txt -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;400&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;1&lt;/span&gt; -sample 1e-3 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;0&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count &lt;span class="m"&gt;1&lt;/span&gt; -sentence-vectors &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;time&lt;/span&gt; ./word2vec -train all.txt -output vectors.txt -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;400&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;1&lt;/span&gt; -sample 1e-3 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;0&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count &lt;span class="m"&gt;1&lt;/span&gt; -sentence-vectors 1
 &lt;/span&gt;&lt;span class="hll"&gt;grep &lt;span class="s1"&gt;&amp;#39;@@SS-&amp;#39;&lt;/span&gt; vectors.txt &lt;span class="p"&gt;|&lt;/span&gt; sed -e &lt;span class="s1"&gt;&amp;#39;s/^@@SS-//&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sort -n &amp;gt; sentence_vectors.txt
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -17171,9 +17585,9 @@ tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 &lt;h2&gt;初始安裝 Mirror Server&lt;/h2&gt;
 &lt;p&gt;首先透過&lt;a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html"&gt;前一篇文章&lt;/a&gt;的作法安裝 ldapm.lab.csie.ntu.edu.tw 但跳過「轉移 NIS 資料」的部份。此外，需使用同一個 &lt;code&gt;my_root&lt;/code&gt; 但卻須產生新的 server 憑證，並對應到新的網域名稱（注意 &lt;code&gt;-set_serial&lt;/code&gt; 號碼與之前不同）：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;openssl genrsa -out ldapm_key.pem &lt;span class="m"&gt;1024&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;openssl genrsa -out ldapm_key.pem 1024
 &lt;/span&gt;&lt;span class="hll"&gt;openssl req -new -key ldapm_key.pem -out ldapm_csr.pem
-&lt;/span&gt;&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial 2
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -17455,12 +17869,12 @@ slapcat
 &lt;span class="nv"&gt;$DEFAULT_BASE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 ...
 &lt;span class="c1"&gt;# Uncomment these to exclude Debian-managed system users and groups&lt;/span&gt;
-&lt;span class="nv"&gt;$IGNORE_UID_BELOW&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;$IGNORE_UID_BELOW&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 1000&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="c1"&gt;# Don&amp;#39;t uncomment this if you want to be able to add users to system groups&lt;/span&gt;
 &lt;span class="c1"&gt;# $IGNORE_GID_BELOW = 1000;&lt;/span&gt;
 &lt;span class="c1"&gt;# And here&amp;#39;s the opposite for completeness&lt;/span&gt;
-&lt;span class="nv"&gt;$IGNORE_UID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;29999&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="nv"&gt;$IGNORE_GID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;29999&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;$IGNORE_UID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 29999&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;$IGNORE_GID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 29999&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -17512,14 +17926,14 @@ rootpwmodpw &amp;lt;PASSWORD&amp;gt;
 &lt;p&gt;假設你有可供使用的憑證當然很好，但是一般人除了等待 &lt;a href="https://letsencrypt.org/"&gt;Let's Encrypt&lt;/a&gt; 以外，可能也只能自己的憑證自己建了。&lt;/p&gt;
 &lt;p&gt;在某個資料夾內建立相關憑證：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;openssl genrsa -out my_root_key.pem &lt;span class="m"&gt;1024&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;openssl genrsa -out my_root_key.pem 1024
 &lt;/span&gt;&lt;span class="hll"&gt;openssl req -new -key my_root_key.pem -out my_root_csr.pem
 &lt;/span&gt;&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
 &lt;/span&gt;
-&lt;span class="hll"&gt;openssl genrsa -out ldap_key.pem &lt;span class="m"&gt;1024&lt;/span&gt;
+&lt;span class="hll"&gt;openssl genrsa -out ldap_key.pem 1024
 &lt;/span&gt;&lt;span class="hll"&gt;openssl req -new -key ldap_key.pem -out ldap_csr.pem
 &lt;/span&gt;
-&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -17665,14 +18079,14 @@ iface eth0 inet static
 &lt;p&gt;主要是要讓 bob 連結內網時，自動建立起 tunnel，而切斷連線時自動取消，在實際修改檔案前，也可以先用指令列測試其中的指令：&lt;/p&gt;
 &lt;p&gt;首先是建立一個虛擬的 tunnel 界面，並連結到 ted 的外部 IP：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo ip tunnel add mytunnel mode ipip remote &lt;span class="m"&gt;140&lt;/span&gt;.112.14.20
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo ip tunnel add mytunnel mode ipip remote 140.112.14.20
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/div&gt;
 &lt;p&gt;緊接著，隨意為 bob 在此界面指定一個 IP：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip addr add &lt;span class="m"&gt;192&lt;/span&gt;.168.15.5/24 dev mytunnel
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip addr add 192.168.15.5/24 dev mytunnel
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -17686,7 +18100,7 @@ iface eth0 inet static
 &lt;/div&gt;
 &lt;p&gt;最後再設定把連到另一個內網的流量都導到 ted 在此 tunnel 的 IP：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip route add &lt;span class="m"&gt;192&lt;/span&gt;.168.14.0/24 via &lt;span class="m"&gt;192&lt;/span&gt;.168.15.20
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip route add 192.168.14.0/24 via 192.168.15.20
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -17705,7 +18119,7 @@ post-down ip tunnel del mytunnel
 &lt;h3&gt;啟用 IP Forwarding&lt;/h3&gt;
 &lt;p&gt;理論上原本工作站的內網設置應該就有啟用 IP forwarding 的功能，不過為求完整，在這裡記載啟用的方法。可以在 bob 和 ted 上執行以下指令：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo sysctl -w net.ipv4.ip_forward&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo sysctl -w net.ipv4.ip_forward&lt;span class="o"&gt;=&lt;/span&gt;1
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -17790,7 +18204,7 @@ post-down ip tunnel del mytunnel
 &lt;h2&gt;使用 word2vec 訓練詞向量&lt;/h2&gt;
 &lt;p&gt;接著我就用工作站把詞全部丟給 word2vec 訓練：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./word2vec -train sentences.segged.txt -output vectors.bin -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;200&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;0&lt;/span&gt; -sample 1e-4 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;1&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./word2vec -train sentences.segged.txt -output vectors.bin -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;200&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;0&lt;/span&gt; -sample 1e-4 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;1&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count 1
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -18180,64 +18594,64 @@ defencoding big5
                     &lt;span class="n"&gt;new_lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                 &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                     &lt;span class="n"&gt;num&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;empty&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-                    &lt;span class="n"&gt;new_lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;amp;nbsp;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                    &lt;span class="n"&gt;new_lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;amp;nbsp;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                 &lt;span class="n"&gt;empty&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
             &lt;span class="n"&gt;new_lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new_lines&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 
-&lt;span class="n"&gt;rData&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;(\d{2})/(\d{2})/(\d{4}) (\d{2}):(\d{2}):(\d{2}) (PM|AM)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;rData&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;(\d{2})/(\d{2})/(\d{4}) (\d{2}):(\d{2}):(\d{2}) (PM|AM)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;article&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;TITLE: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;TITLE: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
             &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DATE: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;DATE: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
             &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rData&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
             &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;wrong with {}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;wrong with {}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
             &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                 &lt;span class="n"&gt;gs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groups&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
                 &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;PM&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;PM&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                     &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;
-                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;{}-{}-{} {}:{}:{}+0800&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;{}-{}-{} {}:{}:{}+0800&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
                         &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
                         &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;PRIMARY CATEGORY: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-            &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;STATUS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
-            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;雪山&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;海岸&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;城市&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;？？&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
-                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;天予&amp;#39;&lt;/span&gt;
-                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;天予：&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;系列&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;奇幻&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-            &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;我的世界&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;記憶&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;PRIMARY CATEGORY: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;STATUS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;雪山&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;海岸&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;城市&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;？？&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;天予&amp;#39;&lt;/span&gt;
+                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;天予：&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;系列&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;奇幻&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;我的世界&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;記憶&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
                 &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt;
-                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;系列&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;系列&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
             &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                 &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt;
-        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;BODY:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;BODY:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
             &lt;span class="n"&gt;lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
             &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                 &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;-----&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;nbsp&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                        &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+                    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;nbsp&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                        &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
                     &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                         &lt;span class="n"&gt;space&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
-                        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;/p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;lt;/p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                             &lt;span class="n"&gt;space&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
-                        &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;/p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-                        &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;!-- more --&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                        &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;lt;p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;lt;/p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                        &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;lt;!-- more --&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                         &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                         &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;space&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                            &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                            &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                 &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                     &lt;span class="k"&gt;break&lt;/span&gt;
             &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;p_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
             &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                 &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;--------&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;--------&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                     &lt;span class="k"&gt;break&lt;/span&gt;
         &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
             &lt;span class="k"&gt;break&lt;/span&gt;
@@ -18249,13 +18663,13 @@ defencoding big5
         &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
             &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;makedirs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
         &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;utils&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;slugify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;.md&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;w&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Title: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Date: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Category: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;Title: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;Date: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;Category: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
             &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Tags: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;, &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Authors: Shaform&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;Tags: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;, &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;Authors: Shaform&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
             &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -18680,10 +19094,10 @@ This enables us to use dvorak at least in Vim.)&lt;/p&gt;
 &lt;span class="n"&gt;DVORAK&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&amp;#39;[]&amp;#39;,.pyfgcrl/=oeuidhtns-;qjkxbwvz{}&amp;quot;&amp;lt;&amp;gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
 &lt;span class="n"&gt;TRANS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;maketrans&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;QWERTY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;DVORAK&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="n"&gt;re_option&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%(selkey|endkey)\s+(\S+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;re_begin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%\S+\s+begin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;re_keydef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;^([^#]\S*)(\s+\S+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;re_end&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%\S+\s+end&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_option&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;%(selkey|endkey)\s+(\S+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_begin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;%\S+\s+begin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_keydef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;^([^#]\S*)(\s+\S+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_end&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;%\S+\s+end&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;begin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileinput&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
