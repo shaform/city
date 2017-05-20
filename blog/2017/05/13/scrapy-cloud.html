@@ -110,8 +110,8 @@
 </div>
 <h2>Scrapy Cloud</h2>
 <p>Scrapy Cloud 其實就是 <a href="https://scrapy.org/">Scrapy</a> 背後的公司 <a href="https://scrapinghub.com/">Scrapinghub</a> 所推出的線上爬蟲服務。可以把自己寫好的爬蟲上傳到遠端的機器執行。由於 IP 偶爾就會換一次，所以可以大幅降低被阻擋的風險。在筆者撰文的當下，每個人的帳號都有一個免費的 slot (1 GB RAM) 可以用來跑爬蟲，爬下來的資料可供存放一個星期，個人使用已經相當足夠了。如果有更高的需求，也可用 $9/month 的價格購買多的 slots，或者購買可以每個 request 都使用不同 IP，大幅降低被阻擋風險的強大 proxy 服務。</p>
-<p>創建完帳號後，首先可以在 <a href="https://app.scrapinghub.com/account/apikey">API Key</a> 頁面取得自己的 <code>SH_APIKEY</code>，到時上傳爬蟲時會用到。然後可以建立一個 project，並在 project 網址裡取得 <code>PROJECT_ID</code>:</p>
-<div class="highlight"><pre><span></span>https://app.scrapinghub.com/p/&lt;PROJECT_ID&gt;/jobs
+<p>創建完帳號後，首先可以在 <a href="https://app.scrapinghub.com/account/apikey">API Key</a> 頁面取得自己的 <code>SH_APIKEY</code>，到時上傳爬蟲時會用到。然後可以建立一個 project，並在 project 網址裡取得 <code>SHUB_PROJECT_ID</code>:</p>
+<div class="highlight"><pre><span></span>https://app.scrapinghub.com/p/&lt;SHUB_PROJECT_ID&gt;/jobs
 </pre></div>
 
 
@@ -305,10 +305,14 @@
 <h1>上傳 B2</h1>
 <p>首先寫好上傳的串接程式，這裡因為我主要是想抓圖，所以如果 B2 連不上就乾脆用 <code>CloseSpider</code> 把整個爬蟲關掉了。同時因為上傳不用用錢，獲取檔案資訊卻有限制，所以乾脆 <code>stat_file</code> 就讓他永遠回傳空的，反正遇到相同檔案就重新上傳就好。</p>
 <div class="highlight"><pre><span></span><span class="c1"># &lt;root_dir&gt;/ptt_beauty/spiders/pipelines.py</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
 <span class="kn">from</span> <span class="nn">b2.api</span> <span class="kn">import</span> <span class="n">B2Api</span>
 <span class="kn">from</span> <span class="nn">b2.upload_source</span> <span class="kn">import</span> <span class="n">UploadSourceBytes</span>
 
 <span class="kn">from</span> <span class="nn">scrapy.exceptions</span> <span class="kn">import</span> <span class="n">CloseSpider</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">B2FilesStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -317,15 +321,16 @@
     <span class="n">B2_APPLICATION_KEY</span> <span class="o">=</span> <span class="bp">None</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="n">uri</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;b2://&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="n">uri</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
         <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">uri</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;b2://&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="n">uri</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="n">B2Api</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">authorize_account</span><span class="p">(</span><span class="s1">&#39;production&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">B2_ACCOUNT_ID</span><span class="p">,</span>
                                        <span class="bp">self</span><span class="o">.</span><span class="n">B2_APPLICATION_KEY</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_b2_bucket</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AssertionError</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">CloseSpider</span><span class="p">(</span><span class="s1">&#39;could not initialize B2&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">stat_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
@@ -484,7 +489,7 @@ html2text==2016.5.29
 
 </div>
 <p>輸入相應的 <code>SH_APIKEY</code> 即可上傳。</p>
-<p>最後則在 project 的 spiders settings <code>https://app.scrapinghub.com/p/&lt;PROJECT_ID&gt;/job-settings/standard</code> 裡，把各種密鑰輸進去：</p>
+<p>最後則在 project 的 spiders settings <code>https://app.scrapinghub.com/p/&lt;SHUB_PROJECT_ID&gt;/job-settings/standard</code> 裡，把各種密鑰輸進去：</p>
 <div class="highlight"><pre><span></span><span class="n">FILES_ENCRYPTION_KEY</span> <span class="o">=</span> <span class="s1">&#39;...&#39;</span>
 <span class="n">FILES_STORE</span> <span class="o">=</span> <span class="s1">&#39;...&#39;</span>
 <span class="n">B2_ACCOUNT_ID</span> <span class="o">=</span> <span class="s1">&#39;...&#39;</span>
@@ -493,8 +498,189 @@ html2text==2016.5.29
 
 
 <p>如此就行了！可在 Dashboard 執行上傳的爬蟲。</p>
+<h1>定期上傳抓取文章到 B2</h1>
+<p>Scrapy Cloud 也支援排程執行，所以可以每天都到板上抓圖。然而雖然做完以上步驟就會把下載的圖片上傳到 B2，可是抓取的文章還是在 Scrapy Cloud 裡頭。幸好 Scrapy Cloud 也提供定期執行自訂 script 的功能。所以我們也可以另外寫個程式把抓好的文章上傳到 B2 上。</p>
+<p>由於 script 不像 spider 會自動讀取 project settings，我們先自行寫一個讀取的函式，這樣就可以在 script 裡讀取在 Scrapy Cloud 上設定的參數：</p>
+<div class="highlight"><pre><span></span><span class="c1"># &lt;root_dir&gt;/ptt_beauty/utils.py</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">scrapy.utils.project</span> <span class="kn">import</span> <span class="n">get_project_settings</span>
+
+
+<span class="k">def</span> <span class="nf">get_shub_project_settings</span><span class="p">():</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">get_project_settings</span><span class="p">()</span>
+    <span class="n">shub_settings</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;SHUB_SETTINGS&#39;</span><span class="p">,</span> <span class="s1">&#39;{}&#39;</span><span class="p">))</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">setdict</span><span class="p">(</span>
+        <span class="n">shub_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;project_settings&#39;</span><span class="p">,</span> <span class="p">{}),</span>
+        <span class="n">priority</span><span class="o">=</span><span class="s1">&#39;project&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">settings</span>
+</pre></div>
+
+
+<p>除此之外也順便新增一些方便處理 B2 上傳的函式：</p>
+<div class="highlight"><pre><span></span><span class="c1"># &lt;root_dir&gt;/ptt_beauty/utils.py</span>
+
+<span class="kn">from</span> <span class="nn">b2.upload_source</span> <span class="kn">import</span> <span class="n">UploadSourceBytes</span>
+
+<span class="k">def</span> <span class="nf">split_bucket_prefix</span><span class="p">(</span><span class="n">uri</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">uri</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">UploadSourceBytes</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="n">bucket</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+</pre></div>
+
+
+<p>最後就可以實際實做抓取資料的程式了，首先定義執行參數。</p>
+<p>新增的 project settings 包含：</p>
+<ul>
+<li><code>&lt;SH_APIKEY&gt;</code>: 就是之前提到的 Scrapy Cloud 的 API Key</li>
+<li><code>&lt;SHUB_PROJECT_ID&gt;</code>: 本次部屬到 Scrapy Cloud 的 project ID</li>
+<li><code>&lt;ITEMS_STORE&gt;</code>: 儲存文章的地點，例如 <code>b2://storage-ptt-beauty/ptt-beauty/items/</code></li>
+</ul>
+<p>同樣在 project 的 spiders settings <code>https://app.scrapinghub.com/p/&lt;SHUB_PROJECT_ID&gt;/job-settings/standard</code> 裡，把他們輸進去。</p>
+<p>另外可以指定要抓取的 spider 名稱，以本例來說，只有 <code>beauty_images</code> 一種。<code>--delete</code> 參數則是指定抓取完後，是否要把 Scrapy Cloud 上對應的 job 順便刪除，以免下次重複上傳。</p>
+<div class="highlight"><pre><span></span><span class="c1"># &lt;root_dir&gt;/ptt_beauty/bin/upload_items.py</span>
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="kn">from</span> <span class="nn">ptt_beauty.utils</span> <span class="kn">import</span> <span class="n">get_shub_project_settings</span>
+
+
+<span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">get_shub_project_settings</span><span class="p">()</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">__doc__</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--api-key&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;SH_APIKEY&#39;</span><span class="p">))</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--project-id&#39;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;SHUB_PROJECT_ID&#39;</span><span class="p">))</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--b2-account-id&#39;</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;B2_ACCOUNT_ID&#39;</span><span class="p">))</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--b2-application-key&#39;</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;B2_APPLICATION_KEY&#39;</span><span class="p">))</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--b2-path&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ITEMS_STORE&#39;</span><span class="p">))</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--delete&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;spider_name&#39;</span><span class="p">,</span>
+                        <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Spider name to get info from.&#39;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">args</span><span class="o">.</span><span class="n">b2_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;b2://&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">args</span>
+
+
+<span class="k">if</span> <span class="s1">&#39;__main__&#39;</span> <span class="o">==</span> <span class="n">__name__</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">parse_args</span><span class="p">()))</span>
+</pre></div>
+
+
+<p>最後則是主程式，先用 <code>ScrapinghubClient</code> 列出需要處理的 jobs。</p>
+<div class="highlight"><pre><span></span><span class="c1"># &lt;root_dir&gt;/ptt_beauty/bin/upload_items.py</span>
+
+<span class="kn">from</span> <span class="nn">scrapinghub</span> <span class="kn">import</span> <span class="n">ScrapinghubClient</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">project_id</span><span class="p">,</span> <span class="n">spider_name</span><span class="p">,</span> <span class="n">b2_account_id</span><span class="p">,</span> <span class="n">b2_application_key</span><span class="p">,</span>
+         <span class="n">b2_path</span><span class="p">,</span> <span class="n">delete</span><span class="p">):</span>
+    <span class="c1"># ...</span>
+
+    <span class="n">client</span> <span class="o">=</span> <span class="n">ScrapinghubClient</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+    <span class="n">project</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">spider_name</span><span class="p">:</span>
+        <span class="n">spider</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">spiders</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">job_list</span> <span class="o">=</span> <span class="n">spider</span><span class="o">.</span><span class="n">jobs</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;finished&#39;</span><span class="p">)</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">job_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;items&#39;</span> <span class="ow">in</span> <span class="n">job</span> <span class="ow">and</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">job</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<p>緊接著，把下載的文章用 gzip 壓縮後，上傳到指定的位置上，並順便刪除上傳完的 jobs：</p>
+<div class="highlight"><pre><span></span><span class="c1"># &lt;root_dir&gt;/ptt_beauty/bin/upload_items.py</span>
+
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">b2.api</span> <span class="kn">import</span> <span class="n">B2Api</span>
+<span class="kn">from</span> <span class="nn">ptt_beauty.utils</span> <span class="kn">import</span> <span class="n">split_bucket_prefix</span>
+<span class="kn">from</span> <span class="nn">ptt_beauty.utils</span> <span class="kn">import</span> <span class="n">upload_file</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">project_id</span><span class="p">,</span> <span class="n">spider_name</span><span class="p">,</span> <span class="n">b2_account_id</span><span class="p">,</span> <span class="n">b2_application_key</span><span class="p">,</span>
+         <span class="n">b2_path</span><span class="p">,</span> <span class="n">delete</span><span class="p">):</span>
+    <span class="n">bucket_name</span><span class="p">,</span> <span class="n">root</span> <span class="o">=</span> <span class="n">split_bucket_prefix</span><span class="p">(</span><span class="n">b2_path</span><span class="p">)</span>
+    <span class="n">bucket</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">spider_name</span><span class="p">:</span>
+        <span class="c1"># ...</span>
+
+        <span class="k">if</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">bucket</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">b2_api</span> <span class="o">=</span> <span class="n">B2Api</span><span class="p">()</span>
+                <span class="n">b2_api</span><span class="o">.</span><span class="n">authorize_account</span><span class="p">(</span><span class="s1">&#39;production&#39;</span><span class="p">,</span> <span class="n">b2_account_id</span><span class="p">,</span>
+                                         <span class="n">b2_application_key</span><span class="p">)</span>
+                <span class="n">bucket</span> <span class="o">=</span> <span class="n">b2_api</span><span class="o">.</span><span class="n">get_bucket_by_name</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+                <span class="n">job</span> <span class="o">=</span> <span class="n">spider</span><span class="o">.</span><span class="n">jobs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">job</span><span class="p">:</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+
+                    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">out</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">job</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">iter</span><span class="p">():</span>
+                            <span class="n">line</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+                            <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">))</span>
+                    <span class="n">content</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+                    <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span>
+                                             <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.jl.gz&#39;</span><span class="p">)</span>
+                    <span class="n">upload_file</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">delete</span><span class="p">:</span>
+                        <span class="n">job</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;job {} deleted&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+</pre></div>
+
+
+<p>然後在 <code>setup.py</code> 新增 script 的位置 <code>bin/upload_items.py</code>：</p>
+<div class="highlight"><pre><span></span><span class="c1"># &lt;root_dir&gt;/ptt_beauty/setup.py</span>
+<span class="c1"># Automatically created by: shub deploy</span>
+
+<span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span>         <span class="o">=</span> <span class="s1">&#39;project&#39;</span><span class="p">,</span>
+    <span class="n">version</span>      <span class="o">=</span> <span class="s1">&#39;1.0&#39;</span><span class="p">,</span>
+    <span class="n">packages</span>     <span class="o">=</span> <span class="n">find_packages</span><span class="p">(),</span>
+    <span class="n">scripts</span>      <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bin/upload_items.py&#39;</span><span class="p">],</span>
+    <span class="n">entry_points</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;scrapy&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;settings = ptt_beauty.settings&#39;</span><span class="p">]},</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>新增相依檔案 <code>requirements.txt</code> 中的一行：</p>
+<div class="highlight"><pre><span></span>scrapinghub==2.0.0
+</pre></div>
+
+
+<p>緊接著上傳更新的程式：</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">shub deploy
+</span></pre></div>
+
+
+</div>
+<p>最後就能在 Dashboard 上執行 script 了，記得在 Arguments 欄位填上 <code>beauty_images</code> 等參數。</p>
 <h1>結語</h1>
-<p>Scrapy Cloud 也支援排程執行，所以可以每天都到板上抓圖，滿載而歸！其他像是偵測不要抓到同樣的文章等等的功能就請各位自行研究了。</p>
+<p>如此一來就能順利的每天抓文章和圖了，其他像是偵測不要抓到同樣的文章等等的功能就請各位自行研究了。</p>
 <p>這次實驗所用到的程式碼按照慣例放在 GitHub 上面供參考：<a href="https://github.com/shaform/ptt-beauty">https://github.com/shaform/ptt-beauty</a>。</p>
 
 
