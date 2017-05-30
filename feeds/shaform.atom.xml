@@ -472,6 +472,10 @@ max-cache-ttl 120
 &lt;p&gt;緊接著，在 &lt;code&gt;~/.bashrc&lt;/code&gt; 裡加上下面幾行，以免要輸入使用者密碼時，界面無法在正確的 terminal 顯示：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GPG_TTY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;tty&lt;span class="sb"&gt;`&lt;/span&gt;
 gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null 2&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;1
+&lt;span class="nb"&gt;unset&lt;/span&gt; SSH_AGENT_PID
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;gnupg_SSH_AUTH_SOCK_by&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;0&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -ne &lt;span class="nv"&gt;$$&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+  &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;SSH_AUTH_SOCK&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/.gnupg/S.gpg-agent.ssh&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
