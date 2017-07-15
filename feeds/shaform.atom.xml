@@ -847,7 +847,8 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null 2&amp;gt;&lt;span cla
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;其中檔案加密的密鑰可以這樣產生：&lt;/p&gt;
+&lt;p&gt;其中 &lt;code&gt;storage-ptt-beauty&lt;/code&gt; 是在 B2 上創建的 bucket 名稱，後面的 &lt;code&gt;ptt-beauty/images/&lt;/code&gt; 則是自行指定要存放圖片的根目錄。&lt;/p&gt;
+&lt;p&gt;而檔案加密的密鑰 &lt;code&gt;YOUR_ENCRYPT_KEY&lt;/code&gt; 可以這樣產生：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cryptography.fernet&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Fernet&lt;/span&gt;
 
 
@@ -1090,6 +1091,7 @@ html2text==2016.5.29
 
 &lt;/div&gt;
 &lt;p&gt;最後就能在 Dashboard 上執行 script 了，記得在 Arguments 欄位填上 &lt;code&gt;beauty_images&lt;/code&gt; 等參數。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="upload_items.py" src="http://city.shaform.com/images/upload_items.png"&gt;&lt;/p&gt;
 &lt;h1&gt;結語&lt;/h1&gt;
 &lt;p&gt;如此一來就能順利的每天抓文章和圖了，其他像是偵測不要抓到同樣的文章等等的功能就請各位自行研究了。&lt;/p&gt;
 &lt;p&gt;這次實驗所用到的程式碼按照慣例放在 GitHub 上面供參考：&lt;a href="https://github.com/shaform/ptt-beauty"&gt;https://github.com/shaform/ptt-beauty&lt;/a&gt;。&lt;/p&gt;</content><category term="Scrapy Cloud"></category><category term="Scrapy"></category><category term="PTT"></category><category term="Python 3"></category></entry><entry><title>生成對抗網路 - Generative Adversarial Networks</title><link href="http://city.shaform.com/blog/2017/04/04/generative-adversarial-networks.html" rel="alternate"></link><published>2017-04-04T15:37:00+08:00</published><updated>2017-04-04T15:37:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-04-04:/blog/2017/04/04/generative-adversarial-networks.html</id><summary type="html">&lt;h2&gt;前言&lt;/h2&gt;

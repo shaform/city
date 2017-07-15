@@ -436,7 +436,8 @@
 </pre></div>
 
 
-<p>其中檔案加密的密鑰可以這樣產生：</p>
+<p>其中 <code>storage-ptt-beauty</code> 是在 B2 上創建的 bucket 名稱，後面的 <code>ptt-beauty/images/</code> 則是自行指定要存放圖片的根目錄。</p>
+<p>而檔案加密的密鑰 <code>YOUR_ENCRYPT_KEY</code> 可以這樣產生：</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cryptography.fernet</span> <span class="kn">import</span> <span class="n">Fernet</span>
 
 
@@ -679,6 +680,7 @@ html2text==2016.5.29
 
 </div>
 <p>最後就能在 Dashboard 上執行 script 了，記得在 Arguments 欄位填上 <code>beauty_images</code> 等參數。</p>
+<p><img alt="upload_items.py" src="http://city.shaform.com/images/upload_items.png"></p>
 <h1>結語</h1>
 <p>如此一來就能順利的每天抓文章和圖了，其他像是偵測不要抓到同樣的文章等等的功能就請各位自行研究了。</p>
 <p>這次實驗所用到的程式碼按照慣例放在 GitHub 上面供參考：<a href="https://github.com/shaform/ptt-beauty">https://github.com/shaform/ptt-beauty</a>。</p>
