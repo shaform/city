@@ -141,7 +141,7 @@
 
 <p>這裡包含三個部份，第一個部份會把貓和狗指定題數 <code>num_outputs</code> 的圖片抓出，計算 <code>hash</code>，並且紀錄每一題要用哪個 <code>hash</code>。最後把 <code>hash</code> 寫進獨立的檔案，好讓未來可以知道每個 <code>hash</code> 對應到貓還是狗。</p>
 <p>第二個部份則是根據指定的 <code>web_root</code> 來產生每個 <code>hash</code> 對應的網址，在產生問卷前要先將圖片上傳到這個位置，才能讓 script 抓取到對應的圖片。不過抓取完後，圖片就會存在 Google 裡，所以問卷本身不再需要原始的網址。</p>
-<p>第三個部份則是產生實際的問卷檔案。</p>
+<p>第三個部份則是產生實際的問卷檔案，別忘了隨機打亂選項的順序，好讓使用者看不出哪個選項是來自哪裡。</p>
 <p>寫好後執行</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll">python prepare.py train output --web-root http://WEB_ROOT
