@@ -1,5 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2017-09-16T16:42:00+08:00</updated><entry><title>用程式自動產生 Google Forms 調查問卷</title><link href="http://city.shaform.com/blog/2017/09/16/auto-create-google-forms.html" rel="alternate"></link><published>2017-09-16T16:42:00+08:00</published><updated>2017-09-16T16:42:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-09-16:/blog/2017/09/16/auto-create-google-forms.html</id><summary type="html">&lt;h1&gt;前言&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2017-10-23T21:30:00+08:00</updated><entry><title>Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda</title><link href="http://city.shaform.com/blog/2017/10/23/install-tensorflow-and-caffe-on-ubuntu.html" rel="alternate"></link><published>2017-10-23T21:30:00+08:00</published><updated>2017-10-23T21:30:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-10-23:/blog/2017/10/23/install-tensorflow-and-caffe-on-ubuntu.html</id><summary type="html">&lt;p&gt;Previously I have written about &lt;a href="http://city.shaform.com/blog/2016/10/31/install-tensorflow-with-cuda.html"&gt;在Ubuntu 安裝 TensorFlow 的紀錄 (Installing
+TensorFlow on Ubuntu)&lt;/a&gt;.  Years have passed, and even though
+Ubuntu is still on 16.04，TensorFlow has
+already made great progress.  I've decided to write another post to show how to
+install TensorFlow and Caffe with Anaconda.&lt;/p&gt;
+&lt;h2&gt;GPU Settings&lt;/h2&gt;
+&lt;h3&gt;Basic …&lt;/h3&gt;</summary><content type="html">&lt;p&gt;Previously I have written about &lt;a href="http://city.shaform.com/blog/2016/10/31/install-tensorflow-with-cuda.html"&gt;在Ubuntu 安裝 TensorFlow 的紀錄 (Installing
+TensorFlow on Ubuntu)&lt;/a&gt;.  Years have passed, and even though
+Ubuntu is still on 16.04，TensorFlow has
+already made great progress.  I've decided to write another post to show how to
+install TensorFlow and Caffe with Anaconda.&lt;/p&gt;
+&lt;h2&gt;GPU Settings&lt;/h2&gt;
+&lt;h3&gt;Basic&lt;/h3&gt;
+&lt;p&gt;Firstly set integrated video card as the main GPU in the BIOS, and connect your
+monitor to the output port of the integrated video card so your Nvidia GPU is
+completely dedicated to deep learning computation.&lt;/p&gt;
+&lt;h3&gt;Install CUDA&lt;/h3&gt;
+&lt;p&gt;Afterwards, download the deb files from &lt;a href="https://developer.nvidia.com/cuda-downloads"&gt;the download page of
+CUDA&lt;/a&gt;.  Do not install at this time. We would reboot Ubuntu and
+enter &lt;code&gt;Ctrl-Alt-F1&lt;/code&gt; to login via terminal.&lt;/p&gt;
+&lt;p&gt;Execute the following command to stop &lt;code&gt;lightdm&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo service lightdm stop
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;According to &lt;a href="https://gist.github.com/bearpaw/c38ef18ec45ba6548ec0"&gt;this article&lt;/a&gt;, this must be done when you want to
+use your Nvidia GPU solely for CUDA. When this is not done, we might not be
+able to login to the desktop after CUDA installation.&lt;/p&gt;
+&lt;p&gt;So now we would install CUDA 8.0.&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo dpkg -i cuda-repo-&amp;lt;distro&amp;gt;_&amp;lt;version&amp;gt;_&amp;lt;architecture&amp;gt;.deb
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt update
+&lt;/span&gt;&lt;span class="hll"&gt;sudo apt install cuda-8-0
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;Record which version of nvidia driver is installed and add the PATH to &lt;code&gt;.bashrc&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$LD_LIBRARY_PATH&lt;/span&gt;:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/lib/nvidia-384
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;CUDA_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/usr/local/cuda
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;:/usr/local/cuda/bin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;where &lt;code&gt;/usr/lib/nvidia-384&lt;/code&gt; should point to the actual version installed.&lt;/p&gt;
+&lt;p&gt;Reboot again to confirm that we could login:&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo reboot
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;h2&gt;Setup Anaconda Environment&lt;/h2&gt;
+&lt;h3&gt;Install Anaconda&lt;/h3&gt;
+&lt;p&gt;Download Python 3 version of Anaconda at the &lt;a href="https://www.anaconda.com/download/#linux"&gt;Anaconda download
+page&lt;/a&gt;, and execute the installation command:&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;bash ~/Downloads/Anaconda3-&lt;span class="o"&gt;{&lt;/span&gt;VERSION&lt;span class="o"&gt;}&lt;/span&gt;-Linux-x86_64.sh
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;Install Anaconda onto a directory such as &lt;code&gt;$HOME/anaconda3&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Create TensorFlow Environment&lt;/h3&gt;
+&lt;p&gt;Activate Anaconda:&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; &lt;span class="nv"&gt;$HOME&lt;/span&gt;/anaconda3/bin/activate
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;And create a new environment named &lt;code&gt;tf&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;conda create -n tf anaconda
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;Finally activate &lt;code&gt;tf&lt;/code&gt; environment:&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; activate tf
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;h2&gt;Install TensorFlow&lt;/h2&gt;
+&lt;p&gt;Execute this command and &lt;code&gt;tensorflow-gpu&lt;/code&gt;, &lt;code&gt;cudnn&lt;/code&gt;, &lt;code&gt;cudatoolkit&lt;/code&gt; would be
+installed automatically.
+&lt;div class="sh-highlight" markdown="1"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;conda install tensorflow-gpu
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+&lt;h2&gt;Install Caffe&lt;/h2&gt;
+&lt;p&gt;Firstly install the required packages:&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo apt install build-essential
+&lt;/span&gt;&lt;span class="hll"&gt;conda install atlas boost gflags glog hdf5 leveldb lmdb openblas protobuf
+&lt;/span&gt;&lt;span class="hll"&gt;conda install -c menpo opencv3
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;Download Caffe, and create the configuration file.&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;git clone https://github.com/BVLC/caffe
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; caffe
+&lt;/span&gt;&lt;span class="hll"&gt;cp Makefile.config.example Makefile.config
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;Modify &lt;code&gt;Makefile.config&lt;/code&gt;, the number in &lt;code&gt;python3.6&lt;/code&gt; could be
+changed to the current Python version:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;5c5
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; # USE_CUDNN := 1
+&lt;span class="gd"&gt;---&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; USE_CUDNN := 1
+21c21
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; # OPENCV_VERSION := 3
+&lt;span class="gd"&gt;---&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; OPENCV_VERSION := 3
+25c25
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; # CUSTOM_CXX := g++
+&lt;span class="gd"&gt;---&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; CUSTOM_CXX := /usr/bin/g++-4.9
+68,69c68,69
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; PYTHON_INCLUDE := /usr/include/python2.7 \
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;       /usr/lib/python2.7/dist-packages/numpy/core/include
+&lt;span class="gd"&gt;---&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; # PYTHON_INCLUDE := /usr/include/python2.7 \
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; #         /usr/lib/python2.7/dist-packages/numpy/core/include
+72,75c72,75
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; # ANACONDA_HOME := $(HOME)/anaconda
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; # PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;       # $(ANACONDA_HOME)/include/python2.7 \
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;       # $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include
+&lt;span class="gd"&gt;---&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; ANACONDA_HOME := $(HOME)/anaconda3/envs/tf
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;       $(ANACONDA_HOME)/include/python3.6m \
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;       $(ANACONDA_HOME)/lib/python3.6/site-packages/numpy/core/include
+83,84c83,84
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; PYTHON_LIB := /usr/lib
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; # PYTHON_LIB := $(ANACONDA_HOME)/lib
+&lt;span class="gd"&gt;---&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; # PYTHON_LIB := /usr/lib
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; PYTHON_LIB := $(ANACONDA_HOME)/lib
+94c94
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include
+&lt;span class="gd"&gt;---&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; INCLUDE_DIRS := $(PYTHON_INCLUDE)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Caffe can now be compiled:&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;make all
+&lt;/span&gt;&lt;span class="hll"&gt;make pycaffe
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;</content><category term="TensorFlow"></category><category term="Caffe"></category><category term="CUDA"></category><category term="Ubuntu"></category></entry><entry><title>用程式自動產生 Google Forms 調查問卷</title><link href="http://city.shaform.com/blog/2017/09/16/auto-create-google-forms.html" rel="alternate"></link><published>2017-09-16T16:42:00+08:00</published><updated>2017-09-16T16:42:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-09-16:/blog/2017/09/16/auto-create-google-forms.html</id><summary type="html">&lt;h1&gt;前言&lt;/h1&gt;
 &lt;p&gt;最近因為一些研究上的需要，需要進行問卷調查。雖然也可以用自己架的伺服器和網頁界面，可是難免擔心資安的疑慮。
 於是就想到可以使用 &lt;a href="https://www.google.com/forms/about/"&gt;Google Forms&lt;/a&gt;，來進行問卷調查與回收。
 為了避免未來有需要時忘記作法，便記下筆記當作未來的參考。&lt;/p&gt;
@@ -208,22 +374,22 @@ with-fingerprint
 
 &lt;/div&gt;
 &lt;p&gt;由於我們不想直接使用 master key，所以選擇 8，好調整 master key 的功能：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gpg &lt;span class="o"&gt;(&lt;/span&gt;GnuPG&lt;span class="o"&gt;)&lt;/span&gt; 2.1.11&lt;span class="p"&gt;;&lt;/span&gt; Copyright &lt;span class="o"&gt;(&lt;/span&gt;C&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;2016&lt;/span&gt; Free Software Foundation, Inc.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gpg &lt;span class="o"&gt;(&lt;/span&gt;GnuPG&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;.1.11&lt;span class="p"&gt;;&lt;/span&gt; Copyright &lt;span class="o"&gt;(&lt;/span&gt;C&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;2016&lt;/span&gt; Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 
 gpg: keybox &lt;span class="s1"&gt;&amp;#39;$GNUPGHOME/pubring.kbx&amp;#39;&lt;/span&gt; created
 Please &lt;span class="k"&gt;select&lt;/span&gt; what kind of key you want:
-   &lt;span class="o"&gt;(&lt;/span&gt;1&lt;span class="o"&gt;)&lt;/span&gt; RSA and RSA &lt;span class="o"&gt;(&lt;/span&gt;default&lt;span class="o"&gt;)&lt;/span&gt;
-   &lt;span class="o"&gt;(&lt;/span&gt;2&lt;span class="o"&gt;)&lt;/span&gt; DSA and Elgamal
-   &lt;span class="o"&gt;(&lt;/span&gt;3&lt;span class="o"&gt;)&lt;/span&gt; DSA &lt;span class="o"&gt;(&lt;/span&gt;sign only&lt;span class="o"&gt;)&lt;/span&gt;
-   &lt;span class="o"&gt;(&lt;/span&gt;4&lt;span class="o"&gt;)&lt;/span&gt; RSA &lt;span class="o"&gt;(&lt;/span&gt;sign only&lt;span class="o"&gt;)&lt;/span&gt;
-   &lt;span class="o"&gt;(&lt;/span&gt;7&lt;span class="o"&gt;)&lt;/span&gt; DSA &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt; your own capabilities&lt;span class="o"&gt;)&lt;/span&gt;
-   &lt;span class="o"&gt;(&lt;/span&gt;8&lt;span class="o"&gt;)&lt;/span&gt; RSA &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt; your own capabilities&lt;span class="o"&gt;)&lt;/span&gt;
-   &lt;span class="o"&gt;(&lt;/span&gt;9&lt;span class="o"&gt;)&lt;/span&gt; ECC and ECC
-  &lt;span class="o"&gt;(&lt;/span&gt;10&lt;span class="o"&gt;)&lt;/span&gt; ECC &lt;span class="o"&gt;(&lt;/span&gt;sign only&lt;span class="o"&gt;)&lt;/span&gt;
-  &lt;span class="o"&gt;(&lt;/span&gt;11&lt;span class="o"&gt;)&lt;/span&gt; ECC &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt; your own capabilities&lt;span class="o"&gt;)&lt;/span&gt;
-Your selection? 8
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; RSA and RSA &lt;span class="o"&gt;(&lt;/span&gt;default&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; DSA and Elgamal
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; DSA &lt;span class="o"&gt;(&lt;/span&gt;sign only&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; RSA &lt;span class="o"&gt;(&lt;/span&gt;sign only&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;7&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; DSA &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt; your own capabilities&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; RSA &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt; your own capabilities&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;9&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; ECC and ECC
+  &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; ECC &lt;span class="o"&gt;(&lt;/span&gt;sign only&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; ECC &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt; your own capabilities&lt;span class="o"&gt;)&lt;/span&gt;
+Your selection? &lt;span class="m"&gt;8&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -242,7 +408,7 @@ Your selection? Q
 
 &lt;p&gt;鑰匙的長度選擇 4096，感覺似乎比較安全。注意如果最後要把某些 key 放到 YubiKey, Nitrokey 等等的話，有些版本不支援 4096 這麼長的長度，所以要先確認一下。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;RSA keys may be between &lt;span class="m"&gt;1024&lt;/span&gt; and &lt;span class="m"&gt;4096&lt;/span&gt; bits long.
-What keysize &lt;span class="k"&gt;do&lt;/span&gt; you want? &lt;span class="o"&gt;(&lt;/span&gt;2048&lt;span class="o"&gt;)&lt;/span&gt; 4096
+What keysize &lt;span class="k"&gt;do&lt;/span&gt; you want? &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2048&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;4096&lt;/span&gt;
 Requested keysize is &lt;span class="m"&gt;4096&lt;/span&gt; bits
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -254,7 +420,7 @@ Requested keysize is &lt;span class="m"&gt;4096&lt;/span&gt; bits
       &amp;lt;n&amp;gt;w &lt;span class="o"&gt;=&lt;/span&gt; key expires in n weeks
       &amp;lt;n&amp;gt;m &lt;span class="o"&gt;=&lt;/span&gt; key expires in n months
       &amp;lt;n&amp;gt;y &lt;span class="o"&gt;=&lt;/span&gt; key expires in n years
-Key is valid &lt;span class="k"&gt;for&lt;/span&gt;? &lt;span class="o"&gt;(&lt;/span&gt;0&lt;span class="o"&gt;)&lt;/span&gt; 0
+Key is valid &lt;span class="k"&gt;for&lt;/span&gt;? &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
 Key does not expire at all
 Is this correct? &lt;span class="o"&gt;(&lt;/span&gt;y/N&lt;span class="o"&gt;)&lt;/span&gt; y
 &lt;/pre&gt;&lt;/div&gt;
@@ -290,8 +456,8 @@ public and secret key created and signed.
 
 gpg: checking the trustdb
 gpg: marginals needed: &lt;span class="m"&gt;3&lt;/span&gt;  completes needed: &lt;span class="m"&gt;1&lt;/span&gt;  trust model: PGP
-gpg: depth: &lt;span class="m"&gt;0&lt;/span&gt;  valid:   &lt;span class="m"&gt;1&lt;/span&gt;  signed:   &lt;span class="m"&gt;0&lt;/span&gt;  trust: 0-, 0q, 0n, 0m, 0f, 1u
-pub   rsa4096/&amp;lt;MASTER-KEY-ID&amp;gt; 2017-01-01 &lt;span class="o"&gt;[]&lt;/span&gt;
+gpg: depth: &lt;span class="m"&gt;0&lt;/span&gt;  valid:   &lt;span class="m"&gt;1&lt;/span&gt;  signed:   &lt;span class="m"&gt;0&lt;/span&gt;  trust: &lt;span class="m"&gt;0&lt;/span&gt;-, 0q, 0n, 0m, 0f, 1u
+pub   rsa4096/&amp;lt;MASTER-KEY-ID&amp;gt; &lt;span class="m"&gt;2017&lt;/span&gt;-01-01 &lt;span class="o"&gt;[]&lt;/span&gt;
       Key &lt;span class="nv"&gt;fingerprint&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &amp;lt;KEY-FINGERPRINT&amp;gt;
 uid                   &lt;span class="o"&gt;[&lt;/span&gt;ultimate&lt;span class="o"&gt;]&lt;/span&gt; &amp;lt;NAME&amp;gt; &amp;lt;EMAIL&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -315,16 +481,16 @@ uid                   &lt;span class="o"&gt;[&lt;/span&gt;ultimate&lt;span class
 
 &lt;/div&gt;
 &lt;p&gt;使用 &lt;code&gt;addkey&lt;/code&gt; 指令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gpg &lt;span class="o"&gt;(&lt;/span&gt;GnuPG&lt;span class="o"&gt;)&lt;/span&gt; 2.1.11&lt;span class="p"&gt;;&lt;/span&gt; Copyright &lt;span class="o"&gt;(&lt;/span&gt;C&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;2016&lt;/span&gt; Free Software Foundation, Inc.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gpg &lt;span class="o"&gt;(&lt;/span&gt;GnuPG&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;.1.11&lt;span class="p"&gt;;&lt;/span&gt; Copyright &lt;span class="o"&gt;(&lt;/span&gt;C&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;2016&lt;/span&gt; Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 
 Secret key is available.
 
 sec  rsa4096/&amp;lt;MASTER-KEY-ID&amp;gt;
-     created: 2017-01-01  expires: never       usage: C   
+     created: &lt;span class="m"&gt;2017&lt;/span&gt;-01-01  expires: never       usage: C   
      trust: ultimate      validity: ultimate
-&lt;span class="o"&gt;[&lt;/span&gt;ultimate&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;1&lt;span class="o"&gt;)&lt;/span&gt;. &amp;lt;NAME&amp;gt; &amp;lt;EMAIL&amp;gt;
+&lt;span class="o"&gt;[&lt;/span&gt;ultimate&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;. &amp;lt;NAME&amp;gt; &amp;lt;EMAIL&amp;gt;
 
 gpg&amp;gt; addkey
 &lt;/pre&gt;&lt;/div&gt;
@@ -332,17 +498,17 @@ gpg&amp;gt; addkey
 
 &lt;p&gt;選擇加密：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Please &lt;span class="k"&gt;select&lt;/span&gt; what kind of key you want:
-   &lt;span class="o"&gt;(&lt;/span&gt;3&lt;span class="o"&gt;)&lt;/span&gt; DSA &lt;span class="o"&gt;(&lt;/span&gt;sign only&lt;span class="o"&gt;)&lt;/span&gt;
-   &lt;span class="o"&gt;(&lt;/span&gt;4&lt;span class="o"&gt;)&lt;/span&gt; RSA &lt;span class="o"&gt;(&lt;/span&gt;sign only&lt;span class="o"&gt;)&lt;/span&gt;
-   &lt;span class="o"&gt;(&lt;/span&gt;5&lt;span class="o"&gt;)&lt;/span&gt; Elgamal &lt;span class="o"&gt;(&lt;/span&gt;encrypt only&lt;span class="o"&gt;)&lt;/span&gt;
-   &lt;span class="o"&gt;(&lt;/span&gt;6&lt;span class="o"&gt;)&lt;/span&gt; RSA &lt;span class="o"&gt;(&lt;/span&gt;encrypt only&lt;span class="o"&gt;)&lt;/span&gt;
-Your selection? 6
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; DSA &lt;span class="o"&gt;(&lt;/span&gt;sign only&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; RSA &lt;span class="o"&gt;(&lt;/span&gt;sign only&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; Elgamal &lt;span class="o"&gt;(&lt;/span&gt;encrypt only&lt;span class="o"&gt;)&lt;/span&gt;
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;6&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; RSA &lt;span class="o"&gt;(&lt;/span&gt;encrypt only&lt;span class="o"&gt;)&lt;/span&gt;
+Your selection? &lt;span class="m"&gt;6&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;繼續選 4096，而時間可以設短一點，強迫自己將來換 subkeys。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;RSA keys may be between &lt;span class="m"&gt;1024&lt;/span&gt; and &lt;span class="m"&gt;4096&lt;/span&gt; bits long.
-What keysize &lt;span class="k"&gt;do&lt;/span&gt; you want? &lt;span class="o"&gt;(&lt;/span&gt;2048&lt;span class="o"&gt;)&lt;/span&gt; 4096
+What keysize &lt;span class="k"&gt;do&lt;/span&gt; you want? &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2048&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;4096&lt;/span&gt;
 Requested keysize is &lt;span class="m"&gt;4096&lt;/span&gt; bits
 Please specify how long the key should be valid.
          &lt;span class="nv"&gt;0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; key does not expire
@@ -350,9 +516,9 @@ Please specify how long the key should be valid.
       &amp;lt;n&amp;gt;w &lt;span class="o"&gt;=&lt;/span&gt; key expires in n weeks
       &amp;lt;n&amp;gt;m &lt;span class="o"&gt;=&lt;/span&gt; key expires in n months
       &amp;lt;n&amp;gt;y &lt;span class="o"&gt;=&lt;/span&gt; key expires in n years
-Key is valid &lt;span class="k"&gt;for&lt;/span&gt;? &lt;span class="o"&gt;(&lt;/span&gt;0&lt;span class="o"&gt;)&lt;/span&gt; 10y
+Key is valid &lt;span class="k"&gt;for&lt;/span&gt;? &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; 10y
 
-Key expires at Fri &lt;span class="m"&gt;01&lt;/span&gt; Jan &lt;span class="m"&gt;2027&lt;/span&gt; 10:19:01 PM CST
+Key expires at Fri &lt;span class="m"&gt;01&lt;/span&gt; Jan &lt;span class="m"&gt;2027&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;:19:01 PM CST
 Is this correct? &lt;span class="o"&gt;(&lt;/span&gt;y/N&lt;span class="o"&gt;)&lt;/span&gt; y
 Really create? &lt;span class="o"&gt;(&lt;/span&gt;y/N&lt;span class="o"&gt;)&lt;/span&gt; y
 &lt;/pre&gt;&lt;/div&gt;
@@ -365,11 +531,11 @@ disks&lt;span class="o"&gt;)&lt;/span&gt; during the prime generation&lt;span cl
 generator a better chance to gain enough entropy.
 
 sec  rsa4096/&amp;lt;MASTER-KEY-ID&amp;gt;
-     created: 2017-01-01  expires: never       usage: C   
+     created: &lt;span class="m"&gt;2017&lt;/span&gt;-01-01  expires: never       usage: C   
      trust: ultimate      validity: ultimate
 ssb  rsa4096/&amp;lt;ENCRYPT-KEY-ID&amp;gt;
-     created: 2017-01-01  expires: 2027-01-01  usage: E   
-&lt;span class="o"&gt;[&lt;/span&gt;ultimate&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;1&lt;span class="o"&gt;)&lt;/span&gt;. &amp;lt;NAME&amp;gt; &amp;lt;EMAIL&amp;gt;
+     created: &lt;span class="m"&gt;2017&lt;/span&gt;-01-01  expires: &lt;span class="m"&gt;2027&lt;/span&gt;-01-01  usage: E   
+&lt;span class="o"&gt;[&lt;/span&gt;ultimate&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;. &amp;lt;NAME&amp;gt; &amp;lt;EMAIL&amp;gt;
 
 gpg&amp;gt; quit
 Save changes? &lt;span class="o"&gt;(&lt;/span&gt;y/N&lt;span class="o"&gt;)&lt;/span&gt; y
@@ -417,7 +583,7 @@ gpg: OpenPGP card no. &amp;lt;CARD-ID&amp;gt; detected
 &lt;span class="m"&gt;4&lt;/span&gt; - &lt;span class="nb"&gt;set&lt;/span&gt; the Reset Code
 Q - quit
 
-Your selection? 3
+Your selection? &lt;span class="m"&gt;3&lt;/span&gt;
 PIN changed.
 
 &lt;span class="m"&gt;1&lt;/span&gt; - change PIN
@@ -426,7 +592,7 @@ PIN changed.
 &lt;span class="m"&gt;4&lt;/span&gt; - &lt;span class="nb"&gt;set&lt;/span&gt; the Reset Code
 Q - quit
 
-Your selection? 1
+Your selection? &lt;span class="m"&gt;1&lt;/span&gt;
 PIN changed.
 
 &lt;span class="m"&gt;1&lt;/span&gt; - change PIN
@@ -452,11 +618,11 @@ Your selection? Q
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;gpg2 --edit-key &amp;lt;MASTER-KEY-ID&amp;gt;
 &lt;/span&gt;
 gpg&amp;gt; toggle
-gpg&amp;gt; key 1
+gpg&amp;gt; key &lt;span class="m"&gt;1&lt;/span&gt;
 
-sec  rsa4096/&amp;lt;MASTER-KEY-ID&amp;gt;   created: 2017-01-01  expires: never
-ssb* rsa4096/&amp;lt;ENCRYPT-KEY-ID&amp;gt;  created: 2017-01-01  expires: 2027-01-01
-&lt;span class="o"&gt;(&lt;/span&gt;1&lt;span class="o"&gt;)&lt;/span&gt;  &amp;lt;NAME&amp;gt; &amp;lt;EMAIL&amp;gt;
+sec  rsa4096/&amp;lt;MASTER-KEY-ID&amp;gt;   created: &lt;span class="m"&gt;2017&lt;/span&gt;-01-01  expires: never
+ssb* rsa4096/&amp;lt;ENCRYPT-KEY-ID&amp;gt;  created: &lt;span class="m"&gt;2017&lt;/span&gt;-01-01  expires: &lt;span class="m"&gt;2027&lt;/span&gt;-01-01
+&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;  &amp;lt;NAME&amp;gt; &amp;lt;EMAIL&amp;gt;
 
 gpg&amp;gt; keytocard
  Signature key ....: &lt;span class="o"&gt;[&lt;/span&gt;none&lt;span class="o"&gt;]&lt;/span&gt;
@@ -464,8 +630,8 @@ gpg&amp;gt; keytocard
  Authentication key: &lt;span class="o"&gt;[&lt;/span&gt;none&lt;span class="o"&gt;]&lt;/span&gt;
 
 Please &lt;span class="k"&gt;select&lt;/span&gt; where to store the key:
-   &lt;span class="o"&gt;(&lt;/span&gt;2&lt;span class="o"&gt;)&lt;/span&gt; Encryption key
-Your selection? 2
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; Encryption key
+Your selection? &lt;span class="m"&gt;2&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -478,10 +644,10 @@ Your selection? 2
  Authentication key: &lt;span class="o"&gt;[&lt;/span&gt;none&lt;span class="o"&gt;]&lt;/span&gt;
 
 Please &lt;span class="k"&gt;select&lt;/span&gt; the &lt;span class="nb"&gt;type&lt;/span&gt; of key to generate:
-   &lt;span class="o"&gt;(&lt;/span&gt;1&lt;span class="o"&gt;)&lt;/span&gt; Signature key
-   &lt;span class="o"&gt;(&lt;/span&gt;2&lt;span class="o"&gt;)&lt;/span&gt; Encryption key
-   &lt;span class="o"&gt;(&lt;/span&gt;3&lt;span class="o"&gt;)&lt;/span&gt; Authentication key
-Your selection? 1
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; Signature key
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; Encryption key
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; Authentication key
+Your selection? &lt;span class="m"&gt;1&lt;/span&gt;
 
 gpg&amp;gt; addcardkey
 
@@ -490,10 +656,10 @@ gpg&amp;gt; addcardkey
  Authentication key: &lt;span class="o"&gt;[&lt;/span&gt;none&lt;span class="o"&gt;]&lt;/span&gt;
 
 Please &lt;span class="k"&gt;select&lt;/span&gt; the &lt;span class="nb"&gt;type&lt;/span&gt; of key to generate:
-   &lt;span class="o"&gt;(&lt;/span&gt;1&lt;span class="o"&gt;)&lt;/span&gt; Signature key
-   &lt;span class="o"&gt;(&lt;/span&gt;2&lt;span class="o"&gt;)&lt;/span&gt; Encryption key
-   &lt;span class="o"&gt;(&lt;/span&gt;3&lt;span class="o"&gt;)&lt;/span&gt; Authentication key
-Your selection? 3
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; Signature key
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; Encryption key
+   &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; Authentication key
+Your selection? &lt;span class="m"&gt;3&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -603,7 +769,7 @@ Your selection? 3
 &lt;p&gt;也可以自動產生密碼：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# generate a password of length 15&lt;/span&gt;
-&lt;span class="hll"&gt;pass generate social/facebook 15
+&lt;span class="hll"&gt;pass generate social/facebook &lt;span class="m"&gt;15&lt;/span&gt;
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -620,14 +786,14 @@ Your selection? 3
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# ~/.gnupg/gpg-agent.conf&lt;/span&gt;
 enable-ssh-support
 pinentry-program /usr/bin/pinentry-curses
-default-cache-ttl 60
-max-cache-ttl 120
+default-cache-ttl &lt;span class="m"&gt;60&lt;/span&gt;
+max-cache-ttl &lt;span class="m"&gt;120&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;緊接著，在 &lt;code&gt;~/.bashrc&lt;/code&gt; 裡加上下面幾行，以免要輸入使用者密碼時，界面無法在正確的 terminal 顯示：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GPG_TTY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;tty&lt;span class="sb"&gt;`&lt;/span&gt;
-gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null 2&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;1
+gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
 &lt;span class="nb"&gt;unset&lt;/span&gt; SSH_AGENT_PID
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;gnupg_SSH_AUTH_SOCK_by&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;0&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -ne &lt;span class="nv"&gt;$$&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
   &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;SSH_AUTH_SOCK&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/.gnupg/S.gpg-agent.ssh&amp;quot;&lt;/span&gt;
@@ -670,7 +836,7 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null 2&amp;gt;&lt;span cla
 &lt;/div&gt;
 &lt;p&gt;此外，也安裝 &lt;a href="https://scrapy.org/"&gt;Scrapy&lt;/a&gt;，以及本次實驗會用到的加密套件等等。&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.3.3 &lt;span class="nv"&gt;cryptography&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.8.1 &lt;span class="nv"&gt;html2text&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;2016.5.29
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;.3.3 &lt;span class="nv"&gt;cryptography&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;.8.1 &lt;span class="nv"&gt;html2text&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;2016&lt;/span&gt;.5.29
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -750,8 +916,8 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null 2&amp;gt;&lt;span cla
     &lt;span class="n"&gt;allowed_domains&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ptt.cc&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
     &lt;span class="n"&gt;start_urls&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://www.ptt.cc/bbs/Beauty/index.html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
 
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;max_pages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="nb"&gt;super&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;max_pages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="nb"&gt;super&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
         &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_max_pages&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;max_pages&lt;/span&gt;
         &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_pages&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -879,7 +1045,7 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null 2&amp;gt;&lt;span cla
 
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scrapy.exceptions&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;CloseSpider&lt;/span&gt;
 
-&lt;span class="n"&gt;logger&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getLogger&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;logger&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getLogger&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vm"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;B2FilesStore&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -887,7 +1053,7 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null 2&amp;gt;&lt;span cla
     &lt;span class="n"&gt;B2_ACCOUNT_ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
     &lt;span class="n"&gt;B2_APPLICATION_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
 
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
         &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
             &lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;b2://&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
             &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bucket&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;prefix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -932,8 +1098,8 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null 2&amp;gt;&lt;span cla
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;EncryptedFilesPipeline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FilesPipeline&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="c1"&gt;# ...&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;store_uri&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;download_func&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="nb"&gt;super&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;store_uri&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;store_uri&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;download_func&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="nb"&gt;super&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;store_uri&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
                          &lt;span class="n"&gt;download_func&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;download_func&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
                          &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
@@ -949,13 +1115,13 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null 2&amp;gt;&lt;span cla
             &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cipher&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
 
     &lt;span class="nd"&gt;@classmethod&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;from_settings&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STORE_SCHEMES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_load_components&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;FILES_STORES&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;b2store&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STORE_SCHEMES&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;b2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;from_settings&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;cls&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;cls&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STORE_SCHEMES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;cls&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_load_components&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;FILES_STORES&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;b2store&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;cls&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;STORE_SCHEMES&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;b2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
         &lt;span class="n"&gt;b2store&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;B2_ACCOUNT_ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;B2_ACCOUNT_ID&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
         &lt;span class="n"&gt;b2store&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;B2_APPLICATION_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;B2_APPLICATION_KEY&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
         &lt;span class="n"&gt;store_uri&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;FILES_STORE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;store_uri&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;cls&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;store_uri&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
     &lt;span class="nd"&gt;@staticmethod&lt;/span&gt;
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_load_components&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;setting_prefix&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -1121,7 +1287,7 @@ html2text==2016.5.29
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse_args&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;settings&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_shub_project_settings&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 
-    &lt;span class="n"&gt;parser&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;argparse&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ArgumentParser&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;__doc__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;parser&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;argparse&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ArgumentParser&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="vm"&gt;__doc__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
     &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;--api-key&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;SH_APIKEY&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
     &lt;span class="n"&gt;parser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_argument&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;--project-id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -1143,7 +1309,7 @@ html2text==2016.5.29
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;
 
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="nb"&gt;vars&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parse_args&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1321,15 +1487,15 @@ html2text==2016.5.29
 
 &lt;p&gt;然後在 &lt;code&gt;hosts&lt;/code&gt; 裡設定機器位址，例如：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[host1]&lt;/span&gt;
-&lt;span class="err"&gt;192.168.1.2&lt;/span&gt;
+&lt;span class="na"&gt;192.168.1.2&lt;/span&gt;
 
 &lt;span class="k"&gt;[host2]&lt;/span&gt;
 &lt;span class="na"&gt;192.168.1.3 ansible_ssh_user&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;bob ansible_ssh_private_key_file=~/.ssh/bob.pem&lt;/span&gt;
 
 &lt;span class="k"&gt;[servers]&lt;/span&gt;
-&lt;span class="err"&gt;192.168.1.4&lt;/span&gt;
-&lt;span class="err"&gt;192.168.1.5&lt;/span&gt;
-&lt;span class="err"&gt;192.168.1.6&lt;/span&gt;
+&lt;span class="na"&gt;192.168.1.4&lt;/span&gt;
+&lt;span class="na"&gt;192.168.1.5&lt;/span&gt;
+&lt;span class="na"&gt;192.168.1.6&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1510,7 +1676,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 
 &lt;p&gt;然後再進到目的機器額外安裝 Python 3 的環境：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;conda create -n py3 &lt;span class="nv"&gt;python&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;3.6 anaconda
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;conda create -n py3 &lt;span class="nv"&gt;python&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;.6 anaconda
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1590,7 +1756,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;h2&gt;環境設定&lt;/h2&gt;
 &lt;p&gt;為了使用 Sacred，首先我裝了一套 &lt;a href="https://www.mongodb.com/"&gt;MongoDB&lt;/a&gt;，為了方便起見我就參考&lt;a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/"&gt;教學&lt;/a&gt;直接裝在本機上。接著用 pip3 安裝 Sacred 相關套件，因為不知為何不指定版本會裝到舊的，所以這裡我就指定了 Sacred 的版本：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install &lt;span class="nv"&gt;sacred&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;0.7b3 pymongo
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;pip3 install &lt;span class="nv"&gt;sacred&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;.7b3 pymongo
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1683,7 +1849,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
   &lt;span class="k"&gt;do&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; seed in &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt; &lt;span class="m"&gt;7&lt;/span&gt; &lt;span class="m"&gt;8&lt;/span&gt; &lt;span class="m"&gt;9&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="k"&gt;do&lt;/span&gt;
-      python mnist.py with &lt;span class="nv"&gt;classifier&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$clf&lt;/span&gt; &lt;span class="nv"&gt;sample_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$sample_size&lt;/span&gt; &lt;span class="nv"&gt;seed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$seed&lt;/span&gt; -m sacred &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt; 1
+      python mnist.py with &lt;span class="nv"&gt;classifier&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$clf&lt;/span&gt; &lt;span class="nv"&gt;sample_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$sample_size&lt;/span&gt; &lt;span class="nv"&gt;seed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$seed&lt;/span&gt; -m sacred &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
     &lt;span class="k"&gt;done&lt;/span&gt;
   &lt;span class="k"&gt;done&lt;/span&gt;
 &lt;span class="k"&gt;done&lt;/span&gt;
@@ -2129,11 +2295,11 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;/div&gt;
 &lt;p&gt;接著修改 &lt;code&gt;Makefile.config&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;BLAS&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; open
-&lt;span class="nv"&gt;USE_CUDNN&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; 1
+&lt;span class="nv"&gt;USE_CUDNN&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
 
 &lt;span class="nv"&gt;INCLUDE_DIRS&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;PYTHON_INCLUDE&lt;span class="k"&gt;)&lt;/span&gt; /usr/local/include /usr/include/hdf5/serial/
 &lt;span class="nv"&gt;LIBRARY_DIRS&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;PYTHON_LIB&lt;span class="k"&gt;)&lt;/span&gt; /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu
-&lt;span class="nv"&gt;WITH_PYTHON_LAYER&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; 1
+&lt;span class="nv"&gt;WITH_PYTHON_LAYER&lt;/span&gt; &lt;span class="o"&gt;:=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2308,7 +2474,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 
     &lt;span class="n"&gt;cheapest_price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cheapest_item&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
 
-    &lt;span class="n"&gt;re_price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;\$(\d+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;re_price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\$(\d+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;td&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parent&lt;/span&gt;
 
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find_all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;option&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;re_price&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -2425,7 +2591,7 @@ python update.py
 &lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# 不知為何在工作站上要用 `python /sbin/pip3.5` 來取代下述的 `pip` 才能跑&lt;/span&gt;
-&lt;span class="hll"&gt;pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;1.1.0 numpy notebook scipy scikit-learn seaborn jieba
+&lt;span class="hll"&gt;pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;.1.0 numpy notebook scipy scikit-learn seaborn jieba
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -18141,10 +18307,10 @@ d: org.apache.spark.sql.DataFrame &lt;span class="o"&gt;=&lt;/span&gt; &lt;span 
 
 &lt;span class="c1"&gt;# 檢查格式&lt;/span&gt;
 scala&amp;gt; d.first
-res2: org.apache.spark.sql.Row &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;latifolia,ArrayBuffer&lt;span class="o"&gt;(&lt;/span&gt;-0.08103186, 0.14688604, -0.060668133, -0.25648367, -0.06855837, -0...
+res2: org.apache.spark.sql.Row &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;latifolia,ArrayBuffer&lt;span class="o"&gt;(&lt;/span&gt;-0.08103186, &lt;span class="m"&gt;0&lt;/span&gt;.14688604, -0.060668133, -0.25648367, -0.06855837, -0...
 
 &lt;span class="c1"&gt;# 輸出到 output directory/vectors/&lt;/span&gt;
-scala&amp;gt; d.map&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; r.getString&lt;span class="o"&gt;(&lt;/span&gt;0&lt;span class="o"&gt;)&lt;/span&gt; + &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt; + r.getSeq&lt;span class="o"&gt;(&lt;/span&gt;1&lt;span class="o"&gt;)&lt;/span&gt;.mkString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)}&lt;/span&gt;.saveAsTextFile&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{output directory}/vectors&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+scala&amp;gt; d.map&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; r.getString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; + &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt; + r.getSeq&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;.mkString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)}&lt;/span&gt;.saveAsTextFile&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{output directory}/vectors&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -18429,7 +18595,7 @@ Machine。&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; word2vec
 &lt;/span&gt;&lt;span class="hll"&gt;cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt &lt;span class="p"&gt;|&lt;/span&gt; nl -v0 -s&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; -w1 &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;s/^/@@SS-/&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; shuf &amp;gt; all.txt
-&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;time&lt;/span&gt; ./word2vec -train all.txt -output vectors.txt -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;400&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;1&lt;/span&gt; -sample 1e-3 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;0&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count &lt;span class="m"&gt;1&lt;/span&gt; -sentence-vectors 1
+&lt;/span&gt;&lt;span class="hll"&gt;&lt;span class="nb"&gt;time&lt;/span&gt; ./word2vec -train all.txt -output vectors.txt -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;400&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;1&lt;/span&gt; -sample 1e-3 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;0&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count &lt;span class="m"&gt;1&lt;/span&gt; -sentence-vectors &lt;span class="m"&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;span class="hll"&gt;grep &lt;span class="s1"&gt;&amp;#39;@@SS-&amp;#39;&lt;/span&gt; vectors.txt &lt;span class="p"&gt;|&lt;/span&gt; sed -e &lt;span class="s1"&gt;&amp;#39;s/^@@SS-//&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sort -n &amp;gt; sentence_vectors.txt
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -18527,9 +18693,9 @@ tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 &lt;h2&gt;初始安裝 Mirror Server&lt;/h2&gt;
 &lt;p&gt;首先透過&lt;a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html"&gt;前一篇文章&lt;/a&gt;的作法安裝 ldapm.lab.csie.ntu.edu.tw 但跳過「轉移 NIS 資料」的部份。此外，需使用同一個 &lt;code&gt;my_root&lt;/code&gt; 但卻須產生新的 server 憑證，並對應到新的網域名稱（注意 &lt;code&gt;-set_serial&lt;/code&gt; 號碼與之前不同）：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;openssl genrsa -out ldapm_key.pem 1024
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;openssl genrsa -out ldapm_key.pem &lt;span class="m"&gt;1024&lt;/span&gt;
 &lt;/span&gt;&lt;span class="hll"&gt;openssl req -new -key ldapm_key.pem -out ldapm_csr.pem
-&lt;/span&gt;&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial 2
+&lt;/span&gt;&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial &lt;span class="m"&gt;2&lt;/span&gt;
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -18811,12 +18977,12 @@ slapcat
 &lt;span class="nv"&gt;$DEFAULT_BASE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 ...
 &lt;span class="c1"&gt;# Uncomment these to exclude Debian-managed system users and groups&lt;/span&gt;
-&lt;span class="nv"&gt;$IGNORE_UID_BELOW&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 1000&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;$IGNORE_UID_BELOW&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="c1"&gt;# Don&amp;#39;t uncomment this if you want to be able to add users to system groups&lt;/span&gt;
 &lt;span class="c1"&gt;# $IGNORE_GID_BELOW = 1000;&lt;/span&gt;
 &lt;span class="c1"&gt;# And here&amp;#39;s the opposite for completeness&lt;/span&gt;
-&lt;span class="nv"&gt;$IGNORE_UID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 29999&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="nv"&gt;$IGNORE_GID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 29999&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;$IGNORE_UID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;29999&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;$IGNORE_GID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;29999&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -18868,14 +19034,14 @@ rootpwmodpw &amp;lt;PASSWORD&amp;gt;
 &lt;p&gt;假設你有可供使用的憑證當然很好，但是一般人除了等待 &lt;a href="https://letsencrypt.org/"&gt;Let's Encrypt&lt;/a&gt; 以外，可能也只能自己的憑證自己建了。&lt;/p&gt;
 &lt;p&gt;在某個資料夾內建立相關憑證：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;openssl genrsa -out my_root_key.pem 1024
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;openssl genrsa -out my_root_key.pem &lt;span class="m"&gt;1024&lt;/span&gt;
 &lt;/span&gt;&lt;span class="hll"&gt;openssl req -new -key my_root_key.pem -out my_root_csr.pem
 &lt;/span&gt;&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
 &lt;/span&gt;
-&lt;span class="hll"&gt;openssl genrsa -out ldap_key.pem 1024
+&lt;span class="hll"&gt;openssl genrsa -out ldap_key.pem &lt;span class="m"&gt;1024&lt;/span&gt;
 &lt;/span&gt;&lt;span class="hll"&gt;openssl req -new -key ldap_key.pem -out ldap_csr.pem
 &lt;/span&gt;
-&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
+&lt;span class="hll"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial &lt;span class="m"&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -19021,14 +19187,14 @@ iface eth0 inet static
 &lt;p&gt;主要是要讓 bob 連結內網時，自動建立起 tunnel，而切斷連線時自動取消，在實際修改檔案前，也可以先用指令列測試其中的指令：&lt;/p&gt;
 &lt;p&gt;首先是建立一個虛擬的 tunnel 界面，並連結到 ted 的外部 IP：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo ip tunnel add mytunnel mode ipip remote 140.112.14.20
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo ip tunnel add mytunnel mode ipip remote &lt;span class="m"&gt;140&lt;/span&gt;.112.14.20
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/div&gt;
 &lt;p&gt;緊接著，隨意為 bob 在此界面指定一個 IP：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip addr add 192.168.15.5/24 dev mytunnel
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip addr add &lt;span class="m"&gt;192&lt;/span&gt;.168.15.5/24 dev mytunnel
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -19042,7 +19208,7 @@ iface eth0 inet static
 &lt;/div&gt;
 &lt;p&gt;最後再設定把連到另一個內網的流量都導到 ted 在此 tunnel 的 IP：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip route add 192.168.14.0/24 via 192.168.15.20
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo up ip route add &lt;span class="m"&gt;192&lt;/span&gt;.168.14.0/24 via &lt;span class="m"&gt;192&lt;/span&gt;.168.15.20
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -19061,7 +19227,7 @@ post-down ip tunnel del mytunnel
 &lt;h3&gt;啟用 IP Forwarding&lt;/h3&gt;
 &lt;p&gt;理論上原本工作站的內網設置應該就有啟用 IP forwarding 的功能，不過為求完整，在這裡記載啟用的方法。可以在 bob 和 ted 上執行以下指令：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo sysctl -w net.ipv4.ip_forward&lt;span class="o"&gt;=&lt;/span&gt;1
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;sudo sysctl -w net.ipv4.ip_forward&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -19157,7 +19323,7 @@ post-down ip tunnel del mytunnel
 &lt;h2&gt;使用 word2vec 訓練詞向量&lt;/h2&gt;
 &lt;p&gt;接著我就用工作站把詞全部丟給 word2vec 訓練：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./word2vec -train sentences.segged.txt -output vectors.bin -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;200&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;0&lt;/span&gt; -sample 1e-4 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;1&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count 1
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./word2vec -train sentences.segged.txt -output vectors.bin -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;200&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;0&lt;/span&gt; -sample 1e-4 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;1&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count &lt;span class="m"&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -19547,64 +19713,64 @@ defencoding big5
                     &lt;span class="n"&gt;new_lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                 &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                     &lt;span class="n"&gt;num&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;empty&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-                    &lt;span class="n"&gt;new_lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;amp;nbsp;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                    &lt;span class="n"&gt;new_lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;amp;nbsp;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                 &lt;span class="n"&gt;empty&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
             &lt;span class="n"&gt;new_lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new_lines&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 
-&lt;span class="n"&gt;rData&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;(\d{2})/(\d{2})/(\d{4}) (\d{2}):(\d{2}):(\d{2}) (PM|AM)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;rData&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;(\d{2})/(\d{2})/(\d{4}) (\d{2}):(\d{2}):(\d{2}) (PM|AM)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;article&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;TITLE: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;TITLE: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
             &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;DATE: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;DATE: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
             &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rData&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
             &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;wrong with {}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;wrong with {}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
             &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                 &lt;span class="n"&gt;gs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groups&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
                 &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;PM&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;PM&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                     &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;
-                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;{}-{}-{} {}:{}:{}+0800&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;{}-{}-{} {}:{}:{}+0800&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
                         &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
                         &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;gs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;PRIMARY CATEGORY: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-            &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;STATUS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
-            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;雪山&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;海岸&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;城市&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;？？&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
-                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;天予&amp;#39;&lt;/span&gt;
-                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;天予：&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;系列&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;奇幻&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-            &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;我的世界&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;記憶&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;PRIMARY CATEGORY: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;STATUS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;雪山&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;海岸&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;城市&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;？？&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;天予&amp;#39;&lt;/span&gt;
+                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;天予：&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;系列&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;奇幻&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;我的世界&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;記憶&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
                 &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt;
-                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;系列&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;系列&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
             &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                 &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt;
-        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;BODY:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;BODY:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
             &lt;span class="n"&gt;lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
             &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                 &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;-----&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;nbsp&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                        &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+                    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;nbsp&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                        &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
                     &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                         &lt;span class="n"&gt;space&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
-                        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;lt;/p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;/p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                             &lt;span class="n"&gt;space&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
-                        &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;lt;p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;lt;/p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-                        &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;lt;!-- more --&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                        &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;/p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                        &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;!-- more --&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                         &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                         &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;space&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                            &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                            &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
                 &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                     &lt;span class="k"&gt;break&lt;/span&gt;
             &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;p_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
             &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                 &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;u&amp;#39;--------&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;l&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;--------&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                     &lt;span class="k"&gt;break&lt;/span&gt;
         &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
             &lt;span class="k"&gt;break&lt;/span&gt;
@@ -19616,13 +19782,13 @@ defencoding big5
         &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
             &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;makedirs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
         &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;utils&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;slugify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;.md&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;w&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;Title: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;Date: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;Category: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Title: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Date: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Category: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
             &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;Tags: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;, &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;Authors: Shaform&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;u&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Tags: {}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;, &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tags&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Authors: Shaform&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
             &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;article&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -20071,10 +20237,10 @@ This enables us to use dvorak at least in Vim.)&lt;/p&gt;
 &lt;span class="n"&gt;DVORAK&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&amp;#39;[]&amp;#39;,.pyfgcrl/=oeuidhtns-;qjkxbwvz{}&amp;quot;&amp;lt;&amp;gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
 &lt;span class="n"&gt;TRANS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;maketrans&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;QWERTY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;DVORAK&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="n"&gt;re_option&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;%(selkey|endkey)\s+(\S+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;re_begin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;%\S+\s+begin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;re_keydef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;^([^#]\S*)(\s+\S+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;re_end&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;r&amp;#39;%\S+\s+end&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_option&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%(selkey|endkey)\s+(\S+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_begin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%\S+\s+begin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_keydef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;^([^#]\S*)(\s+\S+)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;re_end&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%\S+\s+end&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;begin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileinput&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;

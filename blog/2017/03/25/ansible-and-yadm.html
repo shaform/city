@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="前言 還記得當年修計算機系統管理時曾經為了做 NFS + NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形，但還是得常常重灌電腦。像是研究所期間，自己的桌機、筆電，以及實驗室的桌機都是自己裝的 Ubuntu，而每次升級病發就會想重灌成新的版本，久了以後慢慢把安裝的東西寫成 Bash scripts，可是還是相當繁瑣。 ...">
+        <meta name="description" content="前言 還記得當年修計算機系統管理時曾經為了做 NFS + NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形，但還是得常常重灌電腦。像是研究所期間，自己的桌機、筆電，以及實驗室的桌機都是自己裝的 Ubuntu，而每次升級病發就會想重灌成新的版本，久了以後慢慢把安裝的東西寫成 Bash scripts，可是還是相當繁瑣。...">
         <meta name="keywords" content="ansible, yadm">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -120,15 +120,15 @@
 
 <p>然後在 <code>hosts</code> 裡設定機器位址，例如：</p>
 <div class="highlight"><pre><span></span><span class="k">[host1]</span>
-<span class="err">192.168.1.2</span>
+<span class="na">192.168.1.2</span>
 
 <span class="k">[host2]</span>
 <span class="na">192.168.1.3 ansible_ssh_user</span><span class="o">=</span><span class="s">bob ansible_ssh_private_key_file=~/.ssh/bob.pem</span>
 
 <span class="k">[servers]</span>
-<span class="err">192.168.1.4</span>
-<span class="err">192.168.1.5</span>
-<span class="err">192.168.1.6</span>
+<span class="na">192.168.1.4</span>
+<span class="na">192.168.1.5</span>
+<span class="na">192.168.1.6</span>
 </pre></div>
 
 
@@ -309,7 +309,7 @@ ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span cla
 
 <p>然後再進到目的機器額外安裝 Python 3 的環境：</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">conda create -n py3 <span class="nv">python</span><span class="o">=</span>3.6 anaconda
+<div class="highlight"><pre><span></span><span class="hll">conda create -n py3 <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.6 anaconda
 </span></pre></div>
 
 

@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安裝 CUDA 接著到 CUDA 下載頁面下載對應的 deb 檔案。緊接著，重開 Ubuntu，並在登入畫面時按下 Ctrl-Alt-F1 進入命令列界面。 執行以下指令關閉...">
+        <meta name="description" content="Previously I have written about 在Ubuntu 安裝 TensorFlow 的紀錄 (Installing TensorFlow on Ubuntu). Years have passed, and even though Ubuntu is still on 16.04，TensorFlow has already made great progress....">
         <meta name="keywords" content="Caffe, CUDA, TensorFlow, Ubuntu">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
-        <title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面 - 翼之都, City of Wings</title>
+        <title>Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda - 翼之都, City of Wings</title>
 
         <!-- Stylesheets -->
         <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
@@ -67,8 +67,8 @@
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面</h1>
-                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Mon 31 October 2016, in category <a href="http://city.shaform.com/category/notes.html">Notes</a></p>
+                      <h1 class="header-title">Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda</h1>
+                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Mon 23 October 2017, in category <a href="http://city.shaform.com/category/notes.html">Notes</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -87,93 +87,160 @@
 
         <!-- Content -->
     <div class="container content">
-        <p>本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。</p>
-<h2>顯卡設定</h2>
-<h3>基礎設定</h3>
-<p>首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。</p>
-<h3>安裝 CUDA</h3>
-<p>接著到 <a href="https://developer.nvidia.com/cuda-downloads">CUDA 下載頁面</a>下載對應的 deb 檔案。緊接著，重開 Ubuntu，並在登入畫面時按下 <code>Ctrl-Alt-F1</code> 進入命令列界面。</p>
-<p>執行以下指令關閉 <code>lightdm</code>，據<a href="https://gist.github.com/bearpaw/c38ef18ec45ba6548ec0">這裡</a>的講法，這樣就可以達成將內顯和顯卡功能分開的目的。筆者測試如果沒執行這個指令，則最後安裝完 CUDA 重開機就會無法進入圖形登入畫面。</p>
+        <p>Previously I have written about <a href="http://city.shaform.com/blog/2016/10/31/install-tensorflow-with-cuda.html">在Ubuntu 安裝 TensorFlow 的紀錄 (Installing
+TensorFlow on Ubuntu)</a>.  Years have passed, and even though
+Ubuntu is still on 16.04，TensorFlow has
+already made great progress.  I've decided to write another post to show how to
+install TensorFlow and Caffe with Anaconda.</p>
+<h2>GPU Settings</h2>
+<h3>Basic</h3>
+<p>Firstly set integrated video card as the main GPU in the BIOS, and connect your
+monitor to the output port of the integrated video card so your Nvidia GPU is
+completely dedicated to deep learning computation.</p>
+<h3>Install CUDA</h3>
+<p>Afterwards, download the deb files from <a href="https://developer.nvidia.com/cuda-downloads">the download page of
+CUDA</a>.  Do not install at this time. We would reboot Ubuntu and
+enter <code>Ctrl-Alt-F1</code> to login via terminal.</p>
+<p>Execute the following command to stop <code>lightdm</code>.</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll">sudo service lightdm stop
 </span></pre></div>
 
 
 </div>
-<p>接著實際安裝 CUDA，並重新開機，確認可以登入：</p>
+<p>According to <a href="https://gist.github.com/bearpaw/c38ef18ec45ba6548ec0">this article</a>, this must be done when you want to
+use your Nvidia GPU solely for CUDA. When this is not done, we might not be
+able to login to the desktop after CUDA installation.</p>
+<p>So now we would install CUDA 8.0.</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll">sudo dpkg -i cuda-repo-&lt;distro&gt;_&lt;version&gt;_&lt;architecture&gt;.deb
 </span><span class="hll">sudo apt update
-</span><span class="hll">sudo apt install cuda
-</span><span class="hll">sudo reboot
+</span><span class="hll">sudo apt install cuda-8-0
 </span></pre></div>
 
 
 </div>
-<h3>安裝 cuDNN</h3>
-<p>接著到 <a href="https://developer.nvidia.com/cudnn">cuDNN 下載頁面</a>下載 cuDNN v5，然後按照 <a href="https://www.tensorflow.org/versions/r0.11/get_started/os_setup.html#optional-install-cuda-gpus-on-linux">TensorFlow 文件</a>指示，將檔案複製到指定位置：</p>
-<div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">tar xvzf cudnn-8.0-linux-x64-v5.1-ga.tgz
-</span><span class="hll">sudo cp cuda/include/cudnn.h /usr/local/cuda/include
-</span><span class="hll">sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
-</span><span class="hll">sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
-</span></pre></div>
-
-
-</div>
-<h3>設定環境變數</h3>
-<p>接下來在 <code>.bashrc</code> 或者其他開機時會載入的啟動檔案中加入：</p>
-<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/lib/nvidia-367
+<p>Record which version of nvidia driver is installed and add the PATH to <code>.bashrc</code>:</p>
+<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/lib/nvidia-384
 <span class="nb">export</span> <span class="nv">CUDA_HOME</span><span class="o">=</span>/usr/local/cuda
 <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/cuda/bin
 </pre></div>
 
 
-<p>其中 <code>/usr/lib/nvidia-367</code> 可指到你實際安裝的顯卡驅動程式版本。</p>
-<p>最後重新開機即可。</p>
-<p>開機完可執行 <code>nvidia-smi</code> 確定顯卡真的有裝好。</p>
-<h2>安裝 TensorFlow</h2>
-<p>由於這部份跟官方文件一模一樣，沒有特別更改什麼。所以詳細安裝步驟就直接參考<a href="https://www.tensorflow.org/versions/r0.11/get_started/index.html">官方文件</a>即可。</p>
-<h2>安裝 Caffe</h2>
-<p>由於安裝 Caffe 的步驟跟官方有些不一樣，故順便紀錄。</p>
-<p>首先安裝需要的套件：</p>
+<p>where <code>/usr/lib/nvidia-384</code> should point to the actual version installed.</p>
+<p>Reboot again to confirm that we could login:</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">sudo apt install build-essential libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler libgflags-dev libgoogle-glog-dev liblmdb-dev
-</span><span class="hll">sudo apt install --no-install-recommends libboost-all-dev
+<div class="highlight"><pre><span></span><span class="hll">sudo reboot
 </span></pre></div>
 
 
 </div>
-<p>這裡我用 OpenBLAS。</p>
+<h2>Setup Anaconda Environment</h2>
+<h3>Install Anaconda</h3>
+<p>Download Python 3 version of Anaconda at the <a href="https://www.anaconda.com/download/#linux">Anaconda download
+page</a>, and execute the installation command:</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">sudo apt install libopenblas-dev
+<div class="highlight"><pre><span></span><span class="hll">bash ~/Downloads/Anaconda3-<span class="o">{</span>VERSION<span class="o">}</span>-Linux-x86_64.sh
 </span></pre></div>
 
 
 </div>
-<p>接著修改 <code>Makefile.config</code>：</p>
-<div class="highlight"><pre><span></span><span class="nv">BLAS</span> <span class="o">:=</span> open
-<span class="nv">USE_CUDNN</span> <span class="o">:=</span> <span class="m">1</span>
+<p>Install Anaconda onto a directory such as <code>$HOME/anaconda3</code>.</p>
+<h3>Create TensorFlow Environment</h3>
+<p>Activate Anaconda:</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">source</span> <span class="nv">$HOME</span>/anaconda3/bin/activate
+</span></pre></div>
 
-<span class="nv">INCLUDE_DIRS</span> <span class="o">:=</span> <span class="k">$(</span>PYTHON_INCLUDE<span class="k">)</span> /usr/local/include /usr/include/hdf5/serial/
-<span class="nv">LIBRARY_DIRS</span> <span class="o">:=</span> <span class="k">$(</span>PYTHON_LIB<span class="k">)</span> /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu
-<span class="nv">WITH_PYTHON_LAYER</span> <span class="o">:=</span> <span class="m">1</span>
+
+</div>
+<p>And create a new environment named <code>tf</code>:</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">conda create -n tf anaconda
+</span></pre></div>
+
+
+</div>
+<p>Finally activate <code>tf</code> environment:</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">source</span> activate tf
+</span></pre></div>
+
+
+</div>
+<h2>Install TensorFlow</h2>
+<p>Execute this command and <code>tensorflow-gpu</code>, <code>cudnn</code>, <code>cudatoolkit</code> would be
+installed automatically.
+<div class="sh-highlight" markdown="1"></p>
+<div class="highlight"><pre><span></span><span class="hll">conda install tensorflow-gpu
+</span></pre></div>
+
+
+</div>
+
+<h2>Install Caffe</h2>
+<p>Firstly install the required packages:</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo apt install build-essential
+</span><span class="hll">conda install atlas boost gflags glog hdf5 leveldb lmdb openblas protobuf
+</span><span class="hll">conda install -c menpo opencv3
+</span></pre></div>
+
+
+</div>
+<p>Download Caffe, and create the configuration file.</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">git clone https://github.com/BVLC/caffe
+</span><span class="hll"><span class="nb">cd</span> caffe
+</span><span class="hll">cp Makefile.config.example Makefile.config
+</span></pre></div>
+
+
+</div>
+<p>Modify <code>Makefile.config</code>, the number in <code>python3.6</code> could be
+changed to the current Python version:</p>
+<div class="highlight"><pre><span></span>5c5
+<span class="o">&lt;</span> # USE_CUDNN := 1
+<span class="gd">---</span>
+<span class="o">&gt;</span> USE_CUDNN := 1
+21c21
+<span class="o">&lt;</span> # OPENCV_VERSION := 3
+<span class="gd">---</span>
+<span class="o">&gt;</span> OPENCV_VERSION := 3
+25c25
+<span class="o">&lt;</span> # CUSTOM_CXX := g++
+<span class="gd">---</span>
+<span class="o">&gt;</span> CUSTOM_CXX := /usr/bin/g++-4.9
+68,69c68,69
+<span class="o">&lt;</span> PYTHON_INCLUDE := /usr/include/python2.7 \
+<span class="o">&lt;</span>       /usr/lib/python2.7/dist-packages/numpy/core/include
+<span class="gd">---</span>
+<span class="o">&gt;</span> # PYTHON_INCLUDE := /usr/include/python2.7 \
+<span class="o">&gt;</span> #         /usr/lib/python2.7/dist-packages/numpy/core/include
+72,75c72,75
+<span class="o">&lt;</span> # ANACONDA_HOME := $(HOME)/anaconda
+<span class="o">&lt;</span> # PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
+<span class="o">&lt;</span>       # $(ANACONDA_HOME)/include/python2.7 \
+<span class="o">&lt;</span>       # $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include
+<span class="gd">---</span>
+<span class="o">&gt;</span> ANACONDA_HOME := $(HOME)/anaconda3/envs/tf
+<span class="o">&gt;</span> PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
+<span class="o">&gt;</span>       $(ANACONDA_HOME)/include/python3.6m \
+<span class="o">&gt;</span>       $(ANACONDA_HOME)/lib/python3.6/site-packages/numpy/core/include
+83,84c83,84
+<span class="o">&lt;</span> PYTHON_LIB := /usr/lib
+<span class="o">&lt;</span> # PYTHON_LIB := $(ANACONDA_HOME)/lib
+<span class="gd">---</span>
+<span class="o">&gt;</span> # PYTHON_LIB := /usr/lib
+<span class="o">&gt;</span> PYTHON_LIB := $(ANACONDA_HOME)/lib
+94c94
+<span class="o">&lt;</span> INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include
+<span class="gd">---</span>
+<span class="o">&gt;</span> INCLUDE_DIRS := $(PYTHON_INCLUDE)
 </pre></div>
 
 
-<p>並且修改 <code>Makefile</code>，加入 hdf5 相關程式庫：</p>
-<div class="highlight"><pre><span></span><span class="nv">LIBRARIES</span> <span class="o">+=</span> glog gflags protobuf boost_system boost_filesystem m hdf5_serial_hl hdf5_serial
-</pre></div>
-
-
-<p>同時在想用的 Python 環境裡安裝必要套件，利用 Caffe 資料夾裡的 <code>python/requirements.txt</code>：</p>
-<div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">pip install -r requirements.txt
-</span></pre></div>
-
-
-</div>
-<p>最後就可以編譯了：</p>
+<p>Caffe can now be compiled:</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll">make all
 </span><span class="hll">make pycaffe
@@ -187,8 +254,8 @@
                 <div id="disqus_thread"></div>
                     <script type="text/javascript">
                         var disqus_shortname = 'cityofwings';
-                        var disqus_identifier = 'blog/2016/10/31/install-tensorflow-with-cuda.html';
-                        var disqus_url = 'http://city.shaform.com/blog/2016/10/31/install-tensorflow-with-cuda.html';
+                        var disqus_identifier = 'blog/2017/10/23/install-tensorflow-and-caffe-on-ubuntu.html';
+                        var disqus_url = 'http://city.shaform.com/blog/2017/10/23/install-tensorflow-and-caffe-on-ubuntu.html';
                         (function() {
                             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                             dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';

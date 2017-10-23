@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。 記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！ 機器配置 ...">
+        <meta name="description" content="實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。 記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！ 機器配置...">
         <meta name="keywords" content="linux, network, subnet">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -122,14 +122,14 @@ iface eth0 inet static
 <p>主要是要讓 bob 連結內網時，自動建立起 tunnel，而切斷連線時自動取消，在實際修改檔案前，也可以先用指令列測試其中的指令：</p>
 <p>首先是建立一個虛擬的 tunnel 界面，並連結到 ted 的外部 IP：</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">sudo ip tunnel add mytunnel mode ipip remote 140.112.14.20
+<div class="highlight"><pre><span></span><span class="hll">sudo ip tunnel add mytunnel mode ipip remote <span class="m">140</span>.112.14.20
 </span></pre></div>
 
 
 </div>
 <p>緊接著，隨意為 bob 在此界面指定一個 IP：</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">sudo up ip addr add 192.168.15.5/24 dev mytunnel
+<div class="highlight"><pre><span></span><span class="hll">sudo up ip addr add <span class="m">192</span>.168.15.5/24 dev mytunnel
 </span></pre></div>
 
 
@@ -143,7 +143,7 @@ iface eth0 inet static
 </div>
 <p>最後再設定把連到另一個內網的流量都導到 ted 在此 tunnel 的 IP：</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">sudo up ip route add 192.168.14.0/24 via 192.168.15.20
+<div class="highlight"><pre><span></span><span class="hll">sudo up ip route add <span class="m">192</span>.168.14.0/24 via <span class="m">192</span>.168.15.20
 </span></pre></div>
 
 
@@ -162,7 +162,7 @@ post-down ip tunnel del mytunnel
 <h3>啟用 IP Forwarding</h3>
 <p>理論上原本工作站的內網設置應該就有啟用 IP forwarding 的功能，不過為求完整，在這裡記載啟用的方法。可以在 bob 和 ted 上執行以下指令：</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">sudo sysctl -w net.ipv4.ip_forward<span class="o">=</span>1
+<div class="highlight"><pre><span></span><span class="hll">sudo sysctl -w net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
 </span></pre></div>
 
 

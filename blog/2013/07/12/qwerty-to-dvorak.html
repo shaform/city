@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：〈Dvorak: 另一種鍵盤排列〉。 (Newer versions of Windows could ...">
+        <meta name="description" content="Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：〈Dvorak: 另一種鍵盤排列〉。 (Newer versions of Windows could...">
         <meta name="keywords" content="dvorak, linux, qwerty, 輸入法, windows, 行列, 自由行列">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -232,10 +232,10 @@ This enables us to use dvorak at least in Vim.)</p>
 <span class="n">DVORAK</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[]&#39;,.pyfgcrl/=oeuidhtns-;qjkxbwvz{}&quot;&lt;&gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ&#39;&#39;&#39;</span>
 <span class="n">TRANS</span> <span class="o">=</span> <span class="n">maketrans</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">)</span>
 
-<span class="n">re_option</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;%(selkey|endkey)\s+(\S+)&#39;</span><span class="p">)</span>
-<span class="n">re_begin</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;%\S+\s+begin&#39;</span><span class="p">)</span>
-<span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;^([^#]\S*)(\s+\S+)&#39;</span><span class="p">)</span>
-<span class="n">re_end</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;%\S+\s+end&#39;</span><span class="p">)</span>
+<span class="n">re_option</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;%(selkey|endkey)\s+(\S+)&#39;</span><span class="p">)</span>
+<span class="n">re_begin</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;%\S+\s+begin&#39;</span><span class="p">)</span>
+<span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^([^#]\S*)(\s+\S+)&#39;</span><span class="p">)</span>
+<span class="n">re_end</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;%\S+\s+end&#39;</span><span class="p">)</span>
 
 <span class="n">begin</span> <span class="o">=</span> <span class="bp">False</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">():</span>

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="建立鏡像 假設只有一台 LDAP server，則一旦 crash 大家都無法登入了，故可以建立一個鏡像 server，不斷同步資料內容。這篇假設你已經建好前篇的 ldap.lab.csie.ntu.edu.tw，而想再建一個 ldapm.lab.csie.ntu.edu.tw。則在 clients 的設定可設為： # /etc/ldap/ldap.conf URI ...">
+        <meta name="description" content="建立鏡像 假設只有一台 LDAP server，則一旦 crash 大家都無法登入了，故可以建立一個鏡像 server，不斷同步資料內容。這篇假設你已經建好前篇的 ldap.lab.csie.ntu.edu.tw，而想再建一個 ldapm.lab.csie.ntu.edu.tw。則在 clients 的設定可設為： # /etc/ldap/ldap.conf URI...">
         <meta name="keywords" content="Debian, LDAP, linux">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -105,9 +105,9 @@ tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 <h2>初始安裝 Mirror Server</h2>
 <p>首先透過<a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html">前一篇文章</a>的作法安裝 ldapm.lab.csie.ntu.edu.tw 但跳過「轉移 NIS 資料」的部份。此外，需使用同一個 <code>my_root</code> 但卻須產生新的 server 憑證，並對應到新的網域名稱（注意 <code>-set_serial</code> 號碼與之前不同）：</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">openssl genrsa -out ldapm_key.pem 1024
+<div class="highlight"><pre><span></span><span class="hll">openssl genrsa -out ldapm_key.pem <span class="m">1024</span>
 </span><span class="hll">openssl req -new -key ldapm_key.pem -out ldapm_csr.pem
-</span><span class="hll">openssl x509 -req -days <span class="m">36500</span> -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial 2
+</span><span class="hll">openssl x509 -req -days <span class="m">36500</span> -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial <span class="m">2</span>
 </span></pre></div>
 
 

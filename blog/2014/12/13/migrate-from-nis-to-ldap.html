@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 ...">
+        <meta name="description" content="本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。...">
         <meta name="keywords" content="Debian, LDAP, linux, NIS, SSH">
         <link rel="icon" href="http://city.shaform.com/favicon.ico">
 
@@ -145,12 +145,12 @@ slapcat
 <span class="nv">$DEFAULT_BASE</span> <span class="o">=</span> <span class="s2">&quot;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&quot;</span><span class="p">;</span>
 ...
 <span class="c1"># Uncomment these to exclude Debian-managed system users and groups</span>
-<span class="nv">$IGNORE_UID_BELOW</span> <span class="o">=</span> 1000<span class="p">;</span>
+<span class="nv">$IGNORE_UID_BELOW</span> <span class="o">=</span> <span class="m">1000</span><span class="p">;</span>
 <span class="c1"># Don&#39;t uncomment this if you want to be able to add users to system groups</span>
 <span class="c1"># $IGNORE_GID_BELOW = 1000;</span>
 <span class="c1"># And here&#39;s the opposite for completeness</span>
-<span class="nv">$IGNORE_UID_ABOVE</span> <span class="o">=</span> 29999<span class="p">;</span>
-<span class="nv">$IGNORE_GID_ABOVE</span> <span class="o">=</span> 29999<span class="p">;</span>
+<span class="nv">$IGNORE_UID_ABOVE</span> <span class="o">=</span> <span class="m">29999</span><span class="p">;</span>
+<span class="nv">$IGNORE_GID_ABOVE</span> <span class="o">=</span> <span class="m">29999</span><span class="p">;</span>
 </pre></div>
 
 
@@ -202,14 +202,14 @@ rootpwmodpw &lt;PASSWORD&gt;
 <p>假設你有可供使用的憑證當然很好，但是一般人除了等待 <a href="https://letsencrypt.org/">Let's Encrypt</a> 以外，可能也只能自己的憑證自己建了。</p>
 <p>在某個資料夾內建立相關憑證：</p>
 <div class="sh-highlight">
-<div class="highlight"><pre><span></span><span class="hll">openssl genrsa -out my_root_key.pem 1024
+<div class="highlight"><pre><span></span><span class="hll">openssl genrsa -out my_root_key.pem <span class="m">1024</span>
 </span><span class="hll">openssl req -new -key my_root_key.pem -out my_root_csr.pem
 </span><span class="hll">openssl x509 -req -days <span class="m">36500</span> -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
 </span>
-<span class="hll">openssl genrsa -out ldap_key.pem 1024
+<span class="hll">openssl genrsa -out ldap_key.pem <span class="m">1024</span>
 </span><span class="hll">openssl req -new -key ldap_key.pem -out ldap_csr.pem
 </span>
-<span class="hll">openssl x509 -req -days <span class="m">36500</span> -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial 1
+<span class="hll">openssl x509 -req -days <span class="m">36500</span> -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial <span class="m">1</span>
 </span></pre></div>
 
 
