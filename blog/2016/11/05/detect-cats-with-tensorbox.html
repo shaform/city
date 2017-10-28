@@ -88,7 +88,7 @@
         <!-- Content -->
     <div class="container content">
         <p>最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番搜尋，發現 <a href="https://github.com/Russell91/TensorBox">TensorBox</a> 似乎是個用來訓練單一物體偵測器的簡單套件，於是便利用貓咪來進行了簡單的嘗試。</p>
-<p><img alt="Detect a Cat" src="http://city.shaform.com/images/cat-detector.png"></p>
+<p><img alt="Detect a Cat" src="{filename}../images/cat-detector.png"></p>
 <p>本文使用的套件有的是只支援 Python 2，此時執行時將會以 <code>python</code> 程式執行。但筆者寫的 scripts 大多是 Python 3，本文中就以 <code>python3</code> 來表示。</p>
 <p>本文將會用到不少套件，實際放置套件的資料夾結構如下：</p>
 <div class="highlight"><pre><span></span>./
@@ -358,8 +358,8 @@
 <p>就可以<a href="https://nbviewer.jupyter.org/github/shaform/experiments/blob/master/cat/Detect%20Cats.ipynb">在 Notebook 上看到成果</a>了！！！</p>
 <p>以下分別展示一張成功和一張失敗的照片，如果增加更多訓練資料或者使用更容易辨認的物體，效果應該可以更好才是。</p>
 <div style="width: 200px; margin-left: auto; margin-right: auto;">
-<p><img alt="Detect a Cat Successfully" src="http://city.shaform.com/images/cat-success.png">
-<img alt="Failed to Detect a Cat" src="http://city.shaform.com/images/cat-failure.png"></p>
+<p><img alt="Detect a Cat Successfully" src="{filename}../images/cat-success.png">
+<img alt="Failed to Detect a Cat" src="{filename}../images/cat-failure.png"></p>
 </div>
 
 
