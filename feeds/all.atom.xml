@@ -1,5 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2017-10-23T21:30:00+08:00</updated><entry><title>Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda</title><link href="http://city.shaform.com/blog/2017/10/23/install-tensorflow-and-caffe-on-ubuntu.html" rel="alternate"></link><published>2017-10-23T21:30:00+08:00</published><updated>2017-10-23T21:30:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-10-23:/blog/2017/10/23/install-tensorflow-and-caffe-on-ubuntu.html</id><summary type="html">&lt;p&gt;Previously I have written about &lt;a href="http://city.shaform.com/blog/2016/10/31/install-tensorflow-with-cuda.html"&gt;在Ubuntu 安裝 TensorFlow 的紀錄 (Installing
+<feed xmlns="http://www.w3.org/2005/Atom"><title>翼之都, City of Wings</title><link href="http://city.shaform.com/" rel="alternate"></link><link href="http://city.shaform.com/feeds/all.atom.xml" rel="self"></link><id>http://city.shaform.com/</id><updated>2017-10-28T21:45:00+08:00</updated><entry><title>使用 SSH ProxyCommand 來連上內網主機</title><link href="http://city.shaform.com/blog/2017/10/28/ssh-proxycommand.html" rel="alternate"></link><published>2017-10-28T21:45:00+08:00</published><updated>2017-10-28T21:45:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-10-28:/blog/2017/10/28/ssh-proxycommand.html</id><summary type="html">&lt;p&gt;以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 &lt;code&gt;nlg&lt;/code&gt; 程式：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nv"&gt;NLG_WKS_3F&lt;/span&gt;&lt;span class="o"&gt;={&lt;/span&gt;NLG_WKS_3F_HOST&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="nv"&gt;NLG_WKS_2F&lt;/span&gt;&lt;span class="o"&gt;={&lt;/span&gt;NLG_WKS_2F_HOST&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; in
+    &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;-9&lt;span class="o"&gt;])&lt;/span&gt;
+        ssh &lt;span class="nv"&gt;$USER&lt;/span&gt;@&lt;span class="nv"&gt;$NLG_WKS_3F&lt;/span&gt; -p &lt;span class="m"&gt;2200&lt;/span&gt;&lt;span class="nv"&gt;$MACHINE&lt;/span&gt;
+        &lt;span class="p"&gt;;;&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;a&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+        ssh &lt;span class="nv"&gt;$USER&lt;/span&gt;@&lt;span class="nv"&gt;$NLG_WKS_2F&lt;/span&gt;
+        &lt;span class="p"&gt;;;&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;b&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+        ssh &lt;span class="nv"&gt;$USER&lt;/span&gt;@&lt;span class="nv"&gt;$NLG_WKS_2F&lt;/span&gt; -p &lt;span class="m"&gt;22002&lt;/span&gt;
+        &lt;span class="p"&gt;;;&lt;/span&gt;
+    *&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如此一來，要連線時，只要打以下指令就行了：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;nlg b
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;後來才知道，其實可以使用 &lt;code&gt;.ssh/config&lt;/code&gt; 來設定連線的 Hosts。於是修改 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 &lt;code&gt;nlg&lt;/code&gt; 程式：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nv"&gt;NLG_WKS_3F&lt;/span&gt;&lt;span class="o"&gt;={&lt;/span&gt;NLG_WKS_3F_HOST&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="nv"&gt;NLG_WKS_2F&lt;/span&gt;&lt;span class="o"&gt;={&lt;/span&gt;NLG_WKS_2F_HOST&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; in
+    &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;-9&lt;span class="o"&gt;])&lt;/span&gt;
+        ssh &lt;span class="nv"&gt;$USER&lt;/span&gt;@&lt;span class="nv"&gt;$NLG_WKS_3F&lt;/span&gt; -p &lt;span class="m"&gt;2200&lt;/span&gt;&lt;span class="nv"&gt;$MACHINE&lt;/span&gt;
+        &lt;span class="p"&gt;;;&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;a&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+        ssh &lt;span class="nv"&gt;$USER&lt;/span&gt;@&lt;span class="nv"&gt;$NLG_WKS_2F&lt;/span&gt;
+        &lt;span class="p"&gt;;;&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;b&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+        ssh &lt;span class="nv"&gt;$USER&lt;/span&gt;@&lt;span class="nv"&gt;$NLG_WKS_2F&lt;/span&gt; -p &lt;span class="m"&gt;22002&lt;/span&gt;
+        &lt;span class="p"&gt;;;&lt;/span&gt;
+    *&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如此一來，要連線時，只要打以下指令就行了：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;nlg b
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;後來才知道，其實可以使用 &lt;code&gt;.ssh/config&lt;/code&gt; 來設定連線的 Hosts。於是修改 &lt;code&gt;.ssh/config&lt;/code&gt; 如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Host nlg-wks-2
+User &lt;span class="o"&gt;{&lt;/span&gt;USER&lt;span class="o"&gt;}&lt;/span&gt;
+HostName &lt;span class="o"&gt;{&lt;/span&gt;NLG_WKS_3F_HOST&lt;span class="o"&gt;}&lt;/span&gt;
+Port &lt;span class="m"&gt;22002&lt;/span&gt;
+
+Host nlg-wks-b
+User &lt;span class="o"&gt;{&lt;/span&gt;USER&lt;span class="o"&gt;}&lt;/span&gt;
+HostName &lt;span class="o"&gt;{&lt;/span&gt;NLG_WKS_2F_HOST&lt;span class="o"&gt;}&lt;/span&gt;
+Port &lt;span class="m"&gt;22002&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如此一來，要連線時，只要打以下指令就行了：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ssh nlg-wks-b
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;然而，由於奇怪的 port 對應，使得這麼做必須在 &lt;code&gt;.ssh/config&lt;/code&gt; 裡增加許多行數。後來才發現，其實可以用 &lt;code&gt;ProxyCommand&lt;/code&gt; 來做到先自動連上其中一台機器，再自動從那台機器連到內網的其他機器。&lt;/p&gt;
+&lt;p&gt;在連外網連不到的機器時，用 &lt;code&gt;ProxyCommand&lt;/code&gt; 而非自己連兩次 ssh 還有一個好處，就是可以把用來認證的 ssh private key 存在本機，而不存在 NLG-WKS 伺服器裡，避免被同學偷看 private key，但卻可以用這個 private key 在跳板過程裡，用來認證最後想連上的主機。&lt;/p&gt;
+&lt;p&gt;實際作法如下，首先在 &lt;code&gt;.ssh/config&lt;/code&gt; 新增用來跳板的主機：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Host nlgs
+Hostname &lt;span class="o"&gt;{&lt;/span&gt;NLG_WKS_3F_HOST&lt;span class="o"&gt;}&lt;/span&gt;
+User &lt;span class="o"&gt;{&lt;/span&gt;USER&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;緊接著新增跳板項目：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Host nlg-wks-*
+User {USER}
+ProxyCommand ssh -q -W %h:%p nlgs
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;具體的意思是，在連 &lt;code&gt;nlg-wks-*&lt;/code&gt; 機器時，會先連上 &lt;code&gt;nlgs&lt;/code&gt; 機器，然後再從 &lt;code&gt;nlgs&lt;/code&gt; 連 &lt;code&gt;nlg-wks-*&lt;/code&gt; (因此 &lt;code&gt;nlgs&lt;/code&gt; 機器本身，要看得懂 &lt;code&gt;nlg-wks-*&lt;/code&gt; 才行，幸好之前在處理 &lt;a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html"&gt;LDAP&lt;/a&gt; 時已經順便把 DNS 都設了)。&lt;/p&gt;
+&lt;p&gt;如此一來，就能用以下指令，先跳到一個主機，再跳到其他主機了：&lt;/p&gt;
+&lt;div class="sh-highlight"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ssh nlg-wks-b
+&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;p&gt;如此一來，就能更方便的做實驗了。&lt;/p&gt;</content><category term="linux"></category><category term="SSH"></category></entry><entry><title>Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda</title><link href="http://city.shaform.com/blog/2017/10/23/install-tensorflow-and-caffe-on-ubuntu.html" rel="alternate"></link><published>2017-10-23T21:30:00+08:00</published><updated>2017-10-23T21:30:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2017-10-23:/blog/2017/10/23/install-tensorflow-and-caffe-on-ubuntu.html</id><summary type="html">&lt;p&gt;Previously I have written about &lt;a href="http://city.shaform.com/blog/2016/10/31/install-tensorflow-with-cuda.html"&gt;在Ubuntu 安裝 TensorFlow 的紀錄 (Installing
 TensorFlow on Ubuntu)&lt;/a&gt;.  Years have passed, and even though
 Ubuntu is still on 16.04，TensorFlow has
 already made great progress.  I've decided to write another post to show how to
