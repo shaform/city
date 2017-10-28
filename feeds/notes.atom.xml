@@ -316,7 +316,7 @@ changed to the current Python version:&lt;/p&gt;
 
 
 &lt;p&gt;點擊 &lt;code&gt;Run -&amp;gt; makeOurForm&lt;/code&gt; 熱騰騰的問卷就產生好了，可參考下圖。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Dogs vs. Cats Survey" src="{filename}../images/survey.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Dogs vs. Cats Survey" src="http://city.shaform.com/images/survey.png"&gt;&lt;/p&gt;
 &lt;h1&gt;程式碼&lt;/h1&gt;
 &lt;p&gt;照慣例，程式碼放在下述地方供參考：&lt;/p&gt;
 &lt;ul&gt;
@@ -1865,7 +1865,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 
 
 &lt;/div&gt;
-&lt;p&gt;&lt;img alt="SacredBoard" src="{filename}../images/sacredboard.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="SacredBoard" src="http://city.shaform.com/images/sacredboard.png"&gt;&lt;/p&gt;
 &lt;p&gt;是以，我們還是自己寫個程式來回收吧。還好 MongoDB 裡紀錄了所有實驗參數，因此要回收特定數據也是相當容易的。&lt;/p&gt;
 &lt;p&gt;這次我們還是會用 &lt;a href="http://jupyter.readthedocs.io/en/latest/index.html"&gt;Jupyter Notebook&lt;/a&gt; 方便畫圖。首先連結到本機的 MongoDB：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pymongo&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MongoClient&lt;/span&gt;
@@ -1925,7 +1925,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;p&gt;完成！&lt;/p&gt;
 &lt;h2&gt;結語&lt;/h2&gt;
 &lt;p&gt;本次的實驗程式放在 &lt;a href="https://github.com/shaform/experiments/tree/master/sacred"&gt;shaform/experiments/sacred&lt;/a&gt;，最後的 notebook 同時也可以在 &lt;a href="http://nbviewer.jupyter.org/github/shaform/experiments/blob/master/sacred/Sampled%20MNIST.ipynb"&gt;Sampled MNIST&lt;/a&gt; 上觀看。&lt;/p&gt;</content><category term="Sacred"></category><category term="python"></category><category term="jupyter"></category></entry><entry><title>用 TensorBox 製作簡易貓貓辨識器</title><link href="http://city.shaform.com/blog/2016/11/05/detect-cats-with-tensorbox.html" rel="alternate"></link><published>2016-11-05T13:40:00+08:00</published><updated>2016-11-05T13:40:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-11-05:/blog/2016/11/05/detect-cats-with-tensorbox.html</id><summary type="html">&lt;p&gt;最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番搜尋，發現 &lt;a href="https://github.com/Russell91/TensorBox"&gt;TensorBox&lt;/a&gt; 似乎是個用來訓練單一物體偵測器的簡單套件，於是便利用貓咪來進行了簡單的嘗試。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Detect a Cat" src="{filename}../images/cat-detector.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Detect a Cat" src="http://city.shaform.com/images/cat-detector.png"&gt;&lt;/p&gt;
 &lt;p&gt;本文使用的套件有的是只支援 Python 2，此時執行時將會以 &lt;code&gt;python&lt;/code&gt; 程式執行。但筆者寫的 scripts 大多是 Python 3，本文中就以 &lt;code&gt;python3&lt;/code&gt; 來表示。&lt;/p&gt;
 &lt;p&gt;本文將會用到不少套件，實際放置套件的資料夾結構如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./
@@ -1942,7 +1942,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;p&gt;實際的程式可在 &lt;a href="https://github.com/shaform/experiments/tree/master/cat"&gt;shaform/experiments/cat&lt;/a&gt; 裡找到，本文只會顯示重點部份。&lt;/p&gt;
 &lt;h2&gt;收集資料&lt;/h2&gt;
 &lt;p&gt;首先我們使用 &lt;a href="https://github.com/maxogden/cats"&gt;maxogden/cats&lt;/a&gt; 收集好的小規模貓貓照片來進行實驗，我們將利用 &lt;code&gt;catmapper&lt;/code&gt; 資料夾中的照片做為訓練資料，最後再用 &lt;code&gt;cat_photos&lt;/code&gt; 裡的照片來觀看結果 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番搜尋，發現 &lt;a href="https://github.com/Russell91/TensorBox"&gt;TensorBox&lt;/a&gt; 似乎是個用來訓練單一物體偵測器的簡單套件，於是便利用貓咪來進行了簡單的嘗試。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Detect a Cat" src="{filename}../images/cat-detector.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Detect a Cat" src="http://city.shaform.com/images/cat-detector.png"&gt;&lt;/p&gt;
 &lt;p&gt;本文使用的套件有的是只支援 Python 2，此時執行時將會以 &lt;code&gt;python&lt;/code&gt; 程式執行。但筆者寫的 scripts 大多是 Python 3，本文中就以 &lt;code&gt;python3&lt;/code&gt; 來表示。&lt;/p&gt;
 &lt;p&gt;本文將會用到不少套件，實際放置套件的資料夾結構如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./
@@ -2212,8 +2212,8 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;p&gt;就可以&lt;a href="https://nbviewer.jupyter.org/github/shaform/experiments/blob/master/cat/Detect%20Cats.ipynb"&gt;在 Notebook 上看到成果&lt;/a&gt;了！！！&lt;/p&gt;
 &lt;p&gt;以下分別展示一張成功和一張失敗的照片，如果增加更多訓練資料或者使用更容易辨認的物體，效果應該可以更好才是。&lt;/p&gt;
 &lt;div style="width: 200px; margin-left: auto; margin-right: auto;"&gt;
-&lt;p&gt;&lt;img alt="Detect a Cat Successfully" src="{filename}../images/cat-success.png"&gt;
-&lt;img alt="Failed to Detect a Cat" src="{filename}../images/cat-failure.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Detect a Cat Successfully" src="http://city.shaform.com/images/cat-success.png"&gt;
+&lt;img alt="Failed to Detect a Cat" src="http://city.shaform.com/images/cat-failure.png"&gt;&lt;/p&gt;
 &lt;/div&gt;</content><category term="TensorBox"></category><category term="TensorFlow"></category><category term="object detection"></category><category term="cats"></category></entry><entry><title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面</title><link href="http://city.shaform.com/blog/2016/10/31/install-tensorflow-with-cuda.html" rel="alternate"></link><published>2016-10-31T21:28:00+08:00</published><updated>2016-10-31T21:28:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2016-10-31:/blog/2016/10/31/install-tensorflow-with-cuda.html</id><summary type="html">&lt;p&gt;本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。&lt;/p&gt;
 &lt;h2&gt;顯卡設定&lt;/h2&gt;
 &lt;h3&gt;基礎設定&lt;/h3&gt;
@@ -2444,7 +2444,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;h1&gt;建立試算表&lt;/h1&gt;
 &lt;p&gt;接下來我們到 &lt;a href="https://www.google.com/sheets/about/"&gt;Google Sheets&lt;/a&gt; 建立一個試算表，同時將試算表分享給剛剛的 &lt;code&gt;auth.json&lt;/code&gt; 裡 &lt;code&gt;client_email&lt;/code&gt; 欄位提到的 email 帳號： &lt;code&gt;name...@....gserviceaccount.com&lt;/code&gt;，並給予編輯的權限，這樣子才有辦法透過程式存取。&lt;/p&gt;
 &lt;p&gt;將試算表多餘的欄位刪除，只剩下 date, item, price 三欄，並留下新的一個空白行，好讓程式插入資料時，也能有白色背景。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Create a spreadsheet" src="{filename}../images/gspread-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Create a spreadsheet" src="http://city.shaform.com/images/gspread-1.png"&gt;&lt;/p&gt;
 &lt;p&gt;最後我們把網址中 &lt;code&gt;https://docs.google.com/spreadsheets/d/{key}/edit&lt;/code&gt; 的 &lt;code&gt;{key}&lt;/code&gt; 複製到 &lt;code&gt;spreadsheet_key&lt;/code&gt; 檔案裡，供之後程式要開啟試算表時存取。&lt;/p&gt;
 &lt;h1&gt;抓取資料&lt;/h1&gt;
 &lt;p&gt;這裡我們透過 &lt;a href="http://www.crummy.com/software/BeautifulSoup/"&gt;BeautifulSoup&lt;/a&gt; 從某個價格看板挖出最便宜的記憶體價格當作指標指數。確切的來說，我們先搜尋「記憶體 RAM」關鍵字找出項目清單，然後一個一個搜尋價格，並紀錄最便宜的項目。&lt;/p&gt;
@@ -2523,7 +2523,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="Insert data" src="{filename}../images/gspread-2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Insert data" src="http://city.shaform.com/images/gspread-2.png"&gt;&lt;/p&gt;
 &lt;h1&gt;設定 crontab&lt;/h1&gt;
 &lt;p&gt;當然，每次都要手動執行程式一點也不自動。所以我們會用 &lt;a href="https://help.ubuntu.com/community/CronHowto"&gt;crontab&lt;/a&gt; 來自動執行我們的程式。&lt;/p&gt;
 &lt;p&gt;由於我們使用到了 &lt;code&gt;pyvenv&lt;/code&gt;，而且很多檔案路徑都是用相對路徑，因此我另外寫了一個 bash script 來幫忙設定好執行 Python 的步驟。&lt;/p&gt;
@@ -2975,7 +2975,7 @@ python update.py
 Caffe 的 command line 工具有幾個功能，他可以讓你 train 一個 model，
 也可以讓你用 train 好的 model 來進行效能的檢驗。當他在做 training 時，
 他會建立一個 Solver 物件，他的主要功能就是協調類神經網路的運作來進行訓練。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Overview" src="{filename}../images/caffe_overview.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Overview" src="http://city.shaform.com/images/caffe_overview.png"&gt;&lt;/p&gt;
 &lt;p&gt;我們可以用一個設定檔來指定 Solver 的參數 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。
 由於自己對該程式庫也不是很熟悉，加上一直拖稿導致 Caffe 在撰寫期間也已經有不少變動，
 以致可能有許多不正確的地方，還請各位大大不吝指教。&lt;/p&gt;
@@ -2989,7 +2989,7 @@ Caffe 的 command line 工具有幾個功能，他可以讓你 train 一個 mode
 Caffe 的 command line 工具有幾個功能，他可以讓你 train 一個 model，
 也可以讓你用 train 好的 model 來進行效能的檢驗。當他在做 training 時，
 他會建立一個 Solver 物件，他的主要功能就是協調類神經網路的運作來進行訓練。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Overview" src="{filename}../images/caffe_overview.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Overview" src="http://city.shaform.com/images/caffe_overview.png"&gt;&lt;/p&gt;
 &lt;p&gt;我們可以用一個設定檔來指定 Solver 的參數，像是 learning rate 或者是 Solver 的種類，
 例如 SGD Solver 等等。在設定檔中，可以指定一個 training net 的參數，
 testing nets 則有可能有多個。例如如果要用不同的 data set 同時驗證 model 的效能時就可以用到。
@@ -19214,7 +19214,7 @@ post-down ip tunnel del mytunnel
 
 &lt;/div&gt;
 &lt;p&gt;因為萌典抽出來的資料不算多，所以訓練起來滿快的，只是當然效果就不太好了：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="word2vec running..." src="{filename}../images/train_word2vec.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="word2vec running..." src="http://city.shaform.com/images/train_word2vec.png"&gt;&lt;/p&gt;
 &lt;h2&gt;測試&lt;/h2&gt;
 &lt;p&gt;首先測試距離相近的字：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
