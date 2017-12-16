@@ -89,7 +89,7 @@ ProxyCommand ssh -q -W %h:%p nlgs
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;具體的意思是，在連 &lt;code&gt;nlg-wks-*&lt;/code&gt; 機器時，會先連上 &lt;code&gt;nlgs&lt;/code&gt; 機器，然後再從 &lt;code&gt;nlgs&lt;/code&gt; 連 &lt;code&gt;nlg-wks-*&lt;/code&gt; (因此 &lt;code&gt;nlgs&lt;/code&gt; 機器本身，要看得懂 &lt;code&gt;nlg-wks-*&lt;/code&gt; 才行，幸好之前在處理 &lt;a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html"&gt;LDAP&lt;/a&gt; 時已經順便把 DNS 都設了)。&lt;/p&gt;
+&lt;p&gt;具體的意思是，在連 &lt;code&gt;nlg-wks-*&lt;/code&gt; 機器時，會先連上 &lt;code&gt;nlgs&lt;/code&gt; 機器，然後再從 &lt;code&gt;nlgs&lt;/code&gt; 連 &lt;code&gt;nlg-wks-*&lt;/code&gt; (因此 &lt;code&gt;nlgs&lt;/code&gt; 機器本身，要看得懂 &lt;code&gt;nlg-wks-*&lt;/code&gt; 才行，幸好之前在處理 &lt;a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html"&gt;LDAP&lt;/a&gt; 時已經順便把 DNS 紀錄都設了)。&lt;/p&gt;
 &lt;p&gt;如此一來，就能用以下指令，先跳到一個主機，再跳到其他主機了：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;ssh nlg-wks-b

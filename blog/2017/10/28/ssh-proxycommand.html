@@ -150,7 +150,7 @@ ProxyCommand ssh -q -W %h:%p nlgs
 </pre></div>
 
 
-<p>具體的意思是，在連 <code>nlg-wks-*</code> 機器時，會先連上 <code>nlgs</code> 機器，然後再從 <code>nlgs</code> 連 <code>nlg-wks-*</code> (因此 <code>nlgs</code> 機器本身，要看得懂 <code>nlg-wks-*</code> 才行，幸好之前在處理 <a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html">LDAP</a> 時已經順便把 DNS 都設了)。</p>
+<p>具體的意思是，在連 <code>nlg-wks-*</code> 機器時，會先連上 <code>nlgs</code> 機器，然後再從 <code>nlgs</code> 連 <code>nlg-wks-*</code> (因此 <code>nlgs</code> 機器本身，要看得懂 <code>nlg-wks-*</code> 才行，幸好之前在處理 <a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html">LDAP</a> 時已經順便把 DNS 紀錄都設了)。</p>
 <p>如此一來，就能用以下指令，先跳到一個主機，再跳到其他主機了：</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll">ssh nlg-wks-b
@@ -199,6 +199,7 @@ ProxyCommand ssh -q -W %h:%p nlgs
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Links</div>
                         <ul class="list-unstyled">
+                            <li><a href="http://shaform.com" target="_blank">About me</a></li>
                             <li><a href="http://shaform.wordpress.com" target="_blank">一座島</a></li>
                         </ul>
                     </div> 
