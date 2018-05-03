@@ -6,18 +6,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="前言 前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。 以執行而言，由於處理的檔案龐大、計算時間冗長、使用機器繁多，如何最有效率的把實驗跑完，同時又盡可能避免重複計算浪費時間，就成了難題。尤其考慮有時會因為不可抗力因素導致部份實驗中斷，此時要如何從一半的結果繼續執行，同時又最節省時間也是值得思考的點。...">
         <meta name="keywords" content="jupyter, python, Sacred">
-        <link rel="icon" href="http://city.shaform.com/favicon.ico">
+        <link rel="icon" href="https://city.shaform.com/favicon.ico">
 
         <title>用 Sacred 追蹤實驗數據 - 翼之都, City of Wings</title>
 
         <!-- Stylesheets -->
-        <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="https://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
         <link href="/style/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
-        <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
-        <link href="http://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
+        <link href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
+        <link href="https://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,13 +49,13 @@
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="http://city.shaform.com/"><img class="mr20" src="http://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
+                        <a class="pull-left" href="https://city.shaform.com/"><img class="mr20" src="https://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
                     </div>
                     <div class="nav pull-right">
-                            <a href="http://city.shaform.com/category/ideas.html">Ideas</a>
-                            <a href="http://city.shaform.com/category/notes.html">Notes</a>
-                            <a href="http://city.shaform.com/category/projects.html">Projects</a>
-                            <a href="http://city.shaform.com/tags.html">Tags</a>
+                            <a href="https://city.shaform.com/category/ideas.html">Ideas</a>
+                            <a href="https://city.shaform.com/category/notes.html">Notes</a>
+                            <a href="https://city.shaform.com/category/projects.html">Projects</a>
+                            <a href="https://city.shaform.com/tags.html">Tags</a>
                     </div>
                 </div>
             </div>
@@ -68,12 +68,12 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">用 Sacred 追蹤實驗數據</h1>
-                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Sat 18 March 2017, in category <a href="http://city.shaform.com/category/notes.html">Notes</a></p>
+                      <p class="header-date">By <a href="https://city.shaform.com/author/shaform.html">Shaform</a>, Sat 18 March 2017, in category <a href="https://city.shaform.com/category/notes.html">Notes</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-<a href="http://city.shaform.com/tag/jupyter.html">jupyter</a>, <a href="http://city.shaform.com/tag/python.html">python</a>, <a href="http://city.shaform.com/tag/sacred.html">Sacred</a>                      </p>
+<a href="https://city.shaform.com/tag/jupyter.html">jupyter</a>, <a href="https://city.shaform.com/tag/python.html">python</a>, <a href="https://city.shaform.com/tag/sacred.html">Sacred</a>                      </p>
                   </div>
               </div>
         </div>
@@ -213,7 +213,7 @@
 
 
 </div>
-<p><img alt="SacredBoard" src="http://city.shaform.com/images/sacredboard.png"></p>
+<p><img alt="SacredBoard" src="https://city.shaform.com/images/sacredboard.png"></p>
 <p>是以，我們還是自己寫個程式來回收吧。還好 MongoDB 裡紀錄了所有實驗參數，因此要回收特定數據也是相當容易的。</p>
 <p>這次我們還是會用 <a href="http://jupyter.readthedocs.io/en/latest/index.html">Jupyter Notebook</a> 方便畫圖。首先連結到本機的 MongoDB：</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
@@ -280,7 +280,7 @@
                     <script type="text/javascript">
                         var disqus_shortname = 'cityofwings';
                         var disqus_identifier = 'blog/2017/03/18/run-experiments-with-sacred.html';
-                        var disqus_url = 'http://city.shaform.com/blog/2017/03/18/run-experiments-with-sacred.html';
+                        var disqus_url = 'https://city.shaform.com/blog/2017/03/18/run-experiments-with-sacred.html';
                         (function() {
                             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                             dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
@@ -299,9 +299,9 @@
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Sitemap</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://city.shaform.com/archives.html">Archives</a></li>
-                            <li><a href="http://city.shaform.com/tags.html">Tags</a></li>
-                            <li><a href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                            <li><a href="https://city.shaform.com/archives.html">Archives</a></li>
+                            <li><a href="https://city.shaform.com/tags.html">Tags</a></li>
+                            <li><a href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
@@ -313,8 +313,8 @@
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Links</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://shaform.com" target="_blank">About me</a></li>
-                            <li><a href="http://shaform.wordpress.com" target="_blank">一座島</a></li>
+                            <li><a href="https://shaform.com" target="_blank">About me</a></li>
+                            <li><a href="https://shaform.wordpress.com" target="_blank">一座島</a></li>
                         </ul>
                     </div> 
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">

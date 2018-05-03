@@ -6,18 +6,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="建立鏡像 假設只有一台 LDAP server，則一旦 crash 大家都無法登入了，故可以建立一個鏡像 server，不斷同步資料內容。這篇假設你已經建好前篇的 ldap.lab.csie.ntu.edu.tw，而想再建一個 ldapm.lab.csie.ntu.edu.tw。則在 clients 的設定可設為： # /etc/ldap/ldap.conf URI...">
         <meta name="keywords" content="Debian, LDAP, linux">
-        <link rel="icon" href="http://city.shaform.com/favicon.ico">
+        <link rel="icon" href="https://city.shaform.com/favicon.ico">
 
         <title>建立 LDAP 鏡像、及日常管理指令集 - 翼之都, City of Wings</title>
 
         <!-- Stylesheets -->
-        <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="https://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
         <link href="/style/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
-        <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
-        <link href="http://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
+        <link href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
+        <link href="https://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,13 +49,13 @@
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="http://city.shaform.com/"><img class="mr20" src="http://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
+                        <a class="pull-left" href="https://city.shaform.com/"><img class="mr20" src="https://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
                     </div>
                     <div class="nav pull-right">
-                            <a href="http://city.shaform.com/category/ideas.html">Ideas</a>
-                            <a href="http://city.shaform.com/category/notes.html">Notes</a>
-                            <a href="http://city.shaform.com/category/projects.html">Projects</a>
-                            <a href="http://city.shaform.com/tags.html">Tags</a>
+                            <a href="https://city.shaform.com/category/ideas.html">Ideas</a>
+                            <a href="https://city.shaform.com/category/notes.html">Notes</a>
+                            <a href="https://city.shaform.com/category/projects.html">Projects</a>
+                            <a href="https://city.shaform.com/tags.html">Tags</a>
                     </div>
                 </div>
             </div>
@@ -68,12 +68,12 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">建立 LDAP 鏡像、及日常管理指令集</h1>
-                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Sun 14 December 2014, in category <a href="http://city.shaform.com/category/notes.html">Notes</a></p>
+                      <p class="header-date">By <a href="https://city.shaform.com/author/shaform.html">Shaform</a>, Sun 14 December 2014, in category <a href="https://city.shaform.com/category/notes.html">Notes</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-<a href="http://city.shaform.com/tag/debian.html">Debian</a>, <a href="http://city.shaform.com/tag/ldap.html">LDAP</a>, <a href="http://city.shaform.com/tag/linux.html">linux</a>                      </p>
+<a href="https://city.shaform.com/tag/debian.html">Debian</a>, <a href="https://city.shaform.com/tag/ldap.html">LDAP</a>, <a href="https://city.shaform.com/tag/linux.html">linux</a>                      </p>
                   </div>
               </div>
         </div>
@@ -103,7 +103,7 @@ tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 
 
 <h2>初始安裝 Mirror Server</h2>
-<p>首先透過<a href="http://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html">前一篇文章</a>的作法安裝 ldapm.lab.csie.ntu.edu.tw 但跳過「轉移 NIS 資料」的部份。此外，需使用同一個 <code>my_root</code> 但卻須產生新的 server 憑證，並對應到新的網域名稱（注意 <code>-set_serial</code> 號碼與之前不同）：</p>
+<p>首先透過<a href="https://city.shaform.com/blog/2014/12/13/migrate-from-nis-to-ldap.html">前一篇文章</a>的作法安裝 ldapm.lab.csie.ntu.edu.tw 但跳過「轉移 NIS 資料」的部份。此外，需使用同一個 <code>my_root</code> 但卻須產生新的 server 憑證，並對應到新的網域名稱（注意 <code>-set_serial</code> 號碼與之前不同）：</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll">openssl genrsa -out ldapm_key.pem <span class="m">1024</span>
 </span><span class="hll">openssl req -new -key ldapm_key.pem -out ldapm_csr.pem
@@ -324,7 +324,7 @@ olcMirrorMode: TRUE
                     <script type="text/javascript">
                         var disqus_shortname = 'cityofwings';
                         var disqus_identifier = 'blog/2014/12/14/mirror-and-mgmt-on-ldap.html';
-                        var disqus_url = 'http://city.shaform.com/blog/2014/12/14/mirror-and-mgmt-on-ldap.html';
+                        var disqus_url = 'https://city.shaform.com/blog/2014/12/14/mirror-and-mgmt-on-ldap.html';
                         (function() {
                             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                             dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
@@ -343,9 +343,9 @@ olcMirrorMode: TRUE
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Sitemap</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://city.shaform.com/archives.html">Archives</a></li>
-                            <li><a href="http://city.shaform.com/tags.html">Tags</a></li>
-                            <li><a href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                            <li><a href="https://city.shaform.com/archives.html">Archives</a></li>
+                            <li><a href="https://city.shaform.com/tags.html">Tags</a></li>
+                            <li><a href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
@@ -357,8 +357,8 @@ olcMirrorMode: TRUE
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Links</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://shaform.com" target="_blank">About me</a></li>
-                            <li><a href="http://shaform.wordpress.com" target="_blank">一座島</a></li>
+                            <li><a href="https://shaform.com" target="_blank">About me</a></li>
+                            <li><a href="https://shaform.wordpress.com" target="_blank">一座島</a></li>
                         </ul>
                     </div> 
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">

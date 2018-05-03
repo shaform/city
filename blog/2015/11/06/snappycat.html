@@ -6,18 +6,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="最近在學習 Spark 的時候常會接觸到 Snappy 壓縮而成的檔案。雖然在 Spark 裡只要用 sc.textFile 就可以直接讀取。可是有時也想把檔案下載到 local 端處理。 然而因為 Hadoop 的檔案格式不是單純的 Snappy，所以要讀取就會有些麻煩。 稍微找一下現存的解法似乎都是直接用 Java 去連結 Hadoop...">
         <meta name="keywords" content="Hadoop, snappy, snappycat, Spark">
-        <link rel="icon" href="http://city.shaform.com/favicon.ico">
+        <link rel="icon" href="https://city.shaform.com/favicon.ico">
 
         <title>snappycat: A command line tool to decompress snappy files produced by Hadoop - 翼之都, City of Wings</title>
 
         <!-- Stylesheets -->
-        <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="https://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
         <link href="/style/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
-        <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
-        <link href="http://city.shaform.com/feeds/projects.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
+        <link href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
+        <link href="https://city.shaform.com/feeds/projects.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,13 +49,13 @@
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="http://city.shaform.com/"><img class="mr20" src="http://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
+                        <a class="pull-left" href="https://city.shaform.com/"><img class="mr20" src="https://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
                     </div>
                     <div class="nav pull-right">
-                            <a href="http://city.shaform.com/category/ideas.html">Ideas</a>
-                            <a href="http://city.shaform.com/category/notes.html">Notes</a>
-                            <a href="http://city.shaform.com/category/projects.html">Projects</a>
-                            <a href="http://city.shaform.com/tags.html">Tags</a>
+                            <a href="https://city.shaform.com/category/ideas.html">Ideas</a>
+                            <a href="https://city.shaform.com/category/notes.html">Notes</a>
+                            <a href="https://city.shaform.com/category/projects.html">Projects</a>
+                            <a href="https://city.shaform.com/tags.html">Tags</a>
                     </div>
                 </div>
             </div>
@@ -68,12 +68,12 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">snappycat: A command line tool to decompress snappy files produced by Hadoop</h1>
-                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Fri 06 November 2015, in category <a href="http://city.shaform.com/category/projects.html">Projects</a></p>
+                      <p class="header-date">By <a href="https://city.shaform.com/author/shaform.html">Shaform</a>, Fri 06 November 2015, in category <a href="https://city.shaform.com/category/projects.html">Projects</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-<a href="http://city.shaform.com/tag/hadoop.html">Hadoop</a>, <a href="http://city.shaform.com/tag/snappy.html">snappy</a>, <a href="http://city.shaform.com/tag/snappycat.html">snappycat</a>, <a href="http://city.shaform.com/tag/spark.html">Spark</a>                      </p>
+<a href="https://city.shaform.com/tag/hadoop.html">Hadoop</a>, <a href="https://city.shaform.com/tag/snappy.html">snappy</a>, <a href="https://city.shaform.com/tag/snappycat.html">snappycat</a>, <a href="https://city.shaform.com/tag/spark.html">Spark</a>                      </p>
                   </div>
               </div>
         </div>
@@ -128,7 +128,7 @@ flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下�
                     <script type="text/javascript">
                         var disqus_shortname = 'cityofwings';
                         var disqus_identifier = 'blog/2015/11/06/snappycat.html';
-                        var disqus_url = 'http://city.shaform.com/blog/2015/11/06/snappycat.html';
+                        var disqus_url = 'https://city.shaform.com/blog/2015/11/06/snappycat.html';
                         (function() {
                             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                             dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
@@ -147,9 +147,9 @@ flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下�
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Sitemap</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://city.shaform.com/archives.html">Archives</a></li>
-                            <li><a href="http://city.shaform.com/tags.html">Tags</a></li>
-                            <li><a href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                            <li><a href="https://city.shaform.com/archives.html">Archives</a></li>
+                            <li><a href="https://city.shaform.com/tags.html">Tags</a></li>
+                            <li><a href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
@@ -161,8 +161,8 @@ flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下�
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Links</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://shaform.com" target="_blank">About me</a></li>
-                            <li><a href="http://shaform.wordpress.com" target="_blank">一座島</a></li>
+                            <li><a href="https://shaform.com" target="_blank">About me</a></li>
+                            <li><a href="https://shaform.wordpress.com" target="_blank">一座島</a></li>
                         </ul>
                     </div> 
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">

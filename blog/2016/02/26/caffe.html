@@ -6,18 +6,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。 由於自己對該程式庫也不是很熟悉，加上一直拖稿導致 Caffe 在撰寫期間也已經有不少變動， 以致可能有許多不正確的地方，還請各位大大不吝指教。 主要分成四個部份來講。首先是整個 Caffe 的大架構，以及一些重要的元件。 其次，我也研究了如何自己新增一個 layer。 接下來，再重新回到...">
         <meta name="keywords" content="Caffe, deep learning">
-        <link rel="icon" href="http://city.shaform.com/favicon.ico">
+        <link rel="icon" href="https://city.shaform.com/favicon.ico">
 
         <title>Caffe 程式閱讀筆記 - 翼之都, City of Wings</title>
 
         <!-- Stylesheets -->
-        <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="https://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
         <link href="/style/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
-        <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
-        <link href="http://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
+        <link href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
+        <link href="https://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,13 +49,13 @@
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="http://city.shaform.com/"><img class="mr20" src="http://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
+                        <a class="pull-left" href="https://city.shaform.com/"><img class="mr20" src="https://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
                     </div>
                     <div class="nav pull-right">
-                            <a href="http://city.shaform.com/category/ideas.html">Ideas</a>
-                            <a href="http://city.shaform.com/category/notes.html">Notes</a>
-                            <a href="http://city.shaform.com/category/projects.html">Projects</a>
-                            <a href="http://city.shaform.com/tags.html">Tags</a>
+                            <a href="https://city.shaform.com/category/ideas.html">Ideas</a>
+                            <a href="https://city.shaform.com/category/notes.html">Notes</a>
+                            <a href="https://city.shaform.com/category/projects.html">Projects</a>
+                            <a href="https://city.shaform.com/tags.html">Tags</a>
                     </div>
                 </div>
             </div>
@@ -68,12 +68,12 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">Caffe 程式閱讀筆記</h1>
-                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Fri 26 February 2016, in category <a href="http://city.shaform.com/category/notes.html">Notes</a></p>
+                      <p class="header-date">By <a href="https://city.shaform.com/author/shaform.html">Shaform</a>, Fri 26 February 2016, in category <a href="https://city.shaform.com/category/notes.html">Notes</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-<a href="http://city.shaform.com/tag/caffe.html">Caffe</a>, <a href="http://city.shaform.com/tag/deep-learning.html">deep learning</a>                      </p>
+<a href="https://city.shaform.com/tag/caffe.html">Caffe</a>, <a href="https://city.shaform.com/tag/deep-learning.html">deep learning</a>                      </p>
                   </div>
               </div>
         </div>
@@ -100,7 +100,7 @@
 Caffe 的 command line 工具有幾個功能，他可以讓你 train 一個 model，
 也可以讓你用 train 好的 model 來進行效能的檢驗。當他在做 training 時，
 他會建立一個 Solver 物件，他的主要功能就是協調類神經網路的運作來進行訓練。</p>
-<p><img alt="Overview" src="http://city.shaform.com/images/caffe_overview.png"></p>
+<p><img alt="Overview" src="https://city.shaform.com/images/caffe_overview.png"></p>
 <p>我們可以用一個設定檔來指定 Solver 的參數，像是 learning rate 或者是 Solver 的種類，
 例如 SGD Solver 等等。在設定檔中，可以指定一個 training net 的參數，
 testing nets 則有可能有多個。例如如果要用不同的 data set 同時驗證 model 的效能時就可以用到。
@@ -398,7 +398,7 @@ decay。</p>
                     <script type="text/javascript">
                         var disqus_shortname = 'cityofwings';
                         var disqus_identifier = 'blog/2016/02/26/caffe.html';
-                        var disqus_url = 'http://city.shaform.com/blog/2016/02/26/caffe.html';
+                        var disqus_url = 'https://city.shaform.com/blog/2016/02/26/caffe.html';
                         (function() {
                             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                             dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
@@ -417,9 +417,9 @@ decay。</p>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Sitemap</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://city.shaform.com/archives.html">Archives</a></li>
-                            <li><a href="http://city.shaform.com/tags.html">Tags</a></li>
-                            <li><a href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                            <li><a href="https://city.shaform.com/archives.html">Archives</a></li>
+                            <li><a href="https://city.shaform.com/tags.html">Tags</a></li>
+                            <li><a href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
@@ -431,8 +431,8 @@ decay。</p>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Links</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://shaform.com" target="_blank">About me</a></li>
-                            <li><a href="http://shaform.wordpress.com" target="_blank">一座島</a></li>
+                            <li><a href="https://shaform.com" target="_blank">About me</a></li>
+                            <li><a href="https://shaform.wordpress.com" target="_blank">一座島</a></li>
                         </ul>
                     </div> 
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">

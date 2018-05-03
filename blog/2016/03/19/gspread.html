@@ -6,18 +6,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="前言 Google Sheets 和傳統試算表最大的差異或許在於他的資料存放在遠端，所以可以從任何地方存取，也很方便和別人共享編輯。因為這個特性，使得我偶爾會將一些實驗資料放到 Google Sheets 上面。 有的時候這些實驗數據是隨著時間固定產生的，此時如果總是自己剪剪貼貼，難免會覺得有些浪費時間。幸好，Google 提供了 Sheets...">
         <meta name="keywords" content="Google Sheets, gspread, Python 3">
-        <link rel="icon" href="http://city.shaform.com/favicon.ico">
+        <link rel="icon" href="https://city.shaform.com/favicon.ico">
 
         <title>價格追蹤：使用 gspread 自動更新 Google Sheets - 翼之都, City of Wings</title>
 
         <!-- Stylesheets -->
-        <link href="http://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="https://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
         <link href="/style/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
-        <link href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
-        <link href="http://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
+        <link href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
+        <link href="https://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,13 +49,13 @@
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="http://city.shaform.com/"><img class="mr20" src="http://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
+                        <a class="pull-left" href="https://city.shaform.com/"><img class="mr20" src="https://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
                     </div>
                     <div class="nav pull-right">
-                            <a href="http://city.shaform.com/category/ideas.html">Ideas</a>
-                            <a href="http://city.shaform.com/category/notes.html">Notes</a>
-                            <a href="http://city.shaform.com/category/projects.html">Projects</a>
-                            <a href="http://city.shaform.com/tags.html">Tags</a>
+                            <a href="https://city.shaform.com/category/ideas.html">Ideas</a>
+                            <a href="https://city.shaform.com/category/notes.html">Notes</a>
+                            <a href="https://city.shaform.com/category/projects.html">Projects</a>
+                            <a href="https://city.shaform.com/tags.html">Tags</a>
                     </div>
                 </div>
             </div>
@@ -68,12 +68,12 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">價格追蹤：使用 gspread 自動更新 Google Sheets</h1>
-                      <p class="header-date">By <a href="http://city.shaform.com/author/shaform.html">Shaform</a>, Sat 19 March 2016, in category <a href="http://city.shaform.com/category/notes.html">Notes</a></p>
+                      <p class="header-date">By <a href="https://city.shaform.com/author/shaform.html">Shaform</a>, Sat 19 March 2016, in category <a href="https://city.shaform.com/category/notes.html">Notes</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-<a href="http://city.shaform.com/tag/google-sheets.html">Google Sheets</a>, <a href="http://city.shaform.com/tag/gspread.html">gspread</a>, <a href="http://city.shaform.com/tag/python-3.html">Python 3</a>                      </p>
+<a href="https://city.shaform.com/tag/google-sheets.html">Google Sheets</a>, <a href="https://city.shaform.com/tag/gspread.html">gspread</a>, <a href="https://city.shaform.com/tag/python-3.html">Python 3</a>                      </p>
                   </div>
               </div>
         </div>
@@ -135,7 +135,7 @@
 <h1>建立試算表</h1>
 <p>接下來我們到 <a href="https://www.google.com/sheets/about/">Google Sheets</a> 建立一個試算表，同時將試算表分享給剛剛的 <code>auth.json</code> 裡 <code>client_email</code> 欄位提到的 email 帳號： <code>name...@....gserviceaccount.com</code>，並給予編輯的權限，這樣子才有辦法透過程式存取。</p>
 <p>將試算表多餘的欄位刪除，只剩下 date, item, price 三欄，並留下新的一個空白行，好讓程式插入資料時，也能有白色背景。</p>
-<p><img alt="Create a spreadsheet" src="http://city.shaform.com/images/gspread-1.png"></p>
+<p><img alt="Create a spreadsheet" src="https://city.shaform.com/images/gspread-1.png"></p>
 <p>最後我們把網址中 <code>https://docs.google.com/spreadsheets/d/{key}/edit</code> 的 <code>{key}</code> 複製到 <code>spreadsheet_key</code> 檔案裡，供之後程式要開啟試算表時存取。</p>
 <h1>抓取資料</h1>
 <p>這裡我們透過 <a href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> 從某個價格看板挖出最便宜的記憶體價格當作指標指數。確切的來說，我們先搜尋「記憶體 RAM」關鍵字找出項目清單，然後一個一個搜尋價格，並紀錄最便宜的項目。</p>
@@ -214,7 +214,7 @@
 </pre></div>
 
 
-<p><img alt="Insert data" src="http://city.shaform.com/images/gspread-2.png"></p>
+<p><img alt="Insert data" src="https://city.shaform.com/images/gspread-2.png"></p>
 <h1>設定 crontab</h1>
 <p>當然，每次都要手動執行程式一點也不自動。所以我們會用 <a href="https://help.ubuntu.com/community/CronHowto">crontab</a> 來自動執行我們的程式。</p>
 <p>由於我們使用到了 <code>pyvenv</code>，而且很多檔案路徑都是用相對路徑，因此我另外寫了一個 bash script 來幫忙設定好執行 Python 的步驟。</p>
@@ -249,7 +249,7 @@ python update.py
                     <script type="text/javascript">
                         var disqus_shortname = 'cityofwings';
                         var disqus_identifier = 'blog/2016/03/19/gspread.html';
-                        var disqus_url = 'http://city.shaform.com/blog/2016/03/19/gspread.html';
+                        var disqus_url = 'https://city.shaform.com/blog/2016/03/19/gspread.html';
                         (function() {
                             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                             dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
@@ -268,9 +268,9 @@ python update.py
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Sitemap</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://city.shaform.com/archives.html">Archives</a></li>
-                            <li><a href="http://city.shaform.com/tags.html">Tags</a></li>
-                            <li><a href="http://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                            <li><a href="https://city.shaform.com/archives.html">Archives</a></li>
+                            <li><a href="https://city.shaform.com/tags.html">Tags</a></li>
+                            <li><a href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
@@ -282,8 +282,8 @@ python update.py
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Links</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://shaform.com" target="_blank">About me</a></li>
-                            <li><a href="http://shaform.wordpress.com" target="_blank">一座島</a></li>
+                            <li><a href="https://shaform.com" target="_blank">About me</a></li>
+                            <li><a href="https://shaform.wordpress.com" target="_blank">一座島</a></li>
                         </ul>
                     </div> 
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
