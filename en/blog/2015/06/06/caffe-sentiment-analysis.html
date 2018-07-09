@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Caffe is a deep learning framework that can be used to develop neural network models. Although Caffe is usually used for image classification, it does not prevent us from utilizing it for other...">
+        <meta name="keywords" content="Caffe, deep learning, sentiment analysis, word2vec">
+        <link rel="icon" href="https://city.shaform.com/en/favicon.ico">
+
+        <title>Using Caffe for Sentiment Analysis - City of Wings</title>
+
+        <!-- Stylesheets -->
+        <link href="https://city.shaform.com/en/theme/css/all.min.css" rel="stylesheet">
+        <link href="/style/style.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings Full Atom Feed" />
+        <link href="https://city.shaform.com/feeds/notes.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings Categories Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Google Analytics -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-13132274-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+        <!-- /Google Analytics -->
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://city.shaform.com/en/images/background.jpg'); background-position: center; background-size: cover;">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="https://city.shaform.com/en/"><img class="mr20" src="https://city.shaform.com/en/images/fly.png" alt="logo">City of Wings</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="https://city.shaform.com/en/category/ideas.html">Ideas</a>
+                                <a href="https://city.shaform.com/en/category/notes.html">Notes</a>
+                                <a href="https://city.shaform.com/en/category/projects.html">Projects</a>
+                                <a href="https://city.shaform.com/en/tags.html">Tags</a>
+                        <a href="https://city.shaform.com">- zh: https://city.shaform.com -</a>
+  
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Using Caffe for Sentiment Analysis</h1>
+                      <p class="header-date">By <a href="https://city.shaform.com/en/author/shaform.html">Shaform</a>, Sat 06 June 2015, in category <a href="https://city.shaform.com/en/category/notes.html">Notes</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="https://city.shaform.com/en/tag/caffe.html">Caffe</a>, <a href="https://city.shaform.com/en/tag/deep-learning.html">deep learning</a>, <a href="https://city.shaform.com/en/tag/sentiment-analysis.html">sentiment analysis</a>, <a href="https://city.shaform.com/en/tag/word2vec.html">word2vec</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <p><a href="http://caffe.berkeleyvision.org/">Caffe</a> is a deep learning framework that can be used to
+develop neural network models. Although Caffe is usually used
+for image classification, it does not prevent us from utilizing it
+for other tasks. In this article, we outline the procedure to convert
+<a href="http://arxiv.org/abs/1405.4053">Paragraph Vectors</a> into the <a href="http://symas.com/mdb/">LMDB</a> format that Caffe understands, and
+create a simple model to train and predict the sentiment for movie reviews.</p>
+<h1>Data Preparation</h1>
+<p>While in the <a href="https://city.shaform.com/en/../blog/2015/03/27/sentiment-analysis.html">previous post</a> we use custom Chinese corpus
+for sentiment analysis, this time we utilize the scripts provided
+by <a href="https://github.com/mesnilgr/iclr15">mesnilgr/iclr15</a> to download the <a href="http://ai.stanford.edu/~amaas/data/sentiment/">Large Movie Review Dataset</a>
+so it's easier to reproduce the results.</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="c1"># get mesnilgr/iclr15</span>
+<span class="hll">git clone https://github.com/mesnilgr/iclr15
+</span>
+<span class="hll">mkdir -p iclr15_run
+</span><span class="hll"><span class="nb">cd</span> iclr15_run
+</span>
+<span class="c1"># get data</span>
+<span class="hll">../iclr15/scripts/data.sh
+</span></pre></div>
+
+
+</div>
+<p>Afterwards, we create the <a href="http://arxiv.org/abs/1405.4053">Paragraph Vectors</a> for each review. Paragraph
+Vectors are fixed-dimensional distributed representations for texts. Once we
+convert each review into a vector, we could easily feed it into a neural network.</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="c1"># extract the part to create paragraph vectors from iclr15 scripts</span>
+<span class="hll">sed -e <span class="s1">&#39;/liblinear/,$d&#39;</span> ../iclr15/scripts/paragraph.sh &gt; paragraph.sh
+</span>
+<span class="c1"># start creating the vectors</span>
+<span class="hll">chmod +x paragraph.sh
+</span><span class="hll">./paragraph.sh
+</span></pre></div>
+
+
+</div>
+<p>Finally, we copy the resulting files.</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="c1"># copy the vectors</span>
+<span class="hll"><span class="nb">cd</span> word2vec
+</span><span class="hll">cp full-train.txt test.txt ../../
+</span><span class="hll"><span class="nb">cd</span> ../../
+</span></pre></div>
+
+
+</div>
+<h1>Converting the Input Format</h1>
+<p>We now have two files: <code>full-train.txt</code> and <code>test.txt</code> for training and testing
+respectively. These files use <a href="https://github.com/cjlin1/libsvm/blob/master/README">LIBSVM data format</a>, which can
+not be used with Caffe directly. Therefore, we create a script to convert the files.</p>
+<p>We will use utilities provided by <a href="http://caffe.berkeleyvision.org/installation.html#python-andor-matlab-caffe-optional">Pycaffe</a> to do the conversion; be sure to install
+all the dependencies and Pycaffe itself. Notice that currently Pycaffe does not work
+well on Python 3, so we'll use Python 2.7 here. If you don't want to install Pycaffe
+system-wide. You could also manually set the <code>PYTHONPATH</code> variable as follows.</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll"><span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PYTHONPATH</span><span class="si">}</span>:caffe-directory/python/
+</span></pre></div>
+
+
+</div>
+<p>In addition, install the <a href="http://lmdb.readthedocs.org/en/release/">py-lmdb</a> Python package.</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">sudo pip install lmdb
+</span></pre></div>
+
+
+</div>
+<p>Each line in the input file begins with a label followed by a 100-dimensional array.
+So we extract the data using a simple Python routine.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">num_of_dims</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">tokens</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="c1"># change label `-1&#39; to `0&#39;</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># ignore the index since we already know the format</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">dim</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">label</span><span class="p">,</span> <span class="n">arr</span><span class="p">))</span>
+
+    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">items</span><span class="p">])</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">])</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_of_dims</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
+</pre></div>
+
+
+<p>There is a well-written tutorial on creating LMDB file on
+<a href="http://deepdish.io/2015/04/28/creating-lmdb-in-python/">Creating an LMDB database in Python</a>, and we'll adopt
+a similar procedure. The only difference is that we are using <code>floats</code>
+for the data, so we'll just use <code>array_to_datum</code> to create the <code>Datum</code>
+for us.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lmdb</span>
+<span class="kn">from</span> <span class="nn">caffe.io</span> <span class="kn">import</span> <span class="n">array_to_datum</span>
+
+<span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span> 
+    <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">itemsize</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">itemsize</span>
+    <span class="c1"># set a reasonable upper limit for database size</span>
+    <span class="n">map_size</span> <span class="o">=</span> <span class="mi">10240</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">+</span> <span class="n">num</span> <span class="o">*</span> <span class="n">itemsize</span> <span class="o">*</span> <span class="mi">2</span> 
+    <span class="k">print</span> <span class="s1">&#39;save {} instances...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+
+    <span class="n">env</span> <span class="o">=</span> <span class="n">lmdb</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">map_size</span><span class="o">=</span><span class="n">map_size</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)):</span>
+        <span class="n">datum</span> <span class="o">=</span> <span class="n">array_to_datum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">str_id</span> <span class="o">=</span> <span class="s1">&#39;{:08}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">env</span><span class="o">.</span><span class="n">begin</span><span class="p">(</span><span class="n">write</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">txn</span><span class="p">:</span>
+            <span class="n">txn</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">str_id</span><span class="p">,</span> <span class="n">datum</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+</pre></div>
+
+
+<p>Using the complete <a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/convert.py">convert.py</a> script, we convert both
+training and testing files into LMDB format.</p>
+<div class="sh-highlight">
+<div class="highlight"><pre><span></span><span class="hll">python convert.py full-train.txt movie-train-lmdb
+</span><span class="hll">python convert.py test.txt movie-test-lmdb
+</span></pre></div>
+
+
+</div>
+<h1>Creating a Caffe Model</h1>
+<p>Finally, we create a simple NN model with <a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/nn.prototxt">nn.prototxt</a> and <a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/nn_solver.prototxt">nn_solver.prototxt</a>. Execute the
+Caffe command line tool and we obtain the following results.</p>
+<div class="highlight"><pre><span></span>$ caffe train --solver=nn_solver.prototxt
+
+Iteration 10000, loss = 0.142478
+Iteration 10000, Testing net (#0)
+    Test net output #0: accuracy = 0.88364
+    Test net output #1: loss = 0.284636 (* 1 = 0.284636 loss)
+Optimization Done.
+</pre></div>
+
+
+<h1>Source Code</h1>
+<p>The relevant source code is on <a href="https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/">shaform/experiments/caffe_sentiment_analysis</a>.</p>
+
+
+    <div class="comments">
+        <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'cityofwings';
+                var disqus_identifier = 'blog/2015/06/06/caffe-sentiment-analysis.html';
+                var disqus_url = 'https://city.shaform.com/en/blog/2015/06/06/caffe-sentiment-analysis.html';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+        <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://city.shaform.com/en/archives.html">Archives</a></li>
+                            <li><a href="https://city.shaform.com/en/tags.html">Tags</a></li>
+                            <li><a href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://github.com/shaform" target="_blank">GitHub</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://shaform.com" target="_blank">About me</a></li>
+                            <li><a href="https://shaform.wordpress.com" target="_blank">一座島</a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; shaform 2010-2018</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
