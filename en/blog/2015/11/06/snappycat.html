@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="最近在學習 Spark 的時候常會接觸到 Snappy 壓縮而成的檔案。雖然在 Spark 裡只要用 sc.textFile 就可以直接讀取。可是有時也想把檔案下載到 local 端處理。 然而因為 Hadoop 的檔案格式不是單純的 Snappy，所以要讀取就會有些麻煩。 稍微找一下現存的解法似乎都是直接用 Java 去連結 Hadoop...">
+        <meta name="description" content="I often encounter [Snappy][]-compressed files recently when I am learning Spark. Although we could just use sc.textFile to read them in Spark, sometimes we might want to download them locally for...">
         <meta name="keywords" content="Hadoop, snappy, snappycat, Spark">
-        <link rel="icon" href="https://city.shaform.com/favicon.ico">
+        <link rel="icon" href="https://city.shaform.com/en/favicon.ico">
 
-        <title>snappycat: A command line tool to decompress snappy files produced by Hadoop - 翼之都, City of Wings</title>
+        <title>snappycat: A command line tool to decompress snappy files produced by Hadoop - City of Wings</title>
 
         <!-- Stylesheets -->
-        <link href="https://city.shaform.com/theme/css/all.min.css" rel="stylesheet">
+        <link href="https://city.shaform.com/en/theme/css/all.min.css" rel="stylesheet">
         <link href="/style/style.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
-        <link href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Full Atom Feed" />
-        <link href="https://city.shaform.com/feeds/projects.atom.xml" type="application/atom+xml" rel="alternate" title="翼之都, City of Wings Categories Atom Feed" />
+        <link href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings Full Atom Feed" />
+        <link href="https://city.shaform.com/feeds/projects.atom.xml" type="application/atom+xml" rel="alternate" title="City of Wings Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -44,20 +44,20 @@
     <body>
 
         <!-- Header -->
-    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://city.shaform.com/images/background.jpg'); background-position: center; background-size: cover;">
+    <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://city.shaform.com/en/images/background.jpg'); background-position: center; background-size: cover;">
 
             <!-- Static navbar -->
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="https://city.shaform.com/"><img class="mr20" src="https://city.shaform.com/images/fly.png" alt="logo">翼之都, City of Wings</a>
+                        <a class="pull-left" href="https://city.shaform.com/en/"><img class="mr20" src="https://city.shaform.com/en/images/fly.png" alt="logo">City of Wings</a>
                     </div>
                     <div class="nav pull-right">
-                                <a href="https://city.shaform.com/category/ideas.html">Ideas</a>
-                                <a href="https://city.shaform.com/category/notes.html">Notes</a>
-                                <a href="https://city.shaform.com/category/projects.html">Projects</a>
-                                <a href="https://city.shaform.com/tags.html">Tags</a>
-                            <a href="https://city.shaform.com/en">- en -</a>
+                                <a href="https://city.shaform.com/en/category/ideas.html">Ideas</a>
+                                <a href="https://city.shaform.com/en/category/notes.html">Notes</a>
+                                <a href="https://city.shaform.com/en/category/projects.html">Projects</a>
+                                <a href="https://city.shaform.com/en/tags.html">Tags</a>
+                            <a href="https://city.shaform.com">- zh -</a>
   
                     </div>
                 </div>
@@ -71,12 +71,12 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">snappycat: A command line tool to decompress snappy files produced by Hadoop</h1>
-                      <p class="header-date">By <a href="https://city.shaform.com/author/shaform.html">Shaform</a>, Fri 06 November 2015, in category <a href="https://city.shaform.com/category/projects.html">Projects</a></p>
+                      <p class="header-date">By <a href="https://city.shaform.com/en/author/shaform.html">Shaform</a>, Fri 06 November 2015, in category <a href="https://city.shaform.com/en/category/projects.html">Projects</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-<a href="https://city.shaform.com/tag/hadoop.html">Hadoop</a>, <a href="https://city.shaform.com/tag/snappy.html">snappy</a>, <a href="https://city.shaform.com/tag/snappycat.html">snappycat</a>, <a href="https://city.shaform.com/tag/spark.html">Spark</a>                      </p>
+<a href="https://city.shaform.com/en/tag/hadoop.html">Hadoop</a>, <a href="https://city.shaform.com/en/tag/snappy.html">snappy</a>, <a href="https://city.shaform.com/en/tag/snappycat.html">snappycat</a>, <a href="https://city.shaform.com/en/tag/spark.html">Spark</a>                      </p>
                   </div>
               </div>
         </div>
@@ -90,34 +90,42 @@
 
         <!-- Content -->
     <div class="container content">
-        <p>最近在學習 Spark 的時候常會接觸到 <a href="https://blog.cloudera.com/blog/2011/09/snappy-and-hadoop/">Snappy</a> 壓縮而成的檔案。雖然在 Spark
-裡只要用 <code>sc.textFile</code> 就可以直接讀取。可是有時也想把檔案下載到 local
-端處理。</p>
-<p>然而因為 Hadoop 的檔案格式不是單純的 Snappy，所以要讀取就會有些麻煩。</p>
-<p>稍微找一下現存的解法似乎都是直接用 Java 去連結 Hadoop
-的程式庫，感覺在設置上有些複雜。而且發現目前使用的某個工具似乎在遇到空的 Snappy
-flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下檔案格式。</p>
-<p>簡單來說，Hadoop 會把每個檔案分成許多個 blocks，而每個 block 各自獨立使用 Snappy
-壓縮。在壓縮後的 block 前面，會附上兩個 32-bit 的數字，其中第一個是解壓縮後 block
-的大小。第二個則是壓縮後的大小，也就是接在這數字後面的那串資料的大小。</p>
-<p>由於 Spark 存檔案時會把檔案分成許多 partitions，如果資料量太小的話，有的 partition
-可能是空的。此時這個空檔案裡只會含兩個 32-bit 的 0。</p>
-<p>處理了這些問題後就寫成了一個很短的 C++ 程式： <a href="https://github.com/shaform/snappycat">snappycat</a>。</p>
-<p>用法也很簡單，可以把所有檔案當成參數輸入：</p>
+        <p>I often encounter [Snappy][]-compressed files recently when I am learning Spark.
+Although we could just use <code>sc.textFile</code> to read them in Spark, sometimes we
+might want to download them locally for processing. However, reading these files
+locally is complicated because the file format is not exactly Snappy-compressed files,
+        as Hadoop stores those files in its own way.</p>
+<div class="highlight"><pre><span></span>    Most of existing solutions use Java to link with Hadoop library, but the setup is
+    rather complicated. Moreover, some tools don&#39;t support empty files. Therefore, I
+    spent some time to study the file format.
+
+    [Snappy]: https://blog.cloudera.com/blog/2011/09/snappy-and-hadoop/
+
+    In short, Hadoop split the files into multiple blocks, and each block is compressed with
+    Snappy independently. Before each compressed block, two 32-bit number are used to represent
+    the decompressed size and the compressed size, respectively.
+
+    As Spark split files into multiple partitions, some partitions might be empty. In such cases,
+</pre></div>
+
+
+<p>the files would only contain two 32-bit 0s.</p>
+<p>I developed a short C++ program to handle these cases: <a href="https://github.com/shaform/snappycat">snappycat</a>.</p>
+<p>The usage is simple, just use input files as arguments:</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll">./snappycat DIRECTORY/*.snappy
 </span></pre></div>
 
 
 </div>
-<p>也可以用 standard input 輸入：</p>
+<p>It also supports standard input:</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll">cat DIRECTARY/*.snappy <span class="p">|</span> snappycat
 </span></pre></div>
 
 
 </div>
-<p>程式會把解壓縮的結果直接輸出到 standard output，所以如果想把檔案存下來則需如下所示：</p>
+<p>The program outputs the decompressed result to standard output. So to save the output, use:</p>
 <div class="sh-highlight">
 <div class="highlight"><pre><span></span><span class="hll">./snappycat DIRECTORY/*.snappy &gt; output.txt
 </span></pre></div>
@@ -131,7 +139,7 @@ flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下�
             <script type="text/javascript">
                 var disqus_shortname = 'cityofwings';
                 var disqus_identifier = 'blog/2015/11/06/snappycat.html';
-                var disqus_url = 'https://city.shaform.com/blog/2015/11/06/snappycat.html';
+                var disqus_url = 'https://city.shaform.com/en/blog/2015/11/06/snappycat.html';
                 (function() {
                     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
@@ -151,8 +159,8 @@ flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下�
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Sitemap</div>
                         <ul class="list-unstyled">
-                            <li><a href="https://city.shaform.com/archives.html">Archives</a></li>
-                            <li><a href="https://city.shaform.com/tags.html">Tags</a></li>
+                            <li><a href="https://city.shaform.com/en/archives.html">Archives</a></li>
+                            <li><a href="https://city.shaform.com/en/tags.html">Tags</a></li>
                             <li><a href="https://city.shaform.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
                         </ul>
                     </div>

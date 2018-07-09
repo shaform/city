@@ -12,49 +12,7 @@
 &lt;p&gt;主要的作法是先用 &lt;a href="https://wiki.python.org/moin/PyPIXmlRpc"&gt;PyPI API&lt;/a&gt; 找出最多人下載的 projects，然後再透過 &lt;a href="https://github.com/brettcannon/caniusepython3"&gt;caniusepython3&lt;/a&gt; 檢查哪些不支援 Python 3，最後再偵測該 project 在 GitHub 上是否有公開原始碼。順便抓星星數用來排序。&lt;/p&gt;
 &lt;p&gt;本來想用 GitHub API 但是一下子就超過一天查詢限制，所以只好強抓網頁了。&lt;/p&gt;
 &lt;p&gt;最後的網頁樣板則是用 &lt;a href="http://materializecss.com"&gt;materializecss&lt;/a&gt; 快速做成。&lt;/p&gt;
-&lt;p&gt;希望對有強迫症的路人有所幫助。&lt;/p&gt;</content><category term="Python3"></category><category term="2to3"></category><category term="GitHub"></category><category term="py3tracker"></category></entry><entry><title>snappycat: A command line tool to decompress snappy files produced by Hadoop</title><link href="https://city.shaform.com/blog/2015/11/06/snappycat.html" rel="alternate"></link><published>2015-11-06T21:20:00+08:00</published><updated>2015-11-06T21:20:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2015-11-06:/blog/2015/11/06/snappycat.html</id><summary type="html">&lt;p&gt;最近在學習 Spark 的時候常會接觸到 &lt;a href="https://blog.cloudera.com/blog/2011/09/snappy-and-hadoop/"&gt;Snappy&lt;/a&gt; 壓縮而成的檔案。雖然在 Spark
-裡只要用 &lt;code&gt;sc.textFile&lt;/code&gt; 就可以直接讀取。可是有時也想把檔案下載到 local
-端處理。&lt;/p&gt;
-&lt;p&gt;然而因為 Hadoop 的檔案格式不是單純的 Snappy，所以要讀取就會有些麻煩。&lt;/p&gt;
-&lt;p&gt;稍微找一下現存的解法似乎都是直接用 Java 去連結 Hadoop
-的程式庫，感覺在設置上有些複雜。而且發現目前使用的某個工具似乎在遇到空的 Snappy
-flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下檔案格式。&lt;/p&gt;
-&lt;p&gt;簡單來說，Hadoop 會把每個檔案分成許多個 blocks，而每個 block 各自獨立使用 Snappy
-壓縮。在壓縮後的 block 前面，會附上兩個 32-bit 的數字，其中第一個是解壓縮後 block
-的大小。第二個則是壓縮後的大小，也就是接在這數字後面的那串資料的大小 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;最近在學習 Spark 的時候常會接觸到 &lt;a href="https://blog.cloudera.com/blog/2011/09/snappy-and-hadoop/"&gt;Snappy&lt;/a&gt; 壓縮而成的檔案。雖然在 Spark
-裡只要用 &lt;code&gt;sc.textFile&lt;/code&gt; 就可以直接讀取。可是有時也想把檔案下載到 local
-端處理。&lt;/p&gt;
-&lt;p&gt;然而因為 Hadoop 的檔案格式不是單純的 Snappy，所以要讀取就會有些麻煩。&lt;/p&gt;
-&lt;p&gt;稍微找一下現存的解法似乎都是直接用 Java 去連結 Hadoop
-的程式庫，感覺在設置上有些複雜。而且發現目前使用的某個工具似乎在遇到空的 Snappy
-flie 時會有錯誤產生。 所以利用空閒的時間稍微研究了一下檔案格式。&lt;/p&gt;
-&lt;p&gt;簡單來說，Hadoop 會把每個檔案分成許多個 blocks，而每個 block 各自獨立使用 Snappy
-壓縮。在壓縮後的 block 前面，會附上兩個 32-bit 的數字，其中第一個是解壓縮後 block
-的大小。第二個則是壓縮後的大小，也就是接在這數字後面的那串資料的大小。&lt;/p&gt;
-&lt;p&gt;由於 Spark 存檔案時會把檔案分成許多 partitions，如果資料量太小的話，有的 partition
-可能是空的。此時這個空檔案裡只會含兩個 32-bit 的 0。&lt;/p&gt;
-&lt;p&gt;處理了這些問題後就寫成了一個很短的 C++ 程式： &lt;a href="https://github.com/shaform/snappycat"&gt;snappycat&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;用法也很簡單，可以把所有檔案當成參數輸入：&lt;/p&gt;
-&lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./snappycat DIRECTORY/*.snappy
-&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;/div&gt;
-&lt;p&gt;也可以用 standard input 輸入：&lt;/p&gt;
-&lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;cat DIRECTARY/*.snappy &lt;span class="p"&gt;|&lt;/span&gt; snappycat
-&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;/div&gt;
-&lt;p&gt;程式會把解壓縮的結果直接輸出到 standard output，所以如果想把檔案存下來則需如下所示：&lt;/p&gt;
-&lt;div class="sh-highlight"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="hll"&gt;./snappycat DIRECTORY/*.snappy &amp;gt; output.txt
-&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;/div&gt;</content><category term="Hadoop"></category><category term="Spark"></category><category term="snappy"></category><category term="snappycat"></category></entry><entry><title>最低成本的程式協作: CoProgramming</title><link href="https://city.shaform.com/blog/2013/03/05/coprogramming.html" rel="alternate"></link><published>2013-03-05T08:03:00+08:00</published><updated>2013-03-05T08:03:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-03-05:/blog/2013/03/05/coprogramming.html</id><summary type="html">&lt;h2&gt;緣起&lt;/h2&gt;
+&lt;p&gt;希望對有強迫症的路人有所幫助。&lt;/p&gt;</content><category term="Python3"></category><category term="2to3"></category><category term="GitHub"></category><category term="py3tracker"></category></entry><entry><title>最低成本的程式協作: CoProgramming</title><link href="https://city.shaform.com/blog/2013/03/05/coprogramming.html" rel="alternate"></link><published>2013-03-05T08:03:00+08:00</published><updated>2013-03-05T08:03:00+08:00</updated><author><name>Shaform</name></author><id>tag:city.shaform.com,2013-03-05:/blog/2013/03/05/coprogramming.html</id><summary type="html">&lt;h2&gt;緣起&lt;/h2&gt;
 &lt;p&gt;在程式課堂，團隊合作常常是件頭痛的事，若是每個人各自工作，常會產生許多難以整合的版本。即使是一起到電腦教室討論，也常是一個人寫程式，其他人在旁邊看。雖然有版本控制系統等等合作工具，然而我從來沒有成功在一堂課中讓隊友學會其運作(應該說是幾乎，僅有在雙方都早已會使用，或者是由我做所有merge時才曾使用)，事實上，像 git, hg 等等複雜的系統，是否真的適合這種小型專案也尚有可懷疑的地方，尤其，有些作業所有的程式碼都在同一個檔案中，使得版本控制系統用起來十分不順手。&lt;/p&gt;
 &lt;p&gt;我突然想起在&lt;a href="http://en.wikipedia.org/wiki/Here_Comes_Everybody"&gt;《Here Comes Everybody》&lt;/a&gt;書裡看過的說法：Wikipedia 的貢獻者中，絕大多數可能只有編輯過一兩行的文章。一家公司如果大部分的員工都只做一點工作，則這家公司多半無法生存。可是在 Wikipedia 的例子裡，合作的成本被降的很低，所以原來不可能利用的小量付出，也能被整合成一個共同成果。&lt;/p&gt;
 &lt;p&gt;這確實就是我們遇到的情況，有時在課堂中的程式作業規模是如此的小，任何的合作成本都太過高昂。而且，這種只存在一學期的臨時團隊，根本難以形成向心力。而要求任何人為了一學期的作業學會複雜的版本控制系統更是完全不實際的想法。&lt;/p&gt;
