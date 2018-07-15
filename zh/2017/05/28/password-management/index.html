@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>密碼管理心得筆記 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="前言：逐步學習資訊安全 經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 LUKS 加密，" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="密碼管理心得筆記" />
+<meta property="og:description" content="前言：逐步學習資訊安全 經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 LUKS 加密，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2017/05/28/password-management/" />
+
+
+
+<meta property="article:published_time" content="2017-05-28T20:11:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2017-05-28T20:11:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="密碼管理心得筆記">
+<meta itemprop="description" content="前言：逐步學習資訊安全 經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 LUKS 加密，">
+
+
+<meta itemprop="datePublished" content="2017-05-28T20:11:00&#43;08:00" />
+<meta itemprop="dateModified" content="2017-05-28T20:11:00&#43;08:00" />
+<meta itemprop="wordCount" content="5933">
+
+
+
+<meta itemprop="keywords" content="truecrypt,pass,tomb,gnupg,YubiKey,Nitrokey,OpenPGP," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="密碼管理心得筆記"/>
+<meta name="twitter:description" content="前言：逐步學習資訊安全 經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 LUKS 加密，"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">密碼管理心得筆記</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Sun 28 May 2017, 分類：
+            <a href="/zh/category/">Notes</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/nitrokey/">Nitrokey</a>, <a href="/zh/tag/openpgp/">OpenPGP</a>, <a href="/zh/tag/yubikey/">YubiKey</a>, <a href="/zh/tag/gnupg/">gnupg</a>, <a href="/zh/tag/pass/">pass</a>, <a href="/zh/tag/tomb/">tomb</a>, <a href="/zh/tag/truecrypt/">truecrypt</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<h2 id="前言-逐步學習資訊安全">前言：逐步學習資訊安全</h2>
+
+<p>經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> 加密，又到後來啟用了家目錄的 <a href="http://ecryptfs.org/">eCryptfs</a>，並開始不太敢用沒加密的 Windows，只在 Ubuntu 上工作。其他還試過 <a href="https://en.wikipedia.org/wiki/TrueCrypt]">TrueCrypt</a> 來加密硬碟，還曾經因為忘記密鑰，忍痛把某個硬碟裡的檔案放棄了呢。最近也受擅長資訊安全的朋友的建議，想來研究<a href="https://twopointfouristan.wordpress.com/2011/04/17/pwning-past-whole-disk-encryption/">也考慮開機磁區問題的全硬碟加密可能性</a>。</p>
+
+<p>另一方面，對密碼管理也是多有嘗試。一開始設密碼也是使用像是生日、人名、單字之類的簡易密碼。當然很快就被破解了。後來使用了更加複雜的密碼，可是不同網站還是設成一樣，這樣要是有的網站<a href="http://plainpass.com/">密碼沒加密</a>，一被破解，全部網站的密碼也就被得知了。可是每個網站都用不同密碼實在太難記了，於是有段時期又改用某種神秘公式，配合不同網站性質，產生每個網站的獨特密碼。同樣的道理也能將每張金融卡的密碼都設成不一樣。一些不重要的網站則使用<a href="https://xkcd.com/936/">很長但好記的密碼</a>。</p>
+
+<p>只是公式的主意看似可行，但如果被歹徒看見足夠多的密碼，或許他也有機會猜出背後的公式。同時每次想換密碼，都要想個全新的公式，並且一次換掉所有密碼，否則根本記不起哪個網站是用哪個規則，感覺也很麻煩。</p>
+
+<p>於是後來就用亂數密碼產生器，每個網站都隨機產生自己也完全記不住的密碼，然後把他們加密存在像是 <a href="https://www.lastpass.com/">LastPass</a> 之類的雲端同步服務。可是這樣一來雖然就算歹徒得知一個密碼也猜不出其他密碼，但一旦歹徒攻進雲端儲存服務，並設法解開了加密，就一口氣得知了所有密碼了。</p>
+
+<p>於是後來就不再使用雲端，而是用 <a href="https://www.keepassx.org/">KeepassX</a> 放在本機。這樣就減少了存放密碼的地方以及連網的時間。可是這樣一來同步就非常麻煩，常常如果在不同的機器各自新增了密碼，就得手動同步差異，相當不方便。此外，由於打密碼時會輸入密鑰，使用這個密鑰就可以一口氣解開所有密碼的加密，假設歹徒侵入了我的電腦，偷聽我打入的密鑰，則即可趁著加密被解開的當下，把所有密碼都複製出來了。</p>
+
+<p>就在最近的時候，偷聽大大們聊天，得知了像是 <a href="https://www.passwordstore.org/">pass</a> 這樣的密碼管理程式。同時配合像是 <a href="https://en.wikipedia.org/wiki/YubiKey">YubiKey</a>、<a href="https://en.wikipedia.org/wiki/Nitrokey">Nitrokey</a> 等裝置，就能進一步提昇安全性。</p>
+
+<p>原理大概如下：首先將密鑰放在外部的安全裝置，硬體本身設計無法將密鑰讀出，只能用來解密。如此一來，理論上即使駭客入侵電腦，或甚至闖空門偷走安全裝置也相當難以取得密鑰內容。而電腦裡的密碼則每條分開加密，在使用時透過外部裝置解開特定的密碼。如此一來，若要偷走所有密碼，則必須潛伏在電腦裡，不斷偷聽解開的密碼，直到所有密碼都被解開過一次才行，大幅拉長了被全面破解的時間。當然，若是歹徒使用某種方法控制了接上的安全裝置，強制解密所有密碼，就會被成功一次取走密碼了，不過這樣的風險可以用不要一直接上安全裝置來控制，終究已經比之前的方法小了。</p>
+
+<h2 id="openpgp">OpenPGP</h2>
+
+<h3 id="簡介">簡介</h3>
+
+<p>為了達成本文的設定，首先必須借助 <a href="http://openpgp.org/">OpenPGP</a> 的力量，OpenPGP 實際上是一套加密標準，平常人其實是把他拿來做傳送加密郵件、檔案資料，或者數位簽章等等的運用。詳細介紹可參考：<a href="http://zacharyvoase.com/2009/08/20/openpgp/">〈OpenPGP for Complete Beginners〉</a>。</p>
+
+<p>OpenPGP 是利用<a href="https://en.wikipedia.org/wiki/Public-key_cryptography">非對稱性加密</a>來達成大部分的功能，簡單來說，這種加密有兩把鑰匙，一把是公開的，另一把是私密的。使用其中一把鑰匙加密的檔案只有用另外一把鑰匙才能解開。而擁有其中一把鑰匙<a href="https://security.stackexchange.com/questions/4518/how-to-estimate-the-time-needed-to-crack-rsa-encryption">在目前的計算能力下無法在合理的時間裡導出另外一把鑰匙</a>。在這種情況下，只要用別人的公鑰加密，就只有擁有私鑰的他能夠解開，藉此達成加密傳輸的目的。另一方面，如果一個人用自己的私鑰加密某個東西，你就可以用公鑰驗證，該東西確實是擁有那把沒人知道的私鑰的人才能加密出來的東西，透過類似的原理就能達成數位簽章的目的了。</p>
+
+<p>OpenPGP 通常是先創立一對 master key <a href="https://incenp.org/notes/2015/using-an-offline-gnupg-master-key.html">平常收著不要用</a>，但是創立一些 <a href="https://wiki.debian.org/Subkeys">subkeys</a> 來進行實際的加密簽章等等。要是遺失了 subkey 之類的，再把 master key 的密鑰拿出來簽章，宣告那些 subkeys 不能用了，然後創造新的 subkeys 等等，好讓管理上更方便。</p>
+
+<h3 id="建立-openpgp-master-key">建立 OpenPGP Master Key</h3>
+
+<p>這次我們會用 <a href="https://gnupg.org/">GnuPG</a> 來管理我們的 OpenPGP keys，由於我們將要開始操作私鑰，一旦洩漏整個系統就會陷於危殆之境，建議用完全乾淨的系統，甚至不要連上網路來進行操作。當然，若無連網，則安裝的套件就要用其他方式放進去而不能直接打本文的指令了。</p>
+
+<p>首先安裝相依套件：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install gnupg2 gnupg-agent pinentry-curses</span></code></pre></div></div>
+
+
+<p>緊接著參考 <a href="https://github.com/drduh/YubiKey-Guide">YubiKey-Guide</a>，更改 <code>~/.gnupg/gpg.conf</code> 的內容加入以下片段：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># ~/.gnupg/gpg.conf
+</span><span class="c1"></span>use-agent
+personal-cipher-preferences AES256 AES192 AES CAST5
+personal-digest-preferences SHA512 SHA384 SHA256 SHA224
+default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
+cert-digest-algo SHA512
+s2k-digest-algo SHA512
+s2k-cipher-algo AES256
+charset utf-8
+fixed-list-mode
+no-comments
+no-emit-version
+keyid-format 0xlong
+list-options show-uid-validity
+verify-options show-uid-validity
+with-fingerprint</code></pre></div>
+<p>然後就可以開始產生 master key：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">gpg2 --full-gen-key --expert</span></code></pre></div></div>
+
+
+<p>由於我們不想直接使用 master key，所以選擇 8，好調整 master key 的功能：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">gpg <span class="o">(</span>GnuPG<span class="o">)</span> <span class="m">2</span>.1.11<span class="p">;</span> Copyright <span class="o">(</span>C<span class="o">)</span> <span class="m">2016</span> Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+gpg: keybox <span class="s1">&#39;$GNUPGHOME/pubring.kbx&#39;</span> created
+Please <span class="k">select</span> what kind of key you want:
+   <span class="o">(</span><span class="m">1</span><span class="o">)</span> RSA and RSA <span class="o">(</span>default<span class="o">)</span>
+   <span class="o">(</span><span class="m">2</span><span class="o">)</span> DSA and Elgamal
+   <span class="o">(</span><span class="m">3</span><span class="o">)</span> DSA <span class="o">(</span>sign only<span class="o">)</span>
+   <span class="o">(</span><span class="m">4</span><span class="o">)</span> RSA <span class="o">(</span>sign only<span class="o">)</span>
+   <span class="o">(</span><span class="m">7</span><span class="o">)</span> DSA <span class="o">(</span><span class="nb">set</span> your own capabilities<span class="o">)</span>
+   <span class="o">(</span><span class="m">8</span><span class="o">)</span> RSA <span class="o">(</span><span class="nb">set</span> your own capabilities<span class="o">)</span>
+   <span class="o">(</span><span class="m">9</span><span class="o">)</span> ECC and ECC
+  <span class="o">(</span><span class="m">10</span><span class="o">)</span> ECC <span class="o">(</span>sign only<span class="o">)</span>
+  <span class="o">(</span><span class="m">11</span><span class="o">)</span> ECC <span class="o">(</span><span class="nb">set</span> your own capabilities<span class="o">)</span>
+Your selection? <span class="m">8</span></code></pre></div>
+<p>調整讓 master key 剩下的 actions 只有 <code>Certify</code>：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Possible actions <span class="k">for</span> a RSA key: Sign Certify Encrypt Authenticate
+Current allowed actions: Certify
+
+   <span class="o">(</span>S<span class="o">)</span> Toggle the sign capability
+   <span class="o">(</span>E<span class="o">)</span> Toggle the encrypt capability
+   <span class="o">(</span>A<span class="o">)</span> Toggle the authenticate capability
+   <span class="o">(</span>Q<span class="o">)</span> Finished
+
+Your selection? Q</code></pre></div>
+<p>鑰匙的長度選擇 4096，感覺似乎比較安全。注意如果最後要把某些 key 放到 YubiKey, Nitrokey 等等的話，有些版本不支援 4096 這麼長的長度，所以要先確認一下。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">RSA keys may be between <span class="m">1024</span> and <span class="m">4096</span> bits long.
+What keysize <span class="k">do</span> you want? <span class="o">(</span><span class="m">2048</span><span class="o">)</span> <span class="m">4096</span>
+Requested keysize is <span class="m">4096</span> bits</code></pre></div>
+<p>至於鑰匙的時限則可自行設定，理論上因為 master key 打算放在一個很安全的地方平常不拿來用，所以就算設成永遠不過期可能也還可以。不過如果要安全一點也可以設短一點，強迫自己常換新。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Please specify how long the key should be valid.
+         <span class="nv">0</span> <span class="o">=</span> key does not expire
+      &lt;n&gt;  <span class="o">=</span> key expires in n days
+      &lt;n&gt;w <span class="o">=</span> key expires in n weeks
+      &lt;n&gt;m <span class="o">=</span> key expires in n months
+      &lt;n&gt;y <span class="o">=</span> key expires in n years
+Key is valid <span class="k">for</span>? <span class="o">(</span><span class="m">0</span><span class="o">)</span> <span class="m">0</span>
+Key does not expire at all
+Is this correct? <span class="o">(</span>y/N<span class="o">)</span> y</code></pre></div>
+<p>輸入名字和電子郵件。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">GnuPG needs to construct a user ID to identify your key.
+
+Real name: &lt;NAME&gt;
+Email address: &lt;EMAIL&gt;
+Comment:
+You selected this USER-ID:
+    <span class="s2">&#34;&lt;NAME&gt; &lt;EMAIL&gt;&#34;</span>
+
+Change <span class="o">(</span>N<span class="o">)</span>ame, <span class="o">(</span>C<span class="o">)</span>omment, <span class="o">(</span>E<span class="o">)</span>mail or <span class="o">(</span>O<span class="o">)</span>kay/<span class="o">(</span>Q<span class="o">)</span>uit? O</code></pre></div>
+<p>然後他會要你設定私鑰的密碼，未來要使用私鑰時就必須輸入密碼才能用。設定好之後就會開始產生公私鑰了。最後這裡要等很久，可以不斷滑鼠亂動，亂按鍵盤，亂存取檔案來加速。不過即使這樣還是可能會<a href="https://serverfault.com/questions/471412/gpg-gen-key-hangs-at-gaining-enough-entropy-on-centos-6">卡住很久</a>就是。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">We need to generate a lot of random bytes. It is a good idea to perform
+some other action <span class="o">(</span><span class="nb">type</span> on the keyboard, move the mouse, utilize the
+disks<span class="o">)</span> during the prime generation<span class="p">;</span> this gives the random number
+generator a better chance to gain enough entropy.</code></pre></div>
+<p>最後終於成功產生：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">gpg: <span class="nv">$GNUPGHOME</span>/trustdb.gpg: trustdb created
+gpg: key &lt;MASTER-KEY-ID&gt; marked as ultimately trusted
+gpg: directory <span class="s1">&#39;$GNUPGHOME/openpgp-revocs.d&#39;</span> created
+gpg: revocation certificate stored as <span class="s1">&#39;$GNUPGHOME/openpgp-revocs.d/&lt;KEY-FINGERPRINT&gt;.rev&#39;</span>
+public and secret key created and signed.
+
+gpg: checking the trustdb
+gpg: marginals needed: <span class="m">3</span>  completes needed: <span class="m">1</span>  trust model: PGP
+gpg: depth: <span class="m">0</span>  valid:   <span class="m">1</span>  signed:   <span class="m">0</span>  trust: <span class="m">0</span>-, 0q, 0n, 0m, 0f, 1u
+pub   rsa4096/&lt;MASTER-KEY-ID&gt; <span class="m">2017</span>-01-01 <span class="o">[]</span>
+      Key <span class="nv">fingerprint</span> <span class="o">=</span> &lt;KEY-FINGERPRINT&gt;
+uid                   <span class="o">[</span>ultimate<span class="o">]</span> &lt;NAME&gt; &lt;EMAIL&gt;</code></pre></div>
+<p>除了一對公鑰私鑰以外，還順便產生了 <code>revocation certificate</code>，這是一個可以用來宣告這把 master key 失效的憑證，尤其是如果當初有效日期設得很長的話，若中途被人盜走了 master key，就可以用這個告訴別人不要再相信這把 key 了。</p>
+
+<p>不過這一切都是如果你要真的拿 OpenPGP key 做正常的用途時才有用。如果你單純只是要用來管理密碼，而且也不打算讓別人知道有這把 key 的話其實就不太有用了。</p>
+
+<p>除了讓 GnuPG 自行產生外，也可以用以下指令產生 <code>revocation certificate</code>，<code>--armor</code> 是要讓產生的檔案變成可印的純文字（因此你可以把他印出來備份，而不留下真正的數位檔案，防止被盜取。）</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">gpg2 --armor --gen-revoke &lt;MASTER-KEY-ID&gt;  &gt; &lt;REVOKE-FILE&gt;</span></code></pre></div></div>
+
+
+<h3 id="建立加密用-subkey">建立加密用 Subkey</h3>
+
+<p>接下來就正式增加加密用的 subkey 了：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">gpg2 --edit-key &lt;MASTER-KEY-ID&gt;</span></code></pre></div></div>
+
+
+<p>使用 <code>addkey</code> 指令：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">gpg <span class="o">(</span>GnuPG<span class="o">)</span> <span class="m">2</span>.1.11<span class="p">;</span> Copyright <span class="o">(</span>C<span class="o">)</span> <span class="m">2016</span> Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Secret key is available.
+
+sec  rsa4096/&lt;MASTER-KEY-ID&gt;
+     created: <span class="m">2017</span>-01-01  expires: never       usage: C
+     trust: ultimate      validity: ultimate
+<span class="o">[</span>ultimate<span class="o">]</span> <span class="o">(</span><span class="m">1</span><span class="o">)</span>. &lt;NAME&gt; &lt;EMAIL&gt;
+
+gpg&gt; addkey</code></pre></div>
+<p>選擇加密：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Please <span class="k">select</span> what kind of key you want:
+   <span class="o">(</span><span class="m">3</span><span class="o">)</span> DSA <span class="o">(</span>sign only<span class="o">)</span>
+   <span class="o">(</span><span class="m">4</span><span class="o">)</span> RSA <span class="o">(</span>sign only<span class="o">)</span>
+   <span class="o">(</span><span class="m">5</span><span class="o">)</span> Elgamal <span class="o">(</span>encrypt only<span class="o">)</span>
+   <span class="o">(</span><span class="m">6</span><span class="o">)</span> RSA <span class="o">(</span>encrypt only<span class="o">)</span>
+Your selection? <span class="m">6</span></code></pre></div>
+<p>繼續選 4096，而時間可以設短一點，強迫自己將來換 subkeys。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">RSA keys may be between <span class="m">1024</span> and <span class="m">4096</span> bits long.
+What keysize <span class="k">do</span> you want? <span class="o">(</span><span class="m">2048</span><span class="o">)</span> <span class="m">4096</span>
+Requested keysize is <span class="m">4096</span> bits
+Please specify how long the key should be valid.
+         <span class="nv">0</span> <span class="o">=</span> key does not expire
+      &lt;n&gt;  <span class="o">=</span> key expires in n days
+      &lt;n&gt;w <span class="o">=</span> key expires in n weeks
+      &lt;n&gt;m <span class="o">=</span> key expires in n months
+      &lt;n&gt;y <span class="o">=</span> key expires in n years
+Key is valid <span class="k">for</span>? <span class="o">(</span><span class="m">0</span><span class="o">)</span> 10y
+
+Key expires at Fri <span class="m">01</span> Jan <span class="m">2027</span> <span class="m">10</span>:19:01 PM CST
+Is this correct? <span class="o">(</span>y/N<span class="o">)</span> y
+Really create? <span class="o">(</span>y/N<span class="o">)</span> y</code></pre></div>
+<p>如果他問你要設定什麼密碼的話，要打跟之前 master key 一樣的密碼。最後等很久就成功了：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">We need to generate a lot of random bytes. It is a good idea to perform
+some other action <span class="o">(</span><span class="nb">type</span> on the keyboard, move the mouse, utilize the
+disks<span class="o">)</span> during the prime generation<span class="p">;</span> this gives the random number
+generator a better chance to gain enough entropy.
+
+sec  rsa4096/&lt;MASTER-KEY-ID&gt;
+     created: <span class="m">2017</span>-01-01  expires: never       usage: C
+     trust: ultimate      validity: ultimate
+ssb  rsa4096/&lt;ENCRYPT-KEY-ID&gt;
+     created: <span class="m">2017</span>-01-01  expires: <span class="m">2027</span>-01-01  usage: E
+<span class="o">[</span>ultimate<span class="o">]</span> <span class="o">(</span><span class="m">1</span><span class="o">)</span>. &lt;NAME&gt; &lt;EMAIL&gt;
+
+gpg&gt; quit
+Save changes? <span class="o">(</span>y/N<span class="o">)</span> y</code></pre></div>
+<p>做到這裡，先把鑰匙們備份下來，這裡頭會包含 master key 和 encryption subkey 的公鑰和私鑰，可以存放到安全的地方。最後我們將會銷毀電腦裡的 master key 和 encryption subkey 的私鑰，使得只剩安全地方的備份，以及 YubiKey 上的版本。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">gpg2 --armor --export-secret-keys &lt;MASTER-KEY-ID&gt; &gt; &lt;MASTER-SECRECT-FILE&gt;</span></code></pre></div></div>
+
+
+<h2 id="yubikey">YubiKey</h2>
+
+<h3 id="簡介-1">簡介</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/YubiKey">YubiKey</a> 比較知名的功能大概像是 <a href="https://en.wikipedia.org/wiki/Universal_2nd_Factor">U2F</a> 或是 <a href="https://en.wikipedia.org/wiki/One-time_password">OTP</a> 等等的二次驗證 (<a href="https://en.wikipedia.org/wiki/Multi-factor_authentication">2FA</a>)，不過這次主要是想借助他拿來當 OpenPGP 智慧卡的功能。簡單來說，我們可以把私鑰放在 YubiKey 上，然後請他執行解密簽章之類的功能。但因為硬體的安全性設計，理論上沒有人可以拿出裡頭的私鑰實際內容到底是什麼。</p>
+
+<p>不過因為 YubiKey 4 開始不再使用開放原始碼的 OpenPGP，所以也<a href="https://news.ycombinator.com/item?id=11690774">可能會令人擔心裡頭其實藏有後門，可讓政府取出也說不定。</a>，這也就是為什麼一些擅長安全的朋友建議改用 <a href="https://news.ycombinator.com/item?id=10797256">Nitrokey</a>。</p>
+
+<p>不過因為 YubiKey 目前還是比較多人在用，所以本文就以 YubiKey 4 作為示範，大家可以再自行調整。</p>
+
+<h3 id="設定-yubikey-4-openpgp-功能">設定 YubiKey 4 OpenPGP 功能</h3>
+
+<p>為了避免遺失 YubiKey 後會一時無法解密自己的檔案，所以最好同時設置兩把以上的 YubiKey 讓他們擁有同一把 encryption subkey，不過用來簽章和驗證的 signature subkey 和 authentication subkey 就不必共享了。事實上我們將會直接在 YubiKey 上產生這兩種 subkeys 的私鑰，並且不留任何備份。也就是說連我們自己都永遠無法從 YubiKeys 裡得到真正私鑰的樣子。</p>
+
+<p>首先安裝相依套件：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install scdaemon pcscd yubikey-personalization libusb-1.0-0-dev</span></code></pre></div></div>
+
+
+<p>接上 YubiKey 4 以後，執行編輯指令：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">gpg2 --card-edit</span></code></pre></div></div>
+
+
+<p>首先更改管理密碼，和使用者密碼，未來在使用 YubiKey 時要先輸入使用者密碼才能使用，至於管理者密碼則只有在修改設定時才會用到。YubiKey 4 預設的管理密碼是 <code>12345678</code>，使用者密碼則是 <code>123456</code>。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">gpg/card&gt; admin
+Admin commands are allowed
+
+gpg/card&gt; passwd
+gpg: OpenPGP card no. &lt;CARD-ID&gt; detected
+
+<span class="m">1</span> - change PIN
+<span class="m">2</span> - unblock PIN
+<span class="m">3</span> - change Admin PIN
+<span class="m">4</span> - <span class="nb">set</span> the Reset Code
+Q - quit
+
+Your selection? <span class="m">3</span>
+PIN changed.
+
+<span class="m">1</span> - change PIN
+<span class="m">2</span> - unblock PIN
+<span class="m">3</span> - change Admin PIN
+<span class="m">4</span> - <span class="nb">set</span> the Reset Code
+Q - quit
+
+Your selection? <span class="m">1</span>
+PIN changed.
+
+<span class="m">1</span> - change PIN
+<span class="m">2</span> - unblock PIN
+<span class="m">3</span> - change Admin PIN
+<span class="m">4</span> - <span class="nb">set</span> the Reset Code
+Q - quit
+
+Your selection? Q</code></pre></div>
+<p>由於每次把 encryption subkey 移進 YubiKey 裡，本機上的私鑰就會消失，因此如果要設定第二個 YubiKey 時，就要用之前的備份檔重設本機的狀態：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">gpg2 --delete-secret-key &lt;MASTER-KEY-ID&gt;
+</span><span class="hl">gpg2 --import &lt; &lt;MASTER-SECRECT-FILE&gt;</span></code></pre></div></div>
+
+
+<p>緊接著，就可以移動 encryption subkey。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">gpg2 --edit-key &lt;MASTER-KEY-ID&gt;
+</span>
+gpg&gt; toggle
+gpg&gt; key <span class="m">1</span>
+
+sec  rsa4096/&lt;MASTER-KEY-ID&gt;   created: <span class="m">2017</span>-01-01  expires: never
+ssb* rsa4096/&lt;ENCRYPT-KEY-ID&gt;  created: <span class="m">2017</span>-01-01  expires: <span class="m">2027</span>-01-01
+<span class="o">(</span><span class="m">1</span><span class="o">)</span>  &lt;NAME&gt; &lt;EMAIL&gt;
+
+gpg&gt; keytocard
+ Signature key ....: <span class="o">[</span>none<span class="o">]</span>
+ Encryption key....: <span class="o">[</span>none<span class="o">]</span>
+ Authentication key: <span class="o">[</span>none<span class="o">]</span>
+
+Please <span class="k">select</span> where to store the key:
+   <span class="o">(</span><span class="m">2</span><span class="o">)</span> Encryption key
+Your selection? <span class="m">2</span></code></pre></div></div>
+
+
+<p>然後產生 authentication 和 signature subkeys，不過這兩個主要是真的要拿來做正常的 OpenPGP 功能時才需要。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">gpg&gt; addcardkey
+
+ Signature key ....: <span class="o">[</span>none<span class="o">]</span>
+ Encryption key....: &lt;ENCRYPT-KEY-ID&gt;
+ Authentication key: <span class="o">[</span>none<span class="o">]</span>
+
+Please <span class="k">select</span> the <span class="nb">type</span> of key to generate:
+   <span class="o">(</span><span class="m">1</span><span class="o">)</span> Signature key
+   <span class="o">(</span><span class="m">2</span><span class="o">)</span> Encryption key
+   <span class="o">(</span><span class="m">3</span><span class="o">)</span> Authentication key
+Your selection? <span class="m">1</span>
+
+gpg&gt; addcardkey
+
+ Signature key ....: &lt;SIGNATURE-KEY-ID&gt;
+ Encryption key....: &lt;ENCRYPT-KEY-ID&gt;
+ Authentication key: <span class="o">[</span>none<span class="o">]</span>
+
+Please <span class="k">select</span> the <span class="nb">type</span> of key to generate:
+   <span class="o">(</span><span class="m">1</span><span class="o">)</span> Signature key
+   <span class="o">(</span><span class="m">2</span><span class="o">)</span> Encryption key
+   <span class="o">(</span><span class="m">3</span><span class="o">)</span> Authentication key
+Your selection? <span class="m">3</span></code></pre></div>
+<p>過程跟之前產生 encryption subkey 時差不多。最後存檔。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">gpg&gt; save</code></pre></div>
+<p>由於我們擔心歹徒如果入侵電腦，取得了你的使用者密碼，就可以趁你不注意時，利用插上的 YubiKey 來解密檔案。因此我們還要打開只有按下 YubiKey 上的按鈕才能解密的功能。不過如果歹徒取得了管理密碼，則他也可以把這個功能關掉。幸好 YubiKey 4 還有個選項是強制固定一定要按下按鈕，只有重新產生新的私鑰以後才能解除。以下就把這功能針對 3 個 subkeys 開啟：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ykman openpgp touch enc fixed
+</span><span class="hl">ykman openpgp touch sig fixed
+</span><span class="hl">ykman openpgp touch aut fixed</span></code></pre></div></div>
+
+
+<p>做完這件事以後，把 <code>&lt;MASTER-SECRECT-FILE&gt;</code> 和 <code>&lt;REVOKE-FILE&gt;</code> 備份到一個平常不會插到電腦的地方，數年都不把他拿出來。然後把公鑰備份下來準備放到平常正常使用的電腦上。這個檔案會包含 master key，和之前產生的所有 subkeys 的公鑰。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">gpg2 --export &lt;MASTER-KEY-ID&gt; &gt; &lt;MASTER-PUBLIC-FILE&gt;</span></code></pre></div></div>
+
+
+<p>假設你要把這些 keys 拿來做正常的 OpenPGP 用途的話，你可能也會想要把這些公鑰發布到 key servers 上讓大家都能看到，不過如果只是要用來加密自己的密碼，或許就不用這麼做了。畢竟如果有人擁有超越目前時代，從公鑰推出私鑰的計算能力，那麼公開公鑰總是有一定風險。當然，如果他要破解你電腦裡的密碼檔，就意謂著他必須先擁有存取你電腦資料的能力。而一旦他有這個能力，其實他也能獲取放在電腦上的公鑰。因此對抗擁有超越目前時代計算能力的人，就算不公開公鑰，可能也只是拖延了一點時間。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">gpg2 --keyserver hkps://hkps.pool.sks-keyservers.net --send-key &lt;MASTER-KEY-ID&gt;</span></code></pre></div></div>
+
+
+<p>最後就可以把乾淨電腦裡的 GnuPG 資料全數銷毀：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">rm -rf ~/.gnupg</span></code></pre></div></div>
+
+
+<p>在平常的電腦上，先重新編輯 <code>~/.gnupg/gpg.conf</code> 加入之前提到的設定，然後載入之前的公鑰。注意到，私鑰已經被放到安全的地方了，就不要再放進平常的電腦裡了。由於我們等等要用的 <code>pass</code> 主要是用 <code>gpg</code> 而不是 <code>gpg2</code>，所以也把公鑰載入到 <code>gpg</code> 裡。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">gpg2 --import &lt; &lt;MASTER-PUBLIC-FILE&gt;
+</span><span class="hl">gpg  --import &lt; &lt;MASTER-PUBLIC-FILE&gt;</span></code></pre></div></div>
+
+
+<p>如此一來 OpenPGP 就設定完成！！</p>
+
+<h2 id="pass-the-standard-unix-password-manager">pass: the standard unix password manager</h2>
+
+<h3 id="簡介-2">簡介</h3>
+
+<p><a href="https://www.passwordstore.org/">pass</a> 是一個簡單的密碼管理系統，直接把密碼用 OpenPGP 加密的文字檔們來管理，每個密碼都是一個文字檔。因此也可以把整個密碼庫用 <a href="https://git-scm.com/">Git</a> 追蹤，方便同步以及檢視修改紀錄。不過為了搜尋方便，檔案名稱裡通常含有網站位置或甚至使用者名稱，而檔案名稱本身是沒有加密的，這也讓一些使用者<a href="https://www.reddit.com/r/linux/comments/5wcxrs/pass_gpg_encrypted_cli_password_manager_17/de9rhlb/">詬病</a>。</p>
+
+<p>因此我們同時使用 <a href="https://github.com/roddhjav/pass-tomb">pass-tomb</a> 來將 pass 的密碼庫整個加密，他會利用 <a href="https://github.com/dyne/Tomb">Tomb</a> 來產生 <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> 加密檔，再把 pass 資料庫放在裡頭。</p>
+
+<h3 id="安裝">安裝</h3>
+
+<p>安裝最新版本的方法是分別到各自網站下載：</p>
+
+<ul>
+<li><a href="https://www.passwordstore.org/#download">pass</a></li>
+<li><a href="https://github.com/dyne/Tomb/releases">Tomb</a></li>
+<li><a href="https://github.com/roddhjav/pass-tomb/releases">pass-tomb</a></li>
+</ul>
+
+<p>然後各自解壓縮，並執行：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo make install</span></code></pre></div></div>
+
+
+<p>同時安裝 pass 會用到的密碼產生器：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install pwgen</span></code></pre></div></div>
+
+
+<h3 id="設定">設定</h3>
+
+<p>首先建立 pass-tomb：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pass tomb &lt;MASTER-KEY-ID&gt;</span></code></pre></div></div>
+
+
+<p>這裡要插入 YubiKey 並且按指示輸入使用者密碼。然後等很久，就能建立完成。</p>
+
+<p>緊接著打開密碼庫，並建立 Git repository。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pass open
+</span><span class="hl">pass git init</span></code></pre></div></div>
+
+
+<p>要關閉時則執行：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pass close</span></code></pre></div></div>
+
+
+<h3 id="使用">使用</h3>
+
+<p>在 pass-tomb 打開的狀態下，可以使用一些指令管理密碼。</p>
+
+<p>例如新增新的密碼，由於加密只需要公鑰，就算沒有 YubiKey 也能完成。如果想加入其他像是使用者名稱或是安全問題等筆記，可以加上 <code>-m</code> 參數，編輯多行，平常複製密碼預設只會複製第一行。或者也可以事後執行 <code>pass edit</code>，不過這就需要插入私鑰才能解密並編輯了。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pass insert social/facebook
+</span>Enter password <span class="k">for</span> social/facebook: ************</code></pre></div></div>
+
+
+<p>也可以自動產生密碼：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># generate a password of length 15
+</span><span class="hl"><span class="c1"></span>pass generate social/facebook <span class="m">15</span></span></code></pre></div></div>
+
+
+<p>其他指令，詳請可執行 <code>man pass</code>。</p>
+
+<ul>
+<li>移除密碼： <code>pass rm &lt;PATH&gt;</code></li>
+<li>複製密碼： <code>pass -c &lt;PATH&gt;</code></li>
+<li>印出密碼： <code>pass &lt;PATH&gt;</code></li>
+</ul>
+
+<h2 id="用-openpgp-key-充當-ssh-key-進行遠端登入">用 OpenPGP Key 充當 SSH Key 進行遠端登入</h2>
+
+<h3 id="設定-1">設定</h3>
+
+<p>感覺很多 keys 實在很麻煩，而既然已經有那麼安全的 OpenPGP keys 可用，我們也想直接用當初放在 YubiKey 上的 authentication subkey 來<a href="https://incenp.org/notes/2014/gnupg-for-ssh-authentication.html">取代原本在用的 SSH key</a>。首先編輯 <code>~/.gnupg/gpg-agent.conf</code>：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># ~/.gnupg/gpg-agent.conf
+</span><span class="c1"></span>enable-ssh-support
+pinentry-program /usr/bin/pinentry-curses
+default-cache-ttl <span class="m">60</span>
+max-cache-ttl <span class="m">120</span></code></pre></div>
+<p>緊接著，在 <code>~/.bashrc</code> 裡加上下面幾行，以免要輸入使用者密碼時，界面無法在正確的 terminal 顯示：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">GPG_TTY</span><span class="o">=</span><span class="sb">`</span>tty<span class="sb">`</span>
+gpg-connect-agent updatestartuptty /bye &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+<span class="nb">unset</span> SSH_AGENT_PID
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">gnupg_SSH_AUTH_SOCK_by</span><span class="k">:-</span><span class="nv">0</span><span class="si">}</span><span class="s2">&#34;</span> -ne <span class="nv">$$</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">export</span> <span class="nv">SSH_AUTH_SOCK</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.gnupg/S.gpg-agent.ssh&#34;</span>
+<span class="k">fi</span></code></pre></div>
+<p>重新登入後，在 YubiKey 插入的情況下執行 <code>ssh-add -L</code> 應該就會看到 authentication subkeys 的 SSH public key 的長相，可以用來寫入 <code>~/.ssh/authorized_keys</code>。這樣就可以用 OpenPGP keys 來登入 SSH 了。</p>
+
+<h3 id="讓遠端機器也能用這把-key-登入其他機器">讓遠端機器也能用這把 Key 登入其他機器</h3>
+
+<p>當然，如果你還記得的話，這把 authentication subkey 只在 YubiKey 上有，連我們自己都沒有私鑰的備份。因此遠端機器無法直接使用這把 SSH key。不過其實可以用 <a href="https://heipei.github.io/2015/02/26/SSH-Agent-Forwarding-considered-harmful/">SSH agent forwarding</a> 的功能讓遠端機器使用這把 key：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ssh -A &lt;HOST&gt;</span></code></pre></div></div>
+
+
+<p>注意不管從哪裡要啟用這把 key，都還是要按下 YubiKey 上的按鈕才行。不過像這樣做 SSH agent forwarding 的話，還是會有風險。畢竟如果有人能存取遠端電腦上你分享出去的 agent，就能使用你的 key 了。當然，這樣的風險已經比直接把 key 放在遠端電腦上小了。</p>
+
+<h2 id="其他-yubikey-的功能">其他 YubiKey 的功能</h2>
+
+<p>除此之外，YubiKey 還可以用來啟用 U2F 二次驗證，目前像是 <a href="https://support.google.com/accounts/answer/6103523">Google</a>、<a href="https://www.facebook.com/notes/facebook-security/security-key-for-safer-logins-with-a-touch/10154125089265766/">Facebook</a> 之類的大網站都有支援。簡單說，啟用了以後，如果在新電腦登入的話，同時還要插入 YubiKey 才能登入，光有密碼是無法登入的。</p>
+
+<p>但是不少網站目前並不支援 U2F，只支援 <a href="https://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm">OATH TOTP</a>，也就是平常大家可能會安裝 <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en">Google Authenticator</a> 或者 <a href="https://play.google.com/store/apps/details?id=com.azure.authenticator&amp;hl=en">Microsoft Authenticator</a>，然後在新電腦登入時除了輸入密碼，還要輸入上面的隨時間會不一樣的數字。</p>
+
+<p>YubiKey 同樣可以使用 <a href="https://www.yubico.com/support/knowledge-base/categories/articles/yubico-authenticator-download/">Yubico Authenticator</a> 來支援這個功能，不過能夠支援的網站數有所極限。</p>
+
+<p>其他還有記憶一個密碼幫你輸入，以及其他更複雜的功能，不過就沒有研究了。詳情可以參考：〈<a href="https://ruimarinho.gitbooks.io/yubikey-handbook/">Yubikey Handbook</a>〉。</p>
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

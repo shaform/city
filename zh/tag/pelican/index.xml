@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pelican on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/pelican/</link>
+    <description>Recent content in Pelican on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 17 May 2014 07:25:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/pelican/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>從 Pixnet 轉移到 Pelican</title>
+      <link>https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/</link>
+      <pubDate>Sat, 17 May 2014 07:25:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/</guid>
+      <description>「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻</description>
+    </item>
+    
+  </channel>
+</rss>

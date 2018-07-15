@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>TensorFlow on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/tensorflow/</link>
+    <description>Recent content in TensorFlow on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 04 Apr 2017 15:37:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/tensorflow/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>生成對抗網路 - Generative Adversarial Networks</title>
+      <link>https://city.shaform.com/zh/2017/04/04/generative-adversarial-networks/</link>
+      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/04/04/generative-adversarial-networks/</guid>
+      <description>前言 記得最早聽說 Generative Adversarial Networks 似乎是去年看到〈Image Completion with Deep Learning in TensorFlow〉這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把</description>
+    </item>
+    
+    <item>
+      <title>用 TensorBox 製作簡易貓貓辨識器</title>
+      <link>https://city.shaform.com/zh/2016/11/05/detect-cats-with-tensorbox/</link>
+      <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/11/05/detect-cats-with-tensorbox/</guid>
+      <description>最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番</description>
+    </item>
+    
+    <item>
+      <title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面</title>
+      <link>https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/</link>
+      <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/</guid>
+      <description>本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安</description>
+    </item>
+    
+  </channel>
+</rss>

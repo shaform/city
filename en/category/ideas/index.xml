@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ideas on City of Wings</title>
+    <link>https://city.shaform.com/en/category/ideas/</link>
+    <description>Recent content in Ideas on City of Wings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 20 Apr 2015 08:34:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/en/category/ideas/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dine together - Payment System</title>
+      <link>https://city.shaform.com/en/2015/04/20/dine-together-payment-system/</link>
+      <pubDate>Mon, 20 Apr 2015 08:34:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2015/04/20/dine-together-payment-system/</guid>
+      <description>I seldom went out for dinner due to the location of school and the lack of money when I was in NCTU. But since I have came to Taipei, I started to have opportunities to dine together with others. Once I went with a lot of people, when it comes to paying, everyone put her money on the table. But the person who collected the money and payed for us later found out the money was not enough.</description>
+    </item>
+    
+    <item>
+      <title>Google Inbox-like Web Browsing</title>
+      <link>https://city.shaform.com/en/2014/11/07/google-inbox-like-web-browsing/</link>
+      <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2014/11/07/google-inbox-like-web-browsing/</guid>
+      <description>Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in 〈Single-minded : an Internet reader, made for readers, made by readers〉. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced Inbox, a new way to handle email. And I find that many ideas behind Inbox are also applicable to web browsing as well.</description>
+    </item>
+    
+    <item>
+      <title>Single-minded : an Internet reader, made for readers, made by readers</title>
+      <link>https://city.shaform.com/en/2013/10/20/single-minded/</link>
+      <pubDate>Sun, 20 Oct 2013 20:25:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2013/10/20/single-minded/</guid>
+      <description>Realization I&amp;rsquo;ve known it for a long time that it’s difficult for me to read long articles on the web. I thought it’s because of the screen. It made my eyes get tired so easily. However, when I started to read The Shallows written by Nicholas Carr, I realized that it’s not only the screen. The Internet itself is distracting.
+I started to remember that, I often clicked between different tabs aimlessly.</description>
+    </item>
+    
+  </channel>
+</rss>

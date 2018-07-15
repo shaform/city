@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ubuntu on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/ubuntu/</link>
+    <description>Recent content in Ubuntu on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 31 Oct 2016 21:28:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面</title>
+      <link>https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/</link>
+      <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/</guid>
+      <description>本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安</description>
+    </item>
+    
+    <item>
+      <title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</title>
+      <link>https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/</link>
+      <pubDate>Sat, 21 Jun 2014 09:00:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/</guid>
+      <description>通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的</description>
+    </item>
+    
+    <item>
+      <title>在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</title>
+      <link>https://city.shaform.com/zh/2014/04/13/hbase-on-ubuntu-12.04/</link>
+      <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/04/13/hbase-on-ubuntu-12.04/</guid>
+      <description>這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。 一、HDFS 安裝 JDK 7 sudo apt-get update &amp;amp;&amp;amp; apt-get upgrade # 更新套件庫 sudo apt-get install software-properties-common python-software-properties # 取得 add-apt-repository sudo add-apt-repository ppa:webupd8team/java # 新增有 oracle-java7-installer 的 ppa sudo</description>
+    </item>
+    
+  </channel>
+</rss>

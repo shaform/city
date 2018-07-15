@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NIS on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/nis/</link>
+    <description>Recent content in NIS on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 13 Dec 2014 17:42:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/nis/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在 Debian 7.7 系統中轉移 NIS 到 LDAP</title>
+      <link>https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/</link>
+      <pubDate>Sat, 13 Dec 2014 17:42:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/</guid>
+      <description>本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 O</description>
+    </item>
+    
+  </channel>
+</rss>

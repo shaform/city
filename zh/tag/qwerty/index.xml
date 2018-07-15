@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Qwerty on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/qwerty/</link>
+    <description>Recent content in Qwerty on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 12 Jul 2013 18:53:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/qwerty/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>qwerty 轉換到 dvorak 筆記</title>
+      <link>https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/</link>
+      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/</guid>
+      <description>Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP</description>
+    </item>
+    
+    <item>
+      <title>設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤</title>
+      <link>https://city.shaform.com/zh/2013/07/09/vim-qwerty-to-dvorak/</link>
+      <pubDate>Tue, 09 Jul 2013 21:28:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2013/07/09/vim-qwerty-to-dvorak/</guid>
+      <description>還記得從前在交大參加校內程式競賽時，Fedora?/FreeBSD? 環境裡頭不知為何無法透過圖形界面執行鍵盤設定，也找不到 setxkbmap</description>
+    </item>
+    
+  </channel>
+</rss>

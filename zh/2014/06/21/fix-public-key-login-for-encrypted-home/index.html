@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題" />
+<meta property="og:description" content="通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/" />
+
+
+
+<meta property="article:published_time" content="2014-06-21T09:00:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2014-06-21T09:00:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題">
+<meta itemprop="description" content="通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的">
+
+
+<meta itemprop="datePublished" content="2014-06-21T09:00:00&#43;08:00" />
+<meta itemprop="dateModified" content="2014-06-21T09:00:00&#43;08:00" />
+<meta itemprop="wordCount" content="621">
+
+
+
+<meta itemprop="keywords" content="public key,linux,Ubuntu,SSH," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題"/>
+<meta name="twitter:description" content="通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Sat 21 June 2014, 分類：
+            <a href="/zh/category/">Notes</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/ssh/">SSH</a>, <a href="/zh/tag/ubuntu/">Ubuntu</a>, <a href="/zh/tag/linux/">linux</a>, <a href="/zh/tag/public-key/">public key</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<p>通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。</p>
+
+<p>我最後決定停用密碼登入的功能，改成只能用 public key 登入，這樣子可能比較難以猜中正確的密鑰。不過實際用起來偶爾會發現登入失敗搞不清楚理由，後來才發現是因為我的 Ubuntu 啟用了家目錄加密的功能，因此尚未登入之前根本讀不到 <code>authorized_keys</code> 設定檔。為了解決這個問題，必須移動設定檔的位置才行。</p>
+
+<h2 id="generate-ssh-keys">Generate SSH Keys</h2>
+
+<p>首先如果沒有自己的 SSH keys 的話可以參考<a href="https://help.github.com/articles/generating-ssh-keys">〈Generating SSH Keys〉</a>建立自己的 SSH keys。大致上是使用如下指令：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ssh-keygen -t rsa -C <span class="s2">&#34;your_email@example.com&#34;</span></span></code></pre></div></div>
+
+
+<p>預設會把產生的 private key 存在 <code>/home/$USER/.ssh/id_rsa</code>，public key 存在 <code>/home/$USER/.ssh/id_rsa.pub</code>，不過也可以改位置。passphrase 則是用來加密 private key，建議要使用，這樣子每次要解開 private key 時都需要使用密碼，所以就算一不小心 private key 被別人取得，對方也要花上一段時間才能解開。</p>
+
+<h2 id="更改-sshd-config-設定">更改 sshd_config 設定</h2>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudoedit /etc/ssh/sshd_config</span></code></pre></div></div>
+
+
+<p>首先取消密碼登入，將</p>
+
+<pre><code>#PasswordAuthentication yes
+</code></pre>
+
+<p>改成：</p>
+
+<pre><code>PasswordAuthentication no
+</code></pre>
+
+<p>再來更動 <code>authorized_keys</code> 的位置，將</p>
+
+<pre><code>#AuthorizedKeysFile     %h/.ssh/authorized_keys
+</code></pre>
+
+<p>改成：</p>
+
+<pre><code>AuthorizedKeysFile     /etc/ssh/keys/%u/authorized_keys
+</code></pre>
+
+<h2 id="建立-authorized-keys-檔案">建立 authorized_keys 檔案</h2>
+
+<p>然後根據你的 <code>$USER</code> 名字建立資料夾，並修改權限：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo mkdir -p /etc/ssh/keys/<span class="nv">$USER</span>
+</span><span class="hl">sudo chmod <span class="m">755</span> /etc/ssh/keys
+</span><span class="hl">sudo chmod <span class="m">700</span> /etc/ssh/<span class="nv">$USER</span>
+</span><span class="hl">sudo chown <span class="nv">$USER</span>:<span class="nv">$USER</span> /etc/ssh/<span class="nv">$USER</span></span></code></pre></div></div>
+
+
+<p>最後再將 <code>id_rsa.pub</code> 拷貝到 server 上，並複製到 authorized_keys：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># copy id_rsa.pub to server, then -&gt;
+</span><span class="hl"><span class="c1"></span>cat id_rsa.pub &gt;&gt; /etc/ssh/keys/<span class="nv">$USER</span>/authorized_keys
+</span><span class="hl">chmod <span class="m">400</span> /etc/ssh/ssh/keys/<span class="nv">$USER</span>/authorized_keys</span></code></pre></div></div>
+
+
+<h2 id="重新讀取設定">重新讀取設定</h2>
+
+<p>重新讀取設定檔並測試一下登入就大功告成：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo service ssh reload</span></code></pre></div></div>
+
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GAN on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/gan/</link>
+    <description>Recent content in GAN on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 04 Apr 2017 15:37:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/gan/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>生成對抗網路 - Generative Adversarial Networks</title>
+      <link>https://city.shaform.com/zh/2017/04/04/generative-adversarial-networks/</link>
+      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/04/04/generative-adversarial-networks/</guid>
+      <description>前言 記得最早聽說 Generative Adversarial Networks 似乎是去年看到〈Image Completion with Deep Learning in TensorFlow〉這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把</description>
+    </item>
+    
+  </channel>
+</rss>

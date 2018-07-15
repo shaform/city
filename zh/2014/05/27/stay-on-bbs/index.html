@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>簡單的 BBS 掛站設定 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="很久以前看到了 othree 的〈掛站系統設定篇〉，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="簡單的 BBS 掛站設定" />
+<meta property="og:description" content="很久以前看到了 othree 的〈掛站系統設定篇〉，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2014/05/27/stay-on-bbs/" />
+
+
+
+<meta property="article:published_time" content="2014-05-27T13:21:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2014-05-27T13:21:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="簡單的 BBS 掛站設定">
+<meta itemprop="description" content="很久以前看到了 othree 的〈掛站系統設定篇〉，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一">
+
+
+<meta itemprop="datePublished" content="2014-05-27T13:21:00&#43;08:00" />
+<meta itemprop="dateModified" content="2014-05-27T13:21:00&#43;08:00" />
+<meta itemprop="wordCount" content="522">
+
+
+
+<meta itemprop="keywords" content="PTT,BBS,linux," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="簡單的 BBS 掛站設定"/>
+<meta name="twitter:description" content="很久以前看到了 othree 的〈掛站系統設定篇〉，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">簡單的 BBS 掛站設定</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Tue 27 May 2014, 分類：
+            <a href="/zh/category/">Notes</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/bbs/">BBS</a>, <a href="/zh/tag/ptt/">PTT</a>, <a href="/zh/tag/linux/">linux</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  <p>很久以前看到了 othree 的<a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/">〈掛站系統設定篇〉</a>，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）</p>
+
+<p>後來我發現其實掛一些我平常在逛的站如 PTT or BS2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。</p>
+
+<p>首先在 <code>$HOME</code> 目錄建一個叫做 <code>screenrc-bbs</code> 的資料夾，接下來在資料夾裡根據想逛的 bbs 建立 screenrc 檔案。</p>
+
+<p>比如說 screenrc-bbs/ptt：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vbell off 
+screen -t <span class="s1">&#39;ptt&#39;</span> ssh bbsu@ptt.cc</code></pre></div>
+<p>screenrc-bbs/ptt2：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vbell off 
+screen -t <span class="s1">&#39;ptt2&#39;</span> ssh bbsu@ptt2.cc</code></pre></div>
+<p>screenrc-bbs/ptt3：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vbell off
+defencoding big5
+screen -t <span class="s1">&#39;ptt3&#39;</span> telnet ptt3.cc
+defencoding big5</code></pre></div>
+<p>screenrc-bbs/bs2：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vbell off 
+defencoding big5 
+screen -t <span class="s1">&#39;bs2&#39;</span> telnet -8 bs2.to 
+defencoding big5 </code></pre></div>
+<p>最後在 <code>.bashrc</code> 加入 alias 就大功完成啦：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">alias</span> <span class="nv">bs2</span><span class="o">=</span><span class="s2">&#34;if ! screen -rD BS2 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S BS2 -c </span><span class="nv">$HOME</span><span class="s2">/screenrc-bbs/bs2 ; fi&#34;</span>
+<span class="nb">alias</span> <span class="nv">ptt</span><span class="o">=</span><span class="s2">&#34;if ! screen -rD PTT1 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT1 -c </span><span class="nv">$HOME</span><span class="s2">/screenrc-bbs/ptt ; fi&#34;</span>
+<span class="nb">alias</span> <span class="nv">ptt2</span><span class="o">=</span><span class="s2">&#34;if ! screen -rD PTT2 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT2 -c </span><span class="nv">$HOME</span><span class="s2">/screenrc-bbs/ptt2 ; fi&#34;</span>
+<span class="nb">alias</span> <span class="nv">ptt3</span><span class="o">=</span><span class="s2">&#34;if ! screen -rD PTT3 &gt;&amp; /dev/null ; then LANG=&#39;zh_TW.UTF-8&#39; screen -S PTT3 -c </span><span class="nv">$HOME</span><span class="s2">/screenrc-bbs/ptt3 ; fi&#34;</span></code></pre></div>
+<p>如此一來，下次登入時只要直接打 <code>ptt</code> 就可以開始逛版了，要離開則按 <code>Ctrl-A Ctrl-D</code>，只要沒有被斷線的話隨時登入工作站都可以下 <code>ptt</code> 指令重回之前的進度。</p>
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

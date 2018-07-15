@@ -1,6 +1,0 @@
-.sh-highlight .hll::before {
-    content: '$ ';
-}
-.sh-highlight .hll {
-    background: none;
-}

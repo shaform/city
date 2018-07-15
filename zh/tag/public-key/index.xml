@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Public key on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/public-key/</link>
+    <description>Recent content in Public key on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 21 Jun 2014 09:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/public-key/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</title>
+      <link>https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/</link>
+      <pubDate>Sat, 21 Jun 2014 09:00:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/</guid>
+      <description>通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的</description>
+    </item>
+    
+  </channel>
+</rss>

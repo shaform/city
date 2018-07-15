@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Google Drive on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/google-drive/</link>
+    <description>Recent content in Google Drive on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 05 Mar 2013 08:03:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/google-drive/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>最低成本的程式協作: CoProgramming</title>
+      <link>https://city.shaform.com/zh/2013/03/05/coprogramming/</link>
+      <pubDate>Tue, 05 Mar 2013 08:03:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2013/03/05/coprogramming/</guid>
+      <description>緣起 在程式課堂，團隊合作常常是件頭痛的事，若是每個人各自工作，常會產生許多難以整合的版本。即使是一起到電腦教室討論，也常是一個人寫程式，其他</description>
+    </item>
+    
+  </channel>
+</rss>

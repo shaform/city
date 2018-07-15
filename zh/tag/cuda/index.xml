@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CUDA on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/cuda/</link>
+    <description>Recent content in CUDA on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 31 Oct 2016 21:28:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/cuda/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面</title>
+      <link>https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/</link>
+      <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/</guid>
+      <description>本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安</description>
+    </item>
+    
+  </channel>
+</rss>

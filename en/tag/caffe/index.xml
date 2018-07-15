@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Caffe on City of Wings</title>
+    <link>https://city.shaform.com/en/tag/caffe/</link>
+    <description>Recent content in Caffe on City of Wings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 23 Oct 2017 21:30:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/en/tag/caffe/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda</title>
+      <link>https://city.shaform.com/en/2017/10/23/install-tensorflow-and-caffe-on-ubuntu/</link>
+      <pubDate>Mon, 23 Oct 2017 21:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2017/10/23/install-tensorflow-and-caffe-on-ubuntu/</guid>
+      <description>Previously I have written about 在Ubuntu 安裝 TensorFlow 的紀錄 (Installing TensorFlow on Ubuntu). Years have passed, and even though Ubuntu is still on 16.04，TensorFlow has already made great progress. I&amp;rsquo;ve decided to write another post to show how to install TensorFlow and Caffe with Anaconda. GPU</description>
+    </item>
+    
+    <item>
+      <title>Using Caffe for Sentiment Analysis</title>
+      <link>https://city.shaform.com/en/2015/06/06/caffe-sentiment-analysis/</link>
+      <pubDate>Sat, 06 Jun 2015 11:05:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2015/06/06/caffe-sentiment-analysis/</guid>
+      <description>Caffe is a deep learning framework that can be used to develop neural network models. Although Caffe is usually used for image classification, it does not prevent us from utilizing it for other tasks. In this article, we outline the procedure to convert Paragraph Vectors into the LMDB format that Caffe understands, and create a simple model to train and predict the sentiment for movie reviews.
+Data Preparation While in the previous post we use custom Chinese corpus for sentiment analysis, this time we utilize the scripts provided by mesnilgr/iclr15 to download the Large Movie Review Dataset so it&amp;rsquo;s easier to reproduce the results.</description>
+    </item>
+    
+  </channel>
+</rss>

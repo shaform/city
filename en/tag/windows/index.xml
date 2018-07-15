@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Windows on City of Wings</title>
+    <link>https://city.shaform.com/en/tag/windows/</link>
+    <description>Recent content in Windows on City of Wings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 12 Jul 2013 18:53:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/en/tag/windows/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Notes about Migrating from Qwerty to Dvorak</title>
+      <link>https://city.shaform.com/en/2013/07/12/qwerty-to-dvorak/</link>
+      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2013/07/12/qwerty-to-dvorak/</guid>
+      <description>Windows Newer versions of Windows could use different keyboard layouts for the login screen. Just choose it when installing or add the relevant input method in language settings.
+Linux Newer versions of Linux distributions also support dvorak layout when installing.
+If you want to set the layout temporarily, you could also use the following commands:
+setxkbmap dvorak # change to dvorak setxkbmap us # change back to qwerty Xrdp If you are using rdp to connect to remote linux servers, the keyboard layout is controlled by a separate configuration file.</description>
+    </item>
+    
+  </channel>
+</rss>

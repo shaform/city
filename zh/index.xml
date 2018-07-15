@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>翼之都</title>
+    <link>https://city.shaform.com/zh/</link>
+    <description>Recent content on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 28 Oct 2017 21:45:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用 SSH ProxyCommand 來連上內網主機</title>
+      <link>https://city.shaform.com/zh/2017/10/28/ssh-proxycommand/</link>
+      <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/10/28/ssh-proxycommand/</guid>
+      <description>以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 nlg 程式： #!/bin/bash NLG_WKS_3F={NLG_WKS_3F_HOST} NLG_WKS_2F={NLG_WKS_2F_HOST} case $1 in [3-9]) ssh $USER@$NLG_WKS_3F -p 2200$MACHINE ;; &amp;#34;a&amp;#34;)</description>
+    </item>
+    
+    <item>
+      <title>用程式自動產生 Google Forms 調查問卷</title>
+      <link>https://city.shaform.com/zh/2017/09/16/auto-create-google-forms/</link>
+      <pubDate>Sat, 16 Sep 2017 16:42:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/09/16/auto-create-google-forms/</guid>
+      <description>前言 最近因為一些研究上的需要，需要進行問卷調查。雖然也可以用自己架的伺服器和網頁界面，可是難免擔心資安的疑慮。 於是就想到可以使用 Google Forms</description>
+    </item>
+    
+    <item>
+      <title>密碼管理心得筆記</title>
+      <link>https://city.shaform.com/zh/2017/05/28/password-management/</link>
+      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/05/28/password-management/</guid>
+      <description>前言：逐步學習資訊安全 經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 LUKS 加密，</description>
+    </item>
+    
+    <item>
+      <title>Scrapy Cloud &#43; Scrapy 網路爬蟲</title>
+      <link>https://city.shaform.com/zh/2017/05/13/scrapy-cloud/</link>
+      <pubDate>Sat, 13 May 2017 16:10:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/05/13/scrapy-cloud/</guid>
+      <description>前言：取得研究資料集 最近聽到不少擅長 Deep Learning 的朋友買了顯示卡準備自己做起研究，讓人也十分受到激勵。不過平常想自己做研究時，常常會因為沒有適當的資</description>
+    </item>
+    
+    <item>
+      <title>生成對抗網路 - Generative Adversarial Networks</title>
+      <link>https://city.shaform.com/zh/2017/04/04/generative-adversarial-networks/</link>
+      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/04/04/generative-adversarial-networks/</guid>
+      <description>前言 記得最早聽說 Generative Adversarial Networks 似乎是去年看到〈Image Completion with Deep Learning in TensorFlow〉這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把</description>
+    </item>
+    
+    <item>
+      <title>用 Ansible 和 yadm 來加速重灌流程</title>
+      <link>https://city.shaform.com/zh/2017/03/25/ansible-and-yadm/</link>
+      <pubDate>Sat, 25 Mar 2017 09:09:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/03/25/ansible-and-yadm/</guid>
+      <description>前言 還記得當年修計算機系統管理時曾經為了做 NFS + NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形</description>
+    </item>
+    
+    <item>
+      <title>用 Sacred 追蹤實驗數據</title>
+      <link>https://city.shaform.com/zh/2017/03/18/run-experiments-with-sacred/</link>
+      <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/03/18/run-experiments-with-sacred/</guid>
+      <description>前言 前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。 以執行而言，由於處理的檔案龐大</description>
+    </item>
+    
+    <item>
+      <title>用 TensorBox 製作簡易貓貓辨識器</title>
+      <link>https://city.shaform.com/zh/2016/11/05/detect-cats-with-tensorbox/</link>
+      <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/11/05/detect-cats-with-tensorbox/</guid>
+      <description>最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番</description>
+    </item>
+    
+    <item>
+      <title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面</title>
+      <link>https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/</link>
+      <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/</guid>
+      <description>本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安</description>
+    </item>
+    
+    <item>
+      <title>找出 GitHub 上和 Python 3 不相容的 Python 專案</title>
+      <link>https://city.shaform.com/zh/2016/09/10/py3tracker/</link>
+      <pubDate>Sat, 10 Sep 2016 19:44:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/09/10/py3tracker/</guid>
+      <description>Porting to Python 3 Python 3 已經釋出近八年，原本一片慘紅的 Python 3 Readiness 和 PYTHON 3 WALL OF SUPERPOWERS 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，也開始有些專案漸漸要</description>
+    </item>
+    
+    <item>
+      <title>bs2 公開板備份初探</title>
+      <link>https://city.shaform.com/zh/2016/07/26/bs2-backup/</link>
+      <pubDate>Tue, 26 Jul 2016 22:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/07/26/bs2-backup/</guid>
+      <description>前言 bs2.to 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動</description>
+    </item>
+    
+    <item>
+      <title>價格追蹤：使用 gspread 自動更新 Google Sheets</title>
+      <link>https://city.shaform.com/zh/2016/03/19/gspread/</link>
+      <pubDate>Sat, 19 Mar 2016 09:02:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/03/19/gspread/</guid>
+      <description>前言 Google Sheets 和傳統試算表最大的差異或許在於他的資料存放在遠端，所以可以從任何地方存取，也很方便和別人共享編輯。因為這個特性，使得我偶爾會將一些實</description>
+    </item>
+    
+    <item>
+      <title>Scrapy &#43; Python 3: PTT 資料抓取與分析</title>
+      <link>https://city.shaform.com/zh/2016/02/28/scrapy/</link>
+      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/02/28/scrapy/</guid>
+      <description>Scrapy 1.1 with Python 3 Support 很久很久以前，曾經想要學學網路爬蟲，爬一些 PTT 的資料來看看能幹嘛。當時找到了 Scrapy 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 Python 3</description>
+    </item>
+    
+    <item>
+      <title>Caffe 程式閱讀筆記</title>
+      <link>https://city.shaform.com/zh/2016/02/26/caffe/</link>
+      <pubDate>Fri, 26 Feb 2016 07:12:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/02/26/caffe/</guid>
+      <description>前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。 由於自己對該程式庫也不是很熟悉，加上一直拖稿導致 Caffe 在撰寫期間也已經有不少變動，</description>
+    </item>
+    
+    <item>
+      <title>IPython Notebook 初探</title>
+      <link>https://city.shaform.com/zh/2015/12/26/ipython-notebook/</link>
+      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/12/26/ipython-notebook/</guid>
+      <description>為什麼是 IPython Notebook? 還記得第一次認識到 IPython Notebook 是在 Taipei.py 吧。 當時我還十分懷疑到底使用瀏覽器界面寫 Python 能有什麼好處。 尤其，這樣根本無法使用 Vim 的強大指令。 雖然有安</description>
+    </item>
+    
+    <item>
+      <title>使用 vim-codefmt 自動程式排版</title>
+      <link>https://city.shaform.com/zh/2015/09/20/vim-codefmt/</link>
+      <pubDate>Sun, 20 Sep 2015 15:55:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/09/20/vim-codefmt/</guid>
+      <description>小時候對程式排版不太計較，總是寫出一些奇怪的程式。上了大學後為了撰寫優美的程式，時常為縮排、空格等等斤斤計較。但長大了以後，就覺得為了這些事</description>
+    </item>
+    
+    <item>
+      <title>用 Apache Spark 來訓練 Word2vec 詞向量 Skip-gram Word Embeddings</title>
+      <link>https://city.shaform.com/zh/2015/08/30/spark-for-word2vec/</link>
+      <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/08/30/spark-for-word2vec/</guid>
+      <description>先前曾提過 word2vec 可以把語料中的詞轉換成詞向量。 雖然原本提供的 word2vec 工具速度已經很快， 但是如果要訓練更大規模的語料還是需要不少時間。 例如之前在處理 ClueWeb09 時</description>
+    </item>
+    
+    <item>
+      <title>一起聚餐去，金流系統</title>
+      <link>https://city.shaform.com/zh/2015/04/20/dine-together-payment-system/</link>
+      <pubDate>Mon, 20 Apr 2015 08:34:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/04/20/dine-together-payment-system/</guid>
+      <description>在交大時因為地處偏僻又經濟拮据，很少有機會出去校外吃飯。來了台北以後，開始有機會和朋友出去聚餐。有次一大群人一起去吃飯，結帳時大家七手八腳的</description>
+    </item>
+    
+    <item>
+      <title>用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</title>
+      <link>https://city.shaform.com/zh/2015/03/27/sentiment-analysis/</link>
+      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/03/27/sentiment-analysis/</guid>
+      <description>最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不</description>
+    </item>
+    
+    <item>
+      <title>建立 LDAP 鏡像、及日常管理指令集</title>
+      <link>https://city.shaform.com/zh/2014/12/14/mirror-and-mgmt-on-ldap/</link>
+      <pubDate>Sun, 14 Dec 2014 17:42:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/12/14/mirror-and-mgmt-on-ldap/</guid>
+      <description>建立鏡像 假設只有一台 LDAP server，則一旦 crash 大家都無法登入了，故可以建立一個鏡像 server，不斷同步資料內容。這篇假設你已經建好前篇的 ld</description>
+    </item>
+    
+    <item>
+      <title>在 Debian 7.7 系統中轉移 NIS 到 LDAP</title>
+      <link>https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/</link>
+      <pubDate>Sat, 13 Dec 2014 17:42:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/</guid>
+      <description>本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 O</description>
+    </item>
+    
+    <item>
+      <title>連結兩個私有內網</title>
+      <link>https://city.shaform.com/zh/2014/11/12/connect-subnets/</link>
+      <pubDate>Wed, 12 Nov 2014 09:20:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/11/12/connect-subnets/</guid>
+      <description>實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這</description>
+    </item>
+    
+    <item>
+      <title>用中文資料測試 word2vec</title>
+      <link>https://city.shaform.com/zh/2014/11/04/word2vec/</link>
+      <pubDate>Tue, 04 Nov 2014 17:20:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/11/04/word2vec/</guid>
+      <description>最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一</description>
+    </item>
+    
+    <item>
+      <title>在工作站上使用自己的 Python 並安裝自訂套件</title>
+      <link>https://city.shaform.com/zh/2014/06/22/pyvenv-and-virtualenv/</link>
+      <pubDate>Sun, 22 Jun 2014 10:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/06/22/pyvenv-and-virtualenv/</guid>
+      <description>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程</description>
+    </item>
+    
+    <item>
+      <title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</title>
+      <link>https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/</link>
+      <pubDate>Sat, 21 Jun 2014 09:00:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/</guid>
+      <description>通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的</description>
+    </item>
+    
+    <item>
+      <title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</title>
+      <link>https://city.shaform.com/zh/2014/06/19/install-w8-ubuntu-with-uefi/</link>
+      <pubDate>Thu, 19 Jun 2014 16:05:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/06/19/install-w8-ubuntu-with-uefi/</guid>
+      <description>總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，</description>
+    </item>
+    
+    <item>
+      <title>簡單的 BBS 掛站設定</title>
+      <link>https://city.shaform.com/zh/2014/05/27/stay-on-bbs/</link>
+      <pubDate>Tue, 27 May 2014 13:21:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/05/27/stay-on-bbs/</guid>
+      <description>很久以前看到了 othree 的〈掛站系統設定篇〉，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一</description>
+    </item>
+    
+    <item>
+      <title>從 Pixnet 轉移到 Pelican</title>
+      <link>https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/</link>
+      <pubDate>Sat, 17 May 2014 07:25:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/</guid>
+      <description>「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻</description>
+    </item>
+    
+    <item>
+      <title>在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</title>
+      <link>https://city.shaform.com/zh/2014/04/13/hbase-on-ubuntu-12.04/</link>
+      <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/04/13/hbase-on-ubuntu-12.04/</guid>
+      <description>這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。 一、HDFS 安裝 JDK 7 sudo apt-get update &amp;amp;&amp;amp; apt-get upgrade # 更新套件庫 sudo apt-get install software-properties-common python-software-properties # 取得 add-apt-repository sudo add-apt-repository ppa:webupd8team/java # 新增有 oracle-java7-installer 的 ppa sudo</description>
+    </item>
+    
+    <item>
+      <title>qwerty 轉換到 dvorak 筆記</title>
+      <link>https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/</link>
+      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/</guid>
+      <description>Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP</description>
+    </item>
+    
+    <item>
+      <title>設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤</title>
+      <link>https://city.shaform.com/zh/2013/07/09/vim-qwerty-to-dvorak/</link>
+      <pubDate>Tue, 09 Jul 2013 21:28:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2013/07/09/vim-qwerty-to-dvorak/</guid>
+      <description>還記得從前在交大參加校內程式競賽時，Fedora?/FreeBSD? 環境裡頭不知為何無法透過圖形界面執行鍵盤設定，也找不到 setxkbmap</description>
+    </item>
+    
+    <item>
+      <title>最低成本的程式協作: CoProgramming</title>
+      <link>https://city.shaform.com/zh/2013/03/05/coprogramming/</link>
+      <pubDate>Tue, 05 Mar 2013 08:03:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2013/03/05/coprogramming/</guid>
+      <description>緣起 在程式課堂，團隊合作常常是件頭痛的事，若是每個人各自工作，常會產生許多難以整合的版本。即使是一起到電腦教室討論，也常是一個人寫程式，其他</description>
+    </item>
+    
+    <item>
+      <title>稍微整理了一下自由行列的原始碼</title>
+      <link>https://city.shaform.com/zh/2013/02/26/freearray-bugfixes/</link>
+      <pubDate>Tue, 26 Feb 2013 14:17:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2013/02/26/freearray-bugfixes/</guid>
+      <description>停擺多年 還記得數年前完成了「自由行列輸入法」的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重</description>
+    </item>
+    
+    <item>
+      <title>ibus-faft 開發日誌</title>
+      <link>https://city.shaform.com/zh/2010/02/20/ibus-faft-develop-notes/</link>
+      <pubDate>Sat, 20 Feb 2010 19:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2010/02/20/ibus-faft-develop-notes/</guid>
+      <description>FreeArray for Test for the Input Bus 是基於 ibus 輸入法架構所製作之行列輸入法引擎，其結合來自 libchewing 的斷詞模組實作智慧選字功能，並利用「行列定符」改進原行列的符號輸入。此外</description>
+    </item>
+    
+    <item>
+      <title>簡介自由行列專案</title>
+      <link>https://city.shaform.com/zh/2010/02/15/intro-to-freearray/</link>
+      <pubDate>Mon, 15 Feb 2010 15:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2010/02/15/intro-to-freearray/</guid>
+      <description>本持自由軟體，Release Early, Release Often 之精神，我實在應該趕快把自由行列的程式碼公開出來。不過覺得程式碼實在太醜，而且其實根本也還沒寫出什麼，再者</description>
+    </item>
+    
+  </channel>
+</rss>

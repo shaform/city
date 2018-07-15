@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>使用 SSH ProxyCommand 來連上內網主機 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 nlg 程式： #!/bin/bash NLG_WKS_3F={NLG_WKS_3F_HOST} NLG_WKS_2F={NLG_WKS_2F_HOST} case $1 in [3-9]) ssh $USER@$NLG_WKS_3F -p 2200$MACHINE ;; &amp;#34;a&amp;#34;)" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="使用 SSH ProxyCommand 來連上內網主機" />
+<meta property="og:description" content="以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 nlg 程式： #!/bin/bash NLG_WKS_3F={NLG_WKS_3F_HOST} NLG_WKS_2F={NLG_WKS_2F_HOST} case $1 in [3-9]) ssh $USER@$NLG_WKS_3F -p 2200$MACHINE ;; &#34;a&#34;)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2017/10/28/ssh-proxycommand/" />
+
+
+
+<meta property="article:published_time" content="2017-10-28T21:45:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2017-10-28T21:45:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="使用 SSH ProxyCommand 來連上內網主機">
+<meta itemprop="description" content="以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 nlg 程式： #!/bin/bash NLG_WKS_3F={NLG_WKS_3F_HOST} NLG_WKS_2F={NLG_WKS_2F_HOST} case $1 in [3-9]) ssh $USER@$NLG_WKS_3F -p 2200$MACHINE ;; &#34;a&#34;)">
+
+
+<meta itemprop="datePublished" content="2017-10-28T21:45:00&#43;08:00" />
+<meta itemprop="dateModified" content="2017-10-28T21:45:00&#43;08:00" />
+<meta itemprop="wordCount" content="512">
+
+
+
+<meta itemprop="keywords" content="linux,SSH," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 SSH ProxyCommand 來連上內網主機"/>
+<meta name="twitter:description" content="以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 nlg 程式： #!/bin/bash NLG_WKS_3F={NLG_WKS_3F_HOST} NLG_WKS_2F={NLG_WKS_2F_HOST} case $1 in [3-9]) ssh $USER@$NLG_WKS_3F -p 2200$MACHINE ;; &#34;a&#34;)"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">使用 SSH ProxyCommand 來連上內網主機</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Sat 28 October 2017, 分類：
+            <a href="/zh/category/">Notes</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/ssh/">SSH</a>, <a href="/zh/tag/linux/">linux</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  <p>以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 <code>nlg</code> 程式：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nv">NLG_WKS_3F</span><span class="o">={</span>NLG_WKS_3F_HOST<span class="o">}</span>
+<span class="nv">NLG_WKS_2F</span><span class="o">={</span>NLG_WKS_2F_HOST<span class="o">}</span>
+<span class="k">case</span> <span class="nv">$1</span> in
+    <span class="o">[</span><span class="m">3</span>-9<span class="o">])</span>
+        ssh <span class="nv">$USER</span>@<span class="nv">$NLG_WKS_3F</span> -p <span class="m">2200</span><span class="nv">$MACHINE</span>
+        <span class="p">;;</span>
+    <span class="s2">&#34;a&#34;</span><span class="o">)</span>
+        ssh <span class="nv">$USER</span>@<span class="nv">$NLG_WKS_2F</span>
+        <span class="p">;;</span>
+    <span class="s2">&#34;b&#34;</span><span class="o">)</span>
+        ssh <span class="nv">$USER</span>@<span class="nv">$NLG_WKS_2F</span> -p <span class="m">22002</span>
+        <span class="p">;;</span>
+    *<span class="o">)</span>
+        <span class="p">;;</span>
+<span class="k">esac</span></code></pre></div>
+<p>如此一來，要連線時，只要打以下指令就行了：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">nlg b</span></code></pre></div></div>
+
+
+<p>後來才知道，其實可以使用 <code>.ssh/config</code> 來設定連線的 Hosts。於是修改 <code>.ssh/config</code> 如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Host nlg-wks-2
+User <span class="o">{</span>USER<span class="o">}</span>
+HostName <span class="o">{</span>NLG_WKS_3F_HOST<span class="o">}</span>
+Port <span class="m">22002</span>
+
+Host nlg-wks-b
+User <span class="o">{</span>USER<span class="o">}</span>
+HostName <span class="o">{</span>NLG_WKS_2F_HOST<span class="o">}</span>
+Port <span class="m">22002</span></code></pre></div>
+<p>如此一來，要連線時，只要打以下指令就行了：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ssh nlg-wks-b</span></code></pre></div></div>
+
+
+<p>然而，由於奇怪的 port 對應，使得這麼做必須在 <code>.ssh/config</code> 裡增加許多行數。後來才發現，其實可以用 <code>ProxyCommand</code> 來做到先自動連上其中一台機器，再自動從那台機器連到內網的其他機器。</p>
+
+<p>在連外網連不到的機器時，用 <code>ProxyCommand</code> 而非自己連兩次 ssh 還有一個好處，就是可以把用來認證的 ssh private key 存在本機，而不存在 NLG-WKS 伺服器裡，避免被同學偷看 private key，但卻可以用這個 private key 在跳板過程裡，用來認證最後想連上的主機。</p>
+
+<p>實際作法如下，首先在 <code>.ssh/config</code> 新增用來跳板的主機：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Host nlgs
+Hostname <span class="o">{</span>NLG_WKS_3F_HOST<span class="o">}</span>
+User <span class="o">{</span>USER<span class="o">}</span></code></pre></div>
+<p>緊接著新增跳板項目：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Host nlg-wks-*
+User <span class="o">{</span>USER<span class="o">}</span>
+ProxyCommand ssh -q -W %h:%p nlgs</code></pre></div>
+<p>具體的意思是，在連 <code>nlg-wks-*</code> 機器時，會先連上 <code>nlgs</code> 機器，然後再從 <code>nlgs</code> 連 <code>nlg-wks-*</code> (因此 <code>nlgs</code> 機器本身，要看得懂 <code>nlg-wks-*</code> 才行，幸好之前在處理 <a href="/zh/2014/12/13/migrate-from-nis-to-ldap/">LDAP</a> 時已經順便把 DNS 紀錄都設了)。</p>
+
+<p>如此一來，就能用以下指令，先跳到一個主機，再跳到其他主機了：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ssh nlg-wks-b</span></code></pre></div></div>
+
+
+<p>如此一來，就能更方便的做實驗了。</p>
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

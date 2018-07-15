@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>用 rnnlm, liblinear 和 word2vec 做中文情感分析測試 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="用 rnnlm, liblinear 和 word2vec 做中文情感分析測試" />
+<meta property="og:description" content="最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2015/03/27/sentiment-analysis/" />
+
+
+
+<meta property="article:published_time" content="2015-03-27T21:45:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2015-03-27T21:45:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="用 rnnlm, liblinear 和 word2vec 做中文情感分析測試">
+<meta itemprop="description" content="最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不">
+
+
+<meta itemprop="datePublished" content="2015-03-27T21:45:00&#43;08:00" />
+<meta itemprop="dateModified" content="2015-03-27T21:45:00&#43;08:00" />
+<meta itemprop="wordCount" content="1350">
+
+
+
+<meta itemprop="keywords" content="word2vec,Chinese,python,liblinear,rnnlm,tf-idf,sentiment analysis," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="用 rnnlm, liblinear 和 word2vec 做中文情感分析測試"/>
+<meta name="twitter:description" content="最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Fri 27 March 2015, 分類：
+            <a href="/zh/category/">Notes</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/chinese/">Chinese</a>, <a href="/zh/tag/liblinear/">liblinear</a>, <a href="/zh/tag/python/">python</a>, <a href="/zh/tag/rnnlm/">rnnlm</a>, <a href="/zh/tag/sentiment-analysis/">sentiment analysis</a>, <a href="/zh/tag/tf-idf/">tf-idf</a>, <a href="/zh/tag/word2vec/">word2vec</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<p>最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 <a href="https://code.google.com/p/word2vec/">word2vec</a> 論壇上發表的<a href="https://groups.google.com/d/msg/word2vec-toolkit/Q49FIrNOQRo/J6KG8mUj45sJ">文章</a>，以及 <a href="http://arxiv.org/abs/1412.5335">Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews</a> 的程式碼。不過改運用在中文上，並且用簡單的 TF-IDF 取代 Naive Bayes Support Vector
+Machine。</p>
+
+<p>資料集是使用 2014 年 NTU NLP 課程的旅館評論資料 <code>207884_hotel_training.txt</code>，然後稍微進行一些處理。將資料修改成以下格式：</p>
+
+<pre><code>LABEL TOKENS
+</code></pre>
+
+<p>每行有一則資料，先是正負向標記：1 表示正、2 表示負。其後接上斷詞後的評論（以空白分隔每個詞）。過濾掉斷詞失敗的句子後，共剩下 1124 句正向評論和 1217 句負向評論。</p>
+
+<p>接下來我寫了一個 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/split.py">split.py</a> 把資料分成測試集和訓練集：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">python3 split.py --input data/data.txt --train_pos data/train_pos.txt --train_neg data/train_neg.txt --test_pos data/test_pos.txt --test_neg data/test_neg.txt</span></code></pre></div></div>
+
+
+<p>我分別取了十分之一當作測試資料：有 112 句正向、121 句負向。</p>
+
+<h2 id="rnnlm">RNNLM</h2>
+
+<p>首先，我參考了 <a href="https://github.com/mesnilgr/iclr15">mesnilgr/iclr15</a> 的做法，使用 <a href="http://rnnlm.org/">rnnlm</a> 來建造語言模型，並預測測試資料的正負。rnnlm 是一個可以用來建立 Recurrent Neural Network Language Models 的方便工具。</p>
+
+<p>首先分別挑出 200 則訓練資料當作幫助調整參數的 validation set，分別訓練出正向與負向語言模型：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">cd</span> rnnlm
+</span>
+<span class="c1"># construct positive language model
+</span><span class="hl"><span class="c1"></span>head -n <span class="m">200</span> ../data/train_pos.txt &gt; val.txt
+</span><span class="hl">cat ../data/train_pos.txt <span class="p">|</span> sed <span class="s1">&#39;1,200d&#39;</span> &gt; train.txt
+</span><span class="hl">./rnnlm -rnnlm pos.model -train train.txt -valid val.txt -hidden <span class="m">50</span> -direct-order <span class="m">3</span> -direct <span class="m">200</span> -class <span class="m">100</span> -debug <span class="m">2</span> -bptt <span class="m">4</span> -bptt-block <span class="m">10</span> -binary
+</span>
+<span class="c1"># construct negative language model
+</span><span class="hl"><span class="c1"></span>head -n <span class="m">200</span> ../data/train_neg.txt &gt; val.txt
+</span><span class="hl">cat ../data/train_neg.txt <span class="p">|</span> sed <span class="s1">&#39;1,200d&#39;</span> &gt; train.txt
+</span><span class="hl">./rnnlm -rnnlm neg.model -train train.txt -valid val.txt -hidden <span class="m">50</span> -direct-order <span class="m">3</span> -direct <span class="m">200</span> -class <span class="m">100</span> -debug <span class="m">2</span> -bptt <span class="m">4</span> -bptt-block <span class="m">10</span> -binary</span></code></pre></div></div>
+
+
+<p>緊接著，把測試資料串在一起，並標記 ID 以符合 rnnlm 的輸入格式：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">cat ../data/test_pos.txt ../data/test_neg.txt <span class="p">|</span> nl -v0 -s<span class="s1">&#39; &#39;</span> -w1 &gt; test.txt</span></code></pre></div></div>
+
+
+<p>最後再用正向與負向模型預測每個句子個可能性，並將其比值輸出到檔案中：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./rnnlm -rnnlm pos.model -test test.txt -debug <span class="m">0</span> -nbest &gt; model_pos_score.txt
+</span><span class="hl">./rnnlm -rnnlm neg.model -test test.txt -debug <span class="m">0</span> -nbest &gt; model_neg_score.txt
+</span><span class="hl">mkdir ../scores
+</span><span class="hl">paste model_pos_score.txt model_neg_score.txt <span class="p">|</span> awk <span class="s1">&#39;{print $1/$2;}&#39;</span> &gt; ../scores/RNNLM</span></code></pre></div></div>
+
+
+<p>再稍微用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/normalize.py">normalize.py</a> 調整數據的範圍，就可以用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/evaluate.py">evaluate.py</a> 來檢查最後的正確率了。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">cd</span> ..
+</span><span class="hl">python3 normalize.py --input scores/RNNLM --output scores/RNNLM --type rnnlm
+</span><span class="hl">python3 evaluate.py --test_pos data/test_pos.txt --scores scores/RNNLM
+</span><span class="c1">#
+</span><span class="c1"># RNNLM accuracy: 87.9828%
+</span><span class="c1"></span> </code></pre></div></div>
+
+
+<h2 id="word2vec-paragraph-vectors-logistic-regression">Word2Vec: Paragraph Vectors + Logistic Regression</h2>
+
+<p>接下來我們要用具有將整個句子轉成 vector 能力的修改版 word2vec 來處理句子。值得注意的是，<a href="https://github.com/mesnilgr/iclr15">iclr15</a> 中的 word2vec 版本，在句子數目太多時，會因為 vocabulary 數量太大，而造成許多句子被丟棄而無法正確轉成 embedding。</p>
+
+<p>為了解決這個問題，我修改了程式碼 <a href="https://github.com/shaform/word2vec/tree/doc2vec">word2vec@shaform</a>，讓我們可以用 <code>@@SE</code> 為開頭標示用來訓練 word embeddings 而不需要產生 paragraph vectors 的句子；以 <code>@@SS</code> 為開頭來標示需要產生 paragraph vectors 的句子。這樣一來就可以同時擁有大量的訓練資料，又可以完整產生所有指定的 paragraph vectors。不過在這個實驗中，為了方便，我們就不額外引進大量訓練資料，所以所有句子都會以 <code>@@SS</code> 開頭。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">cd</span> word2vec
+</span><span class="hl">cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt <span class="p">|</span> nl -v0 -s<span class="s1">&#39; &#39;</span> -w1 <span class="p">|</span> sed <span class="s1">&#39;s/^/@@SS-/&#39;</span> <span class="p">|</span> shuf &gt; all.txt
+</span><span class="hl"><span class="nb">time</span> ./word2vec -train all.txt -output vectors.txt -cbow <span class="m">0</span> -size <span class="m">400</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">1</span> -sample 1e-3 -threads <span class="m">24</span> -binary <span class="m">0</span> -iter <span class="m">20</span> -min-count <span class="m">1</span> -sentence-vectors <span class="m">1</span>
+</span><span class="hl">grep <span class="s1">&#39;@@SS-&#39;</span> vectors.txt <span class="p">|</span> sed -e <span class="s1">&#39;s/^@@SS-//&#39;</span> <span class="p">|</span> sort -n &gt; sentence_vectors.txt</span></code></pre></div></div>
+
+
+<p>緊接著用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/transform.py">transform.py</a> 和 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/train.py">train.py</a> 來產生訓練資料，並用 <a href="https://github.com/cjlin1/liblinear">liblinear</a> 的 logistic regression 來訓練：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">python3 ../transform.py --input sentence_vectors.txt --output sentence_features.txt
+</span><span class="hl">python3 ../train.py --features sentence_features.txt --train_pos ../data/train_pos.txt --train_neg ../data/train_neg.txt --test_pos ../data/test_pos.txt --output_train train.txt --output_test test.txt
+</span><span class="hl">../liblinear/train -s <span class="m">0</span> train.txt model.logreg
+</span><span class="hl">../liblinear/predict -b <span class="m">1</span> test.txt model.logreg out.logreg</span></code></pre></div></div>
+
+
+<p>再稍微用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/normalize.py">normalize.py</a> 調整數據的範圍，就可以用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/evaluate.py">evaluate.py</a> 來檢查最後的正確率了。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sed <span class="s1">&#39;1d&#39;</span> out.logreg <span class="p">|</span> cut -d<span class="s1">&#39; &#39;</span> -f3 &gt; ../scores/DOC2VEC
+</span><span class="hl"><span class="nb">cd</span> ..
+</span><span class="hl">python3 normalize.py --input scores/DOC2VEC --output scores/DOC2VEC --type logreg
+</span><span class="hl">python3 evaluate.py --test_pos data/test_pos.txt --scores scores/DOC2VEC
+</span><span class="c1">#
+</span><span class="c1"># DOC2VEC accuracy: 84.5494%
+</span><span class="c1"></span> </code></pre></div></div>
+
+
+<h2 id="tf-idf">TF-IDF</h2>
+
+<p>最後則是簡單的 TF-IDF，我使用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/tfidf.py">tfidf.py</a> 來產生 unigrams 和 bigrams，並用之前的 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/train.py">train.py</a> 來產生訓練資料。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">cd</span> tfidf
+</span><span class="hl">cat ../data/train_pos.txt ../data/train_neg.txt ../data/test_pos.txt ../data/test_neg.txt &gt; all.txt
+</span><span class="hl">python3 ../tfidf.py --input all.txt --output features.txt
+</span><span class="hl">python3 ../train.py --features features.txt --train_pos ../data/train_pos.txt --train_neg ../data/train_neg.txt --test_pos ../data/test_pos.txt --output_train train.txt --output_test test.txt</span></code></pre></div></div>
+
+
+<p>緊接著用 <a href="https://github.com/cjlin1/liblinear">liblinear</a> 的 logistic regression 來訓練：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">../liblinear/train -s <span class="m">0</span> train.txt model.logreg
+</span><span class="hl">../liblinear/predict -b <span class="m">1</span> test.txt model.logreg out.logreg</span></code></pre></div></div>
+
+
+<p>再稍微用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/normalize.py">normalize.py</a> 調整數據的範圍，就可以用 <a href="https://github.com/shaform/experiments/blob/master/sentiment_analysis/evaluate.py">evaluate.py</a> 來檢查最後的正確率了。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sed <span class="s1">&#39;1d&#39;</span> out.logreg <span class="p">|</span> cut -d<span class="s1">&#39; &#39;</span> -f3 &gt; ../scores/TFIDF
+</span><span class="hl"><span class="nb">cd</span> ..
+</span><span class="hl">python3 normalize.py --input scores/TFIDF --output scores/TFIDF --type logreg
+</span>
+<span class="hl">python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TFIDF
+</span>
+<span class="c1"># TFIDF accuracy: 90.9817%
+</span><span class="c1"></span> </code></pre></div></div>
+
+
+<h2 id="整合">整合</h2>
+
+<p>最後用簡單的算術平均整合 3 個模型，效能倒是沒有顯著上升：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">paste scores/RNNLM scores/DOC2VEC scores/TFIDF <span class="p">|</span> awk <span class="s1">&#39;{print ($1+$2+$3)/3;}&#39;</span> &gt; scores/TOTAL
+</span><span class="hl">python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TOTAL
+</span>
+
+<span class="c1"># RNNLM accuracy: 87.9828%
+</span><span class="c1"># DOC2VEC accuracy: 84.5494%
+</span><span class="c1"># TFIDF accuracy: 90.9817%
+</span><span class="c1"># TOTAL accuracy: 90.1288%
+</span><span class="c1"></span> </code></pre></div></div>
+
+
+<h3 id="程式碼">程式碼</h3>
+
+<p>我把相關的程式碼放在 GitHub 上面供參考：<a href="https://github.com/shaform/experiments/tree/master/sentiment_analysis">shaform/sentiment_analysis</a>。</p>
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

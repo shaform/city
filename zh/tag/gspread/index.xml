@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gspread on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/gspread/</link>
+    <description>Recent content in Gspread on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 19 Mar 2016 09:02:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/gspread/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>價格追蹤：使用 gspread 自動更新 Google Sheets</title>
+      <link>https://city.shaform.com/zh/2016/03/19/gspread/</link>
+      <pubDate>Sat, 19 Mar 2016 09:02:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/03/19/gspread/</guid>
+      <description>前言 Google Sheets 和傳統試算表最大的差異或許在於他的資料存放在遠端，所以可以從任何地方存取，也很方便和別人共享編輯。因為這個特性，使得我偶爾會將一些實</description>
+    </item>
+    
+  </channel>
+</rss>

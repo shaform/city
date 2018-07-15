@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>從 Pixnet 轉移到 Pelican · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="從 Pixnet 轉移到 Pelican" />
+<meta property="og:description" content="「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/" />
+
+
+
+<meta property="article:published_time" content="2014-05-17T07:25:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2014-05-17T07:25:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="從 Pixnet 轉移到 Pelican">
+<meta itemprop="description" content="「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻">
+
+
+<meta itemprop="datePublished" content="2014-05-17T07:25:00&#43;08:00" />
+<meta itemprop="dateModified" content="2014-05-17T07:25:00&#43;08:00" />
+<meta itemprop="wordCount" content="1616">
+
+
+
+<meta itemprop="keywords" content="Pixnet,Pelican,Python," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="從 Pixnet 轉移到 Pelican"/>
+<meta name="twitter:description" content="「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">從 Pixnet 轉移到 Pelican</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Sat 17 May 2014, 分類：
+            <a href="/zh/category/">Notes</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/pelican/">Pelican</a>, <a href="/zh/tag/pixnet/">Pixnet</a>, <a href="/zh/tag/python/">Python</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<p>「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻煩：它對於一些程式碼的的支援有點不直覺，而文章的寫作方式也有許多不符我的需求。最後索性就把這個網誌改用 Pelican 建立了。而因為文章只有一點點，所以是用手動搬的。</p>
+
+<p>搬完以後覺得這種靜態網頁在管理和備份文章上實在是很方便。想到「浮光」這個文章集散處，其實完全是由很少 HTML 的靜態文章所組成，實在是很適合放到 Pelican 上，再者 Pixnet 的後台界面自己一直不是很喜歡，所以就乾脆一起搬了。</p>
+
+<p>以下記載完成這件事的流程，使用的環境是 Ubuntu 14.04 64-bit。</p>
+
+<h2 id="安裝-pelican">安裝 Pelican</h2>
+
+<p>詳細安裝方法可見 <a href="http://docs.getpelican.com/en/3.3.0/getting_started.html">Getting started</a> 文件，我自己選的方法是用 <a href="http://virtualenvwrapper.readthedocs.org">virtualenvwrapper</a>，並從 source code 直接安裝最新版的 Pelican（其實這是因為我想要讓文章的發布時間可以支援用不同時區的表示格式，舊版的 Pelican 似乎尚未支援）。</p>
+
+<h3 id="1-安裝-virtualenvwrapper">1. 安裝 virtualenvwrapper</h3>
+
+<p>首先輸入以下指令：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt-get install python-pip virtualenvwrapper</span></code></pre></div></div>
+
+
+<p>然後新增 pelican 環境</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">mkvirtualenv pelican</span></code></pre></div></div>
+
+
+<p>這樣以後如果要進入 pelican 環境的話只要下：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">workon pelican</span></code></pre></div></div>
+
+
+<p>而安裝的套件也不會跟系統混在一起。</p>
+
+<h3 id="2-安裝-pelican">2. 安裝 pelican</h3>
+
+<p>在 pelican 環境下隨意找個位置，下載 pelican 原始碼，並安裝相關套件：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">git clone https://github.com/getpelican/pelican.git
+</span><span class="hl"><span class="nb">cd</span> pelican
+</span><span class="hl">python setup.py install
+</span><span class="hl">pip install Markdown</span></code></pre></div></div>
+
+
+<p>最後選個資料夾放置網誌檔案，並下以下指令，就可以建立簡單的設定擋了：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pelican-quickstart</span></code></pre></div></div>
+
+
+<h2 id="匯出">匯出</h2>
+
+<p>Pixnet 的匯出格式是 Movable Type，恰巧 pelican-import 尚未支援。同時，浮光上的文章常有大量空行，我希望對轉換的格式有更多控制，所以乾脆自己寫了一個 Python script 來進行轉換：</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># python convert.py &lt; blog-export.txt</span>
+<span class="kn">import</span> <span class="nn">fileinput</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">pelican.utils</span>
+
+<span class="k">def</span> <span class="nf">p_transform</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+    <span class="n">new_lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">empty</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">empty</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">empty</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">empty</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">new_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">num</span> <span class="o">=</span> <span class="p">((</span><span class="n">empty</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="n">new_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;&amp;nbsp;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">num</span><span class="p">)</span>
+                <span class="n">empty</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">new_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">new_lines</span><span class="p">)</span>
+
+
+<span class="n">rData</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d{2})/(\d{2})/(\d{4}) (\d{2}):(\d{2}):(\d{2}) (PM|AM)&#39;</span><span class="p">)</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">article</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;TITLE: &#39;</span><span class="p">):</span>
+            <span class="n">article</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;DATE: &#39;</span><span class="p">):</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">rData</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;wrong with {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">gs</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">gs</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;PM&#39;</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">!=</span> <span class="mi">12</span><span class="p">:</span>
+                    <span class="n">t</span> <span class="o">+=</span> <span class="mi">12</span>
+                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;{}-{}-{} {}:{}:{}+0800&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">gs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">t</span><span class="p">,</span> <span class="n">gs</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">gs</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;PRIMARY CATEGORY: &#39;</span><span class="p">):</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;STATUS&#39;</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">cat</span> <span class="ow">in</span> <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;雪山&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;海岸&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;城市&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;？？&#39;</span><span class="p">]:</span>
+                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;天予&#39;</span>
+                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;天予：&#39;</span> <span class="o">+</span> <span class="n">cat</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;系列&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;奇幻&#39;</span><span class="p">}</span>
+            <span class="k">elif</span> <span class="n">cat</span> <span class="ow">in</span> <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;我的世界&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;記憶&#39;</span><span class="p">]:</span>
+                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat</span>
+                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;系列&#39;</span><span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat</span>
+        <span class="k">elif</span> <span class="n">l</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;BODY:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">l</span> <span class="o">!=</span> <span class="s1">&#39;-----</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;nbsp&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">space</span> <span class="o">=</span> <span class="bp">False</span>
+                        <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                            <span class="n">space</span> <span class="o">=</span> <span class="bp">True</span>
+                        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;p&gt;&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;!-- more --&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">space</span><span class="p">:</span>
+                            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="n">article</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_transform</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;--------</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+                    <span class="k">break</span>
+        <span class="k">if</span> <span class="s1">&#39;body&#39;</span> <span class="ow">in</span> <span class="n">article</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;content/&#39;</span> <span class="o">+</span> <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">pelican</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">slugify</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;.md&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Title: {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Date: {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Category: {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="s1">&#39;tags&#39;</span> <span class="ow">in</span> <span class="n">article</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Tags: {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Authors: Shaform</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></code></pre></div>
+<p>這個 script 會將結果輸出到 content/{category}/{title}.md 檔案，自動轉換適當的空行、分類、日期格式等等。分類的處理是依據浮光的架構，所以只有浮光能用。</p>
+
+<h2 id="發布到-google-app-engine">發布到 Google App Engine</h2>
+
+<p>在這過程中，我短暫的嘗試用 <a href="https://console.developers.google.com/start/appengine">Google App Engine</a> 作為發布平台，不過因為太麻煩，所以最後還是採用 GitHub Pages。</p>
+
+<p>實際的作法是先申請個帳號，然後安裝 SDK：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">curl sdk.cloud.google.com <span class="p">|</span> bash
+</span><span class="c1"># restart the Terminal, then
+</span><span class="hl"><span class="c1"></span>gcloud auth login</span></code></pre></div></div>
+
+
+<p>緊接著在網誌目錄中新增 app.yaml 檔案，設定讓伺服器顯示靜態網頁：</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">application<span class="p">:</span><span class="w"> </span>APP-NAME<span class="w">
+</span><span class="w"></span>version<span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w"></span>runtime<span class="p">:</span><span class="w"> </span>python27<span class="w">
+</span><span class="w"></span>api_version<span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w"></span>threadsafe<span class="p">:</span><span class="w"> </span>yes<span class="w">
+</span><span class="w"></span>module<span class="p">:</span><span class="w"> </span>default<span class="w">
+</span><span class="w">
+</span><span class="w"></span>handlers<span class="p">:</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>url<span class="p">:</span><span class="w"> </span>/<span class="w">
+</span><span class="w">    </span>static_files<span class="p">:</span><span class="w"> </span>output/index.html<span class="w">
+</span><span class="w">      </span>upload<span class="p">:</span><span class="w"> </span>output/index.html<span class="w">
+</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>url<span class="p">:</span><span class="w"> </span>/<span class="w">
+</span><span class="w">          </span>static_dir<span class="p">:</span><span class="w"> </span>output</code></pre></div>
+<p>然後修改 <code>Makefile</code> 新增如下指令，自動將檔案複製到指定位置：</p>
+<div class="highlight"><pre class="chroma"><code class="language-makefile" data-lang="makefile"><span class="nf">gcloud</span><span class="o">:</span> <span class="n">publish</span>
+    mkdir -p gcloud/output
+    cp -r <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/* gcloud/output
+    mv gcloud <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>
+    cp app.yaml <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/gcloud
+    appcfg.py update <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/gcloud
+</code></pre></div>
+<p>這樣的話只要在網誌的目錄下執行以下指令，就可以把網頁發布到 Google App Engine 上了：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">make gcloud</span></code></pre></div></div>
+
+
+<h2 id="發布到-github-pages">發布到 GitHub Pages</h2>
+
+<p>雖然 Pelican 原本就有支援 GitHub Pages 的發布，不過我比較希望在 local 端的 master branch 紀錄網誌的原始 Markdown 檔案，在 gh-pages branch 上紀錄產生的網頁，因此我在 <code>Makefile</code> 做了以下修改：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">GITHUB_PAGES_BRANCH</span><span class="o">=</span>gh-pages
+github: publish
+        <span class="nb">echo</span> <span class="s2">&#34;DOMAIN-NAME&#34;</span> &gt; <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/CNAME
+        ghp-import -r gh-pages -b <span class="k">$(</span>GITHUB_PAGES_BRANCH<span class="k">)</span> <span class="k">$(</span>OUTPUTDIR<span class="k">)</span> -m <span class="s2">&#34;</span><span class="k">$(</span>MSG<span class="k">)</span><span class="s2">&#34;</span>
+        git push gh-pages <span class="k">$(</span>GITHUB_PAGES_BRANCH<span class="k">)</span>:master</code></pre></div>
+<p>其中 DOMAIN-NAME 那行是自訂 domain 用的，若沒有可以刪除。而 <code>-m $(MSG)</code> 則是為了讓我可以用 <code>MSG=&quot;new update&quot; make github</code> 來自訂 commit 訊息。最後一行的 <code>master</code>，如果是用 username.github.io 的話就保留 <code>master</code>，如果是一般 projects 的話就改成 <code>gh-pages</code>。</p>
+
+<p>緊接著安裝 <code>ghp-import</code>：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pip install ghp-import</span></code></pre></div></div>
+
+
+<p>然後按照 <a href="https://pages.github.com">GitHub Pages</a> 的說明，建立一個 repository，並把整個網誌的目錄當成這個 repository。（我其實是先 <code>git clone</code> 然後把 .git 資料夾直接搬到網誌目錄中。）</p>
+
+<h2 id="結果">結果</h2>
+
+<p>最後再調整一些佈景和版面的設定，就成了最後的結果。初步感覺還滿令我滿意的。以後再慢慢調整浮光以及翼之都的版面吧。</p>
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

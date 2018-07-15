@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tomb on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/tomb/</link>
+    <description>Recent content in Tomb on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 28 May 2017 20:11:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/tomb/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>密碼管理心得筆記</title>
+      <link>https://city.shaform.com/zh/2017/05/28/password-management/</link>
+      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/05/28/password-management/</guid>
+      <description>前言：逐步學習資訊安全 經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 LUKS 加密，</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deep learning on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/deep-learning/</link>
+    <description>Recent content in Deep learning on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 04 Apr 2017 15:37:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/deep-learning/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>生成對抗網路 - Generative Adversarial Networks</title>
+      <link>https://city.shaform.com/zh/2017/04/04/generative-adversarial-networks/</link>
+      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/04/04/generative-adversarial-networks/</guid>
+      <description>前言 記得最早聽說 Generative Adversarial Networks 似乎是去年看到〈Image Completion with Deep Learning in TensorFlow〉這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把</description>
+    </item>
+    
+    <item>
+      <title>Caffe 程式閱讀筆記</title>
+      <link>https://city.shaform.com/zh/2016/02/26/caffe/</link>
+      <pubDate>Fri, 26 Feb 2016 07:12:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/02/26/caffe/</guid>
+      <description>前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。 由於自己對該程式庫也不是很熟悉，加上一直拖稿導致 Caffe 在撰寫期間也已經有不少變動，</description>
+    </item>
+    
+  </channel>
+</rss>

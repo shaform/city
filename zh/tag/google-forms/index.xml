@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Google Forms on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/google-forms/</link>
+    <description>Recent content in Google Forms on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 16 Sep 2017 16:42:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/google-forms/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>用程式自動產生 Google Forms 調查問卷</title>
+      <link>https://city.shaform.com/zh/2017/09/16/auto-create-google-forms/</link>
+      <pubDate>Sat, 16 Sep 2017 16:42:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/09/16/auto-create-google-forms/</guid>
+      <description>前言 最近因為一些研究上的需要，需要進行問卷調查。雖然也可以用自己架的伺服器和網頁界面，可是難免擔心資安的疑慮。 於是就想到可以使用 Google Forms</description>
+    </item>
+    
+  </channel>
+</rss>

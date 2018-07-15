@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Scrapy Cloud on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/scrapy-cloud/</link>
+    <description>Recent content in Scrapy Cloud on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 13 May 2017 16:10:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/scrapy-cloud/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Scrapy Cloud &#43; Scrapy 網路爬蟲</title>
+      <link>https://city.shaform.com/zh/2017/05/13/scrapy-cloud/</link>
+      <pubDate>Sat, 13 May 2017 16:10:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/05/13/scrapy-cloud/</guid>
+      <description>前言：取得研究資料集 最近聽到不少擅長 Deep Learning 的朋友買了顯示卡準備自己做起研究，讓人也十分受到激勵。不過平常想自己做研究時，常常會因為沒有適當的資</description>
+    </item>
+    
+  </channel>
+</rss>

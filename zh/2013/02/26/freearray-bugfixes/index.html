@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>稍微整理了一下自由行列的原始碼 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="停擺多年 還記得數年前完成了「自由行列輸入法」的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="稍微整理了一下自由行列的原始碼" />
+<meta property="og:description" content="停擺多年 還記得數年前完成了「自由行列輸入法」的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2013/02/26/freearray-bugfixes/" />
+
+
+
+<meta property="article:published_time" content="2013-02-26T14:17:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2013-02-26T14:17:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="稍微整理了一下自由行列的原始碼">
+<meta itemprop="description" content="停擺多年 還記得數年前完成了「自由行列輸入法」的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重">
+
+
+<meta itemprop="datePublished" content="2013-02-26T14:17:00&#43;08:00" />
+<meta itemprop="dateModified" content="2013-02-26T14:17:00&#43;08:00" />
+<meta itemprop="wordCount" content="1123">
+
+
+
+<meta itemprop="keywords" content="自由行列,軟體開發,輸入法," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="稍微整理了一下自由行列的原始碼"/>
+<meta name="twitter:description" content="停擺多年 還記得數年前完成了「自由行列輸入法」的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">稍微整理了一下自由行列的原始碼</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Tue 26 February 2013, 分類：
+            <a href="/zh/category/">Projects</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/%E8%87%AA%E7%94%B1%E8%A1%8C%E5%88%97/">自由行列</a>, <a href="/zh/tag/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC/">軟體開發</a>, <a href="/zh/tag/%E8%BC%B8%E5%85%A5%E6%B3%95/">輸入法</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<h2 id="停擺多年">停擺多年</h2>
+
+<p>還記得數年前完成了<a href="/zh/2010/02/15/intro-to-freearray/">「自由行列輸入法」</a>的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重要理由是突然發現 <a href="http://hyperrate.com/thread.php?tid=18200">gcin 原本就有支援智慧選詞的行列輸入法</a>，覺得花那麼多力氣重造輪子有點不值得。但其實也是沒有特別的新功能可以開發，而且程式本身寫的太亂不太好維護，加上課業繁忙，所以就沒有投注太多關心。</p>
+
+<p>gcin 的版本雖然很好，但對 Dvorak 和「行列定符」的支援總是差了那麼一點，而且不知為何總是無法習慣使用 gcin，所以後來就沒有繼續使用。而隨著作業系統的更新，之前的自由行列輸入法也不知為何無法編譯了，於是我就重回注音輸入法的懷抱，和行列輸入法疏離了許久。</p>
+
+<p>後來剛好又看到行列以及 dvorak 的討論串，加上最近剛好比較有空，就想把之前的程式碼翻修一下，看看能不能動，也順便把原始碼轉到現在比較習慣的 <a href="https://github.com/shaform/ibus-freearray">GitHub</a>。雖然只花了幾天時間，不過其實遇到的問題也不少，甚至有些問題的根源還很難弄明白。</p>
+
+<h2 id="問題">問題</h2>
+
+<p>首先遇到的問題是不知為何編譯時所連結的外部函式庫，包含 sqlite3, ibus, freearray 等等，都無法順利連結，使用到的函式都變成了 undefined reference。花了一段時間才發現似乎是一定要透過 libtool 才能順利連結，在 configure.ac 裡加上 AM_PROG_LIBTOOL 以後情況才有所改善。</p>
+
+<p>但是很奇怪的是，原本我的編譯程序是先將一部分的 object 檔製成暫時的函式庫 libfaft.a，最後再連結在一起，但這個函式庫指向的外部連結也都變成是 undefined reference。除此之外，也遇到 libtool 在連結 c++, c 檔案時無法順利找到 libstdc++ 的問題。最後只有取消中繼函式庫，直接將所有 object 檔連在一起才能解決。</p>
+
+<p>除此之外，automake 和 autoconf 等等的行為似乎跟以前比起來也有微妙的改變，因此我參考其他專案修改了 autogen.sh，新增 libtoolize 和 autoheader 等指令，讓編譯流程順利進行，雖然其實我也不太清楚這些微妙的改變實際上有什麼作用就是。</p>
+
+<p>接下來則是 ibus 新版的 ibus_config_set_value, ibus_config_get_value, ibus_config_new 等等的行為已經有所不同，還有許多函式不知為何開始要求傳進去的參數要先經過 g_object_ref_sink 的處理。這些也透過觀察類似專案得到了解法，雖然還沒有時間深入研究。</p>
+
+<p>最後則是 64bit 環境下 libchewing 的 TreeType 大小會有問題，暫時用強制的型別解決了。</p>
+
+<h2 id="結語">結語</h2>
+
+<p>幾番修正後終於成功啟動了 ibus-freearray，說起來行列輸入法真是不錯，雖然那麼久沒用可是我卻還記得怎麼打字。抱著學習的心態，這次也順便嘗試製作了 .deb 檔案，雖然一開始遇到一些問題，不過也順利解決了。</p>
+
+<p>雖說如此，這樣匆促的修復應該會隱藏著不少 bugs，而且目前實在也是沒有投入太多心力持續開發這個專案的打算，所以它還是會繼續以測試版的姿態存在下去吧。</p>
+
+<p>有興趣測試的朋友，所有的檔案都可在 <a href="http://code.google.com/p/freearray/downloads/list">freearray download page</a> 下載，若你是使用 64bit Ubuntu，可直接安裝 libfreearray0 和 ibus-freearray 等 .deb 檔。否則的話就參考從前的文件下載 .tar 檔編譯安裝。</p>
+
+<p>原始碼已經搬移到 Github：</p>
+
+<ul>
+<li><a href="https://github.com/shaform/libfreearray">libfreearray</a></li>
+<li><a href="https://github.com/shaform/ibus-freearray">ibus-freearray</a></li>
+</ul>
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

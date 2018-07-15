@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/python/</link>
+    <description>Recent content in Python on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 26 Jul 2016 22:30:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>bs2 公開板備份初探</title>
+      <link>https://city.shaform.com/zh/2016/07/26/bs2-backup/</link>
+      <pubDate>Tue, 26 Jul 2016 22:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/07/26/bs2-backup/</guid>
+      <description>前言 bs2.to 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動</description>
+    </item>
+    
+    <item>
+      <title>IPython Notebook 初探</title>
+      <link>https://city.shaform.com/zh/2015/12/26/ipython-notebook/</link>
+      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/12/26/ipython-notebook/</guid>
+      <description>為什麼是 IPython Notebook? 還記得第一次認識到 IPython Notebook 是在 Taipei.py 吧。 當時我還十分懷疑到底使用瀏覽器界面寫 Python 能有什麼好處。 尤其，這樣根本無法使用 Vim 的強大指令。 雖然有安</description>
+    </item>
+    
+    <item>
+      <title>在工作站上使用自己的 Python 並安裝自訂套件</title>
+      <link>https://city.shaform.com/zh/2014/06/22/pyvenv-and-virtualenv/</link>
+      <pubDate>Sun, 22 Jun 2014 10:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/06/22/pyvenv-and-virtualenv/</guid>
+      <description>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程</description>
+    </item>
+    
+    <item>
+      <title>從 Pixnet 轉移到 Pelican</title>
+      <link>https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/</link>
+      <pubDate>Sat, 17 May 2014 07:25:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/</guid>
+      <description>「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻</description>
+    </item>
+    
+  </channel>
+</rss>

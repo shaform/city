@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。 一、HDFS 安裝 JDK 7 sudo apt-get update &amp;amp;&amp;amp; apt-get upgrade # 更新套件庫 sudo apt-get install software-properties-common python-software-properties # 取得 add-apt-repository sudo add-apt-repository ppa:webupd8team/java # 新增有 oracle-java7-installer 的 ppa sudo" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記" />
+<meta property="og:description" content="這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。 一、HDFS 安裝 JDK 7 sudo apt-get update &amp;&amp; apt-get upgrade # 更新套件庫 sudo apt-get install software-properties-common python-software-properties # 取得 add-apt-repository sudo add-apt-repository ppa:webupd8team/java # 新增有 oracle-java7-installer 的 ppa sudo" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2014/04/13/hbase-on-ubuntu-12.04/" />
+
+
+
+<meta property="article:published_time" content="2014-04-13T15:56:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2014-04-13T15:56:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記">
+<meta itemprop="description" content="這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。 一、HDFS 安裝 JDK 7 sudo apt-get update &amp;&amp; apt-get upgrade # 更新套件庫 sudo apt-get install software-properties-common python-software-properties # 取得 add-apt-repository sudo add-apt-repository ppa:webupd8team/java # 新增有 oracle-java7-installer 的 ppa sudo">
+
+
+<meta itemprop="datePublished" content="2014-04-13T15:56:00&#43;08:00" />
+<meta itemprop="dateModified" content="2014-04-13T15:56:00&#43;08:00" />
+<meta itemprop="wordCount" content="548">
+
+
+
+<meta itemprop="keywords" content="Hadoop,HBase,HDFS,Ubuntu," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記"/>
+<meta name="twitter:description" content="這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。 一、HDFS 安裝 JDK 7 sudo apt-get update &amp;&amp; apt-get upgrade # 更新套件庫 sudo apt-get install software-properties-common python-software-properties # 取得 add-apt-repository sudo add-apt-repository ppa:webupd8team/java # 新增有 oracle-java7-installer 的 ppa sudo"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Sun 13 April 2014, 分類：
+            <a href="/zh/category/">Notes</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/hbase/">HBase</a>, <a href="/zh/tag/hdfs/">HDFS</a>, <a href="/zh/tag/hadoop/">Hadoop</a>, <a href="/zh/tag/ubuntu/">Ubuntu</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<p>這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。</p>
+
+<h2 id="一-hdfs">一、HDFS</h2>
+
+<ol>
+<li><p>安裝 JDK 7</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade <span class="c1"># 更新套件庫
+</span></span><span class="hl"><span class="c1"></span>sudo apt-get install software-properties-common python-software-properties  <span class="c1"># 取得 add-apt-repository
+</span></span><span class="hl"><span class="c1"></span>sudo add-apt-repository ppa:webupd8team/java  <span class="c1"># 新增有 oracle-java7-installer 的 ppa
+</span></span><span class="hl"><span class="c1"></span>sudo apt-get update
+</span><span class="hl">sudo apt-get install oracle-java7-installer</span></code></pre></div></div>
+</li>
+
+<li><p>設定 SSH</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ssh-keygen -b <span class="m">2048</span> -t rsa:q  <span class="c1"># 產生 RSA key pair
+</span></span><span class="hl"><span class="c1"></span>cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  # 讓自己可以不用密碼登入自己</span></code></pre></div></div>
+
+
+<p>在 NameNode 上：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-1-dn  <span class="c1"># 讓 NameNode 可不用密碼登入 DataNode
+</span></span><span class="hl"><span class="c1"></span>ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-2-dn  # 讓 NameNode 可不用密碼登入 DataNode</span></code></pre></div></div>
+</li>
+
+<li><p>安裝 Hadoop</p>
+
+<p>先在 $HOME/.bashrc 加上 <code>export PATH=$PATH:$HOME/hadoop-1.2.1/bin</code>，然後進入家目錄：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">wget http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz
+</span><span class="hl">tar -xvf hadoop-1.2.1-bin.tar.gz
+</span><span class="hl"><span class="nb">cd</span> hadoop-1.2.1/conf</span></code></pre></div></div>
+
+
+<p>修改 hadoop-env.sh 加上 <code>export JAVA_HOME=/usr/lib/jvm/java-7-oracle</code>。</p></li>
+
+<li><p>進階設定</p>
+
+<p>在下列檔案中的<configuration>內新增如下內容：</p>
+
+<ul>
+<li><p>core-site.xml</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>fs.default.name<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>hdfs://master-dn:54310<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span></code></pre></div></li>
+
+<li><p>mapred-site.xml</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>mapred.job.tracker<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>master-dn:54311<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span></code></pre></div></li>
+
+<li><p>hdfs-site.xml</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>3<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span></code></pre></div></li>
+</ul>
+
+<p>然後在 NameNode 上修改將以下檔案修改成如下內容：</p>
+
+<ul>
+<li><p>masters</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">master-dn</code></pre></div></li>
+
+<li><p>slaves</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">master-dn
+slave-1-dn
+slave-2-dn</code></pre></div></li>
+</ul></li>
+
+<li><p>開啟伺服器
+最後在 NameNode 上執行以下指令將 cluster 啟動（可能需要重新登入讓 PATH 設定生效）：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">hadoop namenode -format  <span class="c1"># 格式化檔案系統
+</span></span><span class="hl"><span class="c1"></span>start-all.sh  # 啟動所有服務（包含 HDFS）</span></code></pre></div></div>
+</li>
+</ol>
+
+<h2 id="二-hbase">二、HBase</h2>
+
+<p>首先進入每台的家目錄，下載並解壓縮 HBase：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">wget http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.94.14.tar.gz
+</span><span class="hl">tar -xvf hbase-0.94.14.tar.gz</span></code></pre></div></div>
+
+
+<p>編輯 hbase-0.94.14/conf/hbase-env.sh，新增數行：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/java-7-oracle
+<span class="nb">export</span> <span class="nv">HADOOP_CONF_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/hadoop-1.2.1/conf
+<span class="nb">export</span> <span class="nv">HBASE_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/hbase-0.94.14
+<span class="nb">export</span> <span class="nv">HBASE_LOG_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/logs/hbase-logs
+<span class="nb">export</span> <span class="nv">HBASE_PID_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/logs/hbase-pids
+<span class="nb">export</span> <span class="nv">HBASE_CLASSPATH</span><span class="o">=</span><span class="nv">$HBASE_CLASSPATH</span>:<span class="nv">$HOME</span>/hadoop-1.2.1/conf
+<span class="nb">export</span> <span class="nv">HBASE_MANAGES_ZK</span><span class="o">=</span>true</code></pre></div>
+<p>編輯 hbase-0.94.14/conf/hbase-site.xml，在<configuration>內新增如下內容：</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>hbase.rootdir<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>hdfs://master-dn:54310/hbase<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>hbase.tmp.dir<span class="nt">&lt;/name&gt;</span> 
+    <span class="nt">&lt;value&gt;</span>/home/hbase-${user.name}<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>hbase.cluster.distributed<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>       
+<span class="nt">&lt;property&gt;</span> 
+    <span class="nt">&lt;name&gt;</span>hbase.zookeeper.quorum<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>master-dn,slave-1-dn,slave-2-dn<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>hbase.zookeeper.property.dataDir<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>/home/hbase-data<span class="nt">&lt;/value&gt;</span> 
+<span class="nt">&lt;/property&gt;</span></code></pre></div>
+<p>然後編輯 hbase-0.94.14/conf/regionservers 將內容改為如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">master-dn
+slave-1-dn
+slave-2-dn</code></pre></div>
+<p>最後就可以在 master 執行 HBase 了：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./hbase-0.94.14/bin/start-hbase.sh</span></code></pre></div></div>
+
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

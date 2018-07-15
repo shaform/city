@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PTT on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/ptt/</link>
+    <description>Recent content in PTT on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 13 May 2017 16:10:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/ptt/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Scrapy Cloud &#43; Scrapy 網路爬蟲</title>
+      <link>https://city.shaform.com/zh/2017/05/13/scrapy-cloud/</link>
+      <pubDate>Sat, 13 May 2017 16:10:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/05/13/scrapy-cloud/</guid>
+      <description>前言：取得研究資料集 最近聽到不少擅長 Deep Learning 的朋友買了顯示卡準備自己做起研究，讓人也十分受到激勵。不過平常想自己做研究時，常常會因為沒有適當的資</description>
+    </item>
+    
+    <item>
+      <title>Scrapy &#43; Python 3: PTT 資料抓取與分析</title>
+      <link>https://city.shaform.com/zh/2016/02/28/scrapy/</link>
+      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/02/28/scrapy/</guid>
+      <description>Scrapy 1.1 with Python 3 Support 很久很久以前，曾經想要學學網路爬蟲，爬一些 PTT 的資料來看看能幹嘛。當時找到了 Scrapy 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 Python 3</description>
+    </item>
+    
+    <item>
+      <title>簡單的 BBS 掛站設定</title>
+      <link>https://city.shaform.com/zh/2014/05/27/stay-on-bbs/</link>
+      <pubDate>Tue, 27 May 2014 13:21:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/05/27/stay-on-bbs/</guid>
+      <description>很久以前看到了 othree 的〈掛站系統設定篇〉，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一</description>
+    </item>
+    
+  </channel>
+</rss>

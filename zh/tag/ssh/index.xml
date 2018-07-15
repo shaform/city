@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SSH on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/ssh/</link>
+    <description>Recent content in SSH on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 28 Oct 2017 21:45:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/ssh/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用 SSH ProxyCommand 來連上內網主機</title>
+      <link>https://city.shaform.com/zh/2017/10/28/ssh-proxycommand/</link>
+      <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/10/28/ssh-proxycommand/</guid>
+      <description>以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 nlg 程式： #!/bin/bash NLG_WKS_3F={NLG_WKS_3F_HOST} NLG_WKS_2F={NLG_WKS_2F_HOST} case $1 in [3-9]) ssh $USER@$NLG_WKS_3F -p 2200$MACHINE ;; &amp;#34;a&amp;#34;)</description>
+    </item>
+    
+    <item>
+      <title>在 Debian 7.7 系統中轉移 NIS 到 LDAP</title>
+      <link>https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/</link>
+      <pubDate>Sat, 13 Dec 2014 17:42:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/</guid>
+      <description>本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 O</description>
+    </item>
+    
+    <item>
+      <title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題</title>
+      <link>https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/</link>
+      <pubDate>Sat, 21 Jun 2014 09:00:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/</guid>
+      <description>通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的</description>
+    </item>
+    
+  </channel>
+</rss>

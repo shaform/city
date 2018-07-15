@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tf-idf on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/tf-idf/</link>
+    <description>Recent content in Tf-idf on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 27 Mar 2015 21:45:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/tf-idf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</title>
+      <link>https://city.shaform.com/zh/2015/03/27/sentiment-analysis/</link>
+      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/03/27/sentiment-analysis/</guid>
+      <description>最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不</description>
+    </item>
+    
+  </channel>
+</rss>

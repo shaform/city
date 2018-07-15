@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bs2 on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/bs2/</link>
+    <description>Recent content in Bs2 on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 26 Jul 2016 22:30:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/bs2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>bs2 公開板備份初探</title>
+      <link>https://city.shaform.com/zh/2016/07/26/bs2-backup/</link>
+      <pubDate>Tue, 26 Jul 2016 22:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/07/26/bs2-backup/</guid>
+      <description>前言 bs2.to 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動</description>
+    </item>
+    
+  </channel>
+</rss>

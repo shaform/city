@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>找出 GitHub 上和 Python 3 不相容的 Python 專案 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Porting to Python 3 Python 3 已經釋出近八年，原本一片慘紅的 Python 3 Readiness 和 PYTHON 3 WALL OF SUPERPOWERS 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，也開始有些專案漸漸要" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="找出 GitHub 上和 Python 3 不相容的 Python 專案" />
+<meta property="og:description" content="Porting to Python 3 Python 3 已經釋出近八年，原本一片慘紅的 Python 3 Readiness 和 PYTHON 3 WALL OF SUPERPOWERS 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，也開始有些專案漸漸要" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2016/09/10/py3tracker/" />
+
+
+
+<meta property="article:published_time" content="2016-09-10T19:44:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2016-09-10T19:44:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="找出 GitHub 上和 Python 3 不相容的 Python 專案">
+<meta itemprop="description" content="Porting to Python 3 Python 3 已經釋出近八年，原本一片慘紅的 Python 3 Readiness 和 PYTHON 3 WALL OF SUPERPOWERS 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，也開始有些專案漸漸要">
+
+
+<meta itemprop="datePublished" content="2016-09-10T19:44:00&#43;08:00" />
+<meta itemprop="dateModified" content="2016-09-10T19:44:00&#43;08:00" />
+<meta itemprop="wordCount" content="523">
+
+
+
+<meta itemprop="keywords" content="Python3,2to3,GitHub,py3tracker," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="找出 GitHub 上和 Python 3 不相容的 Python 專案"/>
+<meta name="twitter:description" content="Porting to Python 3 Python 3 已經釋出近八年，原本一片慘紅的 Python 3 Readiness 和 PYTHON 3 WALL OF SUPERPOWERS 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，也開始有些專案漸漸要"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">找出 GitHub 上和 Python 3 不相容的 Python 專案</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Sat 10 September 2016, 分類：
+            <a href="/zh/category/">Projects</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/2to3/">2to3</a>, <a href="/zh/tag/github/">GitHub</a>, <a href="/zh/tag/python3/">Python3</a>, <a href="/zh/tag/py3tracker/">py3tracker</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<h2 id="porting-to-python-3">Porting to Python 3</h2>
+
+<p>Python 3 已經釋出近八年，原本一片慘紅的 <a href="http://py3readiness.org/">Python 3 Readiness</a> 和 <a href="http://python3wos.mybluemix.net/">PYTHON 3 WALL OF SUPERPOWERS</a> 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，<a href="http://blog.jupyter.org/2016/07/08/ipython-5-0-released/#endofsupportforpython2">也開始有些專案漸漸要中止 Python 2 的支援了。</a></p>
+
+<p>然而其實還是有不少常用的 packages 並不支援 Python 3，像是最近常會用到的 <a href="https://github.com/s3tools/s3cmd">s3cmd</a> 就是一例。到了他們的 Issues 頁面瞧瞧，發現其實<a href="https://github.com/s3tools/s3cmd/issues/335">很早以前就有想支援 Python 3 的聲音</a>，只是一直沒有人力去做。</p>
+
+<p>其實，雖然要完全支援的話工程有點浩大，但一小步一小步做起來就在可以處理的範圍之內。有些情況甚至用 <a href="https://docs.python.org/3.5/library/2to3.html">2to3</a> 就能有很大幫助了。於是忍不住就順手發了一個 <a href="https://github.com/s3tools/s3cmd/pull/785">pull request</a>，結果很順利就被 merge 了。感覺是很低成本的讓自己感覺對世界有貢獻的方法之一。</p>
+
+<h2 id="找出可以幫忙的-repositories">找出可以幫忙的 repositories</h2>
+
+<p>於是想到，其實說不定 <a href="https://github.com/">GitHub</a> 上也還存在許多可以發 pull requests 的 repositories，於是就想寫個類似 Python 3 Readiness 的頁面，專門列出有在 GitHub 上但是卻不支援 Python 3 的專案，讓有強迫症的路人可以簡單找出可以去哪貢獻。</p>
+
+<p>就這樣，<a href="http://py3tracker.shaform.com/">py3tracker</a> 誕生了。</p>
+
+<p>主要的作法是先用 <a href="https://wiki.python.org/moin/PyPIXmlRpc">PyPI API</a> 找出最多人下載的 projects，然後再透過 <a href="https://github.com/brettcannon/caniusepython3">caniusepython3</a> 檢查哪些不支援 Python 3，最後再偵測該 project 在 GitHub 上是否有公開原始碼。順便抓星星數用來排序。</p>
+
+<p>本來想用 GitHub API 但是一下子就超過一天查詢限制，所以只好強抓網頁了。</p>
+
+<p>最後的網頁樣板則是用 <a href="http://materializecss.com">materializecss</a> 快速做成。</p>
+
+<p>希望對有強迫症的路人有所幫助。</p>
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda · City of Wings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Previously I have written about 在Ubuntu 安裝 TensorFlow 的紀錄 (Installing TensorFlow on Ubuntu). Years have passed, and even though Ubuntu is still on 16.04，TensorFlow has already made great progress. I&amp;rsquo;ve decided to write another post to show how to install TensorFlow and Caffe with Anaconda. GPU" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda" />
+<meta property="og:description" content="Previously I have written about 在Ubuntu 安裝 TensorFlow 的紀錄 (Installing TensorFlow on Ubuntu). Years have passed, and even though Ubuntu is still on 16.04，TensorFlow has already made great progress. I&rsquo;ve decided to write another post to show how to install TensorFlow and Caffe with Anaconda. GPU" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/en/2017/10/23/install-tensorflow-and-caffe-on-ubuntu/" />
+
+
+
+<meta property="article:published_time" content="2017-10-23T21:30:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2017-10-23T21:30:00&#43;08:00"/>
+
+<meta property="og:site_name" content="City of Wings" />
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda">
+<meta itemprop="description" content="Previously I have written about 在Ubuntu 安裝 TensorFlow 的紀錄 (Installing TensorFlow on Ubuntu). Years have passed, and even though Ubuntu is still on 16.04，TensorFlow has already made great progress. I&rsquo;ve decided to write another post to show how to install TensorFlow and Caffe with Anaconda. GPU">
+
+
+<meta itemprop="datePublished" content="2017-10-23T21:30:00&#43;08:00" />
+<meta itemprop="dateModified" content="2017-10-23T21:30:00&#43;08:00" />
+<meta itemprop="wordCount" content="497">
+
+
+
+<meta itemprop="keywords" content="TensorFlow,Caffe,CUDA,Ubuntu," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda"/>
+<meta name="twitter:description" content="Previously I have written about 在Ubuntu 安裝 TensorFlow 的紀錄 (Installing TensorFlow on Ubuntu). Years have passed, and even though Ubuntu is still on 16.04，TensorFlow has already made great progress. I&rsquo;ve decided to write another post to show how to install TensorFlow and Caffe with Anaconda. GPU"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/en/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          City of Wings
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/en/category/ideas/">Ideas</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/en/category/notes/">Notes</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/en/category/projects/">Projects</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/en/zh/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>繁體中文</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda</h1>
+        <p class="header-date">
+          Mon 23 October 2017, In categories
+            <a href="/en/category/">Notes</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/en/tag/cuda/">CUDA</a>, <a href="/en/tag/caffe/">Caffe</a>, <a href="/en/tag/tensorflow/">TensorFlow</a>, <a href="/en/tag/ubuntu/">Ubuntu</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<p>Previously I have written about <a href="/zh/2016/10/31/install-tensorflow-with-cuda/">在Ubuntu 安裝 TensorFlow 的紀錄 (Installing
+TensorFlow on Ubuntu)</a>.  Years have passed, and even though
+Ubuntu is still on 16.04，TensorFlow has already made great progress.  I&rsquo;ve
+decided to write another post to show how to install TensorFlow and Caffe with
+Anaconda.</p>
+
+<h2 id="gpu-settings">GPU Settings</h2>
+
+<h3 id="basic">Basic</h3>
+
+<p>Firstly set integrated video card as the main GPU in the BIOS, and connect your
+monitor to the output port of the integrated video card so your Nvidia GPU is
+completely dedicated to deep learning computation.</p>
+
+<h3 id="install-cuda">Install CUDA</h3>
+
+<p>Afterwards, download the deb files from <a href="https://developer.nvidia.com/cuda-downloads">the download page of
+CUDA</a>.  Do not install at this time. We would reboot Ubuntu and
+enter <code>Ctrl-Alt-F1</code> to login via terminal.</p>
+
+<p>Execute the following command to stop <code>lightdm</code>.</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo service lightdm stop</span></code></pre></div></div>
+
+
+<p>According to <a href="https://gist.github.com/bearpaw/c38ef18ec45ba6548ec0">this article</a>, this must be done when you want to
+use your Nvidia GPU solely for CUDA. When this is not done, we might not be
+able to login to the desktop after CUDA installation.</p>
+
+<p>So now we would install CUDA 8.0.</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo dpkg -i cuda-repo-&lt;distro&gt;_&lt;version&gt;_&lt;architecture&gt;.deb
+</span><span class="hl">sudo apt update
+</span><span class="hl">sudo apt install cuda-8-0</span></code></pre></div></div>
+
+
+<p>Record which version of nvidia driver is installed and add the PATH to <code>.bashrc</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/lib/nvidia-384
+<span class="nb">export</span> <span class="nv">CUDA_HOME</span><span class="o">=</span>/usr/local/cuda
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/cuda/bin</code></pre></div>
+<p>where <code>/usr/lib/nvidia-384</code> should point to the actual version installed.</p>
+
+<p>Reboot again to confirm that we could login:</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo reboot</span></code></pre></div></div>
+
+
+<h2 id="setup-anaconda-environment">Setup Anaconda Environment</h2>
+
+<h3 id="install-anaconda">Install Anaconda</h3>
+
+<p>Download Python 3 version of Anaconda at the <a href="https://www.anaconda.com/download/#linux">Anaconda download
+page</a>, and execute the installation command:</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">bash ~/Downloads/Anaconda3-<span class="o">{</span>VERSION<span class="o">}</span>-Linux-x86_64.sh</span></code></pre></div></div>
+
+
+<p>Install Anaconda onto a directory such as <code>$HOME/anaconda3</code>.</p>
+
+<h3 id="create-tensorflow-environment">Create TensorFlow Environment</h3>
+
+<p>Activate Anaconda:</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">source</span> <span class="nv">$HOME</span>/anaconda3/bin/activate</span></code></pre></div></div>
+
+
+<p>And create a new environment named <code>tf</code>:</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">conda create -n tf anaconda</span></code></pre></div></div>
+
+
+<p>Finally activate <code>tf</code> environment:</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">source</span> activate tf</span></code></pre></div></div>
+
+
+<h2 id="install-tensorflow">Install TensorFlow</h2>
+
+<p>Execute this command and <code>tensorflow-gpu</code>, <code>cudnn</code>, <code>cudatoolkit</code> would be
+installed automatically.</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">conda install tensorflow-gpu</span></code></pre></div></div>
+
+
+<h2 id="install-caffe">Install Caffe</h2>
+
+<p>Firstly install the required packages:</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install build-essential
+</span><span class="hl">conda install atlas boost gflags glog hdf5 leveldb lmdb openblas protobuf
+</span><span class="hl">conda install -c menpo opencv3</span></code></pre></div></div>
+
+
+<p>Download Caffe, and create the configuration file.</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">git clone https://github.com/BVLC/caffe
+</span><span class="hl"><span class="nb">cd</span> caffe
+</span><span class="hl">cp Makefile.config.example Makefile.config</span></code></pre></div></div>
+
+
+<p>Modify <code>Makefile.config</code>, the number in <code>python3.6</code> could be
+changed to the current Python version:</p>
+<div class="highlight"><pre class="chroma"><code class="language-diff" data-lang="diff">5c5
+&lt; # USE_CUDNN := 1
+<span class="gd">---
+</span><span class="gd"></span>&gt; USE_CUDNN := 1
+21c21
+&lt; # OPENCV_VERSION := 3
+<span class="gd">---
+</span><span class="gd"></span>&gt; OPENCV_VERSION := 3
+25c25
+&lt; # CUSTOM_CXX := g++
+<span class="gd">---
+</span><span class="gd"></span>&gt; CUSTOM_CXX := /usr/bin/g++-4.9
+68,69c68,69
+&lt; PYTHON_INCLUDE := /usr/include/python2.7 \
+&lt;       /usr/lib/python2.7/dist-packages/numpy/core/include
+<span class="gd">---
+</span><span class="gd"></span>&gt; # PYTHON_INCLUDE := /usr/include/python2.7 \
+&gt; #         /usr/lib/python2.7/dist-packages/numpy/core/include
+72,75c72,75
+&lt; # ANACONDA_HOME := $(HOME)/anaconda
+&lt; # PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
+&lt;       # $(ANACONDA_HOME)/include/python2.7 \
+&lt;       # $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include
+<span class="gd">---
+</span><span class="gd"></span>&gt; ANACONDA_HOME := $(HOME)/anaconda3/envs/tf
+&gt; PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
+&gt;       $(ANACONDA_HOME)/include/python3.6m \
+&gt;       $(ANACONDA_HOME)/lib/python3.6/site-packages/numpy/core/include
+83,84c83,84
+&lt; PYTHON_LIB := /usr/lib
+&lt; # PYTHON_LIB := $(ANACONDA_HOME)/lib
+<span class="gd">---
+</span><span class="gd"></span>&gt; # PYTHON_LIB := /usr/lib
+&gt; PYTHON_LIB := $(ANACONDA_HOME)/lib
+94c94
+&lt; INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include
+<span class="gd">---
+</span><span class="gd"></span>&gt; INCLUDE_DIRS := $(PYTHON_INCLUDE)
+</code></pre></div>
+<p>Caffe can now be compiled:</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">make all
+</span><span class="hl">make pycaffe</span></code></pre></div></div>
+
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  Load Disqus Comments
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">Sitemap</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/en/tags/">Tags</a></li>
+              <li><a href="/en/categories/">Categories</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/en/index.xml">RSS Feed</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">Links</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">About Me</a></li>
+          
+          <li><a href="https://island.shaform.com/en/" rel="noopener" target="_blank">An Island</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

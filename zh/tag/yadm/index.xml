@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yadm on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/yadm/</link>
+    <description>Recent content in Yadm on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 25 Mar 2017 09:09:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/yadm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>用 Ansible 和 yadm 來加速重灌流程</title>
+      <link>https://city.shaform.com/zh/2017/03/25/ansible-and-yadm/</link>
+      <pubDate>Sat, 25 Mar 2017 09:09:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/03/25/ansible-and-yadm/</guid>
+      <description>前言 還記得當年修計算機系統管理時曾經為了做 NFS + NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Word2vec on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/word2vec/</link>
+    <description>Recent content in Word2vec on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 30 Aug 2015 17:15:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/word2vec/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>用 Apache Spark 來訓練 Word2vec 詞向量 Skip-gram Word Embeddings</title>
+      <link>https://city.shaform.com/zh/2015/08/30/spark-for-word2vec/</link>
+      <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/08/30/spark-for-word2vec/</guid>
+      <description>先前曾提過 word2vec 可以把語料中的詞轉換成詞向量。 雖然原本提供的 word2vec 工具速度已經很快， 但是如果要訓練更大規模的語料還是需要不少時間。 例如之前在處理 ClueWeb09 時</description>
+    </item>
+    
+    <item>
+      <title>用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</title>
+      <link>https://city.shaform.com/zh/2015/03/27/sentiment-analysis/</link>
+      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/03/27/sentiment-analysis/</guid>
+      <description>最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不</description>
+    </item>
+    
+    <item>
+      <title>用中文資料測試 word2vec</title>
+      <link>https://city.shaform.com/zh/2014/11/04/word2vec/</link>
+      <pubDate>Tue, 04 Nov 2014 17:20:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/11/04/word2vec/</guid>
+      <description>最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一</description>
+    </item>
+    
+  </channel>
+</rss>

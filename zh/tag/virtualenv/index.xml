@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Virtualenv on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/virtualenv/</link>
+    <description>Recent content in Virtualenv on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 22 Jun 2014 10:30:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/virtualenv/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在工作站上使用自己的 Python 並安裝自訂套件</title>
+      <link>https://city.shaform.com/zh/2014/06/22/pyvenv-and-virtualenv/</link>
+      <pubDate>Sun, 22 Jun 2014 10:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/06/22/pyvenv-and-virtualenv/</guid>
+      <description>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程</description>
+    </item>
+    
+  </channel>
+</rss>

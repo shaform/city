@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>輸入法 on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/%E8%BC%B8%E5%85%A5%E6%B3%95/</link>
+    <description>Recent content in 輸入法 on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 12 Jul 2013 18:53:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/%E8%BC%B8%E5%85%A5%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>qwerty 轉換到 dvorak 筆記</title>
+      <link>https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/</link>
+      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/</guid>
+      <description>Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP</description>
+    </item>
+    
+    <item>
+      <title>稍微整理了一下自由行列的原始碼</title>
+      <link>https://city.shaform.com/zh/2013/02/26/freearray-bugfixes/</link>
+      <pubDate>Tue, 26 Feb 2013 14:17:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2013/02/26/freearray-bugfixes/</guid>
+      <description>停擺多年 還記得數年前完成了「自由行列輸入法」的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重</description>
+    </item>
+    
+    <item>
+      <title>ibus-faft 開發日誌</title>
+      <link>https://city.shaform.com/zh/2010/02/20/ibus-faft-develop-notes/</link>
+      <pubDate>Sat, 20 Feb 2010 19:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2010/02/20/ibus-faft-develop-notes/</guid>
+      <description>FreeArray for Test for the Input Bus 是基於 ibus 輸入法架構所製作之行列輸入法引擎，其結合來自 libchewing 的斷詞模組實作智慧選字功能，並利用「行列定符」改進原行列的符號輸入。此外</description>
+    </item>
+    
+    <item>
+      <title>簡介自由行列專案</title>
+      <link>https://city.shaform.com/zh/2010/02/15/intro-to-freearray/</link>
+      <pubDate>Mon, 15 Feb 2010 15:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2010/02/15/intro-to-freearray/</guid>
+      <description>本持自由軟體，Release Early, Release Often 之精神，我實在應該趕快把自由行列的程式碼公開出來。不過覺得程式碼實在太醜，而且其實根本也還沒寫出什麼，再者</description>
+    </item>
+    
+  </channel>
+</rss>

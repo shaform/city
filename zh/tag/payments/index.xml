@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Payments on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/payments/</link>
+    <description>Recent content in Payments on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 20 Apr 2015 08:34:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/payments/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>一起聚餐去，金流系統</title>
+      <link>https://city.shaform.com/zh/2015/04/20/dine-together-payment-system/</link>
+      <pubDate>Mon, 20 Apr 2015 08:34:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/04/20/dine-together-payment-system/</guid>
+      <description>在交大時因為地處偏僻又經濟拮据，很少有機會出去校外吃飯。來了台北以後，開始有機會和朋友出去聚餐。有次一大群人一起去吃飯，結帳時大家七手八腳的</description>
+    </item>
+    
+  </channel>
+</rss>

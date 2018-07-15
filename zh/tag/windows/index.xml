@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Windows on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/windows/</link>
+    <description>Recent content in Windows on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 12 Jul 2013 18:53:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/windows/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>qwerty 轉換到 dvorak 筆記</title>
+      <link>https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/</link>
+      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/</guid>
+      <description>Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP</description>
+    </item>
+    
+  </channel>
+</rss>

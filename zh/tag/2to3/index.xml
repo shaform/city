@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2to3 on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/2to3/</link>
+    <description>Recent content in 2to3 on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 10 Sep 2016 19:44:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/2to3/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>找出 GitHub 上和 Python 3 不相容的 Python 專案</title>
+      <link>https://city.shaform.com/zh/2016/09/10/py3tracker/</link>
+      <pubDate>Sat, 10 Sep 2016 19:44:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/09/10/py3tracker/</guid>
+      <description>Porting to Python 3 Python 3 已經釋出近八年，原本一片慘紅的 Python 3 Readiness 和 PYTHON 3 WALL OF SUPERPOWERS 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，也開始有些專案漸漸要</description>
+    </item>
+    
+  </channel>
+</rss>

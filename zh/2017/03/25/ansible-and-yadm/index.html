@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>用 Ansible 和 yadm 來加速重灌流程 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="前言 還記得當年修計算機系統管理時曾經為了做 NFS &#43; NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="用 Ansible 和 yadm 來加速重灌流程" />
+<meta property="og:description" content="前言 還記得當年修計算機系統管理時曾經為了做 NFS &#43; NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2017/03/25/ansible-and-yadm/" />
+
+
+
+<meta property="article:published_time" content="2017-03-25T09:09:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2017-03-25T09:09:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="用 Ansible 和 yadm 來加速重灌流程">
+<meta itemprop="description" content="前言 還記得當年修計算機系統管理時曾經為了做 NFS &#43; NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形">
+
+
+<meta itemprop="datePublished" content="2017-03-25T09:09:00&#43;08:00" />
+<meta itemprop="dateModified" content="2017-03-25T09:09:00&#43;08:00" />
+<meta itemprop="wordCount" content="2188">
+
+
+
+<meta itemprop="keywords" content="ansible,yadm," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="用 Ansible 和 yadm 來加速重灌流程"/>
+<meta name="twitter:description" content="前言 還記得當年修計算機系統管理時曾經為了做 NFS &#43; NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">用 Ansible 和 yadm 來加速重灌流程</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Sat 25 March 2017, 分類：
+            <a href="/zh/category/">Notes</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/ansible/">ansible</a>, <a href="/zh/tag/yadm/">yadm</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<h2 id="前言">前言</h2>
+
+<p>還記得<a href="https://island.shaform.com/zh/2013/01/01/computer-system-administration/">當年修計算機系統管理</a>時曾經為了做 NFS + NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形，但還是得常常重灌電腦。像是研究所期間，自己的桌機、筆電，以及實驗室的桌機都是自己裝的 Ubuntu，而每次升級病發就會想重灌成新的版本，久了以後慢慢把安裝的東西寫成 Bash scripts，可是還是相當繁瑣。</p>
+
+<p>就在最近的時候，偷聽大大們聊天，得知了 <a href="https://www.ansible.com/">Ansible</a> 這個方便的自動化部屬工具。由於它使用時目的端完全不須安裝任何套件，而是從本地端完全使用 SSH 進去目的端安裝設定軟體，感覺也挺適合個人重灌的需求。於是就花了一點時間研究了一下。在此同時，也得知了 <a href="https://github.com/TheLocehiliosan/yadm">yadm</a> 這個 <a href="https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789">dotfiles</a> 管理套件，也花了一點時間把原本用 Makefile 來安裝的 dotfiles 改成用 yadm 管理了。</p>
+
+<h2 id="ansible-設定">Ansible 設定</h2>
+
+<p>實際上 Ansible 的功用是用來自動化部署而不是拿來重灌個人電腦的，所以尋找文件時常常看到許多複雜功能。這份文件只挑些用在重灌上有用的部份。</p>
+
+<p>安裝 Ansible 的方法非常簡單，只要使用 <code>pip install ansible</code> 或者是 <code>sudo apt install ansible</code> 即可。</p>
+
+<p>然後我建立一個資料夾放置設定檔，組織成如下所示：</p>
+
+<pre><code>.
+├── ansible.cfg
+├── hosts
+├── anaconda.yml
+├── desktop.yml
+└── roles
+    ├── anaconda
+    │   └── tasks
+    │       └── main.yml
+    ├── base
+    │   └── tasks
+    │       └── main.yml
+    └── desktop
+        └── tasks
+            └── main.yml
+</code></pre>
+
+<p>首先在 <code>ansible.cfg</code> 裡指定用來設定有哪些機器的 hostfile 的位置：</p>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[defaults]</span>
+<span class="na">hostfile</span> <span class="o">=</span> <span class="s">hosts</span></code></pre></div>
+<p>然後在 <code>hosts</code> 裡設定機器位址，例如：</p>
+<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[host1]</span>
+<span class="na">192.168.1.2</span>
+
+<span class="k">[host2]</span>
+<span class="na">192.168.1.3 ansible_ssh_user</span><span class="o">=</span><span class="s">bob ansible_ssh_private_key_file=~/.ssh/bob.pem</span>
+
+<span class="k">[servers]</span>
+<span class="na">192.168.1.4</span>
+<span class="na">192.168.1.5</span>
+<span class="na">192.168.1.6</span></code></pre></div>
+<p>每個 group 可以設定多個機器，也可以指定使用者名稱和登入方法等等，見：<a href="http://docs.ansible.com/ansible/intro_inventory.html">〈Inventory〉</a>。</p>
+
+<p><code>deploy</code> 則是一個簡單的 Bash script，用來方便執行。使用方法為：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./deploy HOST YML</span></code></pre></div></div>
+
+
+<p>利用 <code>HOST</code> 指定要設定的機器名稱，例如之前設定的 <code>host1</code> 或者 <code>localhost</code>，<code>YML</code> 則是要執行的 playbook 設定檔，例如最上層的 <code>anaconda.yml</code> 或者 <code>desktop.yml</code>。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nv">HOST</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">localhost</span><span class="si">}</span>
+<span class="nv">YML</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">desktop</span><span class="p">.yml</span><span class="si">}</span>
+ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span class="s2">&#34;hosts=</span><span class="nv">$HOST</span><span class="s2">&#34;</span> <span class="nv">$YML</span></code></pre></div>
+<p><code>desktop.yml</code> 和 <code>anaconda.yml</code> 則是簡單的 <a href="http://docs.ansible.com/ansible/playbooks.html">Playbooks</a>，用來指定要執行哪些 tasks。例如我在 <code>desktop.yml</code> 寫要用 root 權限執行 <code>base</code> 和 <code>desktop</code> 兩個 roles：</p>
+<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
+</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>hosts<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ hosts }}&#39;</span><span class="w">
+</span><span class="w">  </span>become<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">  </span>become_user<span class="p">:</span><span class="w"> </span>root<span class="w">
+</span><span class="w">  </span>roles<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>base<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>desktop</code></pre></div>
+<p><code>anaconda.yml</code> 則寫要用正常使用者權限執行 <code>anaconda</code> 這個 role：</p>
+<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
+</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>hosts<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ hosts }}&#39;</span><span class="w">
+</span><span class="w">  </span>roles<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>anaconda</code></pre></div>
+<h2 id="roles">Roles</h2>
+
+<p>最後的 <code>roles</code> 資料夾底下把相關的設定項目放在一起，這樣分開設定的好處是，可以根據不同機器的需求指定要執行哪些 roles，此外，也可以用 <code>git submodule</code> 之類的方法直接利用別人寫好的 roles。</p>
+
+<p>先從 <code>base.yml</code> 開始，這個檔案裡我設置了一些基本的系統設定：</p>
+<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># 建立 sudoers.d 資料夾，以放置設定檔</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>mkdir<span class="w"> </span>for<span class="w"> </span>configure<span class="w"> </span>files<span class="w">
+</span><span class="w">  </span>file<span class="p">:</span><span class="w">
+</span><span class="w">    </span>dest<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
+</span><span class="w">    </span>owner<span class="p">:</span><span class="w"> </span>root<span class="w">
+</span><span class="w">    </span>group<span class="p">:</span><span class="w"> </span>root<span class="w">
+</span><span class="w">    </span>mode<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0755&#34;) }}&#39;</span><span class="w">
+</span><span class="w">    </span>state<span class="p">:</span><span class="w"> </span>directory<span class="w">
+</span><span class="w">
+</span><span class="w">  </span>with_items<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>dest<span class="p">:</span><span class="w"> </span>/etc/sudoers.d<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># 因為我自己的使用者 umask 設的比較嚴格，避免 sudo 受影響所以加上這個把 sudo 的 umask 轉回來</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>set<span class="w"> </span>sudo<span class="w"> </span>umask<span class="w">
+</span><span class="w">  </span>copy<span class="p">:</span><span class="w">
+</span><span class="w">    </span>dest<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
+</span><span class="w">    </span>owner<span class="p">:</span><span class="w"> </span>root<span class="w">
+</span><span class="w">    </span>group<span class="p">:</span><span class="w"> </span>root<span class="w">
+</span><span class="w">    </span>mode<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0644&#34;) }}&#39;</span><span class="w">
+</span><span class="w">    </span>content<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.content }}&#39;</span><span class="w">
+</span><span class="w">
+</span><span class="w">  </span>with_items<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>dest<span class="p">:</span><span class="w"> </span>/etc/sudoers.d/umask<span class="w">
+</span><span class="w">      </span>mode<span class="p">:</span><span class="w"> </span><span class="s1">&#39;0400&#39;</span><span class="w">
+</span><span class="w">      </span>content<span class="p">:</span><span class="w"> </span><span class="sd">|
+</span><span class="sd">        # This file is managed by Ansible. DO NOT EDIT.
+</span><span class="sd">
+</span><span class="sd">        Defaults umask_override
+</span><span class="sd">        Defaults umask = 0002</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># 更新系統</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>upgrade<span class="w"> </span>packages<span class="w">
+</span><span class="w">  </span>apt<span class="p">:</span><span class="w">
+</span><span class="w">    </span>upgrade<span class="p">:</span><span class="w"> </span>dist<span class="w">
+</span><span class="w">    </span>update_cache<span class="p">:</span><span class="w"> </span>yes<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># 安裝常用套件</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>install<span class="w"> </span>core<span class="w"> </span>packages<span class="w">
+</span><span class="w">  </span>apt<span class="p">:</span><span class="w">
+</span><span class="w">    </span>name<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.name }}&#39;</span><span class="w">
+</span><span class="w">    </span>state<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.state | default(&#34;present&#34;) }}&#39;</span><span class="w">
+</span><span class="w">    </span>purge<span class="p">:</span><span class="w"> </span>yes<span class="w">
+</span><span class="w">
+</span><span class="w">  </span>with_items<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>git-core<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>gufw<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>htop<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>p7zip-full<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>p7zip-rar<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>screen<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>tmux<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>yadm</code></pre></div>
+<p><code>desktop.yml</code> 則用來放個人桌機常用的設定：</p>
+<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># 建立資料夾來放之後的設定檔</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>mkdir<span class="w"> </span>for<span class="w"> </span>configure<span class="w"> </span>files<span class="w">
+</span><span class="w">  </span>file<span class="p">:</span><span class="w">
+</span><span class="w">    </span>dest<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
+</span><span class="w">    </span>owner<span class="p">:</span><span class="w"> </span>root<span class="w">
+</span><span class="w">    </span>group<span class="p">:</span><span class="w"> </span>root<span class="w">
+</span><span class="w">    </span>mode<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0755&#34;) }}&#39;</span><span class="w">
+</span><span class="w">    </span>state<span class="p">:</span><span class="w"> </span>directory<span class="w">
+</span><span class="w">
+</span><span class="w">  </span>with_items<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>dest<span class="p">:</span><span class="w"> </span>/usr/share/lightdm/lightdm.conf.d<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># 取消訪客登入</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>disable<span class="w"> </span>guest<span class="w"> </span>login<span class="w">
+</span><span class="w">  </span>copy<span class="p">:</span><span class="w">
+</span><span class="w">    </span>dest<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
+</span><span class="w">    </span>owner<span class="p">:</span><span class="w"> </span>root<span class="w">
+</span><span class="w">    </span>group<span class="p">:</span><span class="w"> </span>root<span class="w">
+</span><span class="w">    </span>mode<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0644&#34;) }}&#39;</span><span class="w">
+</span><span class="w">    </span>content<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.content }}&#39;</span><span class="w">
+</span><span class="w">
+</span><span class="w">  </span>with_items<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>dest<span class="p">:</span><span class="w"> </span>/usr/share/lightdm/lightdm.conf.d/<span class="m">50</span>-no-guest.conf<span class="w">
+</span><span class="w">      </span>mode<span class="p">:</span><span class="w"> </span><span class="s1">&#39;0400&#39;</span><span class="w">
+</span><span class="w">      </span>content<span class="p">:</span><span class="w"> </span><span class="sd">|
+</span><span class="sd">        # This file is managed by Ansible. DO NOT EDIT.
+</span><span class="sd">
+</span><span class="sd">        [SeatDefaults]
+</span><span class="sd">        allow-guest=false</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># 安裝一些我常用的軟體</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>install<span class="w"> </span>desktop<span class="w"> </span>apps<span class="w">
+</span><span class="w">  </span>apt<span class="p">:</span><span class="w">
+</span><span class="w">    </span>name<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.name }}&#39;</span><span class="w">
+</span><span class="w">    </span>state<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.state | default(&#34;present&#34;) }}&#39;</span><span class="w">
+</span><span class="w">    </span>purge<span class="p">:</span><span class="w"> </span>yes<span class="w">
+</span><span class="w">    </span>update_cache<span class="p">:</span><span class="w"> </span>yes<span class="w">
+</span><span class="w">
+</span><span class="w">  </span>with_items<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>ibus-chewing<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>keepassx<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>libappindicator1<span class="w"> </span><span class="c"># For Dropbox</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>python-gpgme<span class="w"> </span><span class="c"># For Dropbox</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>nautilus-dropbox<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>workrave<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># 安裝 Google Chrome</span><span class="w">
+</span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>install<span class="w"> </span>Google<span class="w"> </span>Chrome<span class="w">
+</span><span class="w">  </span>apt<span class="p">:</span><span class="w">
+</span><span class="w">    </span>deb<span class="p">:</span><span class="w"> </span><span class="s1">&#39;https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb&#39;</span><span class="w">
+</span><span class="w">    </span>update_cache<span class="p">:</span><span class="w"> </span>yes<span class="w">
+</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span>最後則是安裝<span class="w"> </span>Anaconda<span class="w"> </span>的部份，我會先安裝<span class="w"> </span>Anaconda<span class="w"> </span><span class="m">2</span>：<span class="w">
+</span><span class="w">
+</span><span class="w">    </span><span class="p">:::</span>yml<span class="w">
+</span><span class="w">    </span>---<span class="w">
+</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>download<span class="w"> </span>Anaconda<span class="w">
+</span><span class="w">      </span>get_url<span class="p">:</span><span class="w">
+</span><span class="w">        </span>url<span class="p">:</span><span class="w"> </span><span class="s1">&#39;https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh&#39;</span><span class="w">
+</span><span class="w">        </span>dest<span class="p">:</span><span class="w"> </span>/tmp/Anaconda2-<span class="m">4.3</span>.<span class="m">1</span>-Linux-x86_64.sh<span class="w">
+</span><span class="w">        </span>mode<span class="p">:</span><span class="w"> </span><span class="s1">&#39;0755&#39;</span><span class="w">
+</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>install<span class="w"> </span>Anaconda<span class="w">
+</span><span class="w">      </span>command<span class="p">:</span><span class="w"> </span>bash<span class="w"> </span>/tmp/Anaconda2-<span class="m">4.3</span>.<span class="m">1</span>-Linux-x86_64.sh<span class="w"> </span>-b<span class="w"> </span>-p<span class="w"> </span>{{<span class="w"> </span>ansible_env.HOME<span class="w"> </span>}}/anaconda2<span class="w">
+</span><span class="w">      </span>args<span class="p">:</span><span class="w">
+</span><span class="w">        </span>creates<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ ansible_env.HOME}}/anaconda2&#39;</span><span class="w">
+</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>add<span class="w"> </span>Anaconda<span class="w"> </span>to<span class="w"> </span>PATH<span class="w">
+</span><span class="w">      </span>lineinfile<span class="p">:</span><span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ ansible_env.HOME }}/.bashrc&#39;</span><span class="w">
+</span><span class="w">        </span>line<span class="p">:</span><span class="w"> </span><span class="s1">&#39;export PATH=$HOME/anaconda2/bin:${PATH}&#39;</span></code></pre></div>
+<p>然後再進到目的機器額外安裝 Python 3 的環境：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">conda create -n py3 <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.6 anaconda</span></code></pre></div></div>
+
+
+<p>不過還不確定以上這件事怎麼寫成 Ansible playbook 比較好。</p>
+
+<h2 id="實際執行">實際執行</h2>
+
+<p>假設新安裝的電腦是 <code>host1</code> 的話，那我就執行以下指令來安裝設定：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./deploy host1 desktop.yml</span></code></pre></div></div>
+
+
+<p>當然也可以直接登入該電腦，然後把 <code>host1</code> 改成 <code>localhost</code> 直接在本地執行。</p>
+
+<h2 id="yadm">yadm</h2>
+
+<p>至於 yadm 使用起來就<a href="https://thelocehiliosan.github.io/yadm/docs/getting_started">非常簡單</a>了。基本上就是一個可以把家目錄直接當成 git repository 的簡單套件。首先安裝：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install yadm</span></code></pre></div></div>
+
+
+<p>然後剛開始可以直接：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">yadm init
+</span><span class="hl">yadm add ~/.vimrc
+</span><span class="hl">yadm add ~/.tmux.conf
+</span><span class="c1"># ...
+</span><span class="hl"><span class="c1"></span>yadm commit -m <span class="s1">&#39;first commit!&#39;</span></span></code></pre></div></div>
+
+
+<p>如果要同步已經有的 repository 則是：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">yadm clone &lt;url&gt;
+</span><span class="c1"># ...
+</span><span class="hl"><span class="c1"></span>yadm pull</span></code></pre></div></div>
+
+
+<p>跟正常的 git 一模一樣。</p>
+
+<p>其他比較有用的功能大概是 <a href="https://thelocehiliosan.github.io/yadm/docs/bootstrap">Boostrap</a>，可以取代我原本用 Makefile 手動打指令的部份。</p>
+
+<h2 id="結語">結語</h2>
+
+<p>本次設定檔放在 <a href="https://github.com/shaform/experiments/tree/master/ansible">shaform/experiments/ansible</a>。其他還可以參考：</p>
+
+<ul>
+<li><a href="http://docs.ansible.com/">Ansible Documentation</a></li>
+<li><a href="https://medium.com/@chihsuan/ansible-%E8%87%AA%E5%8B%95%E5%8C%96%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7-b2e8b8534a8d#.6m6yfov5s">Ansible 自動化部署工具</a></li>
+<li><a href="http://ithelp.ithome.com.tw/users/20031776/ironman/1022">現代 IT 人一定要知道的 Ansible 自動化組態技巧</a></li>
+<li><a href="https://thelocehiliosan.github.io/yadm/">Yet Another Dotfiles Manager</a></li>
+<li><a href="https://github.com/webpro/awesome-dotfiles">Awesome dotfiles</a></li>
+<li><a href="https://git-scm.com/book/en/v2">Git - Book</a></li>
+</ul>
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

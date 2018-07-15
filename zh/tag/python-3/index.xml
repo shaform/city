@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python 3 on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/python-3/</link>
+    <description>Recent content in Python 3 on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 13 May 2017 16:10:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/python-3/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Scrapy Cloud &#43; Scrapy 網路爬蟲</title>
+      <link>https://city.shaform.com/zh/2017/05/13/scrapy-cloud/</link>
+      <pubDate>Sat, 13 May 2017 16:10:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/05/13/scrapy-cloud/</guid>
+      <description>前言：取得研究資料集 最近聽到不少擅長 Deep Learning 的朋友買了顯示卡準備自己做起研究，讓人也十分受到激勵。不過平常想自己做研究時，常常會因為沒有適當的資</description>
+    </item>
+    
+    <item>
+      <title>價格追蹤：使用 gspread 自動更新 Google Sheets</title>
+      <link>https://city.shaform.com/zh/2016/03/19/gspread/</link>
+      <pubDate>Sat, 19 Mar 2016 09:02:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/03/19/gspread/</guid>
+      <description>前言 Google Sheets 和傳統試算表最大的差異或許在於他的資料存放在遠端，所以可以從任何地方存取，也很方便和別人共享編輯。因為這個特性，使得我偶爾會將一些實</description>
+    </item>
+    
+    <item>
+      <title>Scrapy &#43; Python 3: PTT 資料抓取與分析</title>
+      <link>https://city.shaform.com/zh/2016/02/28/scrapy/</link>
+      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2016/02/28/scrapy/</guid>
+      <description>Scrapy 1.1 with Python 3 Support 很久很久以前，曾經想要學學網路爬蟲，爬一些 PTT 的資料來看看能幹嘛。當時找到了 Scrapy 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 Python 3</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.44" />
+  <meta charset="utf-8">
+  <title>在 Debian 7.7 系統中轉移 NIS 到 LDAP · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 O" />
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/den.css">
+
+
+<meta property="og:title" content="在 Debian 7.7 系統中轉移 NIS 到 LDAP" />
+<meta property="og:description" content="本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 O" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/" />
+
+
+
+<meta property="article:published_time" content="2014-12-13T17:42:00&#43;08:00"/>
+
+<meta property="article:modified_time" content="2014-12-13T17:42:00&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="在 Debian 7.7 系統中轉移 NIS 到 LDAP">
+<meta itemprop="description" content="本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 O">
+
+
+<meta itemprop="datePublished" content="2014-12-13T17:42:00&#43;08:00" />
+<meta itemprop="dateModified" content="2014-12-13T17:42:00&#43;08:00" />
+<meta itemprop="wordCount" content="1459">
+
+
+
+<meta itemprop="keywords" content="LDAP,NIS,linux,Debian,SSH," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在 Debian 7.7 系統中轉移 NIS 到 LDAP"/>
+<meta name="twitter:description" content="本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 O"/>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      <a class="float-left" href="/zh/">
+        
+        <img class="mr20 header-logo-image" src="/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/ideas/">點子</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/notes/">筆記</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/category/projects/">專案</a>
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              <a class="nav-link" href="/zh/en/" rel="noopener" target="_blank"><i class="fas fa-globe-americas"></i>English</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">在 Debian 7.7 系統中轉移 NIS 到 LDAP</h1>
+        <p class="header-date">作者：
+          Shaform,
+        
+          Sat 13 December 2014, 分類：
+            <a href="/zh/category/">Notes</a></p>
+        
+        <div class="header-underline"></div>
+        <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="/zh/tag/debian/">Debian</a>, <a href="/zh/tag/ldap/">LDAP</a>, <a href="/zh/tag/nis/">NIS</a>, <a href="/zh/tag/ssh/">SSH</a>, <a href="/zh/tag/linux/">linux</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<p>本文件紀錄了基本的 LDAP 設置。</p>
+
+<h2 id="設定-ldap-master">設定 LDAP Master</h2>
+
+<h3 id="基本設置">基本設置</h3>
+
+<p>首先編輯 <code>/etc/ldap/ldap.conf</code> 填上適當的網域名稱。例如：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">BASE    dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
+URI     ldap://ldap.lab.csie.ntu.edu.tw</code></pre></div>
+<p>其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。</p>
+
+<p>緊接著，安裝 OpenLDAP：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt-get install slapd ldap-utils</span></code></pre></div></div>
+
+
+<p>此時它只會要你設定一個 admin 密碼，如果希望看到完整設定，可以事先執行以下指令，並設定 Dialog 為不高於 Medium 的層級。不過我偏好不改動這個設定，而是事後再重新執行設定程式。</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo dpkg-reconfigure debconf</span></code></pre></div></div>
+
+
+<p>事後重新設定的指令則是：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo dpkg-reconfigure slapd</span></code></pre></div></div>
+
+
+<p>可按照喜好自行設定，但 domain name 要跟 <code>/etc/lapd/lapd.conf</code> 一致：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">Omit OpenLDAP server configuration? No
+DNS domain name: lab.csie.ntu.edu.tw
+Organization name: lab.csie.ntu.edu.tw
+Administrator password: &lt;PASSWORD&gt;
+Confirm password: &lt;PASSWORD&gt;
+Database backend to use: HDB
+Do you want the database to be removed when slapd is purged? No
+Move old database? Yes
+Allow LDAPv2 protocol? No</code></pre></div>
+<p>以後如果想重設 LDAP 也可重新執行上述指令。他會將 old database 移動到 <code>/var/backups</code> 資料夾，不過如果已經移動過一次則指令會失敗，此時可先手動砍除舊的 <code>/var/backups/&lt;ldap directory&gt;</code>。</p>
+
+<p>可以執行以下兩個指令來確認設置成功：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ldapsearch -x
+</span><span class="hl">slapcat</span></code></pre></div></div>
+
+
+<h3 id="轉移-nis-資料">轉移 NIS 資料</h3>
+
+<p>首先安裝轉移工具組：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt-get install migrationtools</span></code></pre></div></div>
+
+
+<p>接著編輯設定檔 <code>/usr/share/migrationtools/migrate_common.ph</code>：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Default DNS domain
+</span><span class="c1"></span><span class="nv">$DEFAULT_MAIL_DOMAIN</span> <span class="o">=</span> <span class="s2">&#34;lab.csie.ntu.edu.tw&#34;</span><span class="p">;</span>
+<span class="c1"># Default base
+</span><span class="c1"></span><span class="nv">$DEFAULT_BASE</span> <span class="o">=</span> <span class="s2">&#34;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&#34;</span><span class="p">;</span>
+...
+<span class="c1"># Uncomment these to exclude Debian-managed system users and groups
+</span><span class="c1"></span><span class="nv">$IGNORE_UID_BELOW</span> <span class="o">=</span> <span class="m">1000</span><span class="p">;</span>
+<span class="c1"># Don&#39;t uncomment this if you want to be able to add users to system groups
+</span><span class="c1"># $IGNORE_GID_BELOW = 1000;
+</span><span class="c1"># And here&#39;s the opposite for completeness
+</span><span class="c1"></span><span class="nv">$IGNORE_UID_ABOVE</span> <span class="o">=</span> <span class="m">29999</span><span class="p">;</span>
+<span class="nv">$IGNORE_GID_ABOVE</span> <span class="o">=</span> <span class="m">29999</span><span class="p">;</span></code></pre></div>
+<p>由於 Debian 的 LDAP 預設並沒有載入 misc.schema，所以如果要讀入 alias 資料就會出錯。因此我們只手動載入需要的部份，而不使用自動載入全部資料的方法。進入 <code>/usr/share/migrationtools/</code> 資料夾後執行以下指令：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># create basic data
+</span><span class="hl"><span class="c1"></span>./migrate_base.pl <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&#34;</span> -c
+</span>
+<span class="c1"># migrate passwd
+</span><span class="hl"><span class="c1"></span>./migrate_passwd.pl /etc/passwd <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&#34;</span> -c
+</span>
+<span class="c1"># migrate group
+</span><span class="hl"><span class="c1"></span>./migrate_group.pl /etc/group <span class="p">|</span> ldapadd -x -W -h localhost -D <span class="s2">&#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&#34;</span> -c</span></code></pre></div></div>
+
+
+<p>執行 <code>migrate_base.pl</code> 會有部份內容無法處理是正常的。</p>
+
+<h2 id="設定-ldap-client">設定 LDAP Client</h2>
+
+<p>在要透過 LDAP 登入的主機上進行以下步驟，若 LDAP Master server 本身也想透過 LDAP 登入的話，也是採用相同辦法。首先安裝相關程式</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt-get install libpam-ldapd libnss-ldapd nslcd</span></code></pre></div></div>
+
+
+<p>並回答相關問題：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">LDAP server URI: &lt;this answer is the same as what you put in &#39;/etc/ldap/ldap.conf&#39;&gt;
+ldap://ldap.lab.csie.ntu.edu.tw/
+
+LDAP server search base:
+dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
+
+Name services to configure:
+group, password, shadow</code></pre></div>
+<p>接著如果要讓 root 可以在不輸入 LDAP 密碼的情況下修改別人密碼，則可修改 <code>/etc/nslcd.conf</code>，其中 <code>rootpwmodpw</code> 設為之前選擇的 LDAP 密碼：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">ldap_version 3
+rootpwmoddn cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
+rootpwmodpw &lt;PASSWORD&gt;</code></pre></div>
+<p>如果要讓 client 也能執行 <code>ldapsearch</code> 等指令，也可依 master 的方法修改 <code>/etc/lapd/lapd.conf</code>。</p>
+
+<p>可重新開機測試是否成功。</p>
+
+<h2 id="tls-加密連線">TLS 加密連線</h2>
+
+<p>以上的作法，在連線時不夠安全，因此我們可以啟用 TLS 加密連線。</p>
+
+<h3 id="建立憑證">建立憑證</h3>
+
+<p>假設你有可供使用的憑證當然很好，但是一般人除了等待 <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt</a> 以外，可能也只能自己的憑證自己建了。</p>
+
+<p>在某個資料夾內建立相關憑證：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">openssl genrsa -out my_root_key.pem <span class="m">1024</span>
+</span><span class="hl">openssl req -new -key my_root_key.pem -out my_root_csr.pem
+</span><span class="hl">openssl x509 -req -days <span class="m">36500</span> -in my_root_csr.pem -signkey my_root_key.pem -out my_root_crt.pem
+</span>
+<span class="hl">openssl genrsa -out ldap_key.pem <span class="m">1024</span>
+</span><span class="hl">openssl req -new -key ldap_key.pem -out ldap_csr.pem
+</span>
+<span class="hl">openssl x509 -req -days <span class="m">36500</span> -in ldap_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldap_crt.pem -set_serial <span class="m">1</span></span></code></pre></div></div>
+
+
+<p>其中的資訊可以隨意填，但在建立 <code>ldap_csr.pem</code> 時，Common Name 一定要填 client 可以連到的，LDAP master server 的 domain name：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">Country Name (2 letter code) [AU]:TW
+State or Province Name (full name) [Some-State]:Taiwan
+Locality Name (eg, city) []:Taipei
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:NTU Lab
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:ldap.lab.csie.ntu.edu.tw
+Email Address []:
+
+Please enter the following &#39;extra&#39; attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:</code></pre></div>
+<p>然後在 master 上建立一個資料夾，並將相關檔案複製，設定適當的權限：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo mkdir /etc/ldap/ssl
+</span><span class="hl">sudo cp ldap_key.pem ldap_crt.pem /etc/ldap/ssl
+</span><span class="hl">sudo mkdir /usr/share/ca-certificates/my/
+</span><span class="hl">sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
+</span><span class="hl">sudo chmod <span class="m">644</span> /usr/share/ca-certificates/my/my_root.crt
+</span><span class="hl">sudo dpkg-reconfigure ca-certificates <span class="c1"># choose to add my/my_root.crt
+</span></span><span class="hl"><span class="c1"></span>sudo update-ca-certificates
+</span>
+<span class="hl">sudo chown -R root:openldap /etc/ldap/ssl
+</span><span class="hl">sudo chmod -R o-rwx /etc/ldap/ssl</span></code></pre></div></div>
+
+
+<p>然後在所有 client 上也可以複製 <code>my_root_crt.pem</code>：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
+</span><span class="hl">sudo chmod <span class="m">644</span> /usr/share/ca-certificates/my/my_root.crt
+</span><span class="hl">sudo dpkg-reconfigure ca-certificates <span class="c1"># choose to add my/my_root.crt
+</span></span><span class="hl"><span class="c1"></span>sudo update-ca-certificates</span></code></pre></div></div>
+
+
+<p>小心收藏剩餘的 key.pem，不要讓別人看到囉。</p>
+
+<h3 id="設定-ldap-master-server">設定 LDAP Master Server</h3>
+
+<p>注意，這裡的設定若一不小心可能導致 LDAP server 無法運作，故設定時最好先備份所有檔案。</p>
+
+<p>首先在 master 上更改 <code>/etc/default/slapd</code>，將 <code>LAPD_SERVICES</code> 改成以下內容，也就是只允許本機不透過 TLS 連線：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">SLAPD_SERVICES=&#34;ldap://127.0.0.1:389/ ldaps:/// ldapi:///&#34;</code></pre></div>
+<p>緊接著建立一個 <code>tls.ldif</code> 檔案：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">dn: cn=config
+add: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/ssl/certs/ca-certificates.crt
+-
+add: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/ldap/ssl/ldap_crt.pem
+-
+add: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/ldap/ssl/ldap_key.pem</code></pre></div>
+<p>並套用設定：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ldapmodify -Y EXTERNAL -H ldapi:/// -f tls.ldif</span></code></pre></div></div>
+
+
+<p>同時更改 <code>/etc/ldap/ldap.conf</code>：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">URI     ldaps://ldap.lab.csie.ntu.edu.tw
+TLS_CACERT      /etc/ssl/certs/ca-certificates.crt</code></pre></div>
+<p>最後重新啟動 ldap：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo service slapd restart</span></code></pre></div></div>
+
+
+<h3 id="設定-ldap-client-1">設定 LDAP Client</h3>
+
+<p>修改 <code>/etc/nslcd.conf</code>：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">uri ldaps://ldap.lab.csie.ntu.edu.tw
+#ssl off
+tls_reqcert demand
+tls_cacertfile /etc/ssl/certs/ca-certificates.crt</code></pre></div>
+<p>重啟服務：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo service nslcd restart</span></code></pre></div></div>
+
+
+<p>可測試是否可以登入。</p>
+
+
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              <li><a href="/zh/tags/">標籤</a></li>
+              <li><a href="/zh/categories/">分類</a></li>
+            
+            
+            
+              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-them-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

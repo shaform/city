@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Payments on City of Wings</title>
+    <link>https://city.shaform.com/en/tag/payments/</link>
+    <description>Recent content in Payments on City of Wings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 20 Apr 2015 08:34:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/en/tag/payments/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dine together - Payment System</title>
+      <link>https://city.shaform.com/en/2015/04/20/dine-together-payment-system/</link>
+      <pubDate>Mon, 20 Apr 2015 08:34:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2015/04/20/dine-together-payment-system/</guid>
+      <description>I seldom went out for dinner due to the location of school and the lack of money when I was in NCTU. But since I have came to Taipei, I started to have opportunities to dine together with others. Once I went with a lot of people, when it comes to paying, everyone put her money on the table. But the person who collected the money and payed for us later found out the money was not enough.</description>
+    </item>
+    
+  </channel>
+</rss>
