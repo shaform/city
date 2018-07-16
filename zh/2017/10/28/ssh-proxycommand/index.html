@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="/css/den.css">
 
 
+
+
 <meta property="og:title" content="使用 SSH ProxyCommand 來連上內網主機" />
 <meta property="og:description" content="以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 nlg 程式： #!/bin/bash NLG_WKS_3F={NLG_WKS_3F_HOST} NLG_WKS_2F={NLG_WKS_2F_HOST} case $1 in [3-9]) ssh $USER@$NLG_WKS_3F -p 2200$MACHINE ;; &#34;a&#34;)" />
 <meta property="og:type" content="article" />
@@ -104,6 +106,7 @@ if (!doNotTrack) {
               <a class="nav-link" href="https://city.shaform.com/en/"><i class="fas fa-globe-americas"></i>English</a>
             
           </li>
+        
         
       </ul>
     </div>
@@ -240,7 +243,7 @@ ProxyCommand ssh -q -W %h:%p nlgs</code></pre></div>
             
             
             
-              <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml">RSS 訂閱</a></li>
+            <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml"><i class="fas fa-rss-square"></i> RSS 訂閱</a></li>
             
             
         </ul>
