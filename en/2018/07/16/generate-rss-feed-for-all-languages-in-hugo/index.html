@@ -5,7 +5,9 @@
   <meta charset="utf-8">
   <title>Generate RSS Feed for All Languages in Hugo · City of Wings</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Hugo supports multilingual natively, and it generates RSS feeds for all" />
+  <meta name="description" content="Hugo supports multilingual sites natively, and it generates a RSS feed for each sub-site of different language. However, it seems that there are no easy ways to generate a global feed that includes all articles in all sub-sites. Therefore, I wrote a simple Python script to solve the problem.
+Basically, it grabs all feeds and merges them into a single feed.
+Firstly, I use lxml to load and parse the RSS feeds." />
 
   <meta name="keywords" content="Shaform, open source, Python, machine learning, software" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
@@ -16,7 +18,9 @@
 
 
 <meta property="og:title" content="Generate RSS Feed for All Languages in Hugo" />
-<meta property="og:description" content="Hugo supports multilingual natively, and it generates RSS feeds for all" />
+<meta property="og:description" content="Hugo supports multilingual sites natively, and it generates a RSS feed for each sub-site of different language. However, it seems that there are no easy ways to generate a global feed that includes all articles in all sub-sites. Therefore, I wrote a simple Python script to solve the problem.
+Basically, it grabs all feeds and merges them into a single feed.
+Firstly, I use lxml to load and parse the RSS feeds." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/en/2018/07/16/generate-rss-feed-for-all-languages-in-hugo/" />
 
@@ -38,19 +42,23 @@
 
 
 <meta itemprop="name" content="Generate RSS Feed for All Languages in Hugo">
-<meta itemprop="description" content="Hugo supports multilingual natively, and it generates RSS feeds for all">
+<meta itemprop="description" content="Hugo supports multilingual sites natively, and it generates a RSS feed for each sub-site of different language. However, it seems that there are no easy ways to generate a global feed that includes all articles in all sub-sites. Therefore, I wrote a simple Python script to solve the problem.
+Basically, it grabs all feeds and merges them into a single feed.
+Firstly, I use lxml to load and parse the RSS feeds.">
 
 
 <meta itemprop="datePublished" content="2018-07-16T21:30:00&#43;08:00" />
 <meta itemprop="dateModified" content="2018-07-16T21:30:00&#43;08:00" />
-<meta itemprop="wordCount" content="11">
+<meta itemprop="wordCount" content="416">
 
 
 
 <meta itemprop="keywords" content="Hugo,Python,RSS," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Generate RSS Feed for All Languages in Hugo"/>
-<meta name="twitter:description" content="Hugo supports multilingual natively, and it generates RSS feeds for all"/>
+<meta name="twitter:description" content="Hugo supports multilingual sites natively, and it generates a RSS feed for each sub-site of different language. However, it seems that there are no easy ways to generate a global feed that includes all articles in all sub-sites. Therefore, I wrote a simple Python script to solve the problem.
+Basically, it grabs all feeds and merges them into a single feed.
+Firstly, I use lxml to load and parse the RSS feeds."/>
 
 <script>
 var doNotTrack = false;
@@ -102,12 +110,15 @@ if (!doNotTrack) {
             
           </li>
         
-          <li class="nav-item">
-            
-              <a class="nav-link" href="https://city.shaform.com/zh/"><i class="fas fa-globe-americas"></i>繁體中文</a>
-            
-          </li>
         
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://city.shaform.com/zh/"><i class="fas fa-globe"></i> 繁體中文</a>
+            </li>
+          
+          
+          
+          
         
       </ul>
     </div>
@@ -146,8 +157,110 @@ if (!doNotTrack) {
 
   </div>
 <div class="container content">
-  <p><a href="http://gohugo.io">Hugo</a> supports multilingual natively, and it generates RSS feeds
-for all</p>
+  <p><a href="http://gohugo.io">Hugo</a> supports multilingual sites natively, and it generates a RSS feed
+for each sub-site of different language. However, it seems that
+there are no easy ways to generate a global feed that includes
+all articles in all sub-sites. Therefore, I wrote a simple Python
+script to solve the problem.</p>
+
+<p>Basically, it grabs all feeds and merges them into a single feed.</p>
+
+<p>Firstly, I use <code>lxml</code> to load and parse the RSS feeds.
+We define <code>root_dir</code> as the root directory of the published site,
+which is usually a directory called <code>public</code>, and <code>paths</code> are the
+relative paths of the RSS files, which are usually <code>{LANG_CODE}/index.xml</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
+
+<span class="k">def</span> <span class="nf">load_feeds</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">paths</span><span class="p">):</span>
+    <span class="n">feeds</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+            <span class="n">feeds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">infile</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">feeds</span></code></pre></div>
+<p>We would assume there are only two sub-sites to simplify the
+logic, but it&rsquo;s easy to extend it to handle more sites.
+This is left as an exercise for the readers.</p>
+
+<p>Secondly, we use <code>pytoml</code> to load the configuration file <code>config.toml</code>, and
+obtain the <code>baseURL</code> of the site. This would be used to set the
+location of the global RSS feed.</p>
+
+<p>In addition, we obtain all entries from each feed and sort the entries
+by their published date.</p>
+
+<p>Finally we inject all items into a RSS file.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">import</span> <span class="nn">toml</span>
+
+<span class="n">NAMESPACES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;atom&#39;</span><span class="p">:</span> <span class="s1">&#39;http://www.w3.org/2005/Atom&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">D_FORMAT</span> <span class="o">=</span> <span class="s1">&#39;%a, </span><span class="si">%d</span><span class="s1"> %b %Y %H:%M:%S %z&#39;</span>
+
+<span class="k">def</span> <span class="nf">process_feeds</span><span class="p">(</span><span class="n">main_feed</span><span class="p">,</span> <span class="n">alt_feed</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">config_path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;baseURL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+
+    <span class="n">link_node</span> <span class="o">=</span> <span class="n">main_feed</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//rss/channel/link&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">link_node</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">base_url</span>
+    <span class="n">atom_node</span> <span class="o">=</span> <span class="n">main_feed</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span>
+        <span class="s1">&#39;//rss/channel/atom:link&#39;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">NAMESPACES</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">atom_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">output_path</span><span class="p">)</span>
+    <span class="n">last_build_node</span> <span class="o">=</span> <span class="n">main_feed</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//rss/channel/lastBuildDate&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">last_build_alt_node</span> <span class="o">=</span> <span class="n">alt_feed</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//rss/channel/lastBuildDate&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">last_build_node</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">D_FORMAT</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+            <span class="n">last_build_alt_node</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">D_FORMAT</span><span class="p">):</span>
+        <span class="n">last_build_node</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">last_build_alt_node</span><span class="o">.</span><span class="n">text</span>
+
+    <span class="n">all_items</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">main_items</span> <span class="o">=</span> <span class="n">main_feed</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//rss/channel/item&#39;</span><span class="p">)</span>
+
+    <span class="n">all_items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">main_items</span><span class="p">)</span>
+    <span class="n">all_items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">alt_feed</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//rss/channel/item&#39;</span><span class="p">))</span>
+    <span class="n">all_items</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;pubDate&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">D_FORMAT</span><span class="p">),</span>
+        <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">channel</span> <span class="o">=</span> <span class="n">main_feed</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//rss/channel&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">main_items</span><span class="p">:</span>
+        <span class="n">channel</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">all_items</span><span class="p">:</span>
+        <span class="n">channel</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">channel</span><span class="o">.</span><span class="n">getchildren</span><span class="p">()),</span> <span class="n">item</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">main_feed</span></code></pre></div>
+<p>The command line options could be handled by the following code.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">argparse</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+    <span class="c1"># Parsing arguments</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Merge RSS feeds.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--root-dir&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;publish root directory&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;output rss file&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;path of the feeds&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;--config&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;path of the config&#39;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="nb">input</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+
+    <span class="n">feeds</span> <span class="o">=</span> <span class="n">load_feeds</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">feed</span> <span class="o">=</span> <span class="n">process_feeds</span><span class="p">(</span>
+        <span class="o">*</span><span class="n">feeds</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">config_path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="n">feed</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">),</span>
+        <span class="n">pretty_print</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span></code></pre></div>
+<p>Running this script would produce a combined RSS feed at <code>output</code> path.
+This is also how the current global RSS feed for City of Wings is generated.</p>
 
 
   
