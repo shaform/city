@@ -6,10 +6,19 @@
     <description>Recent content in Python on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 26 Jul 2016 22:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 18 Mar 2017 15:33:00 +0800</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/zh/tag/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>用 Sacred 追蹤實驗數據</title>
+      <link>https://city.shaform.com/zh/2017/03/18/run-experiments-with-sacred/</link>
+      <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2017/03/18/run-experiments-with-sacred/</guid>
+      <description>前言 前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。 以執行而言，由於處理的檔案龐大</description>
+    </item>
     
     <item>
       <title>bs2 公開板備份初探</title>
@@ -27,6 +36,24 @@
       
       <guid>https://city.shaform.com/zh/2015/12/26/ipython-notebook/</guid>
       <description>為什麼是 IPython Notebook? 還記得第一次認識到 IPython Notebook 是在 Taipei.py 吧。 當時我還十分懷疑到底使用瀏覽器界面寫 Python 能有什麼好處。 尤其，這樣根本無法使用 Vim 的強大指令。 雖然有安</description>
+    </item>
+    
+    <item>
+      <title>用 rnnlm, liblinear 和 word2vec 做中文情感分析測試</title>
+      <link>https://city.shaform.com/zh/2015/03/27/sentiment-analysis/</link>
+      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2015/03/27/sentiment-analysis/</guid>
+      <description>最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不</description>
+    </item>
+    
+    <item>
+      <title>用中文資料測試 word2vec</title>
+      <link>https://city.shaform.com/zh/2014/11/04/word2vec/</link>
+      <pubDate>Tue, 04 Nov 2014 17:20:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2014/11/04/word2vec/</guid>
+      <description>最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一</description>
     </item>
     
     <item>

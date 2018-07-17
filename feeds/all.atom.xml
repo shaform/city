@@ -5,10 +5,23 @@
     <description>Recent content on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 28 Oct 2017 21:45:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 16 Jul 2018 21:30:00 +0800</lastBuildDate>
     
         <atom:link href="https://city.shaform.com/feeds/all.atom.xml" rel="self" type="application/rss+xml"/>
     
+    
+    <item>
+      <title>Generate RSS Feed for All Languages in Hugo</title>
+      <link>https://city.shaform.com/en/2018/07/16/generate-rss-feed-for-all-languages-in-hugo/</link>
+      <pubDate>Mon, 16 Jul 2018 21:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2018/07/16/generate-rss-feed-for-all-languages-in-hugo/</guid>
+      
+        <description>&lt;p&gt;&lt;a href="http://gohugo.io"&gt;Hugo&lt;/a&gt; supports multilingual natively, and it generates RSS feeds
+for all&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>使用 SSH ProxyCommand 來連上內網主機</title>

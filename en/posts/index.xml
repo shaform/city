@@ -6,10 +6,19 @@
     <description>Recent content in Posts on City of Wings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 23 Oct 2017 21:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 16 Jul 2018 21:30:00 +0800</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/en/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Generate RSS Feed for All Languages in Hugo</title>
+      <link>https://city.shaform.com/en/2018/07/16/generate-rss-feed-for-all-languages-in-hugo/</link>
+      <pubDate>Mon, 16 Jul 2018 21:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2018/07/16/generate-rss-feed-for-all-languages-in-hugo/</guid>
+      <description>Hugo supports multilingual natively, and it generates RSS feeds for all</description>
+    </item>
     
     <item>
       <title>Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda</title>
