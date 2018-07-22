@@ -17,9 +17,9 @@
       <pubDate>Mon, 16 Jul 2018 21:30:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2018/07/16/generate-rss-feed-for-all-languages-in-hugo/</guid>
-      <description>Hugo supports multilingual sites natively, and it generates a RSS feed for each sub-site of different language. However, it seems that there are no easy ways to generate a global feed that includes all articles in all sub-sites. Therefore, I wrote a simple Python script to solve the problem.
-Basically, it grabs all feeds and merges them into a single feed.
-Firstly, I use lxml to load and parse the RSS feeds.</description>
+      <description>Hugo supports multilingual sites natively, and it generates a RSS feed for each sub-site of different language. However, it might be desirable to generate a global feed that includes all articles in all sub-sites.
+One possibility is to define a custom output format for homepage in config.toml:
+[outputs] home = [&amp;#34;HTML&amp;#34;, &amp;#34;RSS&amp;#34;, &amp;#34;FEED&amp;#34;] [mediaTypes] [mediaTypes.&amp;#34;application/rss&amp;#34;] suffixes = [&amp;#34;xml&amp;#34;] [outputFormats] [outputFormats.FEED] mediatype = &amp;#34;application/rss&amp;#34; baseName = &amp;#34;feed&amp;#34; In layouts/index.feed.xml, we then use the following range loop to iterate though all pages in all languages:</description>
     </item>
     
   </channel>

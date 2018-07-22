@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://city.shaform.com/en/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</loc>
+    <lastmod>2018-07-22T14:30:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://city.shaform.com/en/2018/07/16/generate-rss-feed-for-all-languages-in-hugo/</loc>
     <lastmod>2018-07-16T21:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -87,7 +94,7 @@
   
   <url>
     <loc>https://city.shaform.com/en/</loc>
-    <lastmod>2018-07-16T21:30:00+08:00</lastmod>
+    <lastmod>2018-07-22T14:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -122,7 +129,7 @@
   
   <url>
     <loc>https://city.shaform.com/en/tag/hugo/</loc>
-    <lastmod>2018-07-16T21:30:00+08:00</lastmod>
+    <lastmod>2018-07-22T14:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -150,7 +157,7 @@
   
   <url>
     <loc>https://city.shaform.com/en/category/notes/</loc>
-    <lastmod>2018-07-16T21:30:00+08:00</lastmod>
+    <lastmod>2018-07-22T14:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -163,8 +170,15 @@
   </url>
   
   <url>
+    <loc>https://city.shaform.com/en/tag/pelican/</loc>
+    <lastmod>2018-07-22T14:30:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://city.shaform.com/en/posts/</loc>
-    <lastmod>2018-07-16T21:30:00+08:00</lastmod>
+    <lastmod>2018-07-22T14:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

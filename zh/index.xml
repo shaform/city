@@ -6,10 +6,39 @@
     <description>Recent content on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 28 Oct 2017 21:45:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Jul 2018 14:30:00 +0800</lastBuildDate>
     
         <atom:link href="https://city.shaform.com/zh/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>從 Pelican 及 WordPress 轉移到 Hugo</title>
+      <link>https://city.shaform.com/zh/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</link>
+      <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</guid>
+      
+        <description>&lt;p&gt;記得在 &lt;a href=&#34;https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/&#34;&gt;2014 年的時候&lt;/a&gt;把網誌搬到了 &lt;a href=&#34;https://github.com/getpelican/pelican&#34;&gt;Pelican&lt;/a&gt; 上。當初會在各種&lt;a href=&#34;https://www.staticgen.com/&#34;&gt;靜態網頁生成器&lt;/a&gt;中選擇 Pelican，一方面是看到&lt;a href=&#34;https://github.com/jsliang/pelican-fresh/&#34;&gt;學姐的示範&lt;/a&gt;，另方面也是因為自己有在用 Python，所以用起以 Python 開發的 Pelican 感覺比較熟悉。&lt;/p&gt;
+
+&lt;p&gt;時過境遷，學姐當初採用 Pelican 網誌似乎也關閉了，而 Pelican 的開發活躍度也下降許多。加上隨著文章增加，Pelican 的速度也越來越慢，我也動了更換架構的念頭。&lt;/p&gt;
+
+&lt;p&gt;於是就看上了 &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;，除了速度飛快以外，開發活躍度也非常值得期待。另外就是，他是用 &lt;a href=&#34;https://golang.org&#34;&gt;Go&lt;/a&gt; 寫的，勉強也算的上是我有使用的語言之一。&lt;/p&gt;
+
+&lt;p&gt;從 Pelican 的轉移，因為想先保持佈景，所以主要的時間花在把佈景 &lt;a href=&#34;https://github.com/molivier/nest&#34;&gt;Nest&lt;/a&gt; 改造成 Hugo 可用的 &lt;a href=&#34;https://github.com/shaform/hugo-theme-den&#34;&gt;Den&lt;/a&gt; 上。Markdown 本身倒是不須太多的修改，主要是更動 Pelican 裡的 &lt;code&gt;{filename}&lt;/code&gt; 路徑寫法，以及更動 code block 的表示方法。因為寫程式去解析 Markdown 有點麻煩，所以我主要是&lt;a href=&#34;http://vim.wikia.com/wiki/Recording_keys_for_repeated_jobs&#34;&gt;紀錄 Vim 指令&lt;/a&gt;來更動每個檔案。&lt;/p&gt;
+
+&lt;p&gt;從 WordPress 轉移過來的一座島就麻煩不少，雖然我直接採用了現成的佈景，還是寫了 &lt;a href=&#34;https://github.com/shaform/wp2hugo&#34;&gt;wp2hugo&lt;/a&gt; 去下載我網誌用到的所有圖片，並且解析匯出的 XML 檔案轉成 Markdown 格式。並且還是花了一些手動的功夫去處理 &lt;a href=&#34;https://en.support.wordpress.com/shortcodes/&#34;&gt;WordPress Shortcodes&lt;/a&gt; 才完整轉移。&lt;/p&gt;
+
+&lt;p&gt;這次轉移時，順便更動了一些翼之都當初從 Blogger 搬移過來的 URL 架構。為了讓原本的網址仍然可以連上，我也用了 Hugo 的 &lt;a href=&#34;https://gohugo.io/content-management/urls/#aliases&#34;&gt;Aliases&lt;/a&gt; 功能替每個文章轉址。另外也讓一座島和翼之都都變成雙語網誌了。&lt;/p&gt;
+
+&lt;p&gt;最後的結果如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://city.shaform.com/&#34;&gt;翼之都&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://island.shaform.com/&#34;&gt;一座島&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>使用 SSH ProxyCommand 來連上內網主機</title>

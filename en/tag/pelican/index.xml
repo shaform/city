@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pelican on City of Wings</title>
+    <link>https://city.shaform.com/en/tag/pelican/</link>
+    <description>Recent content in Pelican on City of Wings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 22 Jul 2018 14:30:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/en/tag/pelican/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Migrate from Pelican and WordPress to Hugo</title>
+      <link>https://city.shaform.com/en/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</link>
+      <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</guid>
+      <description>Back in 2014, I migrated my blogs to Pelican. While there were many static site generators to choose from, the reason I chose Pelican was twofold. Firstly, I was influenced by my friend who used Pelican. Secondly, I had been using Python for some time and therefore I liked the fact that Pelican was developed with Python.
+Years have passed. It appears that my friend is no longer using Pelican for her blog.</description>
+    </item>
+    
+  </channel>
+</rss>

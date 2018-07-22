@@ -5,10 +5,68 @@
     <description>Recent content on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 16 Jul 2018 21:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Jul 2018 14:30:00 +0800</lastBuildDate>
     
         <atom:link href="https://city.shaform.com/feeds/all.atom.xml" rel="self" type="application/rss+xml"/>
     
+    
+    <item>
+      <title>從 Pelican 及 WordPress 轉移到 Hugo</title>
+      <link>https://city.shaform.com/zh/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</link>
+      <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</guid>
+      
+        <description>&lt;p&gt;記得在 &lt;a href="https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/"&gt;2014 年的時候&lt;/a&gt;把網誌搬到了 &lt;a href="https://github.com/getpelican/pelican"&gt;Pelican&lt;/a&gt; 上。當初會在各種&lt;a href="https://www.staticgen.com/"&gt;靜態網頁生成器&lt;/a&gt;中選擇 Pelican，一方面是看到&lt;a href="https://github.com/jsliang/pelican-fresh/"&gt;學姐的示範&lt;/a&gt;，另方面也是因為自己有在用 Python，所以用起以 Python 開發的 Pelican 感覺比較熟悉。&lt;/p&gt;
+
+&lt;p&gt;時過境遷，學姐當初採用 Pelican 網誌似乎也關閉了，而 Pelican 的開發活躍度也下降許多。加上隨著文章增加，Pelican 的速度也越來越慢，我也動了更換架構的念頭。&lt;/p&gt;
+
+&lt;p&gt;於是就看上了 &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt;，除了速度飛快以外，開發活躍度也非常值得期待。另外就是，他是用 &lt;a href="https://golang.org"&gt;Go&lt;/a&gt; 寫的，勉強也算的上是我有使用的語言之一。&lt;/p&gt;
+
+&lt;p&gt;從 Pelican 的轉移，因為想先保持佈景，所以主要的時間花在把佈景 &lt;a href="https://github.com/molivier/nest"&gt;Nest&lt;/a&gt; 改造成 Hugo 可用的 &lt;a href="https://github.com/shaform/hugo-theme-den"&gt;Den&lt;/a&gt; 上。Markdown 本身倒是不須太多的修改，主要是更動 Pelican 裡的 &lt;code&gt;{filename}&lt;/code&gt; 路徑寫法，以及更動 code block 的表示方法。因為寫程式去解析 Markdown 有點麻煩，所以我主要是&lt;a href="http://vim.wikia.com/wiki/Recording_keys_for_repeated_jobs"&gt;紀錄 Vim 指令&lt;/a&gt;來更動每個檔案。&lt;/p&gt;
+
+&lt;p&gt;從 WordPress 轉移過來的一座島就麻煩不少，雖然我直接採用了現成的佈景，還是寫了 &lt;a href="https://github.com/shaform/wp2hugo"&gt;wp2hugo&lt;/a&gt; 去下載我網誌用到的所有圖片，並且解析匯出的 XML 檔案轉成 Markdown 格式。並且還是花了一些手動的功夫去處理 &lt;a href="https://en.support.wordpress.com/shortcodes/"&gt;WordPress Shortcodes&lt;/a&gt; 才完整轉移。&lt;/p&gt;
+
+&lt;p&gt;這次轉移時，順便更動了一些翼之都當初從 Blogger 搬移過來的 URL 架構。為了讓原本的網址仍然可以連上，我也用了 Hugo 的 &lt;a href="https://gohugo.io/content-management/urls/#aliases"&gt;Aliases&lt;/a&gt; 功能替每個文章轉址。另外也讓一座島和翼之都都變成雙語網誌了。&lt;/p&gt;
+
+&lt;p&gt;最後的結果如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://city.shaform.com/"&gt;翼之都&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://island.shaform.com/"&gt;一座島&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>Migrate from Pelican and WordPress to Hugo</title>
+      <link>https://city.shaform.com/en/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</link>
+      <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</guid>
+      
+        <description>&lt;p&gt;&lt;a href="https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/"&gt;Back in 2014&lt;/a&gt;, I migrated my blogs to &lt;a href="https://github.com/getpelican/pelican"&gt;Pelican&lt;/a&gt;. While there were many &lt;a href="https://www.staticgen.com/"&gt;static site generators&lt;/a&gt; to choose from, the reason I chose Pelican was twofold. Firstly, I was influenced by &lt;a href="https://github.com/jsliang/pelican-fresh/"&gt;my friend who used Pelican&lt;/a&gt;. Secondly, I had been using Python for some time and therefore I liked the fact that Pelican was developed with Python.&lt;/p&gt;
+
+&lt;p&gt;Years have passed. It appears that my friend is no longer using Pelican for her blog. In addition, the development on Pelican is no longer as active as before. Moreover, Pelican gets slower as the number of articles grows. Therefore, I start to think about migrating to a new static site generator.&lt;/p&gt;
+
+&lt;p&gt;I decided to use &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt;. It&amp;rsquo;s fast, actively developed, and it&amp;rsquo;s built with &lt;a href="https://golang.org"&gt;Go&lt;/a&gt;, which I also use from time to time.&lt;/p&gt;
+
+&lt;p&gt;Because I want to keep the theme of &lt;em&gt;City of Wings&lt;/em&gt;, I spent most of my time porting &lt;a href="https://github.com/molivier/nest"&gt;Nest&lt;/a&gt; to &lt;a href="https://github.com/shaform/hugo-theme-den"&gt;Den&lt;/a&gt;. Once the theme is ported, the remaining task is easy. The Markdown files do not require too much modification. Mostly I only modified the &lt;code&gt;{filename}&lt;/code&gt; URLs for Pelican, and the representation of code blocks. Because it&amp;rsquo;s a little bit troublesome to parse Markdown, I simply used &lt;a href="http://vim.wikia.com/wiki/Recording_keys_for_repeated_jobs"&gt;Vim commands&lt;/a&gt; to modify each file.&lt;/p&gt;
+
+&lt;p&gt;For &lt;a href="https://island.shaform.com"&gt;&lt;em&gt;An Island&lt;/em&gt;&lt;/a&gt;, it&amp;rsquo;s a lot more complicated. To migrate from WordPress to Hugo, I built a small tool &lt;a href="https://github.com/shaform/wp2hugo"&gt;wp2hugo&lt;/a&gt; to download all the images in my articles and parse exported XML files and convert them to Markdown. I also manually modify &lt;a href="https://en.support.wordpress.com/shortcodes/"&gt;WordPress Shortcodes&lt;/a&gt; to complete the migration.&lt;/p&gt;
+
+&lt;p&gt;During the migration, I also updated the legacy URL structure of &lt;em&gt;City of Wings&lt;/em&gt; that came from Blogger. In order to keep the original URLs working I used &lt;a href="https://gohugo.io/content-management/urls/#aliases"&gt;Aliases&lt;/a&gt; capability of Hugo to generate redirects. Finally, I also enabled multilingual support for both &lt;em&gt;City of Wings&lt;/em&gt; and &lt;em&gt;An Island&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;The final result:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://city.shaform.com/en/"&gt;City of Wings&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://island.shaform.com/en/"&gt;An Island&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>Generate RSS Feed for All Languages in Hugo</title>
@@ -18,10 +76,28 @@
       <guid>https://city.shaform.com/en/2018/07/16/generate-rss-feed-for-all-languages-in-hugo/</guid>
       
         <description>&lt;p&gt;&lt;a href="http://gohugo.io"&gt;Hugo&lt;/a&gt; supports multilingual sites natively, and it generates a RSS feed
-for each sub-site of different language. However, it seems that
-there are no easy ways to generate a global feed that includes
-all articles in all sub-sites. Therefore, I wrote a simple Python
-script to solve the problem.&lt;/p&gt;
+for each sub-site of different language. However, it might be desirable to generate a global feed that includes
+all articles in all sub-sites.&lt;/p&gt;
+
+&lt;p&gt;One possibility is to define a custom output format for homepage in &lt;code&gt;config.toml&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-toml" data-lang="toml"&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;outputs&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="nx"&gt;home&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;HTML&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;RSS&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;FEED&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;mediaTypes&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;mediaTypes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;application/rss&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="nx"&gt;suffixes&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;xml&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;outputFormats&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;outputFormats&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;FEED&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="nx"&gt;mediatype&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;application/rss&amp;#34;&lt;/span&gt;
+&lt;span class="nx"&gt;baseName&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;feed&amp;#34;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In &lt;code&gt;layouts/index.feed.xml&lt;/code&gt;, we then use the following &lt;code&gt;range&lt;/code&gt; loop to iterate though all pages in all languages:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;{{ range .Site.AllPages }}
+{{ if .IsPage }}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Of course, the generated location would still be under the language prefix &lt;code&gt;lang-code/&lt;/code&gt;. So to make it appear &amp;ldquo;global&amp;rdquo; you might need to manually copy it to the root directory.&lt;/p&gt;
+
+&lt;p&gt;In addition, I also wrote a simple Python
+script to combine RSS feeds from different languages.&lt;/p&gt;
 
 &lt;p&gt;Basically, it grabs all feeds and merges them into a single feed.&lt;/p&gt;
 
