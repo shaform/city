@@ -16127,7 +16127,7 @@ KRAIBAKBAwjBFAgEAoHAAYRgCgQCgUDgAEIwBQKBQCBwgP8HINOu+lCv7IIAAAAASUVORK5CYII=
 
 &lt;h3 id="使用-pandas-分析資料"&gt;使用 Pandas 分析資料&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href="pandas.pydata.org"&gt;Pandas&lt;/a&gt; 用來分析資料聽說也是非常方便。我們就用
+&lt;p&gt;&lt;a href="http://pandas.pydata.org"&gt;Pandas&lt;/a&gt; 用來分析資料聽說也是非常方便。我們就用
 &lt;a href="https://www.kaggle.com/kaggle/meta-kaggle/scripts"&gt;Meta Kaggle&lt;/a&gt;
 來看看 Kaggle 上的使用者都在做什麼吧。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
