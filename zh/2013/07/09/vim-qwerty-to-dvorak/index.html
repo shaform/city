@@ -164,7 +164,7 @@ if (!doNotTrack) {
 <p>只要在 .vimrc 中加入如下設定，就可以在 vim 大部分的模式中直接轉換成 dvorak 鍵盤：</p>
 <div class="highlight"><pre class="chroma"><code class="language-vim" data-lang="vim"><span class="nx">set</span> <span class="nx">keymap</span><span class="p">=</span><span class="nx">dvorak</span><span class="err">
 </span><span class="err"></span><span class="nx">set</span> <span class="nx">langmap</span><span class="p">=-=</span><span class="nx">qwertyuiop</span>[]<span class="nx">sdfghjkl</span>\\;<span class="s1">&#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&#34;ZXCVBN&lt;&gt;?;[]&#39;</span>\\<span class="p">,</span>.<span class="nx">pyfgcrl</span>/<span class="p">=</span><span class="nx">oeuidhtns</span><span class="p">-</span>\\;<span class="nx">qjkxbwvz</span>{}\<span class="c">&#34;&lt;&gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ</span></code></pre></div>
-<p>keymap 可以修改輸入模式的對應，langmap 則是一般及 visual 模式等指令的按鍵，後面那串其格式可參考 :help &lsquo;langmap&rsquo;，基本上是先打 qwerty 的按鍵，加個分號，再打上轉換成的 dvorak 按鍵，不過 , 和 ; 需要在前面補上 \，&rdquo; 則是要補上 \。這設定唯一無法轉換的部份是 &ldquo;:&rdquo; 開頭的指令模式。此外，如果 set keymap 沒有作用的話，或許是系統缺少 dvorak 的 keymap，此時建立 ~/.vim/keymap/dvorak.vim 檔案，插入 <a href="http://ftp.id.vim.org/runtime/keymap/dvorak.vim">dvorak.vim</a> 的內容即可。</p>
+<p>keymap 可以修改輸入模式的對應，langmap 則是一般及 visual 模式等指令的按鍵，後面那串其格式可參考 :help &lsquo;langmap&rsquo;，基本上是先打 qwerty 的按鍵，加個分號，再打上轉換成的 dvorak 按鍵，不過 , 和 ; 需要在前面補上 \，&rdquo; 則是要補上 \。這設定唯一無法轉換的部份是 &ldquo;:&rdquo; 開頭的指令模式。此外，如果 set keymap 沒有作用的話，或許是系統缺少 dvorak 的 keymap，此時建立 ~/.vim/keymap/dvorak.vim 檔案，插入 <a href="http://ftp.vim.org/vim/runtime/keymap/dvorak.vim">dvorak.vim</a> 的內容即可。</p>
 
 <p>這方法雖然有些不完美與費工，但是在比賽開始前的準備時間應該是可以完成的。至於有沒有什麼更好的解決方法呢？只能看看未來有沒有機會發現了。</p>
 

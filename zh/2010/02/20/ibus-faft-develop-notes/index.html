@@ -175,7 +175,7 @@ if (!doNotTrack) {
 
 <p>行列碼和中文字以及鍵盤排列轉換的處理，是從 libfreearray 中 C++ 的版本改過來的，處理中文字、行列定符、詞彙輸入的詞庫、特別碼及簡碼，都是由這部分負責，透過 SQLite 來存取資料。而斷詞用的詞庫，以及簡易符號輸入，則是用 libchewing 的檔案格式，詞彙輸入的詞庫和斷詞的詞庫我並沒有統一資料。另外，我把 libchewing 中使用者詞庫的功能移除以降低開發的複雜度。</p>
 
-<p>對於 SQLite 其實還不是很熟悉，設了一些 index 也不知是否有必要。主要的參考書藉是<a href="http://apress.com/book/view/9781590596739">《The Definitive Guide to SQLite》</a>，以及官方文件<a href="http://www.sqlite.org/docs.html">《SQLite Documents》</a>。</p>
+<p>對於 SQLite 其實還不是很熟悉，設了一些 index 也不知是否有必要。主要的參考書藉是<a href="https://www.apress.com/us/book/9781430232254">《The Definitive Guide to SQLite》</a>，以及官方文件<a href="http://www.sqlite.org/docs.html">《SQLite Documents》</a>。</p>
 
 <h2 id="核心輸入模組">核心輸入模組</h2>
 

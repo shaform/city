@@ -278,7 +278,7 @@ ProxyCommand ssh -q -W %h:%p nlgs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id=&#34;前言-逐步學習資訊安全&#34;&gt;前言：逐步學習資訊安全&lt;/h2&gt;
 
-&lt;p&gt;經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 &lt;a href=&#34;https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup&#34;&gt;LUKS&lt;/a&gt; 加密，又到後來啟用了家目錄的 &lt;a href=&#34;http://ecryptfs.org/&#34;&gt;eCryptfs&lt;/a&gt;，並開始不太敢用沒加密的 Windows，只在 Ubuntu 上工作。其他還試過 &lt;a href=&#34;https://en.wikipedia.org/wiki/TrueCrypt]&#34;&gt;TrueCrypt&lt;/a&gt; 來加密硬碟，還曾經因為忘記密鑰，忍痛把某個硬碟裡的檔案放棄了呢。最近也受擅長資訊安全的朋友的建議，想來研究&lt;a href=&#34;https://twopointfouristan.wordpress.com/2011/04/17/pwning-past-whole-disk-encryption/&#34;&gt;也考慮開機磁區問題的全硬碟加密可能性&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 &lt;a href=&#34;https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup&#34;&gt;LUKS&lt;/a&gt; 加密，又到後來啟用了家目錄的 &lt;a href=&#34;http://ecryptfs.org/&#34;&gt;eCryptfs&lt;/a&gt;，並開始不太敢用沒加密的 Windows，只在 Ubuntu 上工作。其他還試過 &lt;a href=&#34;https://en.wikipedia.org/wiki/TrueCrypt&#34;&gt;TrueCrypt&lt;/a&gt; 來加密硬碟，還曾經因為忘記密鑰，忍痛把某個硬碟裡的檔案放棄了呢。最近也受擅長資訊安全的朋友的建議，想來研究&lt;a href=&#34;https://twopointfouristan.wordpress.com/2011/04/17/pwning-past-whole-disk-encryption/&#34;&gt;也考慮開機磁區問題的全硬碟加密可能性&lt;/a&gt;。&lt;/p&gt;
 
 &lt;p&gt;另一方面，對密碼管理也是多有嘗試。一開始設密碼也是使用像是生日、人名、單字之類的簡易密碼。當然很快就被破解了。後來使用了更加複雜的密碼，可是不同網站還是設成一樣，這樣要是有的網站&lt;a href=&#34;http://plainpass.com/&#34;&gt;密碼沒加密&lt;/a&gt;，一被破解，全部網站的密碼也就被得知了。可是每個網站都用不同密碼實在太難記了，於是有段時期又改用某種神秘公式，配合不同網站性質，產生每個網站的獨特密碼。同樣的道理也能將每張金融卡的密碼都設成不一樣。一些不重要的網站則使用&lt;a href=&#34;https://xkcd.com/936/&#34;&gt;很長但好記的密碼&lt;/a&gt;。&lt;/p&gt;
 
@@ -718,7 +718,7 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null &lt;span class=&#34;m
 
 &lt;p&gt;但是不少網站目前並不支援 U2F，只支援 &lt;a href=&#34;https://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm&#34;&gt;OATH TOTP&lt;/a&gt;，也就是平常大家可能會安裝 &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;amp;hl=en&#34;&gt;Google Authenticator&lt;/a&gt; 或者 &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.azure.authenticator&amp;amp;hl=en&#34;&gt;Microsoft Authenticator&lt;/a&gt;，然後在新電腦登入時除了輸入密碼，還要輸入上面的隨時間會不一樣的數字。&lt;/p&gt;
 
-&lt;p&gt;YubiKey 同樣可以使用 &lt;a href=&#34;https://www.yubico.com/support/knowledge-base/categories/articles/yubico-authenticator-download/&#34;&gt;Yubico Authenticator&lt;/a&gt; 來支援這個功能，不過能夠支援的網站數有所極限。&lt;/p&gt;
+&lt;p&gt;YubiKey 同樣可以使用 &lt;a href=&#34;https://www.yubico.com/products/services-software/download/yubico-authenticator/&#34;&gt;Yubico Authenticator&lt;/a&gt; 來支援這個功能，不過能夠支援的網站數有所極限。&lt;/p&gt;
 
 &lt;p&gt;其他還有記憶一個密碼幫你輸入，以及其他更複雜的功能，不過就沒有研究了。詳情可以參考：〈&lt;a href=&#34;https://ruimarinho.gitbooks.io/yubikey-handbook/&#34;&gt;Yubikey Handbook&lt;/a&gt;〉。&lt;/p&gt;
 </description>
@@ -2204,7 +2204,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class=&#34;o&#34;&gt;=&l
 
 &lt;h2 id=&#34;porting-to-python-3&#34;&gt;Porting to Python 3&lt;/h2&gt;
 
-&lt;p&gt;Python 3 已經釋出近八年，原本一片慘紅的 &lt;a href=&#34;http://py3readiness.org/&#34;&gt;Python 3 Readiness&lt;/a&gt; 和 &lt;a href=&#34;http://python3wos.mybluemix.net/&#34;&gt;PYTHON 3 WALL OF SUPERPOWERS&lt;/a&gt; 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，&lt;a href=&#34;http://blog.jupyter.org/2016/07/08/ipython-5-0-released/#endofsupportforpython2&#34;&gt;也開始有些專案漸漸要中止 Python 2 的支援了。&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Python 3 已經釋出近八年，原本一片慘紅的 &lt;a href=&#34;http://py3readiness.org/&#34;&gt;Python 3 Readiness&lt;/a&gt; 和 &lt;a href=&#34;http://python3wos.mybluemix.net/&#34;&gt;PYTHON 3 WALL OF SUPERPOWERS&lt;/a&gt; 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，&lt;a href=&#34;https://blog.jupyter.org/release-of-ipython-5-0-8ce60b8d2e8e&#34;&gt;也開始有些專案漸漸要中止 Python 2 的支援了。&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;然而其實還是有不少常用的 packages 並不支援 Python 3，像是最近常會用到的 &lt;a href=&#34;https://github.com/s3tools/s3cmd&#34;&gt;s3cmd&lt;/a&gt; 就是一例。到了他們的 Issues 頁面瞧瞧，發現其實&lt;a href=&#34;https://github.com/s3tools/s3cmd/issues/335&#34;&gt;很早以前就有想支援 Python 3 的聲音&lt;/a&gt;，只是一直沒有人力去做。&lt;/p&gt;
 
@@ -2238,7 +2238,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class=&#34;o&#34;&gt;=&l
 
 &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://www.bs2.to/&#34;&gt;bs2.to&lt;/a&gt; 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動備份的選擇。&lt;/p&gt;
+&lt;p&gt;bs2.to 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動備份的選擇。&lt;/p&gt;
 
 &lt;p&gt;經過一番搜尋，似乎有個古老的 &lt;a href=&#34;https://github.com/iblis17/bs2-crawler&#34;&gt;bs2-crawler&lt;/a&gt;。雖然一開始無法成功跑起來，不過經過修改，似乎真的可以拿來備份 bs2 的看板了。&lt;/p&gt;
 
@@ -15808,7 +15808,7 @@ KRAIBAKBAwjBFAgEAoHAAYRgCgQCgUDgAEIwBQKBQCBwgP8HINOu+lCv7IIAAAAASUVORK5CYII=
 &lt;h3 id=&#34;使用-pandas-分析資料&#34;&gt;使用 Pandas 分析資料&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://pandas.pydata.org&#34;&gt;Pandas&lt;/a&gt; 用來分析資料聽說也是非常方便。我們就用
-&lt;a href=&#34;https://www.kaggle.com/kaggle/meta-kaggle/scripts&#34;&gt;Meta Kaggle&lt;/a&gt;
+&lt;a href=&#34;https://www.kaggle.com/kaggle/meta-kaggle&#34;&gt;Meta Kaggle&lt;/a&gt;
 來看看 Kaggle 上的使用者都在做什麼吧。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pandas&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pd&lt;/span&gt;
 &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sqlite3&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -18902,7 +18902,7 @@ post-down ip tunnel del mytunnel
 &lt;p&gt;如果想要把兩組機器都放進同個內網，也可以參考更進階的：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://docs.openvpn.net/how-to-tutorialsguides/virtual-platforms/site-to-site-layer-2-bridging-using-openvpn-access-server/&#34;&gt;Site-to-Site Layer 2 Bridging Using OpenVPN Access Server and a Linux Gateway Client&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.openvpn.net/how-to-tutorialsguides/site-to-site-layer-2-bridging-using-openvpn-access-server/&#34;&gt;Site-to-Site Layer 2 Bridging Using OpenVPN Access Server and a Linux Gateway Client&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
       
@@ -19819,7 +19819,7 @@ slave-2-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;只要在 .vimrc 中加入如下設定，就可以在 vim 大部分的模式中直接轉換成 dvorak 鍵盤：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-vim&#34; data-lang=&#34;vim&#34;&gt;&lt;span class=&#34;nx&#34;&gt;set&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;keymap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;dvorak&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;
 &lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;set&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;langmap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=-=&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;qwertyuiop&lt;/span&gt;[]&lt;span class=&#34;nx&#34;&gt;sdfghjkl&lt;/span&gt;\\;&lt;span class=&#34;s1&#34;&gt;&amp;#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&amp;#34;ZXCVBN&amp;lt;&amp;gt;?;[]&amp;#39;&lt;/span&gt;\\&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;.&lt;span class=&#34;nx&#34;&gt;pyfgcrl&lt;/span&gt;/&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;oeuidhtns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;-&lt;/span&gt;\\;&lt;span class=&#34;nx&#34;&gt;qjkxbwvz&lt;/span&gt;{}\&lt;span class=&#34;c&#34;&gt;&amp;#34;&amp;lt;&amp;gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;keymap 可以修改輸入模式的對應，langmap 則是一般及 visual 模式等指令的按鍵，後面那串其格式可參考 :help &amp;lsquo;langmap&amp;rsquo;，基本上是先打 qwerty 的按鍵，加個分號，再打上轉換成的 dvorak 按鍵，不過 , 和 ; 需要在前面補上 \，&amp;rdquo; 則是要補上 \。這設定唯一無法轉換的部份是 &amp;ldquo;:&amp;rdquo; 開頭的指令模式。此外，如果 set keymap 沒有作用的話，或許是系統缺少 dvorak 的 keymap，此時建立 ~/.vim/keymap/dvorak.vim 檔案，插入 &lt;a href=&#34;http://ftp.id.vim.org/runtime/keymap/dvorak.vim&#34;&gt;dvorak.vim&lt;/a&gt; 的內容即可。&lt;/p&gt;
+&lt;p&gt;keymap 可以修改輸入模式的對應，langmap 則是一般及 visual 模式等指令的按鍵，後面那串其格式可參考 :help &amp;lsquo;langmap&amp;rsquo;，基本上是先打 qwerty 的按鍵，加個分號，再打上轉換成的 dvorak 按鍵，不過 , 和 ; 需要在前面補上 \，&amp;rdquo; 則是要補上 \。這設定唯一無法轉換的部份是 &amp;ldquo;:&amp;rdquo; 開頭的指令模式。此外，如果 set keymap 沒有作用的話，或許是系統缺少 dvorak 的 keymap，此時建立 ~/.vim/keymap/dvorak.vim 檔案，插入 &lt;a href=&#34;http://ftp.vim.org/vim/runtime/keymap/dvorak.vim&#34;&gt;dvorak.vim&lt;/a&gt; 的內容即可。&lt;/p&gt;
 
 &lt;p&gt;這方法雖然有些不完美與費工，但是在比賽開始前的準備時間應該是可以完成的。至於有沒有什麼更好的解決方法呢？只能看看未來有沒有機會發現了。&lt;/p&gt;
 
@@ -19961,7 +19961,7 @@ slave-2-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;行列碼和中文字以及鍵盤排列轉換的處理，是從 libfreearray 中 C++ 的版本改過來的，處理中文字、行列定符、詞彙輸入的詞庫、特別碼及簡碼，都是由這部分負責，透過 SQLite 來存取資料。而斷詞用的詞庫，以及簡易符號輸入，則是用 libchewing 的檔案格式，詞彙輸入的詞庫和斷詞的詞庫我並沒有統一資料。另外，我把 libchewing 中使用者詞庫的功能移除以降低開發的複雜度。&lt;/p&gt;
 
-&lt;p&gt;對於 SQLite 其實還不是很熟悉，設了一些 index 也不知是否有必要。主要的參考書藉是&lt;a href=&#34;http://apress.com/book/view/9781590596739&#34;&gt;《The Definitive Guide to SQLite》&lt;/a&gt;，以及官方文件&lt;a href=&#34;http://www.sqlite.org/docs.html&#34;&gt;《SQLite Documents》&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;對於 SQLite 其實還不是很熟悉，設了一些 index 也不知是否有必要。主要的參考書藉是&lt;a href=&#34;https://www.apress.com/us/book/9781430232254&#34;&gt;《The Definitive Guide to SQLite》&lt;/a&gt;，以及官方文件&lt;a href=&#34;http://www.sqlite.org/docs.html&#34;&gt;《SQLite Documents》&lt;/a&gt;。&lt;/p&gt;
 
 &lt;h2 id=&#34;核心輸入模組&#34;&gt;核心輸入模組&lt;/h2&gt;
 

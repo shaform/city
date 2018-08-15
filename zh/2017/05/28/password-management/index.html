@@ -164,7 +164,7 @@ if (!doNotTrack) {
 
 <h2 id="前言-逐步學習資訊安全">前言：逐步學習資訊安全</h2>
 
-<p>經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> 加密，又到後來啟用了家目錄的 <a href="http://ecryptfs.org/">eCryptfs</a>，並開始不太敢用沒加密的 Windows，只在 Ubuntu 上工作。其他還試過 <a href="https://en.wikipedia.org/wiki/TrueCrypt]">TrueCrypt</a> 來加密硬碟，還曾經因為忘記密鑰，忍痛把某個硬碟裡的檔案放棄了呢。最近也受擅長資訊安全的朋友的建議，想來研究<a href="https://twopointfouristan.wordpress.com/2011/04/17/pwning-past-whole-disk-encryption/">也考慮開機磁區問題的全硬碟加密可能性</a>。</p>
+<p>經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 <a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a> 加密，又到後來啟用了家目錄的 <a href="http://ecryptfs.org/">eCryptfs</a>，並開始不太敢用沒加密的 Windows，只在 Ubuntu 上工作。其他還試過 <a href="https://en.wikipedia.org/wiki/TrueCrypt">TrueCrypt</a> 來加密硬碟，還曾經因為忘記密鑰，忍痛把某個硬碟裡的檔案放棄了呢。最近也受擅長資訊安全的朋友的建議，想來研究<a href="https://twopointfouristan.wordpress.com/2011/04/17/pwning-past-whole-disk-encryption/">也考慮開機磁區問題的全硬碟加密可能性</a>。</p>
 
 <p>另一方面，對密碼管理也是多有嘗試。一開始設密碼也是使用像是生日、人名、單字之類的簡易密碼。當然很快就被破解了。後來使用了更加複雜的密碼，可是不同網站還是設成一樣，這樣要是有的網站<a href="http://plainpass.com/">密碼沒加密</a>，一被破解，全部網站的密碼也就被得知了。可是每個網站都用不同密碼實在太難記了，於是有段時期又改用某種神秘公式，配合不同網站性質，產生每個網站的獨特密碼。同樣的道理也能將每張金融卡的密碼都設成不一樣。一些不重要的網站則使用<a href="https://xkcd.com/936/">很長但好記的密碼</a>。</p>
 
@@ -604,7 +604,7 @@ gpg-connect-agent updatestartuptty /bye &gt; /dev/null <span class="m">2</span>&
 
 <p>但是不少網站目前並不支援 U2F，只支援 <a href="https://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm">OATH TOTP</a>，也就是平常大家可能會安裝 <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en">Google Authenticator</a> 或者 <a href="https://play.google.com/store/apps/details?id=com.azure.authenticator&amp;hl=en">Microsoft Authenticator</a>，然後在新電腦登入時除了輸入密碼，還要輸入上面的隨時間會不一樣的數字。</p>
 
-<p>YubiKey 同樣可以使用 <a href="https://www.yubico.com/support/knowledge-base/categories/articles/yubico-authenticator-download/">Yubico Authenticator</a> 來支援這個功能，不過能夠支援的網站數有所極限。</p>
+<p>YubiKey 同樣可以使用 <a href="https://www.yubico.com/products/services-software/download/yubico-authenticator/">Yubico Authenticator</a> 來支援這個功能，不過能夠支援的網站數有所極限。</p>
 
 <p>其他還有記憶一個密碼幫你輸入，以及其他更複雜的功能，不過就沒有研究了。詳情可以參考：〈<a href="https://ruimarinho.gitbooks.io/yubikey-handbook/">Yubikey Handbook</a>〉。</p>
 
