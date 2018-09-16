@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.46" />
+  <meta name="generator" content="Hugo 0.47.1" />
   <meta charset="utf-8">
   <title>用程式自動產生 Google Forms 調查問卷 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,24 +18,8 @@
 <meta property="og:title" content="用程式自動產生 Google Forms 調查問卷" />
 <meta property="og:description" content="前言 最近因為一些研究上的需要，需要進行問卷調查。雖然也可以用自己架的伺服器和網頁界面，可是難免擔心資安的疑慮。 於是就想到可以使用 Google Forms" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2017/09/16/auto-create-google-forms/" />
-
-
-
-<meta property="article:published_time" content="2017-09-16T16:42:00&#43;08:00"/>
-
+<meta property="og:url" content="https://city.shaform.com/zh/2017/09/16/auto-create-google-forms/" /><meta property="article:published_time" content="2017-09-16T16:42:00&#43;08:00"/>
 <meta property="article:modified_time" content="2017-09-16T16:42:00&#43;08:00"/>
-
-
-
-
-
-
-
-
-
-
-
 <meta itemprop="name" content="用程式自動產生 Google Forms 調查問卷">
 <meta itemprop="description" content="前言 最近因為一些研究上的需要，需要進行問卷調查。雖然也可以用自己架的伺服器和網頁界面，可是難免擔心資安的疑慮。 於是就想到可以使用 Google Forms">
 
@@ -51,7 +35,7 @@
 <meta name="twitter:title" content="用程式自動產生 Google Forms 調查問卷"/>
 <meta name="twitter:description" content="前言 最近因為一些研究上的需要，需要進行問卷調查。雖然也可以用自己架的伺服器和網頁界面，可是難免擔心資安的疑慮。 於是就想到可以使用 Google Forms"/>
 
-<script>
+<script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
 	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
@@ -315,6 +299,9 @@ if (!doNotTrack) {
 </div>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
+  var disqus_config = function () {
+    this.page.url = "https://city.shaform.com/zh/2017/09/16/auto-create-google-forms/";
+  };
   function load_disqus() {
     
     
@@ -323,7 +310,8 @@ if (!doNotTrack) {
     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
     var disqus_shortname = 'cityofwings';
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    dsq.setAttribute('data-timestamp', +new Date());
+    (document.head || document.body).appendChild(dsq);
 
     $('#load_disqus').remove();
   };

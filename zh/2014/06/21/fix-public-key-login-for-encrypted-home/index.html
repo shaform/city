@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.46" />
+  <meta name="generator" content="Hugo 0.47.1" />
   <meta charset="utf-8">
   <title>解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,24 +18,8 @@
 <meta property="og:title" content="解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題" />
 <meta property="og:description" content="通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/" />
-
-
-
-<meta property="article:published_time" content="2014-06-21T09:00:00&#43;08:00"/>
-
+<meta property="og:url" content="https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/" /><meta property="article:published_time" content="2014-06-21T09:00:00&#43;08:00"/>
 <meta property="article:modified_time" content="2014-06-21T09:00:00&#43;08:00"/>
-
-
-
-
-
-
-
-
-
-
-
 <meta itemprop="name" content="解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題">
 <meta itemprop="description" content="通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的">
 
@@ -51,7 +35,7 @@
 <meta name="twitter:title" content="解決 Ubuntu 加密 Home 目錄後無法遠端用 public key 登入的問題"/>
 <meta name="twitter:description" content="通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的"/>
 
-<script>
+<script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
 	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
@@ -233,6 +217,9 @@ if (!doNotTrack) {
 </div>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
+  var disqus_config = function () {
+    this.page.url = "https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/";
+  };
   function load_disqus() {
     
     
@@ -241,7 +228,8 @@ if (!doNotTrack) {
     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
     var disqus_shortname = 'cityofwings';
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    dsq.setAttribute('data-timestamp', +new Date());
+    (document.head || document.body).appendChild(dsq);
 
     $('#load_disqus').remove();
   };
