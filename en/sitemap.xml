@@ -66,13 +66,6 @@
   </url>
   
   <url>
-    <loc>https://city.shaform.com/en/tag/browser/</loc>
-    <lastmod>2014-11-07T18:52:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://city.shaform.com/en/tag/cuda/</loc>
     <lastmod>2017-10-23T21:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -95,20 +88,6 @@
   <url>
     <loc>https://city.shaform.com/en/</loc>
     <lastmod>2018-07-22T14:30:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/en/tag/deep-learning/</loc>
-    <lastmod>2015-06-06T11:05:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/en/tag/dvorak/</loc>
-    <lastmod>2013-07-12T18:53:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -149,22 +128,8 @@
   </url>
   
   <url>
-    <loc>https://city.shaform.com/en/tag/linux/</loc>
-    <lastmod>2013-07-12T18:53:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://city.shaform.com/en/category/notes/</loc>
     <lastmod>2018-07-22T14:30:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/en/tag/payments/</loc>
-    <lastmod>2015-04-20T08:34:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -198,15 +163,78 @@
   </url>
   
   <url>
-    <loc>https://city.shaform.com/en/tag/qwerty/</loc>
+    <loc>https://city.shaform.com/en/tag/rss/</loc>
+    <lastmod>2018-07-16T21:30:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/en/tag/spark/</loc>
+    <lastmod>2015-11-06T21:20:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/en/tags/</loc>
+    <lastmod>2017-10-23T21:30:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/en/tag/tensorflow/</loc>
+    <lastmod>2017-10-23T21:30:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/en/tag/ubuntu/</loc>
+    <lastmod>2017-10-23T21:30:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/en/tag/browser/</loc>
+    <lastmod>2014-11-07T18:52:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/en/tag/deep-learning/</loc>
+    <lastmod>2015-06-06T11:05:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/en/tag/dvorak/</loc>
     <lastmod>2013-07-12T18:53:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://city.shaform.com/en/tag/rss/</loc>
-    <lastmod>2018-07-16T21:30:00+08:00</lastmod>
+    <loc>https://city.shaform.com/en/tag/linux/</loc>
+    <lastmod>2013-07-12T18:53:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/en/tag/payments/</loc>
+    <lastmod>2015-04-20T08:34:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/en/tag/qwerty/</loc>
+    <lastmod>2013-07-12T18:53:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -228,34 +256,6 @@
   <url>
     <loc>https://city.shaform.com/en/tag/snappycat/</loc>
     <lastmod>2015-11-06T21:20:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/en/tag/spark/</loc>
-    <lastmod>2015-11-06T21:20:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/en/tags/</loc>
-    <lastmod>2014-11-07T18:52:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/en/tag/tensorflow/</loc>
-    <lastmod>2017-10-23T21:30:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/en/tag/ubuntu/</loc>
-    <lastmod>2017-10-23T21:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

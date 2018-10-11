@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tf-idf on 翼之都</title>
+    <title>tf-idf on 翼之都</title>
     <link>https://city.shaform.com/zh/tag/tf-idf/</link>
-    <description>Recent content in Tf-idf on 翼之都</description>
+    <description>Recent content in tf-idf on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Fri, 27 Mar 2015 21:45:00 +0800</lastBuildDate>
