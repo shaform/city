@@ -3,13 +3,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://city.shaform.com/zh/2018/09/17/bayesian-neural-networks/</loc>
-    <lastmod>2018-09-17T14:30:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://city.shaform.com/zh/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</loc>
     <lastmod>2018-07-22T14:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -423,7 +416,7 @@
   
   <url>
     <loc>https://city.shaform.com/zh/category/notes/</loc>
-    <lastmod>2018-09-17T14:30:00+08:00</lastmod>
+    <lastmod>2018-07-22T14:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -458,7 +451,7 @@
   
   <url>
     <loc>https://city.shaform.com/zh/posts/</loc>
-    <lastmod>2018-09-17T14:30:00+08:00</lastmod>
+    <lastmod>2018-07-22T14:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -597,13 +590,6 @@
   </url>
   
   <url>
-    <loc>https://city.shaform.com/zh/tag/bayesian/</loc>
-    <lastmod>2018-09-17T14:30:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://city.shaform.com/zh/tag/bs2/</loc>
     <lastmod>2016-07-26T22:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -626,7 +612,7 @@
   
   <url>
     <loc>https://city.shaform.com/zh/tag/deep-learning/</loc>
-    <lastmod>2018-09-17T14:30:00+08:00</lastmod>
+    <lastmod>2017-04-04T15:37:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -871,7 +857,7 @@
   
   <url>
     <loc>https://city.shaform.com/zh/</loc>
-    <lastmod>2018-09-17T14:30:00+08:00</lastmod>
+    <lastmod>2018-07-22T14:30:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

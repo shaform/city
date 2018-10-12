@@ -6,19 +6,10 @@
     <description>Recent content in Posts on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 17 Sep 2018 14:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Jul 2018 14:30:00 +0800</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/zh/posts/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Bayesian Neural Networks</title>
-      <link>https://city.shaform.com/zh/2018/09/17/bayesian-neural-networks/</link>
-      <pubDate>Mon, 17 Sep 2018 14:30:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/2018/09/17/bayesian-neural-networks/</guid>
-      <description>$$ P(\mathbb{w}|D) $$</description>
-    </item>
     
     <item>
       <title>從 Pelican 及 WordPress 轉移到 Hugo</title>

@@ -390,15 +390,6 @@
     </item>
     
     <item>
-      <title>bayesian</title>
-      <link>https://city.shaform.com/zh/tag/bayesian/</link>
-      <pubDate>Mon, 17 Sep 2018 14:30:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/bayesian/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>bs2</title>
       <link>https://city.shaform.com/zh/tag/bs2/</link>
       <pubDate>Tue, 26 Jul 2016 22:30:00 +0800</pubDate>
@@ -428,7 +419,7 @@
     <item>
       <title>deep learning</title>
       <link>https://city.shaform.com/zh/tag/deep-learning/</link>
-      <pubDate>Mon, 17 Sep 2018 14:30:00 +0800</pubDate>
+      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/deep-learning/</guid>
       <description></description>
@@ -728,6 +719,15 @@
       <pubDate>Sat, 25 Mar 2017 09:09:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/yadm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>yapf</title>
+      <link>https://city.shaform.com/zh/tag/yapf/</link>
+      <pubDate>Sun, 20 Sep 2015 15:55:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/yapf/</guid>
       <description></description>
     </item>
     
