@@ -237,6 +237,15 @@
     </item>
     
     <item>
+      <title>PyTorch</title>
+      <link>https://city.shaform.com/zh/tag/pytorch/</link>
+      <pubDate>Sun, 11 Nov 2018 11:40:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/pytorch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Python</title>
       <link>https://city.shaform.com/zh/tag/python/</link>
       <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
@@ -449,6 +458,15 @@
       <pubDate>Sat, 19 Mar 2016 09:02:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/gspread/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hdf5</title>
+      <link>https://city.shaform.com/zh/tag/hdf5/</link>
+      <pubDate>Sun, 11 Nov 2018 11:40:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/hdf5/</guid>
       <description></description>
     </item>
     
@@ -710,24 +728,6 @@
       <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/word2vec/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>yadm</title>
-      <link>https://city.shaform.com/zh/tag/yadm/</link>
-      <pubDate>Sat, 25 Mar 2017 09:09:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/yadm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>yapf</title>
-      <link>https://city.shaform.com/zh/tag/yapf/</link>
-      <pubDate>Sun, 20 Sep 2015 15:55:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/yapf/</guid>
       <description></description>
     </item>
     

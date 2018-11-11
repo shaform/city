@@ -6,10 +6,19 @@
     <description>Recent content in Posts on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 22 Jul 2018 14:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 11 Nov 2018 11:40:00 -0500</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/zh/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用 Zarr 儲存資料集並用 PyTorch Dataset 讀取</title>
+      <link>https://city.shaform.com/zh/2018/11/11/zarr/</link>
+      <pubDate>Sun, 11 Nov 2018 11:40:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2018/11/11/zarr/</guid>
+      <description>前言 當使用大量的資料進行機器學習系統的訓練時，總是得花一些心力處理資料集的讀取。尤其如果有大量的圖片，則直接用檔案系統存放很多圖片不僅有些傳</description>
+    </item>
     
     <item>
       <title>從 Pelican 及 WordPress 轉移到 Hugo</title>
