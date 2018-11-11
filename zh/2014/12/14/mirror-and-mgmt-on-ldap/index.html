@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.49.2" />
+  <meta name="generator" content="Hugo 0.51" />
   <meta charset="utf-8">
   <title>建立 LDAP 鏡像、及日常管理指令集 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -325,16 +325,16 @@ olcMirrorMode: TRUE
 
 <h3 id="修改使用者的群組">修改使用者的群組</h3>
 
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># add
-</span><span class="hl"><span class="c1"></span>ldapmodify -D <span class="s2">&#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&#34;</span> -W <span class="s">&lt;&lt;EOF
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># add</span>
+<span class="hl">ldapmodify -D <span class="s2">&#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&#34;</span> -W <span class="s">&lt;&lt;EOF
 </span></span><span class="s">dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
 </span><span class="s">changetype: modify
 </span><span class="s">add: memberUid
 </span><span class="s">memberUid: $username
 </span><span class="s">EOF</span>
 
-<span class="c1"># remove
-</span><span class="hl"><span class="c1"></span>ldapmodify -D <span class="s2">&#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&#34;</span> -W <span class="s">&lt;&lt;EOF
+<span class="c1"># remove</span>
+<span class="hl">ldapmodify -D <span class="s2">&#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&#34;</span> -W <span class="s">&lt;&lt;EOF
 </span></span><span class="s">dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
 </span><span class="s">changetype: modify
 </span><span class="s">delete: memberUid
@@ -362,7 +362,7 @@ olcMirrorMode: TRUE
   載入 Disqus 評論
 </div>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
+<script>
   var disqus_config = function () {
     this.page.url = "https://city.shaform.com/zh/2014/12/14/mirror-and-mgmt-on-ldap/";
   };
@@ -451,6 +451,22 @@ olcMirrorMode: TRUE
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+  if ($('#load_disqus').length) {
+    $(window).scroll(function() {
+      if ($('#load_disqus').length) {
+        var elementTop = $('#load_disqus').offset().top;
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + $(window).height();
+        if (viewportTop < elementTop && elementTop < viewportBottom) {
+          load_disqus();
+        }
+      }
+    });
+  }
+});
+</script>
 
 </body>
 </html>

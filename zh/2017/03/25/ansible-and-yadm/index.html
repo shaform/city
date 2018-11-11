@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.49.2" />
+  <meta name="generator" content="Hugo 0.51" />
   <meta charset="utf-8">
   <title>用 Ansible 和 yadm 來加速重灌流程 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -385,15 +385,15 @@ ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span cla
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">yadm init
 </span><span class="hl">yadm add ~/.vimrc
 </span><span class="hl">yadm add ~/.tmux.conf
-</span><span class="c1"># ...
-</span><span class="hl"><span class="c1"></span>yadm commit -m <span class="s1">&#39;first commit!&#39;</span></span></code></pre></div></div>
+</span><span class="c1"># ...</span>
+<span class="hl">yadm commit -m <span class="s1">&#39;first commit!&#39;</span></span></code></pre></div></div>
 
 
 <p>如果要同步已經有的 repository 則是：</p>
 
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">yadm clone &lt;url&gt;
-</span><span class="c1"># ...
-</span><span class="hl"><span class="c1"></span>yadm pull</span></code></pre></div></div>
+</span><span class="c1"># ...</span>
+<span class="hl">yadm pull</span></code></pre></div></div>
 
 
 <p>跟正常的 git 一模一樣。</p>
@@ -424,7 +424,7 @@ ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span cla
   載入 Disqus 評論
 </div>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
+<script>
   var disqus_config = function () {
     this.page.url = "https://city.shaform.com/zh/2017/03/25/ansible-and-yadm/";
   };
@@ -513,6 +513,22 @@ ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span cla
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+  if ($('#load_disqus').length) {
+    $(window).scroll(function() {
+      if ($('#load_disqus').length) {
+        var elementTop = $('#load_disqus').offset().top;
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + $(window).height();
+        if (viewportTop < elementTop && elementTop < viewportBottom) {
+          load_disqus();
+        }
+      }
+    });
+  }
+});
+</script>
 
 </body>
 </html>

@@ -632,8 +632,8 @@ changed to the current Python version:&lt;/p&gt;
 
 
 &lt;p&gt;緊接著參考 &lt;a href="https://github.com/drduh/YubiKey-Guide"&gt;YubiKey-Guide&lt;/a&gt;，更改 &lt;code&gt;~/.gnupg/gpg.conf&lt;/code&gt; 的內容加入以下片段：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# ~/.gnupg/gpg.conf
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;use-agent
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# ~/.gnupg/gpg.conf&lt;/span&gt;
+use-agent
 personal-cipher-preferences AES256 AES192 AES CAST5
 personal-digest-preferences SHA512 SHA384 SHA256 SHA224
 default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
@@ -992,8 +992,8 @@ Your selection? &lt;span class="m"&gt;3&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt
 
 &lt;p&gt;也可以自動產生密碼：&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# generate a password of length 15
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;pass generate social/facebook &lt;span class="m"&gt;15&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# generate a password of length 15&lt;/span&gt;
+&lt;span class="hl"&gt;pass generate social/facebook &lt;span class="m"&gt;15&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;其他指令，詳請可執行 &lt;code&gt;man pass&lt;/code&gt;。&lt;/p&gt;
@@ -1009,8 +1009,8 @@ Your selection? &lt;span class="m"&gt;3&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt
 &lt;h3 id="設定-1"&gt;設定&lt;/h3&gt;
 
 &lt;p&gt;感覺很多 keys 實在很麻煩，而既然已經有那麼安全的 OpenPGP keys 可用，我們也想直接用當初放在 YubiKey 上的 authentication subkey 來&lt;a href="https://incenp.org/notes/2014/gnupg-for-ssh-authentication.html"&gt;取代原本在用的 SSH key&lt;/a&gt;。首先編輯 &lt;code&gt;~/.gnupg/gpg-agent.conf&lt;/code&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# ~/.gnupg/gpg-agent.conf
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;enable-ssh-support
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# ~/.gnupg/gpg-agent.conf&lt;/span&gt;
+enable-ssh-support
 pinentry-program /usr/bin/pinentry-curses
 default-cache-ttl &lt;span class="m"&gt;60&lt;/span&gt;
 max-cache-ttl &lt;span class="m"&gt;120&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1917,15 +1917,15 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;yadm init
 &lt;/span&gt;&lt;span class="hl"&gt;yadm add ~/.vimrc
 &lt;/span&gt;&lt;span class="hl"&gt;yadm add ~/.tmux.conf
-&lt;/span&gt;&lt;span class="c1"&gt;# ...
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;yadm commit -m &lt;span class="s1"&gt;&amp;#39;first commit!&amp;#39;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/span&gt;&lt;span class="c1"&gt;# ...&lt;/span&gt;
+&lt;span class="hl"&gt;yadm commit -m &lt;span class="s1"&gt;&amp;#39;first commit!&amp;#39;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;如果要同步已經有的 repository 則是：&lt;/p&gt;
 
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;yadm clone &amp;lt;url&amp;gt;
-&lt;/span&gt;&lt;span class="c1"&gt;# ...
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;yadm pull&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/span&gt;&lt;span class="c1"&gt;# ...&lt;/span&gt;
+&lt;span class="hl"&gt;yadm pull&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;跟正常的 git 一模一樣。&lt;/p&gt;
@@ -2741,10 +2741,10 @@ source env/bin/activate&lt;/p&gt;
 
 &lt;p&gt;由於我們使用到了 &lt;code&gt;pyvenv&lt;/code&gt;，而且很多檔案路徑都是用相對路徑，因此我另外寫了一個 bash script 來幫忙設定好執行 Python 的步驟。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="cp"&gt;#!/usr/bin/env bash
-&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;&lt;span class="c1"&gt;# start_update.sh
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;
-&lt;span class="c1"&gt;# get directory of the script
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="nv"&gt;curr_dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;dirname &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="nv"&gt;$BASH_SOURCE&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;&lt;span class="c1"&gt;# start_update.sh&lt;/span&gt;
+
+&lt;span class="c1"&gt;# get directory of the script&lt;/span&gt;
+&lt;span class="nv"&gt;curr_dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;dirname &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="nv"&gt;$BASH_SOURCE&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
 
 &lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="nv"&gt;$curr_dir&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="nb"&gt;source&lt;/span&gt; my_env/bin/activate
@@ -2799,8 +2799,8 @@ pip install -U pip&lt;/p&gt;
 
 &lt;p&gt;緊接著，安裝所有這次會用到的套件：&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# 不知為何在工作站上要用 `python /sbin/pip3.5` 來取代下述的 `pip` 才能跑
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;.1.0 numpy notebook scipy scikit-learn seaborn jieba&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# 不知為何在工作站上要用 `python /sbin/pip3.5` 來取代下述的 `pip` 才能跑&lt;/span&gt;
+&lt;span class="hl"&gt;pip install &lt;span class="nv"&gt;Scrapy&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;.1.0 numpy notebook scipy scikit-learn seaborn jieba&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;h2 id="撰寫爬蟲"&gt;撰寫爬蟲&lt;/h2&gt;
@@ -18506,29 +18506,29 @@ Word2Vec 參數設定則可參考 &lt;a href="https://spark.apache.org/docs/late
 &lt;p&gt;輸出的向量會放在 &lt;code&gt;{output directory}/model/data/&lt;/code&gt; 底下，而且是存成 &lt;a href="https://parquet.apache.org/"&gt;Parquet&lt;/a&gt; 的格式，不太方便。
 所以我們使用 spark-shell 快速的將檔案轉成文字檔：&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# 執行 Spark Shell
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;./spark-1.4.1-bin-hadoop2.6/bin/spark-shell
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# 執行 Spark Shell&lt;/span&gt;
+&lt;span class="hl"&gt;./spark-1.4.1-bin-hadoop2.6/bin/spark-shell
 &lt;/span&gt;
-&lt;span class="c1"&gt;# 從這裡開始是 Spark Shell
-&lt;/span&gt;&lt;span class="c1"&gt;#
-&lt;/span&gt;&lt;span class="c1"&gt;# Welcome to
-&lt;/span&gt;&lt;span class="c1"&gt;#       ____              __
-&lt;/span&gt;&lt;span class="c1"&gt;#      / __/__  ___ _____/ /__
-&lt;/span&gt;&lt;span class="c1"&gt;#     _\ \/ _ \/ _ `/ __/  &amp;#39;_/
-&lt;/span&gt;&lt;span class="c1"&gt;#    /___/ .__/\_,_/_/ /_/\_\   version 1.4.1
-&lt;/span&gt;&lt;span class="c1"&gt;#       /_/
-&lt;/span&gt;&lt;span class="c1"&gt;#
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;
-&lt;span class="c1"&gt;# 讀取檔案
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;scala&amp;gt; val &lt;span class="nv"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; sqlContext.read.parquet&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;{output directory}/model/data&amp;#34;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# 從這裡開始是 Spark Shell&lt;/span&gt;
+#
+&lt;span class="c1"&gt;# Welcome to&lt;/span&gt;
+&lt;span class="c1"&gt;#       ____              __&lt;/span&gt;
+&lt;span class="c1"&gt;#      / __/__  ___ _____/ /__&lt;/span&gt;
+&lt;span class="c1"&gt;#     _\ \/ _ \/ _ `/ __/  &amp;#39;_/&lt;/span&gt;
+&lt;span class="c1"&gt;#    /___/ .__/\_,_/_/ /_/\_\   version 1.4.1&lt;/span&gt;
+&lt;span class="c1"&gt;#       /_/&lt;/span&gt;
+#
+
+&lt;span class="c1"&gt;# 讀取檔案&lt;/span&gt;
+scala&amp;gt; val &lt;span class="nv"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; sqlContext.read.parquet&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;{output directory}/model/data&amp;#34;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 d: org.apache.spark.sql.DataFrame &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;word: string, vector: array&amp;lt;float&amp;gt;&lt;span class="o"&gt;]&lt;/span&gt;
 
-&lt;span class="c1"&gt;# 檢查格式
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;scala&amp;gt; d.first
+&lt;span class="c1"&gt;# 檢查格式&lt;/span&gt;
+scala&amp;gt; d.first
 res2: org.apache.spark.sql.Row &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;latifolia,ArrayBuffer&lt;span class="o"&gt;(&lt;/span&gt;-0.08103186, &lt;span class="m"&gt;0&lt;/span&gt;.14688604, -0.060668133, -0.25648367, -0.06855837, -0...
 
-&lt;span class="c1"&gt;# 輸出到 output directory/vectors/
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;scala&amp;gt; d.map&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; r.getString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; + &lt;span class="s2"&gt;&amp;#34; &amp;#34;&lt;/span&gt; + r.getSeq&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;.mkString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34; &amp;#34;&lt;/span&gt;&lt;span class="o"&gt;)}&lt;/span&gt;.saveAsTextFile&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;{output directory}/vectors&amp;#34;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;span class="c1"&gt;# 輸出到 output directory/vectors/&lt;/span&gt;
+scala&amp;gt; d.map&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; r.getString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; + &lt;span class="s2"&gt;&amp;#34; &amp;#34;&lt;/span&gt; + r.getSeq&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;.mkString&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34; &amp;#34;&lt;/span&gt;&lt;span class="o"&gt;)}&lt;/span&gt;.saveAsTextFile&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;{output directory}/vectors&amp;#34;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;如此便完成了！&lt;/p&gt;
@@ -18563,32 +18563,32 @@ for sentiment analysis, this time we utilize the scripts provided
 by &lt;a href="https://github.com/mesnilgr/iclr15"&gt;mesnilgr/iclr15&lt;/a&gt; to download the &lt;a href="http://ai.stanford.edu/~amaas/data/sentiment/"&gt;Large Movie Review Dataset&lt;/a&gt;
 so it&amp;rsquo;s easier to reproduce the results.&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# get mesnilgr/iclr15
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;git clone https://github.com/mesnilgr/iclr15
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# get mesnilgr/iclr15&lt;/span&gt;
+&lt;span class="hl"&gt;git clone https://github.com/mesnilgr/iclr15
 &lt;/span&gt;
 &lt;span class="hl"&gt;mkdir -p iclr15_run
 &lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; iclr15_run
 &lt;/span&gt;
-&lt;span class="c1"&gt;# get data
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;../iclr15/scripts/data.sh&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;span class="c1"&gt;# get data&lt;/span&gt;
+&lt;span class="hl"&gt;../iclr15/scripts/data.sh&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Afterwards, we create the &lt;a href="http://arxiv.org/abs/1405.4053"&gt;Paragraph Vectors&lt;/a&gt; for each review. Paragraph
 Vectors are fixed-dimensional distributed representations for texts. Once we
 convert each review into a vector, we could easily feed it into a neural network.&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# extract the part to create paragraph vectors from iclr15 scripts
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;sed -e &lt;span class="s1"&gt;&amp;#39;/liblinear/,$d&amp;#39;&lt;/span&gt; ../iclr15/scripts/paragraph.sh &amp;gt; paragraph.sh
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# extract the part to create paragraph vectors from iclr15 scripts&lt;/span&gt;
+&lt;span class="hl"&gt;sed -e &lt;span class="s1"&gt;&amp;#39;/liblinear/,$d&amp;#39;&lt;/span&gt; ../iclr15/scripts/paragraph.sh &amp;gt; paragraph.sh
 &lt;/span&gt;
-&lt;span class="c1"&gt;# start creating the vectors
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;chmod +x paragraph.sh
+&lt;span class="c1"&gt;# start creating the vectors&lt;/span&gt;
+&lt;span class="hl"&gt;chmod +x paragraph.sh
 &lt;/span&gt;&lt;span class="hl"&gt;./paragraph.sh&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Finally, we copy the resulting files.&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# copy the vectors
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; word2vec
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# copy the vectors&lt;/span&gt;
+&lt;span class="hl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; word2vec
 &lt;/span&gt;&lt;span class="hl"&gt;cp full-train.txt test.txt ../../
 &lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ../../&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -18804,13 +18804,13 @@ Machine。&lt;/p&gt;
 
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; rnnlm
 &lt;/span&gt;
-&lt;span class="c1"&gt;# construct positive language model
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;head -n &lt;span class="m"&gt;200&lt;/span&gt; ../data/train_pos.txt &amp;gt; val.txt
+&lt;span class="c1"&gt;# construct positive language model&lt;/span&gt;
+&lt;span class="hl"&gt;head -n &lt;span class="m"&gt;200&lt;/span&gt; ../data/train_pos.txt &amp;gt; val.txt
 &lt;/span&gt;&lt;span class="hl"&gt;cat ../data/train_pos.txt &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;1,200d&amp;#39;&lt;/span&gt; &amp;gt; train.txt
 &lt;/span&gt;&lt;span class="hl"&gt;./rnnlm -rnnlm pos.model -train train.txt -valid val.txt -hidden &lt;span class="m"&gt;50&lt;/span&gt; -direct-order &lt;span class="m"&gt;3&lt;/span&gt; -direct &lt;span class="m"&gt;200&lt;/span&gt; -class &lt;span class="m"&gt;100&lt;/span&gt; -debug &lt;span class="m"&gt;2&lt;/span&gt; -bptt &lt;span class="m"&gt;4&lt;/span&gt; -bptt-block &lt;span class="m"&gt;10&lt;/span&gt; -binary
 &lt;/span&gt;
-&lt;span class="c1"&gt;# construct negative language model
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;head -n &lt;span class="m"&gt;200&lt;/span&gt; ../data/train_neg.txt &amp;gt; val.txt
+&lt;span class="c1"&gt;# construct negative language model&lt;/span&gt;
+&lt;span class="hl"&gt;head -n &lt;span class="m"&gt;200&lt;/span&gt; ../data/train_neg.txt &amp;gt; val.txt
 &lt;/span&gt;&lt;span class="hl"&gt;cat ../data/train_neg.txt &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;1,200d&amp;#39;&lt;/span&gt; &amp;gt; train.txt
 &lt;/span&gt;&lt;span class="hl"&gt;./rnnlm -rnnlm neg.model -train train.txt -valid val.txt -hidden &lt;span class="m"&gt;50&lt;/span&gt; -direct-order &lt;span class="m"&gt;3&lt;/span&gt; -direct &lt;span class="m"&gt;200&lt;/span&gt; -class &lt;span class="m"&gt;100&lt;/span&gt; -debug &lt;span class="m"&gt;2&lt;/span&gt; -bptt &lt;span class="m"&gt;4&lt;/span&gt; -bptt-block &lt;span class="m"&gt;10&lt;/span&gt; -binary&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -18833,9 +18833,9 @@ Machine。&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ..
 &lt;/span&gt;&lt;span class="hl"&gt;python3 normalize.py --input scores/RNNLM --output scores/RNNLM --type rnnlm
 &lt;/span&gt;&lt;span class="hl"&gt;python3 evaluate.py --test_pos data/test_pos.txt --scores scores/RNNLM
-&lt;/span&gt;&lt;span class="c1"&gt;#
-&lt;/span&gt;&lt;span class="c1"&gt;# RNNLM accuracy: 87.9828%
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/span&gt;#
+&lt;span class="c1"&gt;# RNNLM accuracy: 87.9828%&lt;/span&gt;
+ &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;h2 id="word2vec-paragraph-vectors-logistic-regression"&gt;Word2Vec: Paragraph Vectors + Logistic Regression&lt;/h2&gt;
@@ -18864,9 +18864,9 @@ Machine。&lt;/p&gt;
 &lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ..
 &lt;/span&gt;&lt;span class="hl"&gt;python3 normalize.py --input scores/DOC2VEC --output scores/DOC2VEC --type logreg
 &lt;/span&gt;&lt;span class="hl"&gt;python3 evaluate.py --test_pos data/test_pos.txt --scores scores/DOC2VEC
-&lt;/span&gt;&lt;span class="c1"&gt;#
-&lt;/span&gt;&lt;span class="c1"&gt;# DOC2VEC accuracy: 84.5494%
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/span&gt;#
+&lt;span class="c1"&gt;# DOC2VEC accuracy: 84.5494%&lt;/span&gt;
+ &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;h2 id="tf-idf"&gt;TF-IDF&lt;/h2&gt;
@@ -18893,8 +18893,8 @@ Machine。&lt;/p&gt;
 &lt;/span&gt;
 &lt;span class="hl"&gt;python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TFIDF
 &lt;/span&gt;
-&lt;span class="c1"&gt;# TFIDF accuracy: 90.9817%
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;span class="c1"&gt;# TFIDF accuracy: 90.9817%&lt;/span&gt;
+ &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;h2 id="整合"&gt;整合&lt;/h2&gt;
@@ -18905,11 +18905,11 @@ Machine。&lt;/p&gt;
 &lt;/span&gt;&lt;span class="hl"&gt;python3 evaluate.py --test_pos data/test_pos.txt --scores scores/TOTAL
 &lt;/span&gt;
 
-&lt;span class="c1"&gt;# RNNLM accuracy: 87.9828%
-&lt;/span&gt;&lt;span class="c1"&gt;# DOC2VEC accuracy: 84.5494%
-&lt;/span&gt;&lt;span class="c1"&gt;# TFIDF accuracy: 90.9817%
-&lt;/span&gt;&lt;span class="c1"&gt;# TOTAL accuracy: 90.1288%
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;span class="c1"&gt;# RNNLM accuracy: 87.9828%&lt;/span&gt;
+&lt;span class="c1"&gt;# DOC2VEC accuracy: 84.5494%&lt;/span&gt;
+&lt;span class="c1"&gt;# TFIDF accuracy: 90.9817%&lt;/span&gt;
+&lt;span class="c1"&gt;# TOTAL accuracy: 90.1288%&lt;/span&gt;
+ &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;h3 id="程式碼"&gt;程式碼&lt;/h3&gt;
@@ -19102,16 +19102,16 @@ olcMirrorMode: TRUE
 
 &lt;h3 id="修改使用者的群組"&gt;修改使用者的群組&lt;/h3&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# add
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;ldapmodify -D &lt;span class="s2"&gt;&amp;#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt; -W &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# add&lt;/span&gt;
+&lt;span class="hl"&gt;ldapmodify -D &lt;span class="s2"&gt;&amp;#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt; -W &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;/span&gt;&lt;span class="s"&gt;dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
 &lt;/span&gt;&lt;span class="s"&gt;changetype: modify
 &lt;/span&gt;&lt;span class="s"&gt;add: memberUid
 &lt;/span&gt;&lt;span class="s"&gt;memberUid: $username
 &lt;/span&gt;&lt;span class="s"&gt;EOF&lt;/span&gt;
 
-&lt;span class="c1"&gt;# remove
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;ldapmodify -D &lt;span class="s2"&gt;&amp;#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt; -W &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF
+&lt;span class="c1"&gt;# remove&lt;/span&gt;
+&lt;span class="hl"&gt;ldapmodify -D &lt;span class="s2"&gt;&amp;#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt; -W &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;/span&gt;&lt;span class="s"&gt;dn: cn=$groupname,ou=Group,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw
 &lt;/span&gt;&lt;span class="s"&gt;changetype: modify
 &lt;/span&gt;&lt;span class="s"&gt;delete: memberUid
@@ -19192,28 +19192,28 @@ Allow LDAPv2 protocol? No&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;接著編輯設定檔 &lt;code&gt;/usr/share/migrationtools/migrate_common.ph&lt;/code&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# Default DNS domain
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="nv"&gt;$DEFAULT_MAIL_DOMAIN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;lab.csie.ntu.edu.tw&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="c1"&gt;# Default base
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="nv"&gt;$DEFAULT_BASE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# Default DNS domain&lt;/span&gt;
+&lt;span class="nv"&gt;$DEFAULT_MAIL_DOMAIN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;lab.csie.ntu.edu.tw&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;# Default base&lt;/span&gt;
+&lt;span class="nv"&gt;$DEFAULT_BASE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 ...
-&lt;span class="c1"&gt;# Uncomment these to exclude Debian-managed system users and groups
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="nv"&gt;$IGNORE_UID_BELOW&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="c1"&gt;# Don&amp;#39;t uncomment this if you want to be able to add users to system groups
-&lt;/span&gt;&lt;span class="c1"&gt;# $IGNORE_GID_BELOW = 1000;
-&lt;/span&gt;&lt;span class="c1"&gt;# And here&amp;#39;s the opposite for completeness
-&lt;/span&gt;&lt;span class="c1"&gt;&lt;/span&gt;&lt;span class="nv"&gt;$IGNORE_UID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;29999&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;# Uncomment these to exclude Debian-managed system users and groups&lt;/span&gt;
+&lt;span class="nv"&gt;$IGNORE_UID_BELOW&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="c1"&gt;# Don&amp;#39;t uncomment this if you want to be able to add users to system groups&lt;/span&gt;
+&lt;span class="c1"&gt;# $IGNORE_GID_BELOW = 1000;&lt;/span&gt;
+&lt;span class="c1"&gt;# And here&amp;#39;s the opposite for completeness&lt;/span&gt;
+&lt;span class="nv"&gt;$IGNORE_UID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;29999&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="nv"&gt;$IGNORE_GID_ABOVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;29999&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;由於 Debian 的 LDAP 預設並沒有載入 misc.schema，所以如果要讀入 alias 資料就會出錯。因此我們只手動載入需要的部份，而不使用自動載入全部資料的方法。進入 &lt;code&gt;/usr/share/migrationtools/&lt;/code&gt; 資料夾後執行以下指令：&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# create basic data
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;./migrate_base.pl &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt; -c
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# create basic data&lt;/span&gt;
+&lt;span class="hl"&gt;./migrate_base.pl &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt; -c
 &lt;/span&gt;
-&lt;span class="c1"&gt;# migrate passwd
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;./migrate_passwd.pl /etc/passwd &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt; -c
+&lt;span class="c1"&gt;# migrate passwd&lt;/span&gt;
+&lt;span class="hl"&gt;./migrate_passwd.pl /etc/passwd &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt; -c
 &lt;/span&gt;
-&lt;span class="c1"&gt;# migrate group
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;./migrate_group.pl /etc/group &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt; -c&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;span class="c1"&gt;# migrate group&lt;/span&gt;
+&lt;span class="hl"&gt;./migrate_group.pl /etc/group &lt;span class="p"&gt;|&lt;/span&gt; ldapadd -x -W -h localhost -D &lt;span class="s2"&gt;&amp;#34;cn=admin,dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw&amp;#34;&lt;/span&gt; -c&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;執行 &lt;code&gt;migrate_base.pl&lt;/code&gt; 會有部份內容無法處理是正常的。&lt;/p&gt;
@@ -19282,8 +19282,8 @@ An optional company name []:&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/span&gt;&lt;span class="hl"&gt;sudo mkdir /usr/share/ca-certificates/my/
 &lt;/span&gt;&lt;span class="hl"&gt;sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
 &lt;/span&gt;&lt;span class="hl"&gt;sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /usr/share/ca-certificates/my/my_root.crt
-&lt;/span&gt;&lt;span class="hl"&gt;sudo dpkg-reconfigure ca-certificates &lt;span class="c1"&gt;# choose to add my/my_root.crt
-&lt;/span&gt;&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;sudo update-ca-certificates
+&lt;/span&gt;&lt;span class="hl"&gt;sudo dpkg-reconfigure ca-certificates &lt;span class="c1"&gt;# choose to add my/my_root.crt&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;sudo update-ca-certificates
 &lt;/span&gt;
 &lt;span class="hl"&gt;sudo chown -R root:openldap /etc/ldap/ssl
 &lt;/span&gt;&lt;span class="hl"&gt;sudo chmod -R o-rwx /etc/ldap/ssl&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -19293,8 +19293,8 @@ An optional company name []:&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;sudo cp my_root_crt.pem /usr/share/ca-certificates/my/my_root.crt
 &lt;/span&gt;&lt;span class="hl"&gt;sudo chmod &lt;span class="m"&gt;644&lt;/span&gt; /usr/share/ca-certificates/my/my_root.crt
-&lt;/span&gt;&lt;span class="hl"&gt;sudo dpkg-reconfigure ca-certificates &lt;span class="c1"&gt;# choose to add my/my_root.crt
-&lt;/span&gt;&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;sudo update-ca-certificates&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;sudo dpkg-reconfigure ca-certificates &lt;span class="c1"&gt;# choose to add my/my_root.crt&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;sudo update-ca-certificates&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;小心收藏剩餘的 key.pem，不要讓別人看到囉。&lt;/p&gt;
@@ -19770,8 +19770,8 @@ python2 setup.py install --user&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</descriptio
 
 &lt;p&gt;最後再將 &lt;code&gt;id_rsa.pub&lt;/code&gt; 拷貝到 server 上，並複製到 authorized_keys：&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# copy id_rsa.pub to server, then -&amp;gt;
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;cat id_rsa.pub &amp;gt;&amp;gt; /etc/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;/authorized_keys
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="c1"&gt;# copy id_rsa.pub to server, then -&amp;gt;&lt;/span&gt;
+&lt;span class="hl"&gt;cat id_rsa.pub &amp;gt;&amp;gt; /etc/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;/authorized_keys
 &lt;/span&gt;&lt;span class="hl"&gt;chmod &lt;span class="m"&gt;400&lt;/span&gt; /etc/ssh/ssh/keys/&lt;span class="nv"&gt;$USER&lt;/span&gt;/authorized_keys&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
@@ -20043,8 +20043,8 @@ defencoding big5 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;實際的作法是先申請個帳號，然後安裝 SDK：&lt;/p&gt;
 
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;curl sdk.cloud.google.com &lt;span class="p"&gt;|&lt;/span&gt; bash
-&lt;/span&gt;&lt;span class="c1"&gt;# restart the Terminal, then
-&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;gcloud auth login&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/span&gt;&lt;span class="c1"&gt;# restart the Terminal, then&lt;/span&gt;
+&lt;span class="hl"&gt;gcloud auth login&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;緊接著在網誌目錄中新增 app.yaml 檔案，設定讓伺服器顯示靜態網頁：&lt;/p&gt;
@@ -20115,23 +20115,23 @@ github: publish
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;安裝 JDK 7&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;sudo apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade &lt;span class="c1"&gt;# 更新套件庫
-&lt;/span&gt;&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;sudo apt-get install software-properties-common python-software-properties  &lt;span class="c1"&gt;# 取得 add-apt-repository
-&lt;/span&gt;&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;sudo add-apt-repository ppa:webupd8team/java  &lt;span class="c1"&gt;# 新增有 oracle-java7-installer 的 ppa
-&lt;/span&gt;&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;sudo apt-get update
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;sudo apt-get update &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade &lt;span class="c1"&gt;# 更新套件庫&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;sudo apt-get install software-properties-common python-software-properties  &lt;span class="c1"&gt;# 取得 add-apt-repository&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;sudo add-apt-repository ppa:webupd8team/java  &lt;span class="c1"&gt;# 新增有 oracle-java7-installer 的 ppa&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;sudo apt-get update
 &lt;/span&gt;&lt;span class="hl"&gt;sudo apt-get install oracle-java7-installer&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;設定 SSH&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;ssh-keygen -b &lt;span class="m"&gt;2048&lt;/span&gt; -t rsa:q  &lt;span class="c1"&gt;# 產生 RSA key pair
-&lt;/span&gt;&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  # 讓自己可以不用密碼登入自己&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;ssh-keygen -b &lt;span class="m"&gt;2048&lt;/span&gt; -t rsa:q  &lt;span class="c1"&gt;# 產生 RSA key pair&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  &lt;span class="c1"&gt;# 讓自己可以不用密碼登入自己&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;在 NameNode 上：&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;ssh-copy-id -i &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.ssh/id_rsa.pub user@slave-1-dn  &lt;span class="c1"&gt;# 讓 NameNode 可不用密碼登入 DataNode
-&lt;/span&gt;&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;ssh-copy-id -i &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.ssh/id_rsa.pub user@slave-2-dn  # 讓 NameNode 可不用密碼登入 DataNode&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;ssh-copy-id -i &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.ssh/id_rsa.pub user@slave-1-dn  &lt;span class="c1"&gt;# 讓 NameNode 可不用密碼登入 DataNode&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;ssh-copy-id -i &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.ssh/id_rsa.pub user@slave-2-dn  &lt;span class="c1"&gt;# 讓 NameNode 可不用密碼登入 DataNode&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;安裝 Hadoop&lt;/p&gt;
@@ -20184,8 +20184,8 @@ slave-2-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;開啟伺服器
 最後在 NameNode 上執行以下指令將 cluster 啟動（可能需要重新登入讓 PATH 設定生效）：&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;hadoop namenode -format  &lt;span class="c1"&gt;# 格式化檔案系統
-&lt;/span&gt;&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;start-all.sh  # 啟動所有服務（包含 HDFS）&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;hadoop namenode -format  &lt;span class="c1"&gt;# 格式化檔案系統&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;start-all.sh  &lt;span class="c1"&gt;# 啟動所有服務（包含 HDFS）&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 
@@ -20317,8 +20317,8 @@ slave-2-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換：&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;setxkbmap dvorak &lt;span class="c1"&gt;# 更動成 dvorak
-&lt;/span&gt;&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;setxkbmap us     # 還原成 us 標準鍵盤&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;setxkbmap dvorak &lt;span class="c1"&gt;# 更動成 dvorak&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;setxkbmap us     &lt;span class="c1"&gt;# 還原成 us 標準鍵盤&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;h2 id="xrdp"&gt;Xrdp&lt;/h2&gt;
@@ -20489,8 +20489,8 @@ language settings.&lt;/p&gt;
 
 &lt;p&gt;If you want to set the layout temporarily, you could also use the following commands:&lt;/p&gt;
 
-&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;setxkbmap dvorak &lt;span class="c1"&gt;# change to dvorak
-&lt;/span&gt;&lt;/span&gt;&lt;span class="hl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;setxkbmap us # change back to qwerty&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;setxkbmap dvorak &lt;span class="c1"&gt;# change to dvorak&lt;/span&gt;
+&lt;/span&gt;&lt;span class="hl"&gt;setxkbmap us &lt;span class="c1"&gt;# change back to qwerty&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;h2 id="xrdp"&gt;Xrdp&lt;/h2&gt;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.49.2" />
+  <meta name="generator" content="Hugo 0.51" />
   <meta charset="utf-8">
   <title>密碼管理心得筆記 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -191,8 +191,8 @@ if (!doNotTrack) {
 
 
 <p>緊接著參考 <a href="https://github.com/drduh/YubiKey-Guide">YubiKey-Guide</a>，更改 <code>~/.gnupg/gpg.conf</code> 的內容加入以下片段：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># ~/.gnupg/gpg.conf
-</span><span class="c1"></span>use-agent
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># ~/.gnupg/gpg.conf</span>
+use-agent
 personal-cipher-preferences AES256 AES192 AES CAST5
 personal-digest-preferences SHA512 SHA384 SHA256 SHA224
 default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
@@ -551,8 +551,8 @@ Your selection? <span class="m">3</span></code></pre></div>
 
 <p>也可以自動產生密碼：</p>
 
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># generate a password of length 15
-</span><span class="hl"><span class="c1"></span>pass generate social/facebook <span class="m">15</span></span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># generate a password of length 15</span>
+<span class="hl">pass generate social/facebook <span class="m">15</span></span></code></pre></div></div>
 
 
 <p>其他指令，詳請可執行 <code>man pass</code>。</p>
@@ -568,8 +568,8 @@ Your selection? <span class="m">3</span></code></pre></div>
 <h3 id="設定-1">設定</h3>
 
 <p>感覺很多 keys 實在很麻煩，而既然已經有那麼安全的 OpenPGP keys 可用，我們也想直接用當初放在 YubiKey 上的 authentication subkey 來<a href="https://incenp.org/notes/2014/gnupg-for-ssh-authentication.html">取代原本在用的 SSH key</a>。首先編輯 <code>~/.gnupg/gpg-agent.conf</code>：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># ~/.gnupg/gpg-agent.conf
-</span><span class="c1"></span>enable-ssh-support
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># ~/.gnupg/gpg-agent.conf</span>
+enable-ssh-support
 pinentry-program /usr/bin/pinentry-curses
 default-cache-ttl <span class="m">60</span>
 max-cache-ttl <span class="m">120</span></code></pre></div>
@@ -612,7 +612,7 @@ gpg-connect-agent updatestartuptty /bye &gt; /dev/null <span class="m">2</span>&
   載入 Disqus 評論
 </div>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
+<script>
   var disqus_config = function () {
     this.page.url = "https://city.shaform.com/zh/2017/05/28/password-management/";
   };
@@ -701,6 +701,22 @@ gpg-connect-agent updatestartuptty /bye &gt; /dev/null <span class="m">2</span>&
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+  if ($('#load_disqus').length) {
+    $(window).scroll(function() {
+      if ($('#load_disqus').length) {
+        var elementTop = $('#load_disqus').offset().top;
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + $(window).height();
+        if (viewportTop < elementTop && elementTop < viewportBottom) {
+          load_disqus();
+        }
+      }
+    });
+  }
+});
+</script>
 
 </body>
 </html>

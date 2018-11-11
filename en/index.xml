@@ -400,32 +400,32 @@ for sentiment analysis, this time we utilize the scripts provided
 by &lt;a href=&#34;https://github.com/mesnilgr/iclr15&#34;&gt;mesnilgr/iclr15&lt;/a&gt; to download the &lt;a href=&#34;http://ai.stanford.edu/~amaas/data/sentiment/&#34;&gt;Large Movie Review Dataset&lt;/a&gt;
 so it&amp;rsquo;s easier to reproduce the results.&lt;/p&gt;
 
-&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# get mesnilgr/iclr15
-&lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;git clone https://github.com/mesnilgr/iclr15
+&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# get mesnilgr/iclr15&lt;/span&gt;
+&lt;span class=&#34;hl&#34;&gt;git clone https://github.com/mesnilgr/iclr15
 &lt;/span&gt;
 &lt;span class=&#34;hl&#34;&gt;mkdir -p iclr15_run
 &lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; iclr15_run
 &lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# get data
-&lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;../iclr15/scripts/data.sh&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;span class=&#34;c1&#34;&gt;# get data&lt;/span&gt;
+&lt;span class=&#34;hl&#34;&gt;../iclr15/scripts/data.sh&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Afterwards, we create the &lt;a href=&#34;http://arxiv.org/abs/1405.4053&#34;&gt;Paragraph Vectors&lt;/a&gt; for each review. Paragraph
 Vectors are fixed-dimensional distributed representations for texts. Once we
 convert each review into a vector, we could easily feed it into a neural network.&lt;/p&gt;
 
-&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# extract the part to create paragraph vectors from iclr15 scripts
-&lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;sed -e &lt;span class=&#34;s1&#34;&gt;&amp;#39;/liblinear/,$d&amp;#39;&lt;/span&gt; ../iclr15/scripts/paragraph.sh &amp;gt; paragraph.sh
+&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# extract the part to create paragraph vectors from iclr15 scripts&lt;/span&gt;
+&lt;span class=&#34;hl&#34;&gt;sed -e &lt;span class=&#34;s1&#34;&gt;&amp;#39;/liblinear/,$d&amp;#39;&lt;/span&gt; ../iclr15/scripts/paragraph.sh &amp;gt; paragraph.sh
 &lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# start creating the vectors
-&lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;chmod +x paragraph.sh
+&lt;span class=&#34;c1&#34;&gt;# start creating the vectors&lt;/span&gt;
+&lt;span class=&#34;hl&#34;&gt;chmod +x paragraph.sh
 &lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;./paragraph.sh&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Finally, we copy the resulting files.&lt;/p&gt;
 
-&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# copy the vectors
-&lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; word2vec
+&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# copy the vectors&lt;/span&gt;
+&lt;span class=&#34;hl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; word2vec
 &lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;cp full-train.txt test.txt ../../
 &lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; ../../&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -696,8 +696,8 @@ language settings.&lt;/p&gt;
 
 &lt;p&gt;If you want to set the layout temporarily, you could also use the following commands:&lt;/p&gt;
 
-&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;hl&#34;&gt;setxkbmap dvorak &lt;span class=&#34;c1&#34;&gt;# change to dvorak
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;setxkbmap us # change back to qwerty&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;hl&#34;&gt;setxkbmap dvorak &lt;span class=&#34;c1&#34;&gt;# change to dvorak&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;setxkbmap us &lt;span class=&#34;c1&#34;&gt;# change back to qwerty&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;h2 id=&#34;xrdp&#34;&gt;Xrdp&lt;/h2&gt;
