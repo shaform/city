@@ -6,10 +6,93 @@
     <description>Recent content on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 11 Nov 2018 11:40:00 -0500</lastBuildDate>
+    <lastBuildDate>Sat, 08 Dec 2018 20:20:00 -0500</lastBuildDate>
     
         <atom:link href="https://city.shaform.com/zh/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案</title>
+      <link>https://city.shaform.com/zh/2018/12/08/gocryptfs/</link>
+      <pubDate>Sat, 08 Dec 2018 20:20:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2018/12/08/gocryptfs/</guid>
+      
+        <description>
+
+&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+
+&lt;p&gt;當使用 &lt;a href=&#34;https://dropbox.com&#34;&gt;Dropbox&lt;/a&gt; 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 &lt;a href=&#34;https://www.veracrypt.fr/en/Home.html&#34;&gt;VeraCrypt&lt;/a&gt; 之類的加密硬碟技術在 Dropbox 裡存放一個加密檔案空間，但由於整個加密空間視為一個檔案，如檔案太大則同步時可能會花上不少時間。&lt;/p&gt;
+
+&lt;p&gt;研究了一下後發現，其實也是有把加密空間表示成許多檔案的加密工具，例如像是 &lt;a href=&#34;https://github.com/rfjakob/gocryptfs&#34;&gt;gocryptfs&lt;/a&gt; 就是一例。&lt;/p&gt;
+
+&lt;p&gt;本文便簡單紀錄 gocryptfs 的用法。&lt;/p&gt;
+
+&lt;h2 id=&#34;安裝&#34;&gt;安裝&lt;/h2&gt;
+
+&lt;p&gt;要在 Ubuntu 底下安裝 gocryptfs 相當容易，可以使用以下指令：&lt;/p&gt;
+
+&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;hl&#34;&gt;sudo apt install gocryptfs&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+
+&lt;h2 id=&#34;建立加密資料夾&#34;&gt;建立加密資料夾&lt;/h2&gt;
+
+&lt;p&gt;建立加密資料夾相當容易，首先進到和雲端同步的檔案夾，例如像是 &lt;code&gt;$HOME/Dropbox&lt;/code&gt;，然後直接建立一個新資料夾，並用 &lt;code&gt;gocryptfs -init&lt;/code&gt; 指令初始化:&lt;/p&gt;
+
+&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;hl&#34;&gt;mkdir ENCRYPTED_DIR
+&lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;gocryptfs -init ENCRYPTED_DIR
+&lt;/span&gt;Choose a password &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; protecting your files.
+Password: 
+Repeat: 
+The gocryptfs filesystem has been created successfully.
+You can now mount it using: gocryptfs ENCRYPTED_DIR MOUNTPOINT&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+
+&lt;p&gt;裡頭大概會長這樣：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ENCRYPTED_DIR/
+├── gocryptfs.conf
+└── gocryptfs.diriv&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&#34;掛載加密資料夾&#34;&gt;掛載加密資料夾&lt;/h2&gt;
+
+&lt;p&gt;緊接著，在其他非雲端同步的地方建立掛載點，並掛載加密資料夾：&lt;/p&gt;
+
+&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;hl&#34;&gt;mkdir MOUNT_DIR
+&lt;/span&gt;&lt;span class=&#34;hl&#34;&gt;gocryptfs &lt;span class=&#34;nv&#34;&gt;$DROPBOX_DIR&lt;/span&gt;/ENCRYPTED_DIR MOUNT_DIR
+&lt;/span&gt;Password:
+Decrypting master key
+
+Your master key is:
+
+    ********-********-********-********-
+    ********-********-********-********
+
+If the gocryptfs.conf file becomes corrupted or you ever forget your password,
+there is only one hope &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; recovery: The master key. Print it to a piece of
+paper and store it in a drawer. Use &lt;span class=&#34;s2&#34;&gt;&amp;#34;-q&amp;#34;&lt;/span&gt; to suppress this message.
+
+Filesystem mounted and ready.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+
+&lt;p&gt;這樣就能在 &lt;code&gt;MOUNT_DIR&lt;/code&gt; 資料夾裡頭存取檔案了。比如說我們可以隨便新增一個檔案：
+&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;hl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; &amp;gt; MOUNT_DIR/test.txt&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;則就可以看到加密資料夾裡頭的加密檔也同步更新，並同步到雲端硬碟上：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ENCRYPTED_DIR/
+├── 76h5Zq2yx76i5OP3HrrS3A
+├── gocryptfs.conf
+└── gocryptfs.diriv&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&#34;卸載加密資料夾&#34;&gt;卸載加密資料夾&lt;/h2&gt;
+
+&lt;p&gt;最後要把資料夾關閉則可使用以下指令：&lt;/p&gt;
+
+&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;hl&#34;&gt;fusermount -u MOUNT_DIR&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+
+&lt;p&gt;下次要打開加密資料夾存取，則再次使用 &lt;code&gt;gocryptfs ENCRYPTED_DIR MOUNT_DIR&lt;/code&gt; 指令即可。&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>使用 Zarr 儲存資料集並用 PyTorch Dataset 讀取</title>

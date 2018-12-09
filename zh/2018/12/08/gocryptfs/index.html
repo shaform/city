@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.52" />
+  <meta charset="utf-8">
+  <title>使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="前言 當使用 Dropbox 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 VeraCrypt 之類的加密硬碟技術在 Dropbox" />
+
+  <meta name="keywords" content="Shaform, open source, Python, machine learning, software" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link rel="stylesheet" href="https://city.shaform.com/css/den.css">
+
+
+
+
+<meta property="og:title" content="使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案" />
+<meta property="og:description" content="前言 當使用 Dropbox 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 VeraCrypt 之類的加密硬碟技術在 Dropbox" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2018/12/08/gocryptfs/" /><meta property="article:published_time" content="2018-12-08T20:20:00-05:00"/>
+<meta property="article:modified_time" content="2018-12-08T20:20:00-05:00"/>
+
+<meta itemprop="name" content="使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案">
+<meta itemprop="description" content="前言 當使用 Dropbox 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 VeraCrypt 之類的加密硬碟技術在 Dropbox">
+
+
+<meta itemprop="datePublished" content="2018-12-08T20:20:00-05:00" />
+<meta itemprop="dateModified" content="2018-12-08T20:20:00-05:00" />
+<meta itemprop="wordCount" content="555">
+
+
+
+<meta itemprop="keywords" content="gocryptfs," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案"/>
+<meta name="twitter:description" content="前言 當使用 Dropbox 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 VeraCrypt 之類的加密硬碟技術在 Dropbox"/>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-13132274-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://city.shaform.com/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      
+        <a class="float-left" href="https://city.shaform.com/zh/">
+      
+        
+        <img class="mr20 header-logo-image" src="https://city.shaform.com/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              
+                <a class="nav-link" href="https://city.shaform.com/zh/category/ideas/">點子</a>
+              
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              
+                <a class="nav-link" href="https://city.shaform.com/zh/category/notes/">筆記</a>
+              
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              
+                <a class="nav-link" href="https://city.shaform.com/zh/category/projects/">專案</a>
+              
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              
+                <a class="nav-link" href="https://www.google.com/search?q=site:city.shaform.com">搜尋</a>
+              
+            
+          </li>
+        
+        
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://city.shaform.com/en/"><i class="fas fa-globe"></i> English</a>
+            </li>
+          
+          
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案</h1>
+        <p class="header-date">作者：
+          Yong-Siang Shih /
+        
+        Sat 08 December 2018
+          / 分類：
+          <a href="https://city.shaform.com/zh/category/notes/">Notes</a>
+        </p>
+        
+        <div class="header-underline"></div>
+        
+          <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="https://city.shaform.com/zh/tag/gocryptfs/">gocryptfs</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+<div class="container content">
+  
+
+<h2 id="前言">前言</h2>
+
+<p>當使用 <a href="https://dropbox.com">Dropbox</a> 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 <a href="https://www.veracrypt.fr/en/Home.html">VeraCrypt</a> 之類的加密硬碟技術在 Dropbox 裡存放一個加密檔案空間，但由於整個加密空間視為一個檔案，如檔案太大則同步時可能會花上不少時間。</p>
+
+<p>研究了一下後發現，其實也是有把加密空間表示成許多檔案的加密工具，例如像是 <a href="https://github.com/rfjakob/gocryptfs">gocryptfs</a> 就是一例。</p>
+
+<p>本文便簡單紀錄 gocryptfs 的用法。</p>
+
+<h2 id="安裝">安裝</h2>
+
+<p>要在 Ubuntu 底下安裝 gocryptfs 相當容易，可以使用以下指令：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install gocryptfs</span></code></pre></div></div>
+
+
+<h2 id="建立加密資料夾">建立加密資料夾</h2>
+
+<p>建立加密資料夾相當容易，首先進到和雲端同步的檔案夾，例如像是 <code>$HOME/Dropbox</code>，然後直接建立一個新資料夾，並用 <code>gocryptfs -init</code> 指令初始化:</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">mkdir ENCRYPTED_DIR
+</span><span class="hl">gocryptfs -init ENCRYPTED_DIR
+</span>Choose a password <span class="k">for</span> protecting your files.
+Password: 
+Repeat: 
+The gocryptfs filesystem has been created successfully.
+You can now mount it using: gocryptfs ENCRYPTED_DIR MOUNTPOINT</code></pre></div></div>
+
+
+<p>裡頭大概會長這樣：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ENCRYPTED_DIR/
+├── gocryptfs.conf
+└── gocryptfs.diriv</code></pre></div>
+<h2 id="掛載加密資料夾">掛載加密資料夾</h2>
+
+<p>緊接著，在其他非雲端同步的地方建立掛載點，並掛載加密資料夾：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">mkdir MOUNT_DIR
+</span><span class="hl">gocryptfs <span class="nv">$DROPBOX_DIR</span>/ENCRYPTED_DIR MOUNT_DIR
+</span>Password:
+Decrypting master key
+
+Your master key is:
+
+    ********-********-********-********-
+    ********-********-********-********
+
+If the gocryptfs.conf file becomes corrupted or you ever forget your password,
+there is only one hope <span class="k">for</span> recovery: The master key. Print it to a piece of
+paper and store it in a drawer. Use <span class="s2">&#34;-q&#34;</span> to suppress this message.
+
+Filesystem mounted and ready.</code></pre></div></div>
+
+
+<p>這樣就能在 <code>MOUNT_DIR</code> 資料夾裡頭存取檔案了。比如說我們可以隨便新增一個檔案：
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">echo</span> <span class="nb">test</span> &gt; MOUNT_DIR/test.txt</span></code></pre></div></div>
+</p>
+
+<p>則就可以看到加密資料夾裡頭的加密檔也同步更新，並同步到雲端硬碟上：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ENCRYPTED_DIR/
+├── 76h5Zq2yx76i5OP3HrrS3A
+├── gocryptfs.conf
+└── gocryptfs.diriv</code></pre></div>
+<h2 id="卸載加密資料夾">卸載加密資料夾</h2>
+
+<p>最後要把資料夾關閉則可使用以下指令：</p>
+
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">fusermount -u MOUNT_DIR</span></code></pre></div></div>
+
+
+<p>下次要打開加密資料夾存取，則再次使用 <code>gocryptfs ENCRYPTED_DIR MOUNT_DIR</code> 指令即可。</p>
+
+
+  
+  
+    
+    <div class="author-card">
+    <div class="underline"></div>
+    <div class="author-box">
+      <div class="author-image"><a href="https://shaform.com"><img src="/images/shaform.jpg" alt="Yong-Siang Shih" /></a></div>
+      <div class="author-content">
+      <p class="author-title">作者</p>
+      <p class="author-name">Yong-Siang Shih</p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。</p>
+      </div>
+    </div>
+  </div>
+    
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://city.shaform.com/zh/2018/12/08/gocryptfs/";
+  };
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    dsq.setAttribute('data-timestamp', +new Date());
+    (document.head || document.body).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+<div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              
+                <li><a href="https://city.shaform.com/zh/tags/">標籤</a></li>
+              
+              
+                <li><a href="https://city.shaform.com/zh/categories/">分類</a></li>
+              
+            
+            
+            
+            <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml"><i class="fas fa-rss-square"></i> RSS 訂閱</a></li>
+            
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-theme-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2018
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+  if ($('#load_disqus').length) {
+    $(window).scroll(function() {
+      if ($('#load_disqus').length) {
+        var elementTop = $('#load_disqus').offset().top;
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + $(window).height();
+        if (viewportTop < elementTop && elementTop < viewportBottom) {
+          load_disqus();
+        }
+      }
+    });
+  }
+});
+</script>
+
+</body>
+</html>

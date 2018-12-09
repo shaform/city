@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gocryptfs on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/gocryptfs/</link>
+    <description>Recent content in gocryptfs on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 08 Dec 2018 20:20:00 -0500</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/gocryptfs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案</title>
+      <link>https://city.shaform.com/zh/2018/12/08/gocryptfs/</link>
+      <pubDate>Sat, 08 Dec 2018 20:20:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2018/12/08/gocryptfs/</guid>
+      <description>前言 當使用 Dropbox 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 VeraCrypt 之類的加密硬碟技術在 Dropbox</description>
+    </item>
+    
+  </channel>
+</rss>
