@@ -3476,6 +3476,10 @@ pip install -U pip&lt;/p&gt;
 &lt;p&gt;做完分析感覺 PTT 實在是一個寶庫，尤其各種特殊看板似乎很適合拿來測風向。不知還能做出什麼分析應用呢？&lt;/p&gt;
 
 &lt;p&gt;這次實驗所用到的程式碼按照慣例放在 GitHub 上面供參考：&lt;a href=&#34;https://github.com/shaform/experiments/tree/master/scrapy&#34;&gt;https://github.com/shaform/experiments/tree/master/scrapy&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;連結&#34;&gt;連結&lt;/h2&gt;
+
+&lt;p&gt;若您喜歡這篇文章，或許你也會對下一篇：&lt;a href=&#34;https://city.shaform.com/zh/2017/05/13/scrapy-cloud/&#34;&gt;〈Scrapy Cloud + Scrapy 網路爬蟲〉&lt;/a&gt;感興趣。&lt;/p&gt;
 </description>
       
     </item>
