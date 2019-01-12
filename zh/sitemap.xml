@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://city.shaform.com/zh/2019/01/11/plurk-crawler/</loc>
+    <lastmod>2019-01-11T20:40:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://city.shaform.com/zh/2018/12/08/gocryptfs/</loc>
     <lastmod>2018-12-08T20:20:00-05:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -430,7 +437,7 @@
   
   <url>
     <loc>https://city.shaform.com/zh/category/notes/</loc>
-    <lastmod>2018-12-08T20:20:00-05:00</lastmod>
+    <lastmod>2019-01-11T20:40:00-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -464,8 +471,15 @@
   </url>
   
   <url>
+    <loc>https://city.shaform.com/zh/tag/plurk/</loc>
+    <lastmod>2019-01-11T20:40:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://city.shaform.com/zh/posts/</loc>
-    <lastmod>2018-12-08T20:20:00-05:00</lastmod>
+    <lastmod>2019-01-11T20:40:00-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -632,6 +646,13 @@
   </url>
   
   <url>
+    <loc>https://city.shaform.com/zh/tag/crawler/</loc>
+    <lastmod>2019-01-11T20:40:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://city.shaform.com/zh/tag/deep-learning/</loc>
     <lastmod>2017-04-04T15:37:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -648,6 +669,13 @@
   <url>
     <loc>https://city.shaform.com/zh/tag/gnupg/</loc>
     <lastmod>2017-05-28T20:11:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/zh/tag/go/</loc>
+    <lastmod>2019-01-11T20:40:00-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -899,7 +927,7 @@
   
   <url>
     <loc>https://city.shaform.com/zh/</loc>
-    <lastmod>2018-12-08T20:20:00-05:00</lastmod>
+    <lastmod>2019-01-11T20:40:00-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

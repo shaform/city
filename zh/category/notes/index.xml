@@ -6,10 +6,19 @@
     <description>Recent content in Notes on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 08 Dec 2018 20:20:00 -0500</lastBuildDate>
+    <lastBuildDate>Fri, 11 Jan 2019 20:40:00 -0500</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/zh/category/notes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用 Go 撰寫 Plurk 噗浪偷偷說網路爬蟲</title>
+      <link>https://city.shaform.com/zh/2019/01/11/plurk-crawler/</link>
+      <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2019/01/11/plurk-crawler/</guid>
+      <description>前言 記得剛開始學習 Go 好像是在 2013 年的時候，不過後來就一直沒太多機會使用。最近剛好想寫個爬蟲，於是就決定用 Go 來練習看看。 這次的目標是 Plurk 噗浪上的「</description>
+    </item>
     
     <item>
       <title>使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案</title>
