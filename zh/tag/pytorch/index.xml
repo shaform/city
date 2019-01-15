@@ -6,10 +6,19 @@
     <description>Recent content in PyTorch on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 11 Nov 2018 11:40:00 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/zh/tag/pytorch/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>在 PyTorch 中重新排序資料來使用 PackedSequence</title>
+      <link>https://city.shaform.com/zh/2019/01/15/sort-sequences-in-pytorch/</link>
+      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2019/01/15/sort-sequences-in-pytorch/</guid>
+      <description>前言 使用 PyTorch 的 PackedSequence 雖然可以較快速的處理長短不一的序列資料，但是用起來有個不方便的地方。就是同一個 batch 裡的資料，長度必須由長到短排列。但是如果是在做</description>
+    </item>
     
     <item>
       <title>使用 Zarr 儲存資料集並用 PyTorch Dataset 讀取</title>

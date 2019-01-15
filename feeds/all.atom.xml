@@ -5,10 +5,145 @@
     <description>Recent content on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 11 Jan 2019 20:40:00 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
     
         <atom:link href="https://city.shaform.com/feeds/all.atom.xml" rel="self" type="application/rss+xml"/>
     
+    
+    <item>
+      <title>在 PyTorch 中重新排序資料來使用 PackedSequence</title>
+      <link>https://city.shaform.com/zh/2019/01/15/sort-sequences-in-pytorch/</link>
+      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2019/01/15/sort-sequences-in-pytorch/</guid>
+      
+        <description>
+
+&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+
+&lt;p&gt;使用 &lt;a href="https://pytorch.org/"&gt;PyTorch&lt;/a&gt; 的 &lt;a href="https://pytorch.org/docs/stable/nn.html#torch.nn.utils.rnn.PackedSequence"&gt;PackedSequence&lt;/a&gt; 雖然可以較快速的處理長短不一的序列資料，但是用起來有個不方便的地方。就是同一個 batch 裡的資料，長度必須由長到短排列。但是如果是在做機器翻譯之類的 &lt;a href="https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html"&gt;Seq2Seq&lt;/a&gt; 應用，同時有輸入字串和輸出字串，兩者的長度排序不見得會完全一樣。此時簡單的作法是照輸入排序，然後在 encoder 使用 PackedSequence，但是 decoder 就不要使用。但是其實也可以在 decoder 輸入時，先把資料排序，然後等 decoder 輸出後，再重新把資料轉換為原本的順序。本文就紀錄這種作法。&lt;/p&gt;
+
+&lt;p&gt;註：新版的 PyTorch 將會&lt;a href="https://github.com/pytorch/pytorch/pull/15225"&gt;內建這種功能&lt;/a&gt;，就不用再使用本文的做法了。&lt;/p&gt;
+
+
+&lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
+&lt;div class="box"&gt;
+  &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
+    &lt;div class="img"&gt;
+      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2019/geese.jpg" alt="Order" /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
+
+&lt;h2 id="排序資料"&gt;排序資料&lt;/h2&gt;
+
+&lt;p&gt;首先定義一個 &lt;code&gt;sort_sequences&lt;/code&gt; 函式，將輸入的 &lt;code&gt;inputs&lt;/code&gt; 照長度排序，並且回傳排好的 &lt;code&gt;inputs&lt;/code&gt;, 排好的長度 &lt;code&gt;lengths_sorted&lt;/code&gt;, 以及可以用來把序列轉回原始排序的 &lt;code&gt;unsorted_idx&lt;/code&gt;。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;sort_sequences&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;#34;&amp;#34;&amp;#34;sort_sequences
+&lt;/span&gt;&lt;span class="s2"&gt;    Sort sequences according to lengths descendingly.
+&lt;/span&gt;&lt;span class="s2"&gt;
+&lt;/span&gt;&lt;span class="s2"&gt;    :param inputs (Tensor): input sequences, size [B, T, D]
+&lt;/span&gt;&lt;span class="s2"&gt;    :param lengths (Tensor): length of each sequence, size [B]
+&lt;/span&gt;&lt;span class="s2"&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+    &lt;span class="n"&gt;lengths_sorted&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sorted_idx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;descending&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sorted_idx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;sorted_idx&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;lengths_sorted&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="在-rnn-中的實際用法"&gt;在 RNN 中的實際用法&lt;/h2&gt;
+
+&lt;p&gt;在輸入 RNN 之前，先用 &lt;code&gt;sort_sequences&lt;/code&gt; 把序列排好，然後再使用 &lt;code&gt;pack_padded_sequence&lt;/code&gt; 將資料轉成 &lt;code&gt;PackedSequence&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;輸出之後，利用 &lt;code&gt;unsorted_idx&lt;/code&gt; 把資料再轉回原本的排序即可。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;RNN&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Module&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;forward&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+          &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sorted_lengths&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sort_sequences&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+              &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="n"&gt;inputs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;torch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;utils&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rnn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pack_padded_sequence&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+              &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sorted_lengths&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;batch_first&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+      &lt;span class="n"&gt;outputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ct&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lstm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+          &lt;span class="n"&gt;outputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;torch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;utils&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rnn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pad_packed_sequence&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+              &lt;span class="n"&gt;outputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;batch_first&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="n"&gt;outputs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;outputs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="n"&gt;ht&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="n"&gt;ct&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;這種寫法依然還是可以正常的進行 backpropagation，所以轉回原本序列的 tensors 可以直接傳出去，外頭也不會發現在這裡我們曾經重新排序了兩次。&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>Sort Sequences for PackedSequence in PyTorch</title>
+      <link>https://city.shaform.com/en/2019/01/15/sort-sequences-in-pytorch/</link>
+      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/en/2019/01/15/sort-sequences-in-pytorch/</guid>
+      
+        <description>
+
+&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+
+&lt;p&gt;Although using &lt;a href="https://pytorch.org/docs/stable/nn.html#torch.nn.utils.rnn.PackedSequence"&gt;PackedSequence&lt;/a&gt; in &lt;a href="https://pytorch.org/"&gt;PyTorch&lt;/a&gt; allows faster processing for sequential data, there is something inconvenient: the sequences must be sorted according to lengths in a batch.
+If we are doing &lt;a href="https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html"&gt;Seq2Seq&lt;/a&gt; such as machine translation, there exist input and output sequences, and their lengths might not match.
+We could simply sort the sequences according to lengths of input and only use PackedSequence in encoder while not using it in decoder.
+But there is another approach: sort sequences again for decoder and &lt;em&gt;unsort&lt;/em&gt; the output later. This note is about the second approach.&lt;/p&gt;
+
+&lt;p&gt;P.s., the newer version of PyTorch is going to have &lt;a href="https://github.com/pytorch/pytorch/pull/15225"&gt;built-in support for this&lt;/a&gt;, once it&amp;rsquo;s released, it&amp;rsquo;s no longer needed to implement it by ourselves.&lt;/p&gt;
+
+
+&lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
+&lt;div class="box"&gt;
+  &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
+    &lt;div class="img"&gt;
+      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2019/geese.jpg" alt="Order" /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
+
+&lt;h2 id="sort-the-sequences"&gt;Sort the Sequences&lt;/h2&gt;
+
+&lt;p&gt;Firstly, we define a function &lt;code&gt;sort_sequences&lt;/code&gt; to sort &lt;code&gt;inputs&lt;/code&gt; according to lengths. Three outputs are returned: the sorted data, &lt;code&gt;inputs&lt;/code&gt;, sorted lengths, &lt;code&gt;lengths_sorted&lt;/code&gt;, and a &lt;code&gt;unsorted_idx&lt;/code&gt;, which could be used to unsort data later.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;sort_sequences&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;#34;&amp;#34;&amp;#34;sort_sequences
+&lt;/span&gt;&lt;span class="s2"&gt;    Sort sequences according to lengths descendingly.
+&lt;/span&gt;&lt;span class="s2"&gt;
+&lt;/span&gt;&lt;span class="s2"&gt;    :param inputs (Tensor): input sequences, size [B, T, D]
+&lt;/span&gt;&lt;span class="s2"&gt;    :param lengths (Tensor): length of each sequence, size [B]
+&lt;/span&gt;&lt;span class="s2"&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+    &lt;span class="n"&gt;lengths_sorted&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sorted_idx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;descending&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sorted_idx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;sorted_idx&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;lengths_sorted&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="using-sort-sequences-in-rnns"&gt;Using &lt;code&gt;sort_sequences&lt;/code&gt; in RNNs&lt;/h2&gt;
+
+&lt;p&gt;Before feeding the data into RNNs, use &lt;code&gt;sort_sequences&lt;/code&gt; to sort the data, and then use &lt;code&gt;pack_padded_sequence&lt;/code&gt; to convert the data into &lt;code&gt;PackedSequence&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Afterwards, we could use &lt;code&gt;unsorted_idx&lt;/code&gt; to unsort both output and output hidden vectors.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;RNN&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Module&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;forward&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+          &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sorted_lengths&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sort_sequences&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+              &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="n"&gt;inputs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;torch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;utils&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rnn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pack_padded_sequence&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+              &lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sorted_lengths&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;batch_first&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+      &lt;span class="n"&gt;outputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ct&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lstm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+          &lt;span class="n"&gt;outputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;torch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;utils&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rnn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pad_packed_sequence&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+              &lt;span class="n"&gt;outputs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;batch_first&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="n"&gt;outputs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;outputs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="n"&gt;ht&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="n"&gt;ct&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The resulting tensors could still do backpropagation as usual, so the unsorted tensors could be returned directly.&lt;/p&gt;
+</description>
+      
+    </item>
     
     <item>
       <title>使用 Go 撰寫 Plurk 噗浪偷偷說網路爬蟲</title>

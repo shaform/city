@@ -6,10 +6,19 @@
     <description>Recent content in Posts on City of Wings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 22 Jul 2018 14:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/en/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Sort Sequences for PackedSequence in PyTorch</title>
+      <link>https://city.shaform.com/en/2019/01/15/sort-sequences-in-pytorch/</link>
+      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/en/2019/01/15/sort-sequences-in-pytorch/</guid>
+      <description>前言 Although using PackedSequence in PyTorch allows faster processing for sequential data, there is something inconvenient: the sequences must be sorted according to lengths in a batch. If we are doing Seq2Seq such as machine translation, there exist input and output sequences, and their lengths might not match. We could simply sort the sequences according to lengths of input and only use PackedSequence in encoder while not using it</description>
+    </item>
     
     <item>
       <title>Migrate from Pelican and WordPress to Hugo</title>

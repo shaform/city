@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PackedSequence on 翼之都</title>
+    <link>https://city.shaform.com/zh/tag/packedsequence/</link>
+    <description>Recent content in PackedSequence on 翼之都</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/zh/tag/packedsequence/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在 PyTorch 中重新排序資料來使用 PackedSequence</title>
+      <link>https://city.shaform.com/zh/2019/01/15/sort-sequences-in-pytorch/</link>
+      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2019/01/15/sort-sequences-in-pytorch/</guid>
+      <description>前言 使用 PyTorch 的 PackedSequence 雖然可以較快速的處理長短不一的序列資料，但是用起來有個不方便的地方。就是同一個 batch 裡的資料，長度必須由長到短排列。但是如果是在做</description>
+    </item>
+    
+  </channel>
+</rss>

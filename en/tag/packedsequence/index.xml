@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PackedSequence on City of Wings</title>
+    <link>https://city.shaform.com/en/tag/packedsequence/</link>
+    <description>Recent content in PackedSequence on City of Wings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
+    
+	<atom:link href="https://city.shaform.com/en/tag/packedsequence/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Sort Sequences for PackedSequence in PyTorch</title>
+      <link>https://city.shaform.com/en/2019/01/15/sort-sequences-in-pytorch/</link>
+      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/en/2019/01/15/sort-sequences-in-pytorch/</guid>
+      <description>前言 Although using PackedSequence in PyTorch allows faster processing for sequential data, there is something inconvenient: the sequences must be sorted according to lengths in a batch. If we are doing Seq2Seq such as machine translation, there exist input and output sequences, and their lengths might not match. We could simply sort the sequences according to lengths of input and only use PackedSequence in encoder while not using it</description>
+    </item>
+    
+  </channel>
+</rss>
