@@ -6287,15 +6287,53 @@ exit&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     </item>
     
     <item>
-      <title>簡單的 BBS 掛站設定</title>
+      <title>簡單的 PTT BBS 掛站設定</title>
       <link>https://city.shaform.com/zh/2014/05/27/stay-on-bbs/</link>
       <pubDate>Tue, 27 May 2014 13:21:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/05/27/stay-on-bbs/</guid>
       
-        <description>&lt;p&gt;很久以前看到了 othree 的&lt;a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/"&gt;〈掛站系統設定篇〉&lt;/a&gt;，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）&lt;/p&gt;
+        <description>
 
-&lt;p&gt;後來我發現其實掛一些我平常在逛的站如 PTT or BS2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。&lt;/p&gt;
+&lt;p&gt;很久以前看到了 othree 的&lt;a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/"&gt;〈掛站系統設定篇〉&lt;/a&gt;，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 PTT 等 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）&lt;/p&gt;
+
+&lt;p&gt;後來我發現其實掛一些我平常在逛的站如 PTT or PTT2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。&lt;/p&gt;
+
+
+&lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
+&lt;div class="box aligncenter" style="max-width:400px;"&gt;
+  &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
+    &lt;div class="img"&gt;
+      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
+
+&lt;h2 id="tmux"&gt;Tmux&lt;/h2&gt;
+
+&lt;p&gt;筆者原本使用 &lt;code&gt;screen&lt;/code&gt;，不過後來換成 &lt;code&gt;tmux&lt;/code&gt; 之後又改了新版的 PTT 掛站指令，感覺更方便了。如下所示，只要放進 &lt;code&gt;~/.bashrc&lt;/code&gt; 之中，則只要打 &lt;code&gt;ptt&lt;/code&gt; 或 &lt;code&gt;ptt2&lt;/code&gt; 就可以連上掛站的 BBS 們了。&lt;/p&gt;
+
+&lt;p&gt;同時也支援在已經打開 tmux 的情況下切換到對應的 session。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="k"&gt;function&lt;/span&gt; ptt&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -n &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="nv"&gt;$TMUX&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nv"&gt;TMUX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; tmux new-session -d -s P1 &lt;span class="s2"&gt;&amp;#34;tmux set status off; ssh bbsu@ptt.cc&amp;#34;&lt;/span&gt; &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt;/dev/null
+    tmux switch-client -t P1
+  &lt;span class="k"&gt;else&lt;/span&gt;
+    tmux new-session -A -s P1 &lt;span class="s2"&gt;&amp;#34;tmux set status off; ssh bbsu@ptt.cc&amp;#34;&lt;/span&gt; 
+  &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; ptt2&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -n &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="nv"&gt;$TMUX&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nv"&gt;TMUX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; tmux new-session -d -s P2 &lt;span class="s2"&gt;&amp;#34;tmux set status off; ssh bbsu@ptt2.cc&amp;#34;&lt;/span&gt; &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&amp;gt;/dev/null
+    tmux switch-client -t P2
+  &lt;span class="k"&gt;else&lt;/span&gt;
+    tmux new-session -A -s P2 &lt;span class="s2"&gt;&amp;#34;tmux set status off; ssh bbsu@ptt2.cc&amp;#34;&lt;/span&gt; 
+  &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="screen"&gt;Screen&lt;/h2&gt;
 
 &lt;p&gt;首先在 &lt;code&gt;$HOME&lt;/code&gt; 目錄建一個叫做 &lt;code&gt;screenrc-bbs&lt;/code&gt; 的資料夾，接下來在資料夾裡根據想逛的 bbs 建立 screenrc 檔案。&lt;/p&gt;
 
