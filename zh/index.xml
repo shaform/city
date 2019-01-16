@@ -26,6 +26,18 @@
 
 &lt;p&gt;註：新版的 PyTorch 將會&lt;a href=&#34;https://github.com/pytorch/pytorch/pull/15225&#34;&gt;內建這種功能&lt;/a&gt;，就不用再使用本文的做法了。&lt;/p&gt;
 
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2019/geese.jpg&#34; alt=&#34;Order&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
+
 &lt;h2 id=&#34;排序資料&#34;&gt;排序資料&lt;/h2&gt;
 
 &lt;p&gt;首先定義一個 &lt;code&gt;sort_sequences&lt;/code&gt; 函式，將輸入的 &lt;code&gt;inputs&lt;/code&gt; 照長度排序，並且回傳排好的 &lt;code&gt;inputs&lt;/code&gt;, 排好的長度 &lt;code&gt;lengths_sorted&lt;/code&gt;, 以及可以用來把序列轉回原始排序的 &lt;code&gt;unsorted_idx&lt;/code&gt;。&lt;/p&gt;

@@ -171,6 +171,18 @@ But there is another approach: sort sequences again for decoder and <em>unsort</
 
 <p>P.s., the newer version of PyTorch is going to have <a href="https://github.com/pytorch/pytorch/pull/15225">built-in support for this</a>, once it&rsquo;s released, it&rsquo;s no longer needed to implement it by ourselves.</p>
 
+
+<link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
+<div class="box">
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/images/2019/geese.jpg" alt="Order" />
+    </div>
+    
+  </figure>
+</div>
+
+
 <h2 id="sort-the-sequences">Sort the Sequences</h2>
 
 <p>Firstly, we define a function <code>sort_sequences</code> to sort <code>inputs</code> according to lengths. Three outputs are returned: the sorted data, <code>inputs</code>, sorted lengths, <code>lengths_sorted</code>, and a <code>unsorted_idx</code>, which could be used to unsort data later.</p>
