@@ -4802,24 +4802,6 @@ In such cases, the files would only contain two 32-bit 0s.&lt;/p&gt;
     </item>
     
     <item>
-      <title>使用 vim-codefmt 自動程式排版</title>
-      <link>https://city.shaform.com/zh/2015/09/20/vim-codefmt/</link>
-      <pubDate>Sun, 20 Sep 2015 15:55:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/2015/09/20/vim-codefmt/</guid>
-      
-        <description>
-
-&lt;p&gt;小時候對程式排版不太計較，總是寫出一些奇怪的程式。上了大學後為了撰寫優美的程式，時常為縮排、空格等等斤斤計較。但長大了以後，就覺得為了這些事情擔心很浪費時間。自從嘗試過 &lt;a href="https://golang.org/"&gt;Go&lt;/a&gt; 之後，就對 &lt;a href="https://golang.org/cmd/gofmt/"&gt;gofmt&lt;/a&gt; 自動排版的概念感到心歡。如果都用程式自動把縮排處理的服服貼貼，就不用太注意要怎麼排版了。&lt;/p&gt;
-
-&lt;p&gt;也因此，看到 &lt;a href="https://github.com/google/vim-codefmt/"&gt;codefmt&lt;/a&gt; 這個自動排版 vim 套件一發佈，我就馬上安裝來嘗鮮，感覺真的很不錯。每次存檔就自動排版，非常方便。之前也想使用 &lt;a href="https://github.com/google/yapf/"&gt;yapf&lt;/a&gt; 不過一直沒有時間。後來看了一下文件發現並不難把他整合到 codefmt 裡，所以就寫了一個 &lt;a href="https://github.com/google/vim-codefmt/pull/56"&gt;pull request&lt;/a&gt;。順便紀錄一下這個小工具供網友參考。&lt;/p&gt;
-
-&lt;h2 id="codefmt"&gt;codefmt&lt;/h2&gt;
-</description>
-      
-    </item>
-    
-    <item>
       <title>用 Apache Spark 來訓練 Word2vec 詞向量 Skip-gram Word Embeddings</title>
       <link>https://city.shaform.com/zh/2015/08/30/spark-for-word2vec/</link>
       <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>

@@ -192,15 +192,6 @@
     </item>
     
     <item>
-      <title>使用 vim-codefmt 自動程式排版</title>
-      <link>https://city.shaform.com/zh/2015/09/20/vim-codefmt/</link>
-      <pubDate>Sun, 20 Sep 2015 15:55:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/2015/09/20/vim-codefmt/</guid>
-      <description>小時候對程式排版不太計較，總是寫出一些奇怪的程式。上了大學後為了撰寫優美的程式，時常為縮排、空格等等斤斤計較。但長大了以後，就覺得為了這些事</description>
-    </item>
-    
-    <item>
       <title>用 Apache Spark 來訓練 Word2vec 詞向量 Skip-gram Word Embeddings</title>
       <link>https://city.shaform.com/zh/2015/08/30/spark-for-word2vec/</link>
       <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
