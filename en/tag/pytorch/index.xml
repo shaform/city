@@ -17,7 +17,7 @@
       <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
       
       <guid>https://city.shaform.com/en/2019/01/15/sort-sequences-in-pytorch/</guid>
-      <description>前言 Although using PackedSequence in PyTorch allows faster processing for sequential data, there is something inconvenient: the sequences must be sorted according to lengths in a batch. If we are doing Seq2Seq such as machine translation, there exist input and output sequences, and their lengths might not match. We could simply sort the sequences according to lengths of input and only use PackedSequence in encoder while not using it</description>
+      <description>Introduction Although using PackedSequence in PyTorch allows faster processing for sequential data, there is something inconvenient: the sequences must be sorted according to lengths in a batch. If we are doing Seq2Seq such as machine translation, there exist input and output sequences, and their lengths might not match. We could simply sort the sequences according to lengths of input and only use PackedSequence in encoder while not using it in decoder.</description>
     </item>
     
   </channel>

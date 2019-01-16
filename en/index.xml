@@ -20,7 +20,7 @@
       
         <description>
 
-&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 
 &lt;p&gt;Although using &lt;a href=&#34;https://pytorch.org/docs/stable/nn.html#torch.nn.utils.rnn.PackedSequence&#34;&gt;PackedSequence&lt;/a&gt; in &lt;a href=&#34;https://pytorch.org/&#34;&gt;PyTorch&lt;/a&gt; allows faster processing for sequential data, there is something inconvenient: the sequences must be sorted according to lengths in a batch.
 If we are doing &lt;a href=&#34;https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html&#34;&gt;Seq2Seq&lt;/a&gt; such as machine translation, there exist input and output sequences, and their lengths might not match.
