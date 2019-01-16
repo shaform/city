@@ -25,18 +25,6 @@
 
 &lt;p&gt;註：新版的 PyTorch 將會&lt;a href="https://github.com/pytorch/pytorch/pull/15225"&gt;內建這種功能&lt;/a&gt;，就不用再使用本文的做法了。&lt;/p&gt;
 
-
-&lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
-&lt;div class="box"&gt;
-  &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
-    &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2019/geese.jpg" alt="Order" /&gt;
-    &lt;/div&gt;
-    
-  &lt;/figure&gt;
-&lt;/div&gt;
-
-
 &lt;h2 id="排序資料"&gt;排序資料&lt;/h2&gt;
 
 &lt;p&gt;首先定義一個 &lt;code&gt;sort_sequences&lt;/code&gt; 函式，將輸入的 &lt;code&gt;inputs&lt;/code&gt; 照長度排序，並且回傳排好的 &lt;code&gt;inputs&lt;/code&gt;, 排好的長度 &lt;code&gt;lengths_sorted&lt;/code&gt;, 以及可以用來把序列轉回原始排序的 &lt;code&gt;unsorted_idx&lt;/code&gt;。&lt;/p&gt;
@@ -93,18 +81,6 @@ We could simply sort the sequences according to lengths of input and only use Pa
 But there is another approach: sort sequences again for decoder and &lt;em&gt;unsort&lt;/em&gt; the output later. This note is about the second approach.&lt;/p&gt;
 
 &lt;p&gt;P.s., the newer version of PyTorch is going to have &lt;a href="https://github.com/pytorch/pytorch/pull/15225"&gt;built-in support for this&lt;/a&gt;, once it&amp;rsquo;s released, it&amp;rsquo;s no longer needed to implement it by ourselves.&lt;/p&gt;
-
-
-&lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
-&lt;div class="box"&gt;
-  &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
-    &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2019/geese.jpg" alt="Order" /&gt;
-    &lt;/div&gt;
-    
-  &lt;/figure&gt;
-&lt;/div&gt;
-
 
 &lt;h2 id="sort-the-sequences"&gt;Sort the Sequences&lt;/h2&gt;
 
