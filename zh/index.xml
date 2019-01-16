@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0">
   <channel>
     <title>翼之都</title>
     <link>https://city.shaform.com/zh/</link>
-    <description>Recent content on 翼之都</description>
+    <description>Recent content on 翼之都</description><webfeeds:icon>https://city.shaform.com/favicon.ico</webfeeds:icon>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
