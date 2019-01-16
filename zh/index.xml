@@ -28,7 +28,7 @@
 
 
 &lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
-&lt;div class=&#34;box&#34;&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
       &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2019/geese.jpg&#34; alt=&#34;Order&#34; /&gt;
@@ -93,6 +93,18 @@
 &lt;p&gt;這次的目標是 Plurk 噗浪上的&lt;a href=&#34;https://www.plurk.com/anonymous&#34;&gt;「偷偷說河道」&lt;/a&gt;。&lt;/p&gt;
 
 &lt;p&gt;本次的程式放在 &lt;a href=&#34;https://github.com/shaform/experiments/tree/master/plurk_crawler&#34;&gt;shaform/experiments/plurk_crawler&lt;/a&gt;。&lt;/p&gt;
+
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2019/cobweb.jpg&#34; alt=&#34;Coweb&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
 
 &lt;h2 id=&#34;環境設定&#34;&gt;環境設定&lt;/h2&gt;
 
@@ -383,6 +395,18 @@ Filesystem mounted and ready.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 &lt;p&gt;下次要打開加密資料夾存取，則再次使用 &lt;code&gt;gocryptfs ENCRYPTED_DIR MOUNT_DIR&lt;/code&gt; 指令即可。&lt;/p&gt;
+
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2017/padlocks.jpg&#34; alt=&#34;Locks&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
 </description>
       
     </item>
@@ -622,6 +646,18 @@ Filesystem mounted and ready.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&#34;結語&#34;&gt;結語&lt;/h2&gt;
 
 &lt;p&gt;本次的實驗程式放在 &lt;a href=&#34;https://github.com/shaform/experiments/tree/master/zarr-dataset&#34;&gt;shaform/experiments/zarr-dataset&lt;/a&gt;。&lt;/p&gt;
+
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2018/storage.jpg&#34; alt=&#34;Storage&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
 </description>
       
     </item>
@@ -719,6 +755,18 @@ ProxyCommand ssh -q -W %h:%p nlgs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;如此一來，就能更方便的做實驗了。&lt;/p&gt;
+
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg&#34; alt=&#34;Notebook&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
 </description>
       
     </item>
@@ -739,6 +787,18 @@ ProxyCommand ssh -q -W %h:%p nlgs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 為了避免未來有需要時忘記作法，便記下筆記當作未來的參考。&lt;/p&gt;
 
 &lt;p&gt;這次將使用 &lt;a href=&#34;https://www.kaggle.com/&#34;&gt;Kaggle&lt;/a&gt; 的 &lt;a href=&#34;https://www.kaggle.com/c/dogs-vs-cats/data&#34;&gt;Dogs vs. Cats 資料集&lt;/a&gt;作為示範，每題會給兩張圖片，要求使用者選出貓貓照片。&lt;/p&gt;
+
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2017/question-mark.jpg&#34; alt=&#34;Question Mark&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
 
 &lt;h2 id=&#34;資料準備&#34;&gt;資料準備&lt;/h2&gt;
 
@@ -1336,6 +1396,18 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null &lt;span class=&#34;m
 &lt;p&gt;YubiKey 同樣可以使用 &lt;a href=&#34;https://www.yubico.com/products/services-software/download/yubico-authenticator/&#34;&gt;Yubico Authenticator&lt;/a&gt; 來支援這個功能，不過能夠支援的網站數有所極限。&lt;/p&gt;
 
 &lt;p&gt;其他還有記憶一個密碼幫你輸入，以及其他更複雜的功能，不過就沒有研究了。詳情可以參考：〈&lt;a href=&#34;https://ruimarinho.gitbooks.io/yubikey-handbook/&#34;&gt;Yubikey Handbook&lt;/a&gt;〉。&lt;/p&gt;
+
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2017/padlocks.jpg&#34; alt=&#34;Locks&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
 </description>
       
     </item>
@@ -1356,6 +1428,18 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null &lt;span class=&#34;m
 &lt;p&gt;只是平常在學校有龐大學術網路資源的支持，撰寫爬蟲還算可行。但自己一個人寫爬蟲就很辛苦了。總會擔心 IP 被阻擋要怎麼辦，還有電腦開太久，到處亂爬，會不會因此被駭客攻擊等問題。&lt;/p&gt;
 
 &lt;p&gt;就在最近，得知有 &lt;a href=&#34;https://scrapinghub.com/scrapy-cloud/&#34;&gt;Scrapy Cloud&lt;/a&gt; 這樣方便的服務，可以用來架設自己的爬蟲，感覺相當方便。於是本文就以 &lt;a href=&#34;https://www.ptt.cc/bbs/Beauty/index.html&#34;&gt;PTT Beauty 板&lt;/a&gt; 為範例，紀錄利用 Scrapy Cloud 撰寫爬蟲的過程。&lt;/p&gt;
+
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2019/cobweb.jpg&#34; alt=&#34;Coweb&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
 
 &lt;h2 id=&#34;環境設置&#34;&gt;環境設置&lt;/h2&gt;
 
@@ -1994,6 +2078,18 @@ html2text==2016.5.29
 &lt;h2 id=&#34;結語&#34;&gt;結語&lt;/h2&gt;
 
 &lt;p&gt;這次為了實做學到不少東西，像是 &lt;code&gt;tf.contrib.layers.batch_norm&lt;/code&gt; 在 share weights 時要如何使用，同時雖然我還沒做完圖像的實驗，不過也學了不少 tensorflow 的 &lt;a href=&#34;https://www.tensorflow.org/api_guides/python/io_ops&#34;&gt;I/O&lt;/a&gt;。希望有空時能更新這篇文章，再加上圖像實驗以及更詳細的 GAN 介紹。&lt;/p&gt;
+
+
+
+&lt;div class=&#34;box aligncenter&#34; style=&#34;max-width:400px;&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg&#34; alt=&#34;Notebook&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
 </description>
       
     </item>
@@ -3117,6 +3213,18 @@ python update.py&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;如今，&lt;a href=&#34;https://pypi.python.org/pypi/Scrapy/1.1.0&#34;&gt;Scrapy 1.1&lt;/a&gt; 釋出，除了一些功能的更新外，他也終於要&lt;a href=&#34;https://github.com/scrapy/scrapy/issues/263&#34;&gt;支援基本的 Python 3&lt;/a&gt; 了！於是抱持著推廣 Python 3 的想法，重拾之前的目標，實際測試了一下網路爬蟲的撰寫。&lt;/p&gt;
 
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2019/cobweb.jpg&#34; alt=&#34;Coweb&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
+
 &lt;h2 id=&#34;環境設置&#34;&gt;環境設置&lt;/h2&gt;
 
 &lt;p&gt;由於這次是要爬 PTT 的資料，為了避免一旦被鎖 IP，就會無法上 PTT，很不方便。所以我特地使用了 NTU CS 自己的機器，同時也設定高一點的連線延遲，避免同時產生太多連線。&lt;/p&gt;
@@ -3386,7 +3494,7 @@ pip install -U pip&lt;/p&gt;
 &lt;h4 id=&#34;每個推文者的推噓文次數&#34;&gt;每個推文者的推噓文次數&lt;/h4&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
