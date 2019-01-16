@@ -30,7 +30,7 @@
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2019/geese.jpg" alt="Order" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2019/geese.jpg" alt="Order" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -99,7 +99,7 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2019/geese.jpg" alt="Order" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2019/geese.jpg" alt="Order" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -167,7 +167,7 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2019/cobweb.jpg" alt="Coweb" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2019/cobweb.jpg" alt="Coweb" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -469,7 +469,7 @@ Filesystem mounted and ready.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2017/padlocks.jpg" alt="Locks" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2017/padlocks.jpg" alt="Locks" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -720,7 +720,7 @@ Filesystem mounted and ready.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2018/storage.jpg" alt="Storage" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2018/storage.jpg" alt="Storage" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -991,7 +991,7 @@ ProxyCommand ssh -q -W %h:%p nlgs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -1182,7 +1182,7 @@ changed to the current Python version:&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2017/question-mark.jpg" alt="Question Mark" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2017/question-mark.jpg" alt="Question Mark" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -1791,7 +1791,7 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null &lt;span class="m"&gt
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2017/padlocks.jpg" alt="Locks" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2017/padlocks.jpg" alt="Locks" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -1823,7 +1823,7 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null &lt;span class="m"&gt
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2019/cobweb.jpg" alt="Coweb" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2019/cobweb.jpg" alt="Coweb" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2408,7 +2408,7 @@ html2text==2016.5.29
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2017/mog.png" alt="Mixture of Gaussians" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2017/mog.png" alt="Mixture of Gaussians" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2428,7 +2428,7 @@ html2text==2016.5.29
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2017/compare.png" alt="Compare" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2017/compare.png" alt="Compare" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2457,7 +2457,7 @@ html2text==2016.5.29
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2017/discogan.png" alt="DiscoGAN" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2017/discogan.png" alt="DiscoGAN" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2473,7 +2473,7 @@ html2text==2016.5.29
 &lt;div class="box aligncenter" style="max-width:400px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2754,6 +2754,18 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;li&gt;&lt;a href="https://github.com/webpro/awesome-dotfiles"&gt;Awesome dotfiles&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://git-scm.com/book/en/v2"&gt;Git - Book&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+
+&lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
+&lt;div class="box aligncenter"&gt;
+  &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
+    &lt;div class="img"&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
 </description>
       
     </item>
@@ -2949,7 +2961,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2017/accuracy.png" alt="Accuracy" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2017/accuracy.png" alt="Accuracy" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3607,7 +3619,7 @@ python update.py&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2019/cobweb.jpg" alt="Coweb" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2019/cobweb.jpg" alt="Coweb" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3887,7 +3899,7 @@ pip install -U pip&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2016/push.png" alt="Push" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/push.png" alt="Push" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3974,7 +3986,7 @@ pip install -U pip&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2016/negative.png" alt="Negative" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/negative.png" alt="Negative" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3991,7 +4003,7 @@ pip install -U pip&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2016/positive.png" alt="Positive" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/positive.png" alt="Positive" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4010,7 +4022,7 @@ pip install -U pip&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2016/negative-push.png" alt="Negative Push" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/negative-push.png" alt="Negative Push" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4024,7 +4036,7 @@ pip install -U pip&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2016/positive-push.png" alt="Positive Push" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/positive-push.png" alt="Positive Push" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4519,7 +4531,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2015/sentiment_words.png" alt="Top features" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/sentiment_words.png" alt="Top features" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4557,7 +4569,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2015/word_cloud.png" alt="Word cloud" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/word_cloud.png" alt="Word cloud" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4593,7 +4605,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2015/iris.png" alt="IRIS" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/iris.png" alt="IRIS" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4642,7 +4654,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2015/t-sne.png" alt="MNIST" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/t-sne.png" alt="MNIST" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4680,7 +4692,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box aligncenter" style="max-width:480px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2015/lda.png" alt="LDA" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/lda.png" alt="LDA" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4730,7 +4742,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2015/submissions.png" alt="Submissions" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/submissions.png" alt="Submissions" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4769,7 +4781,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box aligncenter" style="max-width:480px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2015/cluster1.png" alt="Cluster 1" style="max-height:480px;" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/cluster1.png" alt="Cluster 1" style="max-height:480px;" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4781,7 +4793,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box aligncenter" style="max-width:480px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2015/cluster8.png" alt="Cluster 8" style="max-height:480px;" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/cluster8.png" alt="Cluster 8" style="max-height:480px;" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4839,7 +4851,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box aligncenter" style="max-width:365px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2015/deadline.png" alt="Deadline" style="max-height:269px;" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/deadline.png" alt="Deadline" style="max-height:269px;" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -6394,7 +6406,7 @@ exit&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class="box aligncenter" style="max-width:400px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;

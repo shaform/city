@@ -34,7 +34,7 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;div class=&#34;box&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
-      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2019/geese.jpg&#34; alt=&#34;Order&#34; /&gt;
+      &lt;img  itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2019/geese.jpg&#34; alt=&#34;Order&#34; /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
