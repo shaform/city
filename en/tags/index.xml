@@ -66,6 +66,15 @@
     </item>
     
     <item>
+      <title>PTT</title>
+      <link>https://city.shaform.com/en/tag/ptt/</link>
+      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/ptt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>PackedSequence</title>
       <link>https://city.shaform.com/en/tag/packedsequence/</link>
       <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
@@ -102,11 +111,29 @@
     </item>
     
     <item>
+      <title>Python 3</title>
+      <link>https://city.shaform.com/en/tag/python-3/</link>
+      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/python-3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>RSS</title>
       <link>https://city.shaform.com/en/tag/rss/</link>
       <pubDate>Mon, 16 Jul 2018 21:30:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/tag/rss/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Scrapy</title>
+      <link>https://city.shaform.com/en/tag/scrapy/</link>
+      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/scrapy/</guid>
       <description></description>
     </item>
     

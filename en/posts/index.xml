@@ -51,6 +51,15 @@ One possibility is to define a custom output format for homepage in config.toml:
     </item>
     
     <item>
+      <title>Scrapy &#43; Python 3: PTT Data Scraping and Analysis</title>
+      <link>https://city.shaform.com/en/2016/02/28/scrapy/</link>
+      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/2016/02/28/scrapy/</guid>
+      <description>Scrapy 1.1 with Python 3 Support Long long time ago, I wanted to learn about web crawling to scrape some data from the PTT forum to see what could be done with it. I found the Scrapy framework, and felt it had great potential. But it didn&amp;rsquo;t support Python 3 at that time, so I&amp;rsquo;ve decided to wait. Now, Scrapy 1.1 is released. Along with updated features, it also has</description>
+    </item>
+    
+    <item>
       <title>snappycat: A command line tool to decompress snappy files produced by Hadoop</title>
       <link>https://city.shaform.com/en/2015/11/06/snappycat/</link>
       <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
