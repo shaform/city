@@ -299,14 +299,5 @@
       <description>Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP</description>
     </item>
     
-    <item>
-      <title>設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤</title>
-      <link>https://city.shaform.com/zh/2013/07/09/vim-qwerty-to-dvorak/</link>
-      <pubDate>Tue, 09 Jul 2013 21:28:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/2013/07/09/vim-qwerty-to-dvorak/</guid>
-      <description>還記得從前在交大參加校內程式競賽時，Fedora?/FreeBSD? 環境裡頭不知為何無法透過圖形界面執行鍵盤設定，也找不到 setxkbmap</description>
-    </item>
-    
   </channel>
 </rss>

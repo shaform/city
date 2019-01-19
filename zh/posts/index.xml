@@ -318,15 +318,6 @@
     </item>
     
     <item>
-      <title>設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤</title>
-      <link>https://city.shaform.com/zh/2013/07/09/vim-qwerty-to-dvorak/</link>
-      <pubDate>Tue, 09 Jul 2013 21:28:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/2013/07/09/vim-qwerty-to-dvorak/</guid>
-      <description>還記得從前在交大參加校內程式競賽時，Fedora?/FreeBSD? 環境裡頭不知為何無法透過圖形界面執行鍵盤設定，也找不到 setxkbmap</description>
-    </item>
-    
-    <item>
       <title>最低成本的程式協作: CoProgramming</title>
       <link>https://city.shaform.com/zh/2013/03/05/coprogramming/</link>
       <pubDate>Tue, 05 Mar 2013 08:03:00 +0800</pubDate>

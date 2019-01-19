@@ -18,7 +18,9 @@
 <meta property="og:title" content="qwerty 轉換到 dvorak 筆記" />
 <meta property="og:description" content="Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/" /><meta property="article:published_time" content="2013-07-12T18:53:00&#43;08:00"/>
+<meta property="og:url" content="https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/" />
+<meta property="og:image" content="https://city.shaform.com/images/2013/keyboard.jpg" />
+<meta property="article:published_time" content="2013-07-12T18:53:00&#43;08:00"/>
 <meta property="article:modified_time" content="2013-07-12T18:53:00&#43;08:00"/>
 
 <meta itemprop="name" content="qwerty 轉換到 dvorak 筆記">
@@ -27,13 +29,15 @@
 
 <meta itemprop="datePublished" content="2013-07-12T18:53:00&#43;08:00" />
 <meta itemprop="dateModified" content="2013-07-12T18:53:00&#43;08:00" />
-<meta itemprop="wordCount" content="1196">
+<meta itemprop="wordCount" content="1371">
+
+  <meta itemprop="image" content="https://city.shaform.com/images/2013/keyboard.jpg">
 
 
 
 <meta itemprop="keywords" content="dvorak,linux,qwerty,windows,自由行列,行列,輸入法," />
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://city.shaform.com/images/city.png"/>
+<meta name="twitter:image" content="https://city.shaform.com/images/2013/keyboard.jpg"/>
 
 <meta name="twitter:title" content="qwerty 轉換到 dvorak 筆記"/>
 <meta name="twitter:description" content="Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP"/>
@@ -163,13 +167,25 @@ if (!doNotTrack) {
 <div class="container content">
   
 
+
+<link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
+<div class="box aligncenter">
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2013/keyboard.jpg" alt="Keyboard" />
+    </div>
+    
+  </figure>
+</div>
+
+
 <h2 id="windows">Windows</h2>
 
 <p>Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP 或者想要把像是注音輸入法的符號對應也改成 dvorak 的話，可以參考我以前寫的文章：<a href="https://island.shaform.com/zh/2007/07/14/dvorak/">〈Dvorak: 另一種鍵盤排列〉</a>。</p>
 
 <h2 id="linux">Linux</h2>
 
-<p>最近的 Linux distributions 只要在安裝時就選擇 dvorak 鍵盤的話，大致上就會設定完成，通常 GUI 頁面也會有鍵盤設定。Linux 上輸入法和鍵盤設定通常是分開的兩個東西。如果你使用像是<a href="https://code.google.com/p/freearray">自由行列輸入法</a>等等原本就有支援 dvorak 的輸入法，則符號對應只要設定一下就可以了。</p>
+<p>最近的 Linux distributions 只要在安裝時就選擇 dvorak 鍵盤的話，大致上就會設定完成，通常 GUI 頁面也會有鍵盤設定。Linux 上輸入法和鍵盤設定通常是分開的兩個東西。如果你使用像是<a href="https://github.com/shaform/ibus-freearray">自由行列輸入法</a>等等原本就有支援 dvorak 的輸入法，則符號對應只要設定一下就可以了。</p>
 
 <p>如果因為某些原因無法更動設定檔，使用以下指令可以在鍵盤間切換：</p>
 
@@ -202,7 +218,7 @@ if (!doNotTrack) {
 
 
 <p>但如果因為某些原因只能用 rdp 連上主機，而無法接觸正常的桌面的話，則根本無法得到 dvorak 的鍵盤對應，因此也無法產生設定檔，在這種情況下，只好直接修改原本的 <code>km-0409.ini</code>。而也有人說用 <code>xrdp-genkeymap</code> 產生的檔案有時會有問題，這時也只能直接修改了。我寫了一個程式用來做這個轉換：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="ch">#!/usr/bin/env python</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="ch">#!/usr/bin/env python3</span>
 <span class="c1"># xrdpkeymap_qwerty_to_dvorak.py</span>
 <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">Usage: python xrdpkeymap_qwerty_to_dvorak.py km-input.ini &gt; km-output.ini
@@ -213,106 +229,107 @@ if (!doNotTrack) {
 <span class="c1"># keycodes</span>
 <span class="c1"># $ xmodmap -pk for current mapping</span>
 <span class="c1"># ref: http://forums.fedoraforum.org/showthread.php?t=265100</span>
-<span class="n">QWERTY</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span>
-        <span class="mi">24</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span>
-        <span class="mi">38</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span>
-        <span class="mi">52</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">61</span>
-        <span class="p">)</span>
+<span class="n">QWERTY</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span>
+          <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span>
+          <span class="mi">61</span><span class="p">)</span>
 
-<span class="n">DVORAK</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span>
-        <span class="mi">48</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span>
-        <span class="mi">38</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span>
-        <span class="mi">47</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">52</span>
-        <span class="p">)</span>
+<span class="n">DVORAK</span> <span class="o">=</span> <span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span>
+          <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span>
+          <span class="mi">52</span><span class="p">)</span>
 
-<span class="n">TRANS_DICT</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">))</span>
+<span class="n">TRANS_DICT</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">)))</span>
 
 
-<span class="n">re_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s1">&#39;\[.*\]</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s1">&#39;Key(\d+)=(.*)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">buf_dict</span> <span class="o">=</span> <span class="p">{}</span>
-
-<span class="k">def</span> <span class="nf">output_keydefs</span><span class="p">():</span>
-    <span class="k">global</span> <span class="n">buf</span><span class="p">,</span> <span class="n">buf_dict</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">buf</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">TRANS_DICT</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s1">&#39;Key</span><span class="si">%d</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">TRANS_DICT</span><span class="p">[</span><span class="n">k</span><span class="p">]])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s1">&#39;Key</span><span class="si">%d</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">re_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\[.*\]\n&#39;</span><span class="p">)</span>
+    <span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Key(\d+)=(.*)\n&#39;</span><span class="p">)</span>
     <span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">buf_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
+    <span class="k">def</span> <span class="nf">output_keydefs</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">buf</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">TRANS_DICT</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Key</span><span class="si">%d</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">TRANS_DICT</span><span class="p">[</span><span class="n">k</span><span class="p">]]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Key</span><span class="si">%d</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="p">[],</span> <span class="p">{}</span>
 
-<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="nb">input</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="nb">input</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">re_title</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">output_keydefs</span><span class="p">()</span>
-            <span class="k">print</span> <span class="n">line</span><span class="p">,</span>
+            <span class="n">buf</span><span class="p">,</span> <span class="n">buf_dict</span> <span class="o">=</span> <span class="n">output_keydefs</span><span class="p">()</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">m</span> <span class="o">=</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
             <span class="n">buf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
             <span class="n">buf_dict</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span> <span class="n">line</span><span class="p">,</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
-<span class="c1"># output remaining keys</span>
-<span class="n">output_keydefs</span><span class="p">()</span></code></pre></div>
+    <span class="c1"># output remaining keys</span>
+    <span class="n">output_keydefs</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span></code></pre></div>
 <h2 id="vim">Vim</h2>
 
 <p>有的時候我們甚至無法重新啟動 xrdp server，或者根本沒有管理員權限，這時只好有限度的在 Vim 裡頭使用 dvoark。</p>
 <div class="highlight"><pre class="chroma"><code class="language-vim" data-lang="vim"><span class="nx">set</span> <span class="nx">keymap</span><span class="p">=</span><span class="nx">dvorak</span><span class="err">
 </span><span class="err"></span><span class="nx">set</span> <span class="nx">langmap</span><span class="p">=-=</span><span class="nx">qwertyuiop</span>[]<span class="nx">sdfghjkl</span>\\;<span class="s1">&#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&#34;ZXCVBN&lt;&gt;?;[]&#39;</span>\\<span class="p">,</span>.<span class="nx">pyfgcrl</span>/<span class="p">=</span><span class="nx">oeuidhtns</span><span class="p">-</span>\\;<span class="nx">qjkxbwvz</span>{}\<span class="c">&#34;&lt;&gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ</span></code></pre></div>
-<p>參考：<a href="/zh/2013/07/09/vim-qwerty-to-dvorak/">〈設定 Vim 將 qwerty 鍵盤轉為 dvorak 鍵盤〉</a>。</p>
+<p>keymap 可以修改輸入模式的對應，langmap 則是一般及 visual 模式等指令的按鍵，後面那串其格式可參考 :help &lsquo;langmap&rsquo;，基本上是先打 qwerty 的按鍵，加個分號，再打上轉換成的 dvorak 按鍵，不過 , 和 ; 需要在前面補上 \，&rdquo; 則是要補上 \。這設定唯一無法轉換的部份是 &ldquo;:&rdquo; 開頭的指令模式。此外，如果 set keymap 沒有作用的話，或許是系統缺少 dvorak 的 keymap，此時建立 ~/.vim/keymap/dvorak.vim 檔案，插入 <a href="http://ftp.vim.org/vim/runtime/keymap/dvorak.vim">dvorak.vim</a> 的內容即可。</p>
 
 <h2 id="gcin">GCIN</h2>
 
 <p>有的輸入法沒有直接支援 dvoark，不只是符號對應沒有支援，連正常輸入都整個亂掉了。這時可能要搜尋一下看有沒有現成的修改版檔案，例如我曾經修改過 <a href="http://hyperrate.com/thread.php?tid=19541#19541">GCIN 的行列輸入法表格</a>。如果沒有的話，可能就得自行轉換了。</p>
 
 <p>我寫了一個轉換 GCIN .cin 檔的程式：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="ch">#!/usr/bin/env python</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="ch">#!/usr/bin/env python3</span>
 <span class="c1"># gcin_qwerty_to_dvorak.py</span>
 <span class="s2">&#34;&#34;&#34;
 </span><span class="s2">Usage: python gcin_qwerty_to_dvorak.py input.cin &gt; output.cin
 </span><span class="s2">&#34;&#34;&#34;</span>
 <span class="kn">import</span> <span class="nn">fileinput</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">maketrans</span>
 
 <span class="n">QWERTY</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-=qwertyuiop[]sdfghjkl;&#39;zxcvbn,./_+QWERTYUIOP{}SDFGHJKL:&#34;ZXCVBN&lt;&gt;?&#39;&#39;&#39;</span>
 <span class="n">DVORAK</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;[]&#39;,.pyfgcrl/=oeuidhtns-;qjkxbwvz{}&#34;&lt;&gt;PYFGCRL?+OEUIDHTNS_:QJKXBWVZ&#39;&#39;&#39;</span>
-<span class="n">TRANS</span> <span class="o">=</span> <span class="n">maketrans</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">)</span>
+<span class="n">TRANS</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">)</span>
 
-<span class="n">re_option</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;%(selkey|endkey)\s+(\S+)&#39;</span><span class="p">)</span>
-<span class="n">re_begin</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;%\S+\s+begin&#39;</span><span class="p">)</span>
-<span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^([^#]\S*)(\s+\S+)&#39;</span><span class="p">)</span>
-<span class="n">re_end</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;%\S+\s+end&#39;</span><span class="p">)</span>
 
-<span class="n">begin</span> <span class="o">=</span> <span class="bp">False</span>
-<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="nb">input</span><span class="p">():</span>
-    <span class="c1"># process key definitions</span>
-    <span class="k">if</span> <span class="n">begin</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">re_end</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
-            <span class="n">begin</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">new_def</span> <span class="o">=</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">subn</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">TRANS</span><span class="p">)</span> <span class="o">+</span>
-                    <span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">line</span><span class="p">)</span>
-            <span class="c1"># print transformed line</span>
-            <span class="k">if</span> <span class="n">new_def</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">print</span> <span class="n">new_def</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                <span class="k">continue</span>
-        <span class="c1"># print comment/end lines</span>
-        <span class="k">print</span> <span class="n">line</span><span class="p">,</span>
-        <span class="k">continue</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">re_option</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;%(selkey|endkey)\s+(\S+)&#39;</span><span class="p">)</span>
+    <span class="n">re_begin</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;%\S+\s+begin&#39;</span><span class="p">)</span>
+    <span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^([^#]\S*)(\s+\S+)&#39;</span><span class="p">)</span>
+    <span class="n">re_end</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;%\S+\s+end&#39;</span><span class="p">)</span>
 
-    <span class="n">m</span> <span class="o">=</span> <span class="n">re_option</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s1">&#39;</span><span class="si">%%%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">TRANS</span><span class="p">))</span>
-        <span class="k">continue</span>
-    <span class="k">elif</span> <span class="n">re_begin</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
-        <span class="n">begin</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="k">print</span> <span class="n">line</span><span class="p">,</span></code></pre></div>
+    <span class="n">begin</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="nb">input</span><span class="p">():</span>
+        <span class="c1"># process key definitions</span>
+        <span class="k">if</span> <span class="n">begin</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">re_end</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+                <span class="n">begin</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_def</span> <span class="o">=</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">subn</span><span class="p">(</span>
+                    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">TRANS</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">line</span><span class="p">)</span>
+                <span class="c1"># print transformed line</span>
+                <span class="k">if</span> <span class="n">new_def</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="n">new_def</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+            <span class="c1"># print comment/end lines</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">m</span> <span class="o">=</span> <span class="n">re_option</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%%%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">TRANS</span><span class="p">)))</span>
+            <span class="k">continue</span>
+        <span class="k">elif</span> <span class="n">re_begin</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">begin</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span></code></pre></div>
 <p>轉換完後再用 gcin2tab 產生 GCIN 能用的 .gtab 檔。</p>
 
 <p>使用此程式轉換檔案的話，可能還是會需要手動調整，因為有些像是「,」 -&gt;「，」的符號對應應該還是保留會比較好。</p>

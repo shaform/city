@@ -241,13 +241,6 @@
   </url>
   
   <url>
-    <loc>https://city.shaform.com/zh/2013/07/09/vim-qwerty-to-dvorak/</loc>
-    <lastmod>2013-07-09T21:28:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://city.shaform.com/zh/2013/03/05/coprogramming/</loc>
     <lastmod>2013-03-05T08:03:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -858,20 +851,6 @@
   <url>
     <loc>https://city.shaform.com/zh/tag/truecrypt/</loc>
     <lastmod>2017-05-28T20:11:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/zh/tag/vim/</loc>
-    <lastmod>2013-07-09T21:28:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/zh/tag/vimrc/</loc>
-    <lastmod>2013-07-09T21:28:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
