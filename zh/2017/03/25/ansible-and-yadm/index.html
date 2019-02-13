@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.53" />
+  <meta name="generator" content="Hugo 0.54.0" />
   <meta charset="utf-8">
   <title>用 Ansible 和 yadm 來加速重灌流程 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,6 +22,7 @@
 <meta property="og:description" content="前言 還記得當年修計算機系統管理時曾經為了做 NFS &#43; NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/zh/2017/03/25/ansible-and-yadm/" />
+
 <meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" />
 <meta property="article:published_time" content="2017-03-25T09:09:00&#43;08:00"/>
 <meta property="article:modified_time" content="2017-03-25T09:09:00&#43;08:00"/>
@@ -32,7 +33,7 @@
 
 <meta itemprop="datePublished" content="2017-03-25T09:09:00&#43;08:00" />
 <meta itemprop="dateModified" content="2017-03-25T09:09:00&#43;08:00" />
-<meta itemprop="wordCount" content="2188">
+<meta itemprop="wordCount" content="1900">
 
   <meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
 
@@ -219,18 +220,18 @@ if (!doNotTrack) {
 <span class="nv">YML</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">desktop</span><span class="p">.yml</span><span class="si">}</span>
 ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span class="s2">&#34;hosts=</span><span class="nv">$HOST</span><span class="s2">&#34;</span> <span class="nv">$YML</span></code></pre></div>
 <p><code>desktop.yml</code> 和 <code>anaconda.yml</code> 則是簡單的 <a href="http://docs.ansible.com/ansible/playbooks.html">Playbooks</a>，用來指定要執行哪些 tasks。例如我在 <code>desktop.yml</code> 寫要用 root 權限執行 <code>base</code> 和 <code>desktop</code> 兩個 roles：</p>
-<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
-</span><span class="w">
-</span><span class="w"></span>-<span class="w"> </span>hosts<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ hosts }}&#39;</span><span class="w">
+<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">--<span class="sd">-
+</span><span class="sd">
+</span><span class="sd">- hosts: &#39;{{ hosts }}&#39;</span><span class="w">
 </span><span class="w">  </span>become<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="w">  </span>become_user<span class="p">:</span><span class="w"> </span>root<span class="w">
 </span><span class="w">  </span>roles<span class="p">:</span><span class="w">
 </span><span class="w">    </span>-<span class="w"> </span>base<span class="w">
 </span><span class="w">    </span>-<span class="w"> </span>desktop</code></pre></div>
 <p><code>anaconda.yml</code> 則寫要用正常使用者權限執行 <code>anaconda</code> 這個 role：</p>
-<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
-</span><span class="w">
-</span><span class="w"></span>-<span class="w"> </span>hosts<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ hosts }}&#39;</span><span class="w">
+<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">--<span class="sd">-
+</span><span class="sd">
+</span><span class="sd">- hosts: &#39;{{ hosts }}&#39;</span><span class="w">
 </span><span class="w">  </span>roles<span class="p">:</span><span class="w">
 </span><span class="w">    </span>-<span class="w"> </span>anaconda</code></pre></div>
 <h2 id="roles">Roles</h2>
@@ -238,9 +239,9 @@ ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span cla
 <p>最後的 <code>roles</code> 資料夾底下把相關的設定項目放在一起，這樣分開設定的好處是，可以根據不同機器的需求指定要執行哪些 roles，此外，也可以用 <code>git submodule</code> 之類的方法直接利用別人寫好的 roles。</p>
 
 <p>先從 <code>base.yml</code> 開始，這個檔案裡我設置了一些基本的系統設定：</p>
-<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># 建立 sudoers.d 資料夾，以放置設定檔</span><span class="w">
+<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">--<span class="sd">-
+</span><span class="sd">
+</span><span class="sd"># 建立 sudoers.d 資料夾，以放置設定檔</span><span class="w">
 </span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>mkdir<span class="w"> </span>for<span class="w"> </span>configure<span class="w"> </span>files<span class="w">
 </span><span class="w">  </span>file<span class="p">:</span><span class="w">
 </span><span class="w">    </span>dest<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
@@ -265,10 +266,10 @@ ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span cla
 </span><span class="w">    </span>-<span class="w"> </span>dest<span class="p">:</span><span class="w"> </span>/etc/sudoers.d/umask<span class="w">
 </span><span class="w">      </span>mode<span class="p">:</span><span class="w"> </span><span class="s1">&#39;0400&#39;</span><span class="w">
 </span><span class="w">      </span>content<span class="p">:</span><span class="w"> </span><span class="sd">|
-</span><span class="sd">        # This file is managed by Ansible. DO NOT EDIT.
-</span><span class="sd">
-</span><span class="sd">        Defaults umask_override
-</span><span class="sd">        Defaults umask = 0002</span><span class="w">
+</span><span class="sd">        # This file is managed by Ansible. DO NOT EDIT.</span><span class="w">
+</span><span class="w">
+</span><span class="w">        </span>Defaults<span class="w"> </span>umask_override<span class="w">
+</span><span class="w">        </span>Defaults<span class="w"> </span>umask<span class="w"> </span>=<span class="w"> </span><span class="m">0002</span><span class="w">
 </span><span class="w">
 </span><span class="w"></span><span class="c"># 更新系統</span><span class="w">
 </span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>upgrade<span class="w"> </span>packages<span class="w">
@@ -293,9 +294,9 @@ ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span cla
 </span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>tmux<span class="w">
 </span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>yadm</code></pre></div>
 <p><code>desktop.yml</code> 則用來放個人桌機常用的設定：</p>
-<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># 建立資料夾來放之後的設定檔</span><span class="w">
+<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">--<span class="sd">-
+</span><span class="sd">
+</span><span class="sd"># 建立資料夾來放之後的設定檔</span><span class="w">
 </span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>mkdir<span class="w"> </span>for<span class="w"> </span>configure<span class="w"> </span>files<span class="w">
 </span><span class="w">  </span>file<span class="p">:</span><span class="w">
 </span><span class="w">    </span>dest<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
@@ -320,10 +321,10 @@ ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span cla
 </span><span class="w">    </span>-<span class="w"> </span>dest<span class="p">:</span><span class="w"> </span>/usr/share/lightdm/lightdm.conf.d/<span class="m">50</span>-no-guest.conf<span class="w">
 </span><span class="w">      </span>mode<span class="p">:</span><span class="w"> </span><span class="s1">&#39;0400&#39;</span><span class="w">
 </span><span class="w">      </span>content<span class="p">:</span><span class="w"> </span><span class="sd">|
-</span><span class="sd">        # This file is managed by Ansible. DO NOT EDIT.
-</span><span class="sd">
-</span><span class="sd">        [SeatDefaults]
-</span><span class="sd">        allow-guest=false</span><span class="w">
+</span><span class="sd">        # This file is managed by Ansible. DO NOT EDIT.</span><span class="w">
+</span><span class="w">
+</span><span class="w">        </span><span class="p">[</span>SeatDefaults<span class="p">]</span><span class="w">
+</span><span class="w">        </span>allow-guest=<span class="kc">false</span><span class="w">
 </span><span class="w">
 </span><span class="w"></span><span class="c"># 安裝一些我常用的軟體</span><span class="w">
 </span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>install<span class="w"> </span>desktop<span class="w"> </span>apps<span class="w">
@@ -351,9 +352,9 @@ ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span cla
 </span><span class="w"></span>最後則是安裝<span class="w"> </span>Anaconda<span class="w"> </span>的部份，我會先安裝<span class="w"> </span>Anaconda<span class="w"> </span><span class="m">2</span>：<span class="w">
 </span><span class="w">
 </span><span class="w">    </span><span class="p">:::</span>yml<span class="w">
-</span><span class="w">    </span>---<span class="w">
-</span><span class="w">
-</span><span class="w">    </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>download<span class="w"> </span>Anaconda<span class="w">
+</span><span class="w">    </span>--<span class="sd">-
+</span><span class="sd">
+</span><span class="sd">    - name: download Anaconda</span><span class="w">
 </span><span class="w">      </span>get_url<span class="p">:</span><span class="w">
 </span><span class="w">        </span>url<span class="p">:</span><span class="w"> </span><span class="s1">&#39;https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh&#39;</span><span class="w">
 </span><span class="w">        </span>dest<span class="p">:</span><span class="w"> </span>/tmp/Anaconda2-<span class="m">4.3</span>.<span class="m">1</span>-Linux-x86_64.sh<span class="w">

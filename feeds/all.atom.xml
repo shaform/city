@@ -2225,10 +2225,10 @@ html2text==2016.5.29
 
 &lt;p&gt;再新增設定檔 &lt;code&gt;scrapinghub.yml&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-yml" data-lang="yml"&gt;projects&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;default&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;PROjECT_ID&lt;span class="sd"&gt;&amp;gt;
-&lt;/span&gt;&lt;span class="sd"&gt;stacks:
-&lt;/span&gt;&lt;span class="sd"&gt;    default: scrapy:1.3-py3
-&lt;/span&gt;&lt;span class="sd"&gt;requirements_file: requirements.txt&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;default&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;PROjECT_ID&amp;gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;stacks&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;default&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;scrapy&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;1.3&lt;/span&gt;-py3&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;requirements_file&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;requirements.txt&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;接著將整個資料夾的相關程式碼和設定檔都 commit 到 git repository 裡。然後在該資料夾執行：&lt;/p&gt;
 
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="hl"&gt;shub login
@@ -2598,18 +2598,18 @@ html2text==2016.5.29
 &lt;span class="nv"&gt;YML&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;desktop&lt;/span&gt;&lt;span class="p"&gt;.yml&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
 ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;hosts=&lt;/span&gt;&lt;span class="nv"&gt;$HOST&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt; &lt;span class="nv"&gt;$YML&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;code&gt;desktop.yml&lt;/code&gt; 和 &lt;code&gt;anaconda.yml&lt;/code&gt; 則是簡單的 &lt;a href="http://docs.ansible.com/ansible/playbooks.html"&gt;Playbooks&lt;/a&gt;，用來指定要執行哪些 tasks。例如我在 &lt;code&gt;desktop.yml&lt;/code&gt; 寫要用 root 權限執行 &lt;code&gt;base&lt;/code&gt; 和 &lt;code&gt;desktop&lt;/code&gt; 兩個 roles：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-yml" data-lang="yml"&gt;---&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;hosts&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;{{ hosts }}&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-yml" data-lang="yml"&gt;--&lt;span class="sd"&gt;-
+&lt;/span&gt;&lt;span class="sd"&gt;
+&lt;/span&gt;&lt;span class="sd"&gt;- hosts: &amp;#39;{{ hosts }}&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;become&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;become_user&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;root&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;roles&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;base&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;desktop&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;code&gt;anaconda.yml&lt;/code&gt; 則寫要用正常使用者權限執行 &lt;code&gt;anaconda&lt;/code&gt; 這個 role：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-yml" data-lang="yml"&gt;---&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;hosts&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;{{ hosts }}&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-yml" data-lang="yml"&gt;--&lt;span class="sd"&gt;-
+&lt;/span&gt;&lt;span class="sd"&gt;
+&lt;/span&gt;&lt;span class="sd"&gt;- hosts: &amp;#39;{{ hosts }}&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;roles&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;anaconda&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2 id="roles"&gt;Roles&lt;/h2&gt;
@@ -2617,9 +2617,9 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;p&gt;最後的 &lt;code&gt;roles&lt;/code&gt; 資料夾底下把相關的設定項目放在一起，這樣分開設定的好處是，可以根據不同機器的需求指定要執行哪些 roles，此外，也可以用 &lt;code&gt;git submodule&lt;/code&gt; 之類的方法直接利用別人寫好的 roles。&lt;/p&gt;
 
 &lt;p&gt;先從 &lt;code&gt;base.yml&lt;/code&gt; 開始，這個檔案裡我設置了一些基本的系統設定：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-yml" data-lang="yml"&gt;---&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="c"&gt;# 建立 sudoers.d 資料夾，以放置設定檔&lt;/span&gt;&lt;span class="w"&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-yml" data-lang="yml"&gt;--&lt;span class="sd"&gt;-
+&lt;/span&gt;&lt;span class="sd"&gt;
+&lt;/span&gt;&lt;span class="sd"&gt;# 建立 sudoers.d 資料夾，以放置設定檔&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;name&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;for&lt;span class="w"&gt; &lt;/span&gt;configure&lt;span class="w"&gt; &lt;/span&gt;files&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;file&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;dest&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;{{ item.dest }}&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
@@ -2644,10 +2644,10 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;dest&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/etc/sudoers.d/umask&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;mode&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;0400&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;content&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="sd"&gt;|
-&lt;/span&gt;&lt;span class="sd"&gt;        # This file is managed by Ansible. DO NOT EDIT.
-&lt;/span&gt;&lt;span class="sd"&gt;
-&lt;/span&gt;&lt;span class="sd"&gt;        Defaults umask_override
-&lt;/span&gt;&lt;span class="sd"&gt;        Defaults umask = 0002&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="sd"&gt;        # This file is managed by Ansible. DO NOT EDIT.&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="w"&gt;        &lt;/span&gt;Defaults&lt;span class="w"&gt; &lt;/span&gt;umask_override&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="w"&gt;        &lt;/span&gt;Defaults&lt;span class="w"&gt; &lt;/span&gt;umask&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0002&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="c"&gt;# 更新系統&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;name&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;upgrade&lt;span class="w"&gt; &lt;/span&gt;packages&lt;span class="w"&gt;
@@ -2672,9 +2672,9 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;name&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;tmux&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;name&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;yadm&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;code&gt;desktop.yml&lt;/code&gt; 則用來放個人桌機常用的設定：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-yml" data-lang="yml"&gt;---&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="c"&gt;# 建立資料夾來放之後的設定檔&lt;/span&gt;&lt;span class="w"&gt;
+&lt;div class="highlight"&gt;&lt;pre class="chroma"&gt;&lt;code class="language-yml" data-lang="yml"&gt;--&lt;span class="sd"&gt;-
+&lt;/span&gt;&lt;span class="sd"&gt;
+&lt;/span&gt;&lt;span class="sd"&gt;# 建立資料夾來放之後的設定檔&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;name&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;for&lt;span class="w"&gt; &lt;/span&gt;configure&lt;span class="w"&gt; &lt;/span&gt;files&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;file&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;dest&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;{{ item.dest }}&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
@@ -2699,10 +2699,10 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;dest&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/usr/share/lightdm/lightdm.conf.d/&lt;span class="m"&gt;50&lt;/span&gt;-no-guest.conf&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;mode&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;0400&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;content&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="sd"&gt;|
-&lt;/span&gt;&lt;span class="sd"&gt;        # This file is managed by Ansible. DO NOT EDIT.
-&lt;/span&gt;&lt;span class="sd"&gt;
-&lt;/span&gt;&lt;span class="sd"&gt;        [SeatDefaults]
-&lt;/span&gt;&lt;span class="sd"&gt;        allow-guest=false&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="sd"&gt;        # This file is managed by Ansible. DO NOT EDIT.&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;SeatDefaults&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="w"&gt;        &lt;/span&gt;allow-guest=&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="c"&gt;# 安裝一些我常用的軟體&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;name&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;desktop&lt;span class="w"&gt; &lt;/span&gt;apps&lt;span class="w"&gt;
@@ -2730,9 +2730,9 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class="o"&gt;=&lt;/span&
 &lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;最後則是安裝&lt;span class="w"&gt; &lt;/span&gt;Anaconda&lt;span class="w"&gt; &lt;/span&gt;的部份，我會先安裝&lt;span class="w"&gt; &lt;/span&gt;Anaconda&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;：&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;:::&lt;/span&gt;yml&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;---&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;
-&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;name&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;download&lt;span class="w"&gt; &lt;/span&gt;Anaconda&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;--&lt;span class="sd"&gt;-
+&lt;/span&gt;&lt;span class="sd"&gt;
+&lt;/span&gt;&lt;span class="sd"&gt;    - name: download Anaconda&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;get_url&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;        &lt;/span&gt;url&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/span&gt;&lt;span class="w"&gt;        &lt;/span&gt;dest&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/tmp/Anaconda2-&lt;span class="m"&gt;4.3&lt;/span&gt;.&lt;span class="m"&gt;1&lt;/span&gt;-Linux-x86_64.sh&lt;span class="w"&gt;
