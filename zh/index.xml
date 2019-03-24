@@ -704,7 +704,7 @@ Filesystem mounted and ready.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
     </item>
     
     <item>
-      <title>使用 SSH ProxyCommand 來連上內網主機</title>
+      <title>使用 SSH ProxyCommand/ProxyJump 來連上內網主機</title>
       <link>https://city.shaform.com/zh/2017/10/28/ssh-proxycommand/</link>
       <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
       
@@ -766,6 +766,10 @@ ProxyCommand ssh -q -W %h:%p nlgs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;hl&#34;&gt;ssh nlg-wks-b&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 
+&lt;p&gt;如果是使用較新的 ssh client，也能改用 &lt;code&gt;ProxyJump&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Host nlg-wks-*
+User &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;USER&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+ProxyJump nlgs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;如此一來，就能更方便的做實驗了。&lt;/p&gt;
 
 
