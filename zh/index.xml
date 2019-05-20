@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0">
   <channel>
     <title>翼之都</title>
@@ -27,7 +26,7 @@
 &lt;p&gt;註：新版的 PyTorch 將會&lt;a href=&#34;https://github.com/pytorch/pytorch/pull/15225&#34;&gt;內建這種功能&lt;/a&gt;，就不用再使用本文的做法了。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -95,7 +94,7 @@
 &lt;p&gt;本次的程式放在 &lt;a href=&#34;https://github.com/shaform/experiments/tree/master/plurk_crawler&#34;&gt;shaform/experiments/plurk_crawler&lt;/a&gt;。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -397,7 +396,7 @@ Filesystem mounted and ready.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;下次要打開加密資料夾存取，則再次使用 &lt;code&gt;gocryptfs ENCRYPTED_DIR MOUNT_DIR&lt;/code&gt; 指令即可。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -648,7 +647,7 @@ Filesystem mounted and ready.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;本次的實驗程式放在 &lt;a href=&#34;https://github.com/shaform/experiments/tree/master/zarr-dataset&#34;&gt;shaform/experiments/zarr-dataset&lt;/a&gt;。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -689,7 +688,7 @@ Filesystem mounted and ready.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/ul&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -773,7 +772,7 @@ ProxyJump nlgs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;如此一來，就能更方便的做實驗了。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -805,7 +804,7 @@ ProxyJump nlgs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;這次將使用 &lt;a href=&#34;https://www.kaggle.com/&#34;&gt;Kaggle&lt;/a&gt; 的 &lt;a href=&#34;https://www.kaggle.com/c/dogs-vs-cats/data&#34;&gt;Dogs vs. Cats 資料集&lt;/a&gt;作為示範，每題會給兩張圖片，要求使用者選出貓貓照片。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -1414,7 +1413,7 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null &lt;span class=&#34;m
 &lt;p&gt;其他還有記憶一個密碼幫你輸入，以及其他更複雜的功能，不過就沒有研究了。詳情可以參考：〈&lt;a href=&#34;https://ruimarinho.gitbooks.io/yubikey-handbook/&#34;&gt;Yubikey Handbook&lt;/a&gt;〉。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -1446,7 +1445,7 @@ gpg-connect-agent updatestartuptty /bye &amp;gt; /dev/null &lt;span class=&#34;m
 &lt;p&gt;就在最近，得知有 &lt;a href=&#34;https://scrapinghub.com/scrapy-cloud/&#34;&gt;Scrapy Cloud&lt;/a&gt; 這樣方便的服務，可以用來架設自己的爬蟲，感覺相當方便。於是本文就以 &lt;a href=&#34;https://www.ptt.cc/bbs/Beauty/index.html&#34;&gt;PTT Beauty 板&lt;/a&gt; 為範例，紀錄利用 Scrapy Cloud 撰寫爬蟲的過程。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -2031,7 +2030,7 @@ html2text==2016.5.29
 &lt;p&gt;我將用個簡單的二維資料來測試 GAN 學會其分佈的能力。如下所示，每個白點都是一個資料點，希望 GAN 能成功學會他們主要分佈於七個地方。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -2383,7 +2382,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class=&#34;o&#34;&gt;=&l
 &lt;/ul&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -2584,7 +2583,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class=&#34;o&#34;&gt;=&l
     
 &lt;span class=&#34;n&#34;&gt;plt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;show&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -2628,7 +2627,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class=&#34;o&#34;&gt;=&l
 &lt;p&gt;最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番搜尋，發現 &lt;a href=&#34;https://github.com/Russell91/TensorBox&#34;&gt;TensorBox&lt;/a&gt; 似乎是個用來訓練單一物體偵測器的簡單套件，於是便利用貓咪來進行了簡單的嘗試。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -2992,7 +2991,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class=&#34;o&#34;&gt;=&l
 
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -3038,7 +3037,7 @@ ansible-playbook --ask-become-pass --extra-vars&lt;span class=&#34;o&#34;&gt;=&l
 &lt;p&gt;希望對有強迫症的路人有所幫助。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -3103,7 +3102,7 @@ source env/bin/activate&lt;/p&gt;
 &lt;p&gt;由於倉促修改，所以還有不少 bug，像是如果有加密文章，有時會無法處理，只好請大大們自行修改了。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -3282,7 +3281,7 @@ python update.py&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/ul&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -3312,7 +3311,7 @@ python update.py&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;如今，&lt;a href=&#34;https://pypi.python.org/pypi/Scrapy/1.1.0&#34;&gt;Scrapy 1.1&lt;/a&gt; 釋出，除了一些功能的更新外，他也終於要&lt;a href=&#34;https://github.com/scrapy/scrapy/issues/263&#34;&gt;支援基本的 Python 3&lt;/a&gt; 了！於是抱持著推廣 Python 3 的想法，重拾之前的目標，實際測試了一下網路爬蟲的撰寫。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -4111,7 +4110,7 @@ decay。&lt;/p&gt;
 未來應該要針對深度學習的理論上做更多研究才行。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -4236,7 +4235,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 
 &lt;span class=&#34;n&#34;&gt;display_top_features&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;lsvc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;coef_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tfidf_vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_feature_names&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -4762,7 +4761,7 @@ scala&amp;gt; d.map&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;&lt;span class=&#
 &lt;p&gt;相關程式碼放在 &lt;a href=&#34;https://github.com/shaform/experiments/blob/master/spark_word2vec/&#34;&gt;shaform/experiments/spark_word2vec&lt;/a&gt;。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -4802,7 +4801,7 @@ scala&amp;gt; d.map&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;&lt;span class=&#
 &lt;p&gt;這樣的金流平台，或許可以用同儕壓力來形成病毒行銷的作用，把所有的人都拉到平台之上，自然就可透過別的方法營利賺錢了！&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -4963,7 +4962,7 @@ Machine。&lt;/p&gt;
 &lt;p&gt;我把相關的程式碼放在 GitHub 上面供參考：&lt;a href=&#34;https://github.com/shaform/experiments/tree/master/sentiment_analysis&#34;&gt;shaform/sentiment_analysis&lt;/a&gt;。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -5187,7 +5186,7 @@ olcMirrorMode: TRUE
 
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -5413,7 +5412,7 @@ tls_cacertfile /etc/ssl/certs/ca-certificates.crt&lt;/code&gt;&lt;/pre&gt;&lt;/d
 &lt;p&gt;可測試是否可以登入。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -5555,7 +5554,7 @@ post-down ip tunnel del mytunnel
 &lt;/ul&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -5695,7 +5694,7 @@ Word: 英國  Position in vocabulary: 822
 &lt;/ol&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -5739,15 +5738,15 @@ Word: 英國  Position in vocabulary: 822
 
 &lt;p&gt;這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;name&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;$&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。&lt;/p&gt;
 
 &lt;h2 id=&#34;virtualenv&#34;&gt;virtualenv&lt;/h2&gt;
 
 &lt;p&gt;如果工作站上有安裝 &lt;a href=&#34;http://virtualenv.readthedocs.org/en/latest/&#34;&gt;virtualenv&lt;/a&gt; 的話，也可以用這個套件達到相同功能，好處是 Python 2 也可以用。&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;在 ENV_DIR 建立 virtual environment，&lt;code&gt;--system-site-packages&lt;/code&gt; 參數則是讓系統安裝的套件也能被這個環境使用，python3.4 則可選擇不同版本（包含 python2）：&lt;/p&gt;
+&lt;li&gt;在 ENV_DIR 建立 virtual environment，&lt;code&gt;--system-site-packages&lt;/code&gt; 參數則是讓系統安裝的套件也能被這個環境使用，python3.4 則可選擇不同版本（包含 python2）：&lt;/li&gt;
+&lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;virtualenv &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;--system-site-packages&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; -p python3.4 ENV_DIR&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;啟用特定的 virtual environment：&lt;/p&gt;
@@ -5760,8 +5759,7 @@ ENV_DIR/bin/python
 
 which pip
 ENV_DIR/bin/pip&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;注意到如果當初指定用 python3.4 的話，這裡雖然下的是 python，其實也是 3.4 版。以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;注意到如果當初指定用 python3.4 的話，這裡雖然下的是 python，其實也是 3.4 版。以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。&lt;/p&gt;
 
 &lt;p&gt;如果有裝 &lt;a href=&#34;http://virtualenvwrapper.readthedocs.org/en/latest/&#34;&gt;virtualenvwrapper&lt;/a&gt; 的話其實還有更方便的方法，可以自行參考文件。&lt;/p&gt;
 
@@ -5769,7 +5767,9 @@ ENV_DIR/bin/pip&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;如果實在是無法建立 virtual environment 的話，只能使用舊方法來安裝 local 套件了，首先在 &lt;code&gt;.bashrc&lt;/code&gt; 加入對應的參數，使得執行 Python 時會載入 local 套件：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;alias&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;python3&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;PYTHONPATH=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PYTHONPATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.local/lib/python3.4/site-packages python3&amp;#34;&lt;/span&gt;
-&lt;span class=&#34;nb&#34;&gt;alias&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;python&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;PYTHONPATH=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PYTHONPATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.local/lib/python2.7/site-packages python&amp;#34;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span class=&#34;nb&#34;&gt;alias&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;python&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;PYTHONPATH=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PYTHONPATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.local/lib/python2.7/site-packages python&amp;#34;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
 &lt;p&gt;其中各版本的路徑可自行調整。&lt;/p&gt;
 
 &lt;p&gt;接下來安裝套件時都加上 &amp;ndash;user 參數即可，例如：&lt;/p&gt;
@@ -5779,7 +5779,7 @@ python3.4 setup.py install --user
 pip2 install --user flask
 python2 setup.py install --user&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -5865,7 +5865,7 @@ python2 setup.py install --user&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -5932,7 +5932,7 @@ exit&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 〉&lt;/a&gt;，使得無法直接用 grub2 來啟動 Windows 8.1，不過 ThinkPad X1 Carbon 可以透過 BIOS 來多重開機，因此還是可以使用，對於很少使用 Windows 8.1 的我來說並不造成困擾。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -5960,7 +5960,7 @@ exit&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;後來我發現其實掛一些我平常在逛的站如 PTT or PTT2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -6241,7 +6241,7 @@ github: publish
 &lt;p&gt;最後再調整一些佈景和版面的設定，就成了最後的結果。初步感覺還滿令我滿意的。以後再慢慢調整浮光以及翼之都的版面吧。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -6310,9 +6310,10 @@ github: publish
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;nt&#34;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;fs.default.name&lt;span class=&#34;nt&#34;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;nt&#34;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;hdfs://master-dn:54310&lt;span class=&#34;nt&#34;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;nt&#34;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;mapred-site.xml&lt;/p&gt;
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;mapred-site.xml&lt;/li&gt;
+&lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;nt&#34;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;mapred.job.tracker&lt;span class=&#34;nt&#34;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;nt&#34;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;master-dn:54311&lt;span class=&#34;nt&#34;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
@@ -6322,13 +6323,12 @@ github: publish
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;&amp;lt;property&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;nt&#34;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;dfs.replication&lt;span class=&#34;nt&#34;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;nt&#34;&gt;&amp;lt;value&amp;gt;&lt;/span&gt;3&lt;span class=&#34;nt&#34;&gt;&amp;lt;/value&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;nt&#34;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
+&lt;span class=&#34;nt&#34;&gt;&amp;lt;/property&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;然後在 NameNode 上修改將以下檔案修改成如下內容：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;masters&lt;/p&gt;
+&lt;li&gt;masters&lt;/li&gt;
+&lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;master-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;slaves&lt;/p&gt;
@@ -6392,7 +6392,7 @@ slave-2-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -6416,7 +6416,7 @@ slave-2-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <description>
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -6648,7 +6648,7 @@ slave-2-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;這個想法是因為他專門針對新手的小型專案而特別，可是這種合作方式真的只適合新手嗎？即使在專業的環境中，若是在任何檔案上按下右鍵，就能即時同步分享於 Drive 之上，然後在請教同事時，他也能即時在檔案中編輯，而在他編輯的同時，本地端程式碼即時同步，隨時可用原本的方法編譯，這或許也有方便之處？&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -6707,7 +6707,7 @@ slave-2-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/ul&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -6765,7 +6765,7 @@ slave-2-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;在初期，是自己寫 Makefile 來編譯 ibus-faft 的，直到末期才把 Autotools 的部分補了上去。主要是參考 ibus-tmpl 的檔案，以及&lt;a href=&#34;http://www.freesoftwaremagazine.com/books/autotools_a_guide_to_autoconf_automake_libtool&#34;&gt;《Autotools: a practitioner&amp;rsquo;s guide to Autoconf, Automake and Libtool》&lt;/a&gt;，才得以完成。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -6948,7 +6948,7 @@ slave-2-dn&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;也許後來手機的鍵盤將不再有十鍵的限制，但行列做作手機輸入法的可能性還是令人憧憬。&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;

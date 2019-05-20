@@ -6,143 +6,80 @@
     <description>Recent content in Tags on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 10 Sep 2016 19:44:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/zh/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>2to3</title>
-      <link>https://city.shaform.com/zh/tag/2to3/</link>
-      <pubDate>Sat, 10 Sep 2016 19:44:00 +0800</pubDate>
+      <title>PackedSequence</title>
+      <link>https://city.shaform.com/zh/tag/packedsequence/</link>
+      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/2to3/</guid>
+      <guid>https://city.shaform.com/zh/tag/packedsequence/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>BBS</title>
-      <link>https://city.shaform.com/zh/tag/bbs/</link>
-      <pubDate>Tue, 27 May 2014 13:21:00 +0800</pubDate>
+      <title>PyTorch</title>
+      <link>https://city.shaform.com/zh/tag/pytorch/</link>
+      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/bbs/</guid>
+      <guid>https://city.shaform.com/zh/tag/pytorch/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>CUDA</title>
-      <link>https://city.shaform.com/zh/tag/cuda/</link>
-      <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
+      <title>Plurk</title>
+      <link>https://city.shaform.com/zh/tag/plurk/</link>
+      <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/cuda/</guid>
+      <guid>https://city.shaform.com/zh/tag/plurk/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Caffe</title>
-      <link>https://city.shaform.com/zh/tag/caffe/</link>
-      <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
+      <title>crawler</title>
+      <link>https://city.shaform.com/zh/tag/crawler/</link>
+      <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/caffe/</guid>
+      <guid>https://city.shaform.com/zh/tag/crawler/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Chinese</title>
-      <link>https://city.shaform.com/zh/tag/chinese/</link>
-      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
+      <title>go</title>
+      <link>https://city.shaform.com/zh/tag/go/</link>
+      <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/chinese/</guid>
+      <guid>https://city.shaform.com/zh/tag/go/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>CoProgramming</title>
-      <link>https://city.shaform.com/zh/tag/coprogramming/</link>
-      <pubDate>Tue, 05 Mar 2013 08:03:00 +0800</pubDate>
+      <title>gocryptfs</title>
+      <link>https://city.shaform.com/zh/tag/gocryptfs/</link>
+      <pubDate>Sat, 08 Dec 2018 20:20:00 -0500</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/coprogramming/</guid>
+      <guid>https://city.shaform.com/zh/tag/gocryptfs/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Debian</title>
-      <link>https://city.shaform.com/zh/tag/debian/</link>
-      <pubDate>Sun, 14 Dec 2014 17:42:00 +0800</pubDate>
+      <title>hdf5</title>
+      <link>https://city.shaform.com/zh/tag/hdf5/</link>
+      <pubDate>Sun, 11 Nov 2018 11:40:00 -0500</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/debian/</guid>
+      <guid>https://city.shaform.com/zh/tag/hdf5/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>GAN</title>
-      <link>https://city.shaform.com/zh/tag/gan/</link>
-      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
+      <title>zarr</title>
+      <link>https://city.shaform.com/zh/tag/zarr/</link>
+      <pubDate>Sun, 11 Nov 2018 11:40:00 -0500</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/gan/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>GitHub</title>
-      <link>https://city.shaform.com/zh/tag/github/</link>
-      <pubDate>Sat, 10 Sep 2016 19:44:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/github/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Google Drive</title>
-      <link>https://city.shaform.com/zh/tag/google-drive/</link>
-      <pubDate>Tue, 05 Mar 2013 08:03:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/google-drive/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Google Forms</title>
-      <link>https://city.shaform.com/zh/tag/google-forms/</link>
-      <pubDate>Sat, 16 Sep 2017 16:42:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/google-forms/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Google Sheets</title>
-      <link>https://city.shaform.com/zh/tag/google-sheets/</link>
-      <pubDate>Sat, 19 Mar 2016 09:02:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/google-sheets/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>HBase</title>
-      <link>https://city.shaform.com/zh/tag/hbase/</link>
-      <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/hbase/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>HDFS</title>
-      <link>https://city.shaform.com/zh/tag/hdfs/</link>
-      <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/hdfs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Hadoop</title>
-      <link>https://city.shaform.com/zh/tag/hadoop/</link>
-      <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/hadoop/</guid>
+      <guid>https://city.shaform.com/zh/tag/zarr/</guid>
       <description></description>
     </item>
     
@@ -156,38 +93,38 @@
     </item>
     
     <item>
-      <title>IPython</title>
-      <link>https://city.shaform.com/zh/tag/ipython/</link>
-      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
+      <title>Pelican</title>
+      <link>https://city.shaform.com/zh/tag/pelican/</link>
+      <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/ipython/</guid>
+      <guid>https://city.shaform.com/zh/tag/pelican/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>IPython Notebook</title>
-      <link>https://city.shaform.com/zh/tag/ipython-notebook/</link>
-      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
+      <title>SSH</title>
+      <link>https://city.shaform.com/zh/tag/ssh/</link>
+      <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/ipython-notebook/</guid>
+      <guid>https://city.shaform.com/zh/tag/ssh/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>LDAP</title>
-      <link>https://city.shaform.com/zh/tag/ldap/</link>
-      <pubDate>Sun, 14 Dec 2014 17:42:00 +0800</pubDate>
+      <title>linux</title>
+      <link>https://city.shaform.com/zh/tag/linux/</link>
+      <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/ldap/</guid>
+      <guid>https://city.shaform.com/zh/tag/linux/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>NIS</title>
-      <link>https://city.shaform.com/zh/tag/nis/</link>
-      <pubDate>Sat, 13 Dec 2014 17:42:00 +0800</pubDate>
+      <title>Google Forms</title>
+      <link>https://city.shaform.com/zh/tag/google-forms/</link>
+      <pubDate>Sat, 16 Sep 2017 16:42:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/nis/</guid>
+      <guid>https://city.shaform.com/zh/tag/google-forms/</guid>
       <description></description>
     </item>
     
@@ -210,6 +147,51 @@
     </item>
     
     <item>
+      <title>YubiKey</title>
+      <link>https://city.shaform.com/zh/tag/yubikey/</link>
+      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/yubikey/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gnupg</title>
+      <link>https://city.shaform.com/zh/tag/gnupg/</link>
+      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/gnupg/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pass</title>
+      <link>https://city.shaform.com/zh/tag/pass/</link>
+      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/pass/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tomb</title>
+      <link>https://city.shaform.com/zh/tag/tomb/</link>
+      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/tomb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>truecrypt</title>
+      <link>https://city.shaform.com/zh/tag/truecrypt/</link>
+      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/truecrypt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>PTT</title>
       <link>https://city.shaform.com/zh/tag/ptt/</link>
       <pubDate>Sat, 13 May 2017 16:10:00 +0800</pubDate>
@@ -219,92 +201,11 @@
     </item>
     
     <item>
-      <title>PackedSequence</title>
-      <link>https://city.shaform.com/zh/tag/packedsequence/</link>
-      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/packedsequence/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pelican</title>
-      <link>https://city.shaform.com/zh/tag/pelican/</link>
-      <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/pelican/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pixnet</title>
-      <link>https://city.shaform.com/zh/tag/pixnet/</link>
-      <pubDate>Sat, 17 May 2014 07:25:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/pixnet/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Plurk</title>
-      <link>https://city.shaform.com/zh/tag/plurk/</link>
-      <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/plurk/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>PyTorch</title>
-      <link>https://city.shaform.com/zh/tag/pytorch/</link>
-      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/pytorch/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>https://city.shaform.com/zh/tag/python/</link>
-      <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Python 3</title>
       <link>https://city.shaform.com/zh/tag/python-3/</link>
       <pubDate>Sat, 13 May 2017 16:10:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/python-3/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>SSH</title>
-      <link>https://city.shaform.com/zh/tag/ssh/</link>
-      <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/ssh/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Sacred</title>
-      <link>https://city.shaform.com/zh/tag/sacred/</link>
-      <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/sacred/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Scala</title>
-      <link>https://city.shaform.com/zh/tag/scala/</link>
-      <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/scala/</guid>
       <description></description>
     </item>
     
@@ -327,20 +228,11 @@
     </item>
     
     <item>
-      <title>Spark</title>
-      <link>https://city.shaform.com/zh/tag/spark/</link>
-      <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
+      <title>GAN</title>
+      <link>https://city.shaform.com/zh/tag/gan/</link>
+      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/spark/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>TensorBox</title>
-      <link>https://city.shaform.com/zh/tag/tensorbox/</link>
-      <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/tensorbox/</guid>
+      <guid>https://city.shaform.com/zh/tag/gan/</guid>
       <description></description>
     </item>
     
@@ -354,11 +246,101 @@
     </item>
     
     <item>
-      <title>UEFI</title>
-      <link>https://city.shaform.com/zh/tag/uefi/</link>
-      <pubDate>Thu, 19 Jun 2014 16:05:00 +0800</pubDate>
+      <title>deep learning</title>
+      <link>https://city.shaform.com/zh/tag/deep-learning/</link>
+      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/uefi/</guid>
+      <guid>https://city.shaform.com/zh/tag/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ansible</title>
+      <link>https://city.shaform.com/zh/tag/ansible/</link>
+      <pubDate>Sat, 25 Mar 2017 09:09:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/ansible/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>yadm</title>
+      <link>https://city.shaform.com/zh/tag/yadm/</link>
+      <pubDate>Sat, 25 Mar 2017 09:09:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/yadm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://city.shaform.com/zh/tag/python/</link>
+      <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sacred</title>
+      <link>https://city.shaform.com/zh/tag/sacred/</link>
+      <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/sacred/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jupyter</title>
+      <link>https://city.shaform.com/zh/tag/jupyter/</link>
+      <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/jupyter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TensorBox</title>
+      <link>https://city.shaform.com/zh/tag/tensorbox/</link>
+      <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/tensorbox/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cats</title>
+      <link>https://city.shaform.com/zh/tag/cats/</link>
+      <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/cats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>object detection</title>
+      <link>https://city.shaform.com/zh/tag/object-detection/</link>
+      <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/object-detection/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CUDA</title>
+      <link>https://city.shaform.com/zh/tag/cuda/</link>
+      <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/cuda/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Caffe</title>
+      <link>https://city.shaform.com/zh/tag/caffe/</link>
+      <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/caffe/</guid>
       <description></description>
     </item>
     
@@ -368,6 +350,294 @@
       <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/ubuntu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>2to3</title>
+      <link>https://city.shaform.com/zh/tag/2to3/</link>
+      <pubDate>Sat, 10 Sep 2016 19:44:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/2to3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GitHub</title>
+      <link>https://city.shaform.com/zh/tag/github/</link>
+      <pubDate>Sat, 10 Sep 2016 19:44:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/github/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>py3tracker</title>
+      <link>https://city.shaform.com/zh/tag/py3tracker/</link>
+      <pubDate>Sat, 10 Sep 2016 19:44:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/py3tracker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bs2</title>
+      <link>https://city.shaform.com/zh/tag/bs2/</link>
+      <pubDate>Tue, 26 Jul 2016 22:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/bs2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Google Sheets</title>
+      <link>https://city.shaform.com/zh/tag/google-sheets/</link>
+      <pubDate>Sat, 19 Mar 2016 09:02:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/google-sheets/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gspread</title>
+      <link>https://city.shaform.com/zh/tag/gspread/</link>
+      <pubDate>Sat, 19 Mar 2016 09:02:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/gspread/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IPython</title>
+      <link>https://city.shaform.com/zh/tag/ipython/</link>
+      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/ipython/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IPython Notebook</title>
+      <link>https://city.shaform.com/zh/tag/ipython-notebook/</link>
+      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/ipython-notebook/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>matplotlib</title>
+      <link>https://city.shaform.com/zh/tag/matplotlib/</link>
+      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/matplotlib/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>numpy</title>
+      <link>https://city.shaform.com/zh/tag/numpy/</link>
+      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/numpy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pandas</title>
+      <link>https://city.shaform.com/zh/tag/pandas/</link>
+      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/pandas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scikit-learn</title>
+      <link>https://city.shaform.com/zh/tag/scikit-learn/</link>
+      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/scikit-learn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Scala</title>
+      <link>https://city.shaform.com/zh/tag/scala/</link>
+      <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/scala/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spark</title>
+      <link>https://city.shaform.com/zh/tag/spark/</link>
+      <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/spark/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>word embeddings</title>
+      <link>https://city.shaform.com/zh/tag/word-embeddings/</link>
+      <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/word-embeddings/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>word2vec</title>
+      <link>https://city.shaform.com/zh/tag/word2vec/</link>
+      <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/word2vec/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>payments</title>
+      <link>https://city.shaform.com/zh/tag/payments/</link>
+      <pubDate>Mon, 20 Apr 2015 08:34:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/payments/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Chinese</title>
+      <link>https://city.shaform.com/zh/tag/chinese/</link>
+      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/chinese/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>liblinear</title>
+      <link>https://city.shaform.com/zh/tag/liblinear/</link>
+      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/liblinear/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rnnlm</title>
+      <link>https://city.shaform.com/zh/tag/rnnlm/</link>
+      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/rnnlm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sentiment analysis</title>
+      <link>https://city.shaform.com/zh/tag/sentiment-analysis/</link>
+      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/sentiment-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tf-idf</title>
+      <link>https://city.shaform.com/zh/tag/tf-idf/</link>
+      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/tf-idf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Debian</title>
+      <link>https://city.shaform.com/zh/tag/debian/</link>
+      <pubDate>Sun, 14 Dec 2014 17:42:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/debian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LDAP</title>
+      <link>https://city.shaform.com/zh/tag/ldap/</link>
+      <pubDate>Sun, 14 Dec 2014 17:42:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/ldap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NIS</title>
+      <link>https://city.shaform.com/zh/tag/nis/</link>
+      <pubDate>Sat, 13 Dec 2014 17:42:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/nis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network</title>
+      <link>https://city.shaform.com/zh/tag/network/</link>
+      <pubDate>Wed, 12 Nov 2014 09:20:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>subnet</title>
+      <link>https://city.shaform.com/zh/tag/subnet/</link>
+      <pubDate>Wed, 12 Nov 2014 09:20:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/subnet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jieba</title>
+      <link>https://city.shaform.com/zh/tag/jieba/</link>
+      <pubDate>Tue, 04 Nov 2014 17:20:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/jieba/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pyvenv</title>
+      <link>https://city.shaform.com/zh/tag/pyvenv/</link>
+      <pubDate>Sun, 22 Jun 2014 10:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/pyvenv/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>virtualenv</title>
+      <link>https://city.shaform.com/zh/tag/virtualenv/</link>
+      <pubDate>Sun, 22 Jun 2014 10:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/virtualenv/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>public key</title>
+      <link>https://city.shaform.com/zh/tag/public-key/</link>
+      <pubDate>Sat, 21 Jun 2014 09:00:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/public-key/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>UEFI</title>
+      <link>https://city.shaform.com/zh/tag/uefi/</link>
+      <pubDate>Thu, 19 Jun 2014 16:05:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/uefi/</guid>
       <description></description>
     </item>
     
@@ -399,56 +669,47 @@
     </item>
     
     <item>
-      <title>YubiKey</title>
-      <link>https://city.shaform.com/zh/tag/yubikey/</link>
-      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
+      <title>BBS</title>
+      <link>https://city.shaform.com/zh/tag/bbs/</link>
+      <pubDate>Tue, 27 May 2014 13:21:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/yubikey/</guid>
+      <guid>https://city.shaform.com/zh/tag/bbs/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>ansible</title>
-      <link>https://city.shaform.com/zh/tag/ansible/</link>
-      <pubDate>Sat, 25 Mar 2017 09:09:00 +0800</pubDate>
+      <title>Pixnet</title>
+      <link>https://city.shaform.com/zh/tag/pixnet/</link>
+      <pubDate>Sat, 17 May 2014 07:25:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/ansible/</guid>
+      <guid>https://city.shaform.com/zh/tag/pixnet/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>bs2</title>
-      <link>https://city.shaform.com/zh/tag/bs2/</link>
-      <pubDate>Tue, 26 Jul 2016 22:30:00 +0800</pubDate>
+      <title>HBase</title>
+      <link>https://city.shaform.com/zh/tag/hbase/</link>
+      <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/bs2/</guid>
+      <guid>https://city.shaform.com/zh/tag/hbase/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>cats</title>
-      <link>https://city.shaform.com/zh/tag/cats/</link>
-      <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
+      <title>HDFS</title>
+      <link>https://city.shaform.com/zh/tag/hdfs/</link>
+      <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/cats/</guid>
+      <guid>https://city.shaform.com/zh/tag/hdfs/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>crawler</title>
-      <link>https://city.shaform.com/zh/tag/crawler/</link>
-      <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
+      <title>Hadoop</title>
+      <link>https://city.shaform.com/zh/tag/hadoop/</link>
+      <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/crawler/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>deep learning</title>
-      <link>https://city.shaform.com/zh/tag/deep-learning/</link>
-      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/deep-learning/</guid>
+      <guid>https://city.shaform.com/zh/tag/hadoop/</guid>
       <description></description>
     </item>
     
@@ -462,272 +723,11 @@
     </item>
     
     <item>
-      <title>gnupg</title>
-      <link>https://city.shaform.com/zh/tag/gnupg/</link>
-      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/gnupg/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>go</title>
-      <link>https://city.shaform.com/zh/tag/go/</link>
-      <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/go/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gocryptfs</title>
-      <link>https://city.shaform.com/zh/tag/gocryptfs/</link>
-      <pubDate>Sat, 08 Dec 2018 20:20:00 -0500</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/gocryptfs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gspread</title>
-      <link>https://city.shaform.com/zh/tag/gspread/</link>
-      <pubDate>Sat, 19 Mar 2016 09:02:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/gspread/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>hdf5</title>
-      <link>https://city.shaform.com/zh/tag/hdf5/</link>
-      <pubDate>Sun, 11 Nov 2018 11:40:00 -0500</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/hdf5/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ibus</title>
-      <link>https://city.shaform.com/zh/tag/ibus/</link>
-      <pubDate>Sat, 20 Feb 2010 19:46:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/ibus/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>jieba</title>
-      <link>https://city.shaform.com/zh/tag/jieba/</link>
-      <pubDate>Tue, 04 Nov 2014 17:20:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/jieba/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>jupyter</title>
-      <link>https://city.shaform.com/zh/tag/jupyter/</link>
-      <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/jupyter/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>liblinear</title>
-      <link>https://city.shaform.com/zh/tag/liblinear/</link>
-      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/liblinear/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>https://city.shaform.com/zh/tag/linux/</link>
-      <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>matplotlib</title>
-      <link>https://city.shaform.com/zh/tag/matplotlib/</link>
-      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/matplotlib/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>network</title>
-      <link>https://city.shaform.com/zh/tag/network/</link>
-      <pubDate>Wed, 12 Nov 2014 09:20:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/network/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>numpy</title>
-      <link>https://city.shaform.com/zh/tag/numpy/</link>
-      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/numpy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>object detection</title>
-      <link>https://city.shaform.com/zh/tag/object-detection/</link>
-      <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/object-detection/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pandas</title>
-      <link>https://city.shaform.com/zh/tag/pandas/</link>
-      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/pandas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pass</title>
-      <link>https://city.shaform.com/zh/tag/pass/</link>
-      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/pass/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>payments</title>
-      <link>https://city.shaform.com/zh/tag/payments/</link>
-      <pubDate>Mon, 20 Apr 2015 08:34:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/payments/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>public key</title>
-      <link>https://city.shaform.com/zh/tag/public-key/</link>
-      <pubDate>Sat, 21 Jun 2014 09:00:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/public-key/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>py3tracker</title>
-      <link>https://city.shaform.com/zh/tag/py3tracker/</link>
-      <pubDate>Sat, 10 Sep 2016 19:44:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/py3tracker/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pyvenv</title>
-      <link>https://city.shaform.com/zh/tag/pyvenv/</link>
-      <pubDate>Sun, 22 Jun 2014 10:30:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/pyvenv/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>qwerty</title>
       <link>https://city.shaform.com/zh/tag/qwerty/</link>
       <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/qwerty/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>rnnlm</title>
-      <link>https://city.shaform.com/zh/tag/rnnlm/</link>
-      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/rnnlm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>scikit-learn</title>
-      <link>https://city.shaform.com/zh/tag/scikit-learn/</link>
-      <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/scikit-learn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sentiment analysis</title>
-      <link>https://city.shaform.com/zh/tag/sentiment-analysis/</link>
-      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/sentiment-analysis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>subnet</title>
-      <link>https://city.shaform.com/zh/tag/subnet/</link>
-      <pubDate>Wed, 12 Nov 2014 09:20:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/subnet/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tf-idf</title>
-      <link>https://city.shaform.com/zh/tag/tf-idf/</link>
-      <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/tf-idf/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tomb</title>
-      <link>https://city.shaform.com/zh/tag/tomb/</link>
-      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/tomb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>truecrypt</title>
-      <link>https://city.shaform.com/zh/tag/truecrypt/</link>
-      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/truecrypt/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>virtualenv</title>
-      <link>https://city.shaform.com/zh/tag/virtualenv/</link>
-      <pubDate>Sun, 22 Jun 2014 10:30:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/virtualenv/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>windows</title>
-      <link>https://city.shaform.com/zh/tag/windows/</link>
-      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/windows/</guid>
       <description></description>
     </item>
     

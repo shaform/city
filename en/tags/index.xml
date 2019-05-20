@@ -6,10 +6,64 @@
     <description>Recent content in Tags on City of Wings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 23 Oct 2017 21:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/en/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PackedSequence</title>
+      <link>https://city.shaform.com/en/tag/packedsequence/</link>
+      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/packedsequence/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PyTorch</title>
+      <link>https://city.shaform.com/en/tag/pytorch/</link>
+      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/pytorch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>https://city.shaform.com/en/tag/hugo/</link>
+      <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pelican</title>
+      <link>https://city.shaform.com/en/tag/pelican/</link>
+      <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/pelican/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://city.shaform.com/en/tag/python/</link>
+      <pubDate>Mon, 16 Jul 2018 21:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RSS</title>
+      <link>https://city.shaform.com/en/tag/rss/</link>
+      <pubDate>Mon, 16 Jul 2018 21:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/rss/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>CUDA</title>
@@ -26,123 +80,6 @@
       <pubDate>Mon, 23 Oct 2017 21:30:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/tag/caffe/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Google Inbox</title>
-      <link>https://city.shaform.com/en/tag/google-inbox/</link>
-      <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/google-inbox/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Hadoop</title>
-      <link>https://city.shaform.com/en/tag/hadoop/</link>
-      <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/hadoop/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Hugo</title>
-      <link>https://city.shaform.com/en/tag/hugo/</link>
-      <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/hugo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Internet</title>
-      <link>https://city.shaform.com/en/tag/internet/</link>
-      <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/internet/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>PTT</title>
-      <link>https://city.shaform.com/en/tag/ptt/</link>
-      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/ptt/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>PackedSequence</title>
-      <link>https://city.shaform.com/en/tag/packedsequence/</link>
-      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/packedsequence/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pelican</title>
-      <link>https://city.shaform.com/en/tag/pelican/</link>
-      <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/pelican/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>PyTorch</title>
-      <link>https://city.shaform.com/en/tag/pytorch/</link>
-      <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/pytorch/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>https://city.shaform.com/en/tag/python/</link>
-      <pubDate>Mon, 16 Jul 2018 21:30:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python 3</title>
-      <link>https://city.shaform.com/en/tag/python-3/</link>
-      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/python-3/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>RSS</title>
-      <link>https://city.shaform.com/en/tag/rss/</link>
-      <pubDate>Mon, 16 Jul 2018 21:30:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/rss/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Scrapy</title>
-      <link>https://city.shaform.com/en/tag/scrapy/</link>
-      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/scrapy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Spark</title>
-      <link>https://city.shaform.com/en/tag/spark/</link>
-      <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/spark/</guid>
       <description></description>
     </item>
     
@@ -165,65 +102,47 @@
     </item>
     
     <item>
-      <title>browser</title>
-      <link>https://city.shaform.com/en/tag/browser/</link>
-      <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
+      <title>PTT</title>
+      <link>https://city.shaform.com/en/tag/ptt/</link>
+      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/en/tag/browser/</guid>
+      <guid>https://city.shaform.com/en/tag/ptt/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>deep learning</title>
-      <link>https://city.shaform.com/en/tag/deep-learning/</link>
-      <pubDate>Sat, 06 Jun 2015 11:05:00 +0800</pubDate>
+      <title>Python 3</title>
+      <link>https://city.shaform.com/en/tag/python-3/</link>
+      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/en/tag/deep-learning/</guid>
+      <guid>https://city.shaform.com/en/tag/python-3/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>dvorak</title>
-      <link>https://city.shaform.com/en/tag/dvorak/</link>
-      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      <title>Scrapy</title>
+      <link>https://city.shaform.com/en/tag/scrapy/</link>
+      <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/en/tag/dvorak/</guid>
+      <guid>https://city.shaform.com/en/tag/scrapy/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>linux</title>
-      <link>https://city.shaform.com/en/tag/linux/</link>
-      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      <title>Hadoop</title>
+      <link>https://city.shaform.com/en/tag/hadoop/</link>
+      <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/en/tag/linux/</guid>
+      <guid>https://city.shaform.com/en/tag/hadoop/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>payments</title>
-      <link>https://city.shaform.com/en/tag/payments/</link>
-      <pubDate>Mon, 20 Apr 2015 08:34:00 +0800</pubDate>
+      <title>Spark</title>
+      <link>https://city.shaform.com/en/tag/spark/</link>
+      <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/en/tag/payments/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>qwerty</title>
-      <link>https://city.shaform.com/en/tag/qwerty/</link>
-      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/qwerty/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sentiment analysis</title>
-      <link>https://city.shaform.com/en/tag/sentiment-analysis/</link>
-      <pubDate>Sat, 06 Jun 2015 11:05:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/sentiment-analysis/</guid>
+      <guid>https://city.shaform.com/en/tag/spark/</guid>
       <description></description>
     </item>
     
@@ -246,11 +165,20 @@
     </item>
     
     <item>
-      <title>windows</title>
-      <link>https://city.shaform.com/en/tag/windows/</link>
-      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      <title>deep learning</title>
+      <link>https://city.shaform.com/en/tag/deep-learning/</link>
+      <pubDate>Sat, 06 Jun 2015 11:05:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/en/tag/windows/</guid>
+      <guid>https://city.shaform.com/en/tag/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sentiment analysis</title>
+      <link>https://city.shaform.com/en/tag/sentiment-analysis/</link>
+      <pubDate>Sat, 06 Jun 2015 11:05:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/sentiment-analysis/</guid>
       <description></description>
     </item>
     
@@ -260,6 +188,78 @@
       <pubDate>Sat, 06 Jun 2015 11:05:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/tag/word2vec/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>payments</title>
+      <link>https://city.shaform.com/en/tag/payments/</link>
+      <pubDate>Mon, 20 Apr 2015 08:34:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/payments/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Google Inbox</title>
+      <link>https://city.shaform.com/en/tag/google-inbox/</link>
+      <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/google-inbox/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Internet</title>
+      <link>https://city.shaform.com/en/tag/internet/</link>
+      <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/internet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>browser</title>
+      <link>https://city.shaform.com/en/tag/browser/</link>
+      <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/browser/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dvorak</title>
+      <link>https://city.shaform.com/en/tag/dvorak/</link>
+      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/dvorak/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://city.shaform.com/en/tag/linux/</link>
+      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>qwerty</title>
+      <link>https://city.shaform.com/en/tag/qwerty/</link>
+      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/qwerty/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>windows</title>
+      <link>https://city.shaform.com/en/tag/windows/</link>
+      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/windows/</guid>
       <description></description>
     </item>
     

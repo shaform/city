@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0">
   <channel>
     <title>City of Wings</title>
@@ -30,7 +29,7 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;p&gt;P.s., the newer version of PyTorch is going to have &lt;a href=&#34;https://github.com/pytorch/pytorch/pull/15225&#34;&gt;built-in support for this&lt;/a&gt;, once it&amp;rsquo;s released, it&amp;rsquo;s no longer needed to implement it by ourselves.&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -107,7 +106,7 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;/ul&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -252,7 +251,7 @@ by their published date.&lt;/p&gt;
 This is also how the current global RSS feed for City of Wings is generated.&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -423,7 +422,7 @@ changed to the current Python version:&lt;/p&gt;
 
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -454,7 +453,7 @@ I found the &lt;a href=&#34;http://scrapy.org/&#34;&gt;Scrapy&lt;/a&gt; framewor
 &lt;p&gt;Now, &lt;a href=&#34;https://pypi.python.org/pypi/Scrapy/1.1.0&#34;&gt;Scrapy 1.1&lt;/a&gt; is released. Along with updated features, it also has &lt;a href=&#34;https://github.com/scrapy/scrapy/issues/263&#34;&gt;basic Python 3 support&lt;/a&gt;. So I&amp;rsquo;ve decided to test about it and start writing a web scraper.&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -957,7 +956,7 @@ In such cases, the files would only contain two 32-bit 0s.&lt;/p&gt;
 
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -1117,7 +1116,7 @@ Optimization Done.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The relevant source code is on &lt;a href=&#34;https://github.com/shaform/experiments/blob/master/caffe_sentiment_analysis/&#34;&gt;shaform/experiments/caffe_sentiment_analysis&lt;/a&gt;.&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -1183,7 +1182,7 @@ this is not required.&lt;/p&gt;
 they can make everyone uses the system and make money.&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -1291,7 +1290,7 @@ they can make everyone uses the system and make money.&lt;/p&gt;
 &lt;p&gt;I choose to publish this article because I realize that I may not have too much time to polish this idea and implement it. As you can see, this article is still very primitive. But I hope someone may be able to find something valuable in this idea, and help us escape from the distracting dilemma.&lt;/p&gt;
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;
@@ -1315,7 +1314,7 @@ they can make everyone uses the system and make money.&lt;/p&gt;
         <description>
 
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+
 &lt;div class=&#34;box aligncenter&#34;&gt;
   &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
     &lt;div class=&#34;img&#34;&gt;

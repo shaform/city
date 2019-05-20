@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.54.0" />
+  <meta name="generator" content="Hugo 0.55.6" />
   <meta charset="utf-8">
   <title>在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -210,9 +210,10 @@ if (!doNotTrack) {
 <div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
 <span class="nt">&lt;name&gt;</span>fs.default.name<span class="nt">&lt;/name&gt;</span>
 <span class="nt">&lt;value&gt;</span>hdfs://master-dn:54310<span class="nt">&lt;/value&gt;</span>
-<span class="nt">&lt;/property&gt;</span></code></pre></div></li>
-
-<li><p>mapred-site.xml</p>
+<span class="nt">&lt;/property&gt;</span></code></pre></div>
+<ul>
+<li>mapred-site.xml</li>
+</ul>
 <div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
 <span class="nt">&lt;name&gt;</span>mapred.job.tracker<span class="nt">&lt;/name&gt;</span>
 <span class="nt">&lt;value&gt;</span>master-dn:54311<span class="nt">&lt;/value&gt;</span>
@@ -222,13 +223,12 @@ if (!doNotTrack) {
 <div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
 <span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
 <span class="nt">&lt;value&gt;</span>3<span class="nt">&lt;/value&gt;</span>
-<span class="nt">&lt;/property&gt;</span></code></pre></div></li>
-</ul>
-
+<span class="nt">&lt;/property&gt;</span></code></pre></div>
 <p>然後在 NameNode 上修改將以下檔案修改成如下內容：</p>
 
 <ul>
-<li><p>masters</p>
+<li>masters</li>
+</ul>
 <div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">master-dn</code></pre></div></li>
 
 <li><p>slaves</p>
