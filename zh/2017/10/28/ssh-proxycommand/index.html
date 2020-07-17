@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.74.1" />
   <meta charset="utf-8">
   <title>使用 SSH ProxyCommand/ProxyJump 來連上內網主機 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,25 +22,19 @@
 <meta property="og:description" content="以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 nlg 程式： #!/bin/bash NLG_WKS_3F={NLG_WKS_3F_HOST} NLG_WKS_2F={NLG_WKS_2F_HOST} case $1 in [3-9]) ssh $USER@$NLG_WKS_3F -p 2200$MACHINE ;; &#34;a&#34;)" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/zh/2017/10/28/ssh-proxycommand/" />
-
 <meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" />
-<meta property="article:published_time" content="2017-10-28T21:45:00&#43;08:00"/>
-<meta property="article:modified_time" content="2017-10-28T21:45:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2017-10-28T21:45:00+08:00" />
+<meta property="article:modified_time" content="2017-10-28T21:45:00+08:00" />
 <meta itemprop="name" content="使用 SSH ProxyCommand/ProxyJump 來連上內網主機">
 <meta itemprop="description" content="以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 nlg 程式： #!/bin/bash NLG_WKS_3F={NLG_WKS_3F_HOST} NLG_WKS_2F={NLG_WKS_2F_HOST} case $1 in [3-9]) ssh $USER@$NLG_WKS_3F -p 2200$MACHINE ;; &#34;a&#34;)">
-
-
 <meta itemprop="datePublished" content="2017-10-28T21:45:00&#43;08:00" />
 <meta itemprop="dateModified" content="2017-10-28T21:45:00&#43;08:00" />
 <meta itemprop="wordCount" content="548">
-
-  <meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
-
+<meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
 
 
-<meta itemprop="keywords" content="linux,SSH," />
-<meta name="twitter:card" content="summary_large_image"/>
+
+<meta itemprop="keywords" content="linux,SSH," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg"/>
 
 <meta name="twitter:title" content="使用 SSH ProxyCommand/ProxyJump 來連上內網主機"/>
@@ -145,8 +139,8 @@ if (!doNotTrack) {
           <div class="clearfix"></div>
           <p class="float-right header-tags">
               <i class="fas fa-tags" aria-hidden="true"></i>
-              <a href="https://city.shaform.com/zh/tag/ssh/">SSH</a>, 
-                <a href="https://city.shaform.com/zh/tag/linux/">linux</a>
+              <a href="https://city.shaform.com/zh/tag/linux/">linux</a>, 
+                <a href="https://city.shaform.com/zh/tag/ssh/">SSH</a>
           </p>
         
         
@@ -165,8 +159,8 @@ if (!doNotTrack) {
 </span><span class="cp"></span><span class="nv">NLG_WKS_3F</span><span class="o">={</span>NLG_WKS_3F_HOST<span class="o">}</span>
 <span class="nv">NLG_WKS_2F</span><span class="o">={</span>NLG_WKS_2F_HOST<span class="o">}</span>
 <span class="k">case</span> <span class="nv">$1</span> in
-    <span class="o">[</span><span class="m">3</span>-9<span class="o">])</span>
-        ssh <span class="nv">$USER</span>@<span class="nv">$NLG_WKS_3F</span> -p <span class="m">2200</span><span class="nv">$MACHINE</span>
+    <span class="o">[</span>3-9<span class="o">])</span>
+        ssh <span class="nv">$USER</span>@<span class="nv">$NLG_WKS_3F</span> -p 2200<span class="nv">$MACHINE</span>
         <span class="p">;;</span>
     <span class="s2">&#34;a&#34;</span><span class="o">)</span>
         ssh <span class="nv">$USER</span>@<span class="nv">$NLG_WKS_2F</span>
@@ -176,11 +170,9 @@ if (!doNotTrack) {
         <span class="p">;;</span>
     *<span class="o">)</span>
         <span class="p">;;</span>
-<span class="k">esac</span></code></pre></div>
-<p>如此一來，要連線時，只要打以下指令就行了：</p>
-
+<span class="k">esac</span>
+</code></pre></div><p>如此一來，要連線時，只要打以下指令就行了：</p>
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">nlg b</span></code></pre></div></div>
-
 
 <p>後來才知道，其實可以使用 <code>.ssh/config</code> 來設定連線的 Hosts。於是修改 <code>.ssh/config</code> 如下：</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Host nlg-wks-2
@@ -191,37 +183,29 @@ Port <span class="m">22002</span>
 Host nlg-wks-b
 User <span class="o">{</span>USER<span class="o">}</span>
 HostName <span class="o">{</span>NLG_WKS_2F_HOST<span class="o">}</span>
-Port <span class="m">22002</span></code></pre></div>
-<p>如此一來，要連線時，只要打以下指令就行了：</p>
-
+Port <span class="m">22002</span>
+</code></pre></div><p>如此一來，要連線時，只要打以下指令就行了：</p>
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ssh nlg-wks-b</span></code></pre></div></div>
 
-
 <p>然而，由於奇怪的 port 對應，使得這麼做必須在 <code>.ssh/config</code> 裡增加許多行數。後來才發現，其實可以用 <code>ProxyCommand</code> 來做到先自動連上其中一台機器，再自動從那台機器連到內網的其他機器。</p>
-
 <p>在連外網連不到的機器時，用 <code>ProxyCommand</code> 而非自己連兩次 ssh 還有一個好處，就是可以把用來認證的 ssh private key 存在本機，而不存在 NLG-WKS 伺服器裡，避免被同學偷看 private key，但卻可以用這個 private key 在跳板過程裡，用來認證最後想連上的主機。</p>
-
 <p>實際作法如下，首先在 <code>.ssh/config</code> 新增用來跳板的主機：</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Host nlgs
 Hostname <span class="o">{</span>NLG_WKS_3F_HOST<span class="o">}</span>
-User <span class="o">{</span>USER<span class="o">}</span></code></pre></div>
-<p>緊接著新增跳板項目：</p>
+User <span class="o">{</span>USER<span class="o">}</span>
+</code></pre></div><p>緊接著新增跳板項目：</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Host nlg-wks-*
 User <span class="o">{</span>USER<span class="o">}</span>
-ProxyCommand ssh -q -W %h:%p nlgs</code></pre></div>
-<p>具體的意思是，在連 <code>nlg-wks-*</code> 機器時，會先連上 <code>nlgs</code> 機器，然後再從 <code>nlgs</code> 連 <code>nlg-wks-*</code> (因此 <code>nlgs</code> 機器本身，要看得懂 <code>nlg-wks-*</code> 才行，幸好之前在處理 <a href="/zh/2014/12/13/migrate-from-nis-to-ldap/">LDAP</a> 時已經順便把 DNS 紀錄都設了)。</p>
-
+ProxyCommand ssh -q -W %h:%p nlgs
+</code></pre></div><p>具體的意思是，在連 <code>nlg-wks-*</code> 機器時，會先連上 <code>nlgs</code> 機器，然後再從 <code>nlgs</code> 連 <code>nlg-wks-*</code> (因此 <code>nlgs</code> 機器本身，要看得懂 <code>nlg-wks-*</code> 才行，幸好之前在處理 <a href="/zh/2014/12/13/migrate-from-nis-to-ldap/">LDAP</a> 時已經順便把 DNS 紀錄都設了)。</p>
 <p>如此一來，就能用以下指令，先跳到一個主機，再跳到其他主機了：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ssh nlg-wks-b</span></code></pre></div></div>
-
 
 <p>如果是使用較新的 ssh client，也能改用 <code>ProxyJump</code>：</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Host nlg-wks-*
 User <span class="o">{</span>USER<span class="o">}</span>
-ProxyJump nlgs</code></pre></div>
-<p>如此一來，就能更方便的做實驗了。</p>
-
+ProxyJump nlgs
+</code></pre></div><p>如此一來，就能更方便的做實驗了。</p>
 
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
 <div class="box aligncenter">
@@ -246,7 +230,7 @@ ProxyJump nlgs</code></pre></div>
       <div class="author-content">
       <p class="author-title">作者</p>
       <p class="author-name">Yong-Siang Shih</p>
-      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<br><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<!-- raw HTML omitted --><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
       </div>
     </div>
   </div>
@@ -345,7 +329,7 @@ ProxyJump nlgs</code></pre></div>
             Shaform
             
               2010 -
-            2019
+            2020
           </small>
           
         </p>

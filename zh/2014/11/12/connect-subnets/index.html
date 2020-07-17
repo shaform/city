@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.74.1" />
   <meta charset="utf-8">
   <title>連結兩個私有內網 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,25 +22,19 @@
 <meta property="og:description" content="實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/zh/2014/11/12/connect-subnets/" />
-
 <meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" />
-<meta property="article:published_time" content="2014-11-12T09:20:00&#43;08:00"/>
-<meta property="article:modified_time" content="2014-11-12T09:20:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2014-11-12T09:20:00+08:00" />
+<meta property="article:modified_time" content="2014-11-12T09:20:00+08:00" />
 <meta itemprop="name" content="連結兩個私有內網">
 <meta itemprop="description" content="實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這">
-
-
 <meta itemprop="datePublished" content="2014-11-12T09:20:00&#43;08:00" />
 <meta itemprop="dateModified" content="2014-11-12T09:20:00&#43;08:00" />
 <meta itemprop="wordCount" content="968">
-
-  <meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
-
+<meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
 
 
-<meta itemprop="keywords" content="linux,subnet,network," />
-<meta name="twitter:card" content="summary_large_image"/>
+
+<meta itemprop="keywords" content="linux,subnet,network," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg"/>
 
 <meta name="twitter:title" content="連結兩個私有內網"/>
@@ -161,33 +155,21 @@ if (!doNotTrack) {
   <main>
 <div class="container content">
   <article>
-  
-
-<p>實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。</p>
-
+  <p>實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。</p>
 <p>記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！</p>
-
 <h2 id="機器配置">機器配置</h2>
-
 <p>假設現在有兩群工作站：</p>
-
 <pre><code>bob     eth0: 192.168.13.1/24  eth1: 140.112.13.5
 jack    eth0: 192.168.13.2/24
 
 ted     eth0: 192.168.14.1/24  eth1: 140.112.14.20
 nick    eth0: 192.168.14.2/24
 </code></pre>
-
 <p>其中，bob 和 ted 有接上 Internet，而 jack 接到 bob，nick 接到 ted，並透過他們連結外網。我們希望讓 jack 和 nick 可以直接連結。</p>
-
 <h2 id="作法">作法</h2>
-
 <h3 id="bob-的設定">Bob 的設定</h3>
-
 <p>我們將會在 bob 和 ted 之間建立一個 tunnel，然後修改 routing table 將送往另一個內網的流量導進 tunnel 之中。</p>
-
 <p>首先，在 bob 的 <code>/etc/network/interface</code> 中，修改 eth0 的設置（或者修改 eth1 也可以，不過考慮到如果 eth1 改錯可能就無法用 ssh 連進來，所以先改 eth0）：</p>
-
 <pre><code>auto eth0
 iface eth0 inet static
         address 192.168.13.1
@@ -201,33 +183,21 @@ iface eth0 inet static
         down ip route del 192.168.14.0/24 via 192.168.15.20
         post-down ip tunnel del mytunnel
 </code></pre>
-
 <p>主要是要讓 bob 連結內網時，自動建立起 tunnel，而切斷連線時自動取消，在實際修改檔案前，也可以先用指令列測試其中的指令：</p>
-
 <p>首先是建立一個虛擬的 tunnel 界面，並連結到 ted 的外部 IP：</p>
-
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo ip tunnel add mytunnel mode ipip remote <span class="m">140</span>.112.14.20</span></code></pre></div></div>
-
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo ip tunnel add mytunnel mode ipip remote 140.112.14.20</span></code></pre></div></div>
 
 <p>緊接著，隨意為 bob 在此界面指定一個 IP：</p>
-
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo up ip addr add <span class="m">192</span>.168.15.5/24 dev mytunnel</span></code></pre></div></div>
-
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo up ip addr add 192.168.15.5/24 dev mytunnel</span></code></pre></div></div>
 
 <p>再來，把界面啟動連結：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo up ip link <span class="nb">set</span> dev mytunnel up</span></code></pre></div></div>
 
-
 <p>最後再設定把連到另一個內網的流量都導到 ted 在此 tunnel 的 IP：</p>
-
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo up ip route add <span class="m">192</span>.168.14.0/24 via <span class="m">192</span>.168.15.20</span></code></pre></div></div>
-
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo up ip route add 192.168.14.0/24 via 192.168.15.20</span></code></pre></div></div>
 
 <h3 id="ted-的設定">Ted 的設定</h3>
-
 <p>同樣的道理，在 ted 的 <code>/etc/network/interface</code> 中，修改 eth0 的設置，加入以下項目：</p>
-
 <pre><code>pre-up ip tunnel add mytunnel mode ipip remote 140.112.13.5
 up ip addr add 192.168.15.20/24 dev mytunnel
 up ip link set dev mytunnel up
@@ -235,52 +205,33 @@ up ip route add 192.168.13.0/24 via 192.168.15.5
 down ip route del 192.168.13.0/24 via 192.168.15.5
 post-down ip tunnel del mytunnel
 </code></pre>
-
 <h3 id="啟用-ip-forwarding">啟用 IP Forwarding</h3>
-
 <p>理論上原本工作站的內網設置應該就有啟用 IP forwarding 的功能，不過為求完整，在這裡記載啟用的方法。可以在 bob 和 ted 上執行以下指令：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo sysctl -w net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span></span></code></pre></div></div>
 
-
 <p>此外，若要讓此設定開機後仍然維持，則需修改 <code>/etc/sysctl.conf</code>，並取消註解以下的項目：</p>
-
 <pre><code>#net.ipv4.ip_forward=1
 </code></pre>
-
 <h3 id="啟用新網路設定">啟用新網路設定</h3>
-
 <p>接下來就可以在 bob 和 ted 上執行以下指令使新設定生效了：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo ifdown eth0 <span class="o">&amp;&amp;</span> ifup eth0</span></code></pre></div></div>
 
-
 <p>注意由於一開始 down 和 post-down 的指令可能會失敗，所以如果直接執行以上指令有可能會有問題，這時也可以重新開機。或者稍微修改一下指令執行及檔案修改的順序來達成想要的效果。</p>
-
 <h3 id="測試">測試</h3>
-
 <p>可以在 bob 和 jack 上測試以下指令：</p>
-
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ping <span class="m">192</span>.168.14.2</span></code></pre></div></div>
-
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ping 192.168.14.2</span></code></pre></div></div>
 
 <p>在 ted 和 nick 上測試以下指令：</p>
-
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ping <span class="m">192</span>.168.13.2</span></code></pre></div></div>
-
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ping 192.168.13.2</span></code></pre></div></div>
 
 <h2 id="參考">參考</h2>
-
 <ul>
 <li><a href="http://unix.stackexchange.com/questions/44065/linux-networking-routing-to-virtual-ip-addresses-from-a-different-subnet">Linux Networking routing to virtual ip addresses from a different subnet</a></li>
 </ul>
-
 <p>如果想要把兩組機器都放進同個內網，也可以參考更進階的：</p>
-
 <ul>
 <li><a href="https://docs.openvpn.net/how-to-tutorialsguides/site-to-site-layer-2-bridging-using-openvpn-access-server/">Site-to-Site Layer 2 Bridging Using OpenVPN Access Server and a Linux Gateway Client</a></li>
 </ul>
-
 
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
 <div class="box aligncenter">
@@ -305,7 +256,7 @@ post-down ip tunnel del mytunnel
       <div class="author-content">
       <p class="author-title">作者</p>
       <p class="author-name">Yong-Siang Shih</p>
-      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<br><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<!-- raw HTML omitted --><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
       </div>
     </div>
   </div>
@@ -404,7 +355,7 @@ post-down ip tunnel del mytunnel
             Shaform
             
               2010 -
-            2019
+            2020
           </small>
           
         </p>

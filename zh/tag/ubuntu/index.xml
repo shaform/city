@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ubuntu on 翼之都</title>
@@ -6,10 +6,19 @@
     <description>Recent content in Ubuntu on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 31 Oct 2016 21:28:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2020 20:40:00 -0400</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/zh/tag/ubuntu/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>修復在加密硬碟裡安裝 Ubuntu 20.04 後無法開機的問題</title>
+      <link>https://city.shaform.com/zh/2020/07/16/fix-unbootable-ubuntu/</link>
+      <pubDate>Thu, 16 Jul 2020 20:40:00 -0400</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2020/07/16/fix-unbootable-ubuntu/</guid>
+      <description>問題 最近嘗試在不同的筆電上安裝 Ubuntu 20.04，發現如果選擇使用 LUKS 加密整個硬碟然後再把 Ubuntu 裝在裡頭的話，似乎有的時候會導致安裝好的 Ubuntu 無法開機。雖然</description>
+    </item>
     
     <item>
       <title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面</title>

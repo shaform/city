@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.74.1" />
   <meta charset="utf-8">
   <title>IPython Notebook 初探 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,25 +22,19 @@
 <meta property="og:description" content="為什麼是 IPython Notebook? 還記得第一次認識到 IPython Notebook 是在 Taipei.py 吧。 當時我還十分懷疑到底使用瀏覽器界面寫 Python 能有什麼好處。 尤其，這樣根本無法使用 Vim 的強大指令。 雖然有安" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/zh/2015/12/26/ipython-notebook/" />
-
 <meta property="og:image" content="https://city.shaform.com/images/2016/dots.jpg" />
-<meta property="article:published_time" content="2015-12-26T18:46:00&#43;08:00"/>
-<meta property="article:modified_time" content="2015-12-26T18:46:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2015-12-26T18:46:00+08:00" />
+<meta property="article:modified_time" content="2015-12-26T18:46:00+08:00" />
 <meta itemprop="name" content="IPython Notebook 初探">
 <meta itemprop="description" content="為什麼是 IPython Notebook? 還記得第一次認識到 IPython Notebook 是在 Taipei.py 吧。 當時我還十分懷疑到底使用瀏覽器界面寫 Python 能有什麼好處。 尤其，這樣根本無法使用 Vim 的強大指令。 雖然有安">
-
-
 <meta itemprop="datePublished" content="2015-12-26T18:46:00&#43;08:00" />
 <meta itemprop="dateModified" content="2015-12-26T18:46:00&#43;08:00" />
-<meta itemprop="wordCount" content="2293">
-
-  <meta itemprop="image" content="https://city.shaform.com/images/2016/dots.jpg">
-
+<meta itemprop="wordCount" content="2172">
+<meta itemprop="image" content="https://city.shaform.com/images/2016/dots.jpg">
 
 
-<meta itemprop="keywords" content="IPython Notebook,Python,IPython,matplotlib,pandas,numpy,scikit-learn," />
-<meta name="twitter:card" content="summary_large_image"/>
+
+<meta itemprop="keywords" content="IPython Notebook,Python,IPython,matplotlib,pandas,numpy,scikit-learn," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/dots.jpg"/>
 
 <meta name="twitter:title" content="IPython Notebook 初探"/>
@@ -147,10 +141,10 @@ if (!doNotTrack) {
               <i class="fas fa-tags" aria-hidden="true"></i>
               <a href="https://city.shaform.com/zh/tag/ipython/">IPython</a>, 
                 <a href="https://city.shaform.com/zh/tag/ipython-notebook/">IPython Notebook</a>, 
-                <a href="https://city.shaform.com/zh/tag/python/">Python</a>, 
                 <a href="https://city.shaform.com/zh/tag/matplotlib/">matplotlib</a>, 
                 <a href="https://city.shaform.com/zh/tag/numpy/">numpy</a>, 
                 <a href="https://city.shaform.com/zh/tag/pandas/">pandas</a>, 
+                <a href="https://city.shaform.com/zh/tag/python/">Python</a>, 
                 <a href="https://city.shaform.com/zh/tag/scikit-learn/">scikit-learn</a>
           </p>
         
@@ -165,10 +159,7 @@ if (!doNotTrack) {
   <main>
 <div class="container content">
   <article>
-  
-
-<h2 id="為什麼是-ipython-notebook">為什麼是 IPython Notebook?</h2>
-
+  <h2 id="為什麼是-ipython-notebook">為什麼是 IPython Notebook?</h2>
 <p>還記得第一次認識到 <a href="http://ipython.org/notebook.html">IPython Notebook</a>
 是在 <a href="http://www.meetup.com/Taipei-py/">Taipei.py</a> 吧。
 當時我還十分懷疑到底使用瀏覽器界面寫 Python 能有什麼好處。
@@ -176,37 +167,27 @@ if (!doNotTrack) {
 雖然有安裝並嘗試了一下，但最後還是沒有繼續使用 IPython Notebook。
 不過 <a href="http://ipython.org/index.html">IPython interactive shell</a>
 倒確實是比原本的指令列好用許多，於是我慢慢也開始用它來取代原本的 Python 指令列了。</p>
-
 <p>第二次遇到 IPython Notebook 則是在寫 <a href="http://cs231n.stanford.edu">CS231n</a> 作業時。
 在那堂課裡，每份作業都是用 IPython Notebook 來呈現。
 同學可以在 Notebook 上及其他 Python 檔案裡編輯，並在 Notebook 裡直接驗證結果。
 我這才發現這真的是一個跟別人分享與教學的強大方法。
 尤其又有 <a href="http://nbviewer.ipython.org/">nbviewer</a> 可以用，簡直太方便了。
 甚至不用安裝 Python 就能看到別人之前執行 Python 的結果。</p>
-
 <p>後來對使用 Python 處理資料更有經驗後，更是體會到為何科學社群的人很喜歡 IPython
 Notebook 可能的原因了。其中一個重要原因一定是因為它可以極其方便的紀錄實驗步驟吧。</p>
-
-<p><blockquote class="twitter-tweet tw-align-center" lang="en"><p lang="zh" dir="ltr">最近在資料科學領域學習，最讓我感覺震驚的不是技術，反而是 science != engineering 的感覺，跟寫 code 做產品完全不一樣的思維和工作模式。打開 ipython 或 rstudio 就像打開實驗記錄簿，不斷假設、驗證、預測。這跟做軟體工程，差別真的蠻大的。</p>&mdash; i͛ho͌ͯͦ̉͑we̍̃̏ͣr̆̽̓ (@ihower) <a href="https://twitter.com/ihower/status/638171445462372352">August 31, 2015</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
+<!-- raw HTML omitted -->
 <p>像是在做資料分析時，除了要管理程式碼以外，管理資料常常是更複雜的問題。
 像是在做資料前處理或是特徵擷取時，經常會把資料做不同的轉換。
 有時候會因為覺得某些轉換只會做一次，就沒有把轉換的步驟記錄下來。
 但是如果未來想要更改某個轉換步驟，而要重跑實驗時，這種作法就會造成極大的麻煩。</p>
-
 <p>另一方面，若是直接寫一個大程式，每次都從資料源頭進行各種轉換與分析。
 則撰寫程式的時間會拉長，且如果資料量太大，也會使得每次執行程式都跑的太久。</p>
-
 <p>這時就是 IPython Notebook 方便的地方了。它真的就是一個筆記本，讓你紀錄實驗過程。
 本篇文章就是想好好分享一下 IPython Notebook，希望不要像我一樣錯過它了。
 為了當作練習，本篇文章的程式碼也同樣用 IPython Notebook 呈現，
 可以在 <a href="http://nbviewer.ipython.org/github/shaform/experiments/blob/master/ipynb/The%20First%20Tour%20of%20the%20IPython%20Notebook.ipynb">The First Tour of the IPython Notebook</a> 直接閱讀。</p>
-
 <h2 id="在-ipython-裡做資料分析">在 IPython 裡做資料分析</h2>
-
 <p>於是就讓我們開始吧。我們將會用到以下程式庫：</p>
-
 <ol>
 <li><a href="http://mpld3.github.io/">MPLD3</a></li>
 <li><a href="http://matplotlib.org/">matplotlib</a></li>
@@ -215,21 +196,16 @@ Notebook 可能的原因了。其中一個重要原因一定是因為它可以�
 <li><a href="http://scikit-learn.org/stable/index.html">scikit-learn</a></li>
 <li><a href="https://github.com/amueller/word_cloud">wordcloud</a></li>
 </ol>
-
 <p>其中，matplotlib 是一個非常實用的圖表工具。想當初也是朋友來問問題才發現它的存在。
 想不到現在竟然也開始學習了。由於 IPython Notebook 可以直接顯示並存下它產生的圖，所以非常方便。</p>
-
 <p>不過首先，要使用 <a href="http://ipython.readthedocs.org/en/stable/interactive/magics.html?highlight=matplotlib#magic-matplotlib"><code>%matplotlib inline</code></a>
 magic command 設定讓圖表直接顯示在筆記本上：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span></code></pre></div>
-<h3 id="找出最重要的特徵">找出最重要的特徵</h3>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</code></pre></div><h3 id="找出最重要的特徵">找出最重要的特徵</h3>
 <p>通常要對模型有一些理解，找出權重最大的特徵可以有些幫助。所以我們用
 polarity dataset 來示範這個概念：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">wget http://www.cs.cornell.edu/people/pabo/movie-review-data/review_polarity.tar.gz
 </span><span class="hl">tar xzf review_polarity.tar.gz</span></code></pre></div></div>
-
 
 <p>然後，載入必要的套件：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -237,18 +213,18 @@ polarity dataset 來示範這個概念：</p>
 
 <span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_files</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
-<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">LinearSVC</span></code></pre></div>
-<p>我們用 <a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html"><code>TfidfVectorizer</code></a> 來得到每個句子的特徵向量：</p>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">LinearSVC</span>
+</code></pre></div><p>我們用 <a href="http://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html"><code>TfidfVectorizer</code></a> 來得到每個句子的特徵向量：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">sent_data</span> <span class="o">=</span> <span class="n">load_files</span><span class="p">(</span><span class="s1">&#39;txt_sentoken&#39;</span><span class="p">)</span>
 
 <span class="n">tfidf_vec</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
 
 <span class="n">sent_X</span> <span class="o">=</span> <span class="n">tfidf_vec</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">sent_data</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-<span class="n">sent_y</span> <span class="o">=</span> <span class="n">sent_data</span><span class="o">.</span><span class="n">target</span></code></pre></div>
-<p>最後再用 <a href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html"><code>LinearSVC</code></a> 訓練正負向的分類器：</p>
+<span class="n">sent_y</span> <span class="o">=</span> <span class="n">sent_data</span><span class="o">.</span><span class="n">target</span>
+</code></pre></div><p>最後再用 <a href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html"><code>LinearSVC</code></a> 訓練正負向的分類器：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">lsvc</span> <span class="o">=</span> <span class="n">LinearSVC</span><span class="p">()</span>
-<span class="n">lsvc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sent_X</span><span class="p">,</span> <span class="n">sent_y</span><span class="p">)</span></code></pre></div>
-<p>接下來就可以找出權重最重的特徵了：</p>
+<span class="n">lsvc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sent_X</span><span class="p">,</span> <span class="n">sent_y</span><span class="p">)</span>
+</code></pre></div><p>接下來就可以找出權重最重的特徵了：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">display_top_features</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">top_n</span><span class="p">):</span>
     <span class="n">top_features</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">names</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)[:</span><span class="n">top_n</span><span class="p">]</span>
     <span class="n">top_weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">top_features</span><span class="p">]</span>
@@ -267,8 +243,8 @@ polarity dataset 來示範這個概念：</p>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 
-<span class="n">display_top_features</span><span class="p">(</span><span class="n">lsvc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tfidf_vec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="mi">20</span><span class="p">)</span></code></pre></div>
-
+<span class="n">display_top_features</span><span class="p">(</span><span class="n">lsvc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tfidf_vec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="mi">20</span><span class="p">)</span>
+</code></pre></div>
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
 <div class="box">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
@@ -278,7 +254,6 @@ polarity dataset 來示範這個概念：</p>
     
   </figure>
 </div>
-
 
 <p>記得也曾在學長的論文上看過文字雲的呈現方式：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">wordcloud</span> <span class="kn">import</span> <span class="n">WordCloud</span>
@@ -292,7 +267,7 @@ polarity dataset 來示範這個概念：</p>
     <span class="n">pos_weights</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="n">weights</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
     <span class="n">pos_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">names</span><span class="p">)[</span><span class="n">weights</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
 
-    <span class="n">neg_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">weights</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">neg_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">weights</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">])</span>
     <span class="n">neg_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">names</span><span class="p">)[</span><span class="n">weights</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
 
     <span class="n">lst</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Positive&#39;</span><span class="p">,</span> <span class="n">pos_weights</span><span class="p">,</span> <span class="n">pos_names</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Negative&#39;</span><span class="p">,</span> <span class="n">neg_weights</span><span class="p">,</span> <span class="n">neg_names</span><span class="p">)]</span>
@@ -305,8 +280,8 @@ polarity dataset 來示範這個概念：</p>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 
-<span class="n">display_word_cloud</span><span class="p">(</span><span class="n">lsvc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tfidf_vec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span></code></pre></div>
-
+<span class="n">display_word_cloud</span><span class="p">(</span><span class="n">lsvc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tfidf_vec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</code></pre></div>
 
 <div class="box">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
@@ -317,9 +292,7 @@ polarity dataset 來示範這個概念：</p>
   </figure>
 </div>
 
-
 <h3 id="用降維來做資料視覺化">用降維來做資料視覺化</h3>
-
 <p>通常太高維度的資料對我們來說不太易懂。所以也常使用降維的方式來做資料視覺化。
 這裡我們會用 <a href="https://lvdmaaten.github.io/tsne/">t-SNE</a> 來視覺化
 <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Iris flower data set</a>。
@@ -341,8 +314,8 @@ polarity dataset 來示範這個概念：</p>
 
     <span class="k">return</span> <span class="n">mpld3</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 
-<span class="n">display_iris</span><span class="p">(</span><span class="n">iris</span><span class="p">)</span></code></pre></div>
-
+<span class="n">display_iris</span><span class="p">(</span><span class="n">iris</span><span class="p">)</span>
+</code></pre></div>
 
 <div class="box">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
@@ -352,7 +325,6 @@ polarity dataset 來示範這個概念：</p>
     
   </figure>
 </div>
-
 
 <p>可以看到， 即使不知道資料的標記，t-SNE 還是能把不同種類的資料點分開的很好。我們再試試
 <a href="http://yann.lecun.com/exdb/mnist/">MNIST dataset of handwritten digits</a> 這個複雜一點的資料集。
@@ -390,8 +362,8 @@ polarity dataset 來示範這個概念：</p>
 
     <span class="k">return</span> <span class="n">mpld3</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 
-<span class="n">display_mnist</span><span class="p">(</span><span class="n">mnist</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span></code></pre></div>
-
+<span class="n">display_mnist</span><span class="p">(</span><span class="n">mnist</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</code></pre></div>
 
 <div class="box">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
@@ -401,7 +373,6 @@ polarity dataset 來示範這個概念：</p>
     
   </figure>
 </div>
-
 
 <p>如果你想在有訓練資料的標記的情況下盡可能學到較好的投影向量的話，也可以試試 <a href="http://scikit-learn.org/stable/modules/lda_qda.html">LDA</a>。</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
@@ -428,8 +399,8 @@ polarity dataset 來示範這個概念：</p>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 
-<span class="n">display_mnist_3d</span><span class="p">(</span><span class="n">mnist</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span></code></pre></div>
-
+<span class="n">display_mnist_3d</span><span class="p">(</span><span class="n">mnist</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</code></pre></div>
 
 <div class="box aligncenter" style="max-width:480px;">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
@@ -440,27 +411,25 @@ polarity dataset 來示範這個概念：</p>
   </figure>
 </div>
 
-
 <h3 id="使用-pandas-分析資料">使用 Pandas 分析資料</h3>
-
 <p><a href="http://pandas.pydata.org">Pandas</a> 用來分析資料聽說也是非常方便。我們就用
 <a href="https://www.kaggle.com/kaggle/meta-kaggle">Meta Kaggle</a>
 來看看 Kaggle 上的使用者都在做什麼吧。</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">sqlite3</span></code></pre></div>
-<p>手動下載完資料並解壓縮後應該會看到一個 output 資料夾存放所有的檔案：</p>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+</code></pre></div><p>手動下載完資料並解壓縮後應該會看到一個 output 資料夾存放所有的檔案：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">con</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;output/database.sqlite&#39;</span><span class="p">)</span>
 <span class="n">kaggle_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;
-</span><span class="s1">SELECT * FROM Submissions&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span></code></pre></div>
-<p>先看看裡頭有什麼內容：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">kaggle_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span></code></pre></div>
-<p>然後來試著分析上傳結果的時間分佈，先取得上傳時間在一週裡的日期或小時：</p>
+</span><span class="s1">SELECT * FROM Submissions&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span>
+</code></pre></div><p>先看看裡頭有什麼內容：</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">kaggle_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div><p>然後來試著分析上傳結果的時間分佈，先取得上傳時間在一週裡的日期或小時：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="s1">&#39;There is {} submissions&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kaggle_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 
 <span class="c1"># convert time strings to DatetimeIndex</span>
 <span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;DateSubmitted&#39;</span><span class="p">])</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The earliest and latest submissions are on {} and {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="nb">min</span><span class="p">(),</span> <span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="nb">max</span><span class="p">()))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The earliest and latest submissions are on {} and {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span>
 
 <span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;weekday&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">weekday</span>
 <span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;weekhr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;weekday&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">+</span> <span class="n">kaggle_df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">hour</span>
@@ -478,8 +447,8 @@ polarity dataset 來示範這個概念：</p>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;weekhr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 
-<span class="n">display_kaggle</span><span class="p">(</span><span class="n">kaggle_df</span><span class="p">)</span></code></pre></div>
-
+<span class="n">display_kaggle</span><span class="p">(</span><span class="n">kaggle_df</span><span class="p">)</span>
+</code></pre></div>
 
 <div class="box">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
@@ -490,14 +459,13 @@ polarity dataset 來示範這個概念：</p>
   </figure>
 </div>
 
-
 <p>然後我們試著把使用者分群，看看他們上傳時間的分佈是否有所不同。</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
 
 <span class="k">def</span> <span class="nf">display_hr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">n_clusters</span><span class="p">):</span>
     <span class="n">hrs_per_user</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;SubmittedUserId&#39;</span><span class="p">,</span> <span class="s1">&#39;weekhr&#39;</span><span class="p">,</span> <span class="s1">&#39;Id&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;SubmittedUserId&#39;</span><span class="p">,</span> <span class="s1">&#39;weekhr&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-    <span class="n">total_per_user</span> <span class="o">=</span> <span class="n">hrs_per_user</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">total_per_user</span> <span class="o">=</span> <span class="n">hrs_per_user</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">user_patterns</span> <span class="o">=</span> <span class="p">(</span><span class="n">hrs_per_user</span> <span class="o">/</span> <span class="n">total_per_user</span><span class="p">)[</span><span class="s1">&#39;Id&#39;</span><span class="p">]</span>
 
     <span class="n">vectors</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">24</span><span class="o">*</span><span class="mi">7</span><span class="p">))</span>
@@ -517,8 +485,8 @@ polarity dataset 來示範這個概念：</p>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Cluster #{}, n = {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 
-<span class="n">display_hr</span><span class="p">(</span><span class="n">kaggle_df</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span></code></pre></div>
-
+<span class="n">display_hr</span><span class="p">(</span><span class="n">kaggle_df</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+</code></pre></div>
 
 <div class="box aligncenter" style="max-width:480px;">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
@@ -531,7 +499,6 @@ polarity dataset 來示範這個概念：</p>
 
 
 
-
 <div class="box aligncenter" style="max-width:480px;">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
     <div class="img">
@@ -541,22 +508,17 @@ polarity dataset 來示範這個概念：</p>
   </figure>
 </div>
 
-
 <p>這裡我們只展示兩張圖，看起來第 1 群和第 8 群使用者似乎活動時間有點差別，
 不知是否是時區不同的關係呢？</p>
-
 <h3 id="xkcd">XKCD</h3>
-
 <p>最後我們用 <a href="http://matplotlib.org/xkcd/">XKCD 風格</a> 來畫張圖吧。
 為了能畫這張圖，我們得先安裝 <a href="https://github.com/shreyankg/xkcd-desktop/blob/master/Humor-Sans.ttf">Humor Sans</a>
 並且清除 matplotlib 的字型 cache。他的路徑可用以下指令找到：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">get_cachedir</span><span class="p">()</span></code></pre></div>
-<p>同時如果是 Python 3 的話，可能還需安裝額外的套件：</p>
-
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">get_cachedir</span><span class="p">()</span>
+</code></pre></div><p>同時如果是 Python 3 的話，可能還需安裝額外的套件：</p>
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt-get install libffi-dev
 </span><span class="hl">pip3 install cairocffi</span></code></pre></div></div>
-
 
 <p>安裝完就可以開始畫了：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">xkcd</span><span class="p">():</span>
@@ -587,8 +549,8 @@ polarity dataset 來示範這個概念：</p>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;productivity under a deadline&#39;</span><span class="p">)</span>
 
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-<span class="n">xkcd</span><span class="p">()</span></code></pre></div>
-
+<span class="n">xkcd</span><span class="p">()</span>
+</code></pre></div>
 
 <div class="box aligncenter" style="max-width:365px;">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
@@ -599,22 +561,17 @@ polarity dataset 來示範這個概念：</p>
   </figure>
 </div>
 
-
 <h2 id="結語">結語</h2>
-
 <p>感覺還有好多需要學習的，目前也才剛剛起步。不過希望這篇文章有吸引到你想嘗試看看
 IPython Notebook。最近也聽說 <a href="http://cs109.github.io/2015/">CS109 Data Science</a>
 似乎是個不錯的課程，如果想繼續練習或許可以試試看 0.0/</p>
-
 <h2 id="參考資料">參考資料</h2>
-
 <ul>
 <li><a href="http://alexanderfabisch.github.io/t-sne-in-scikit-learn.html">t-SNE in scikit learn</a></li>
 <li><a href="https://sarahleejane.github.io/learning/python/2015/01/11/feature-engineering-for-Washington-DC-bikeshare-kaggle-competition-with-Python.html">feature engineering for Washington DC bikeshare kaggle competition with Python</a></li>
 <li><a href="http://sebastianraschka.com/Articles/2014_twitter_wordcloud.html">Turn Your Twitter Timeline into a Word Cloud Using Python</a></li>
 <li><a href="https://www.kaggle.com/inversion/d/kaggle/meta-kaggle/exploring-submission-timing">Exploring Submission Timing</a></li>
 </ul>
-
 
 
 <div class="box aligncenter">
@@ -639,7 +596,7 @@ IPython Notebook。最近也聽說 <a href="http://cs109.github.io/2015/">CS109 
       <div class="author-content">
       <p class="author-title">作者</p>
       <p class="author-name">Yong-Siang Shih</p>
-      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<br><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<!-- raw HTML omitted --><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
       </div>
     </div>
   </div>
@@ -738,7 +695,7 @@ IPython Notebook。最近也聽說 <a href="http://cs109.github.io/2015/">CS109 
             Shaform
             
               2010 -
-            2019
+            2020
           </small>
           
         </p>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.74.1" />
   <meta charset="utf-8">
   <title>用 Sacred 追蹤實驗數據 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,25 +22,19 @@
 <meta property="og:description" content="前言 前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。 以執行而言，由於處理的檔案龐大" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/zh/2017/03/18/run-experiments-with-sacred/" />
-
 <meta property="og:image" content="https://city.shaform.com/images/2016/dots.jpg" />
-<meta property="article:published_time" content="2017-03-18T15:33:00&#43;08:00"/>
-<meta property="article:modified_time" content="2017-03-18T15:33:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2017-03-18T15:33:00+08:00" />
+<meta property="article:modified_time" content="2017-03-18T15:33:00+08:00" />
 <meta itemprop="name" content="用 Sacred 追蹤實驗數據">
 <meta itemprop="description" content="前言 前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。 以執行而言，由於處理的檔案龐大">
-
-
 <meta itemprop="datePublished" content="2017-03-18T15:33:00&#43;08:00" />
 <meta itemprop="dateModified" content="2017-03-18T15:33:00&#43;08:00" />
 <meta itemprop="wordCount" content="2099">
-
-  <meta itemprop="image" content="https://city.shaform.com/images/2016/dots.jpg">
-
+<meta itemprop="image" content="https://city.shaform.com/images/2016/dots.jpg">
 
 
-<meta itemprop="keywords" content="Sacred,Python,jupyter," />
-<meta name="twitter:card" content="summary_large_image"/>
+
+<meta itemprop="keywords" content="Sacred,Python,jupyter," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/dots.jpg"/>
 
 <meta name="twitter:title" content="用 Sacred 追蹤實驗數據"/>
@@ -145,9 +139,9 @@ if (!doNotTrack) {
           <div class="clearfix"></div>
           <p class="float-right header-tags">
               <i class="fas fa-tags" aria-hidden="true"></i>
-              <a href="https://city.shaform.com/zh/tag/python/">Python</a>, 
-                <a href="https://city.shaform.com/zh/tag/sacred/">Sacred</a>, 
-                <a href="https://city.shaform.com/zh/tag/jupyter/">jupyter</a>
+              <a href="https://city.shaform.com/zh/tag/jupyter/">jupyter</a>, 
+                <a href="https://city.shaform.com/zh/tag/python/">Python</a>, 
+                <a href="https://city.shaform.com/zh/tag/sacred/">Sacred</a>
           </p>
         
         
@@ -161,53 +155,31 @@ if (!doNotTrack) {
   <main>
 <div class="container content">
   <article>
-  
-
-<h2 id="前言">前言</h2>
-
+  <h2 id="前言">前言</h2>
 <p>前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。</p>
-
 <p>以執行而言，由於處理的檔案龐大、計算時間冗長、使用機器繁多，如何最有效率的把實驗跑完，同時又盡可能避免重複計算浪費時間，就成了難題。尤其考慮有時會因為不可抗力因素導致部份實驗中斷，此時要如何從一半的結果繼續執行，同時又最節省時間也是值得思考的點。</p>
-
 <p>管理實驗數據部份，也因為使用機器增多及實驗繁多而複雜了起來。看到有種作法是利用 bash script 或者 Makefile 紀錄參數，然後將不同參數輸出的 stdout 導進指定的檔案名字裡來產生不同條件的實驗數據。不過這樣做很容易就會不小心改了參數卻把輸出導進錯誤的地方，導致最後數據錯誤。同時如果有很多台機器，資料又存在本機，那就得進行不少手動處理而無法全自動重現實驗結果。</p>
-
 <p>感覺如果每次開始新的實驗就在程式碼中使用大量的自訂程式來處理這些問題好像一不小心就會花去太多時間。可是如果在忙亂中持續用奇怪的作法做實驗，心中的不安全感產生的焦慮又與日俱增，實在相當痛苦。</p>
-
 <p>之前問了友人：</p>
-
 <blockquote>
 <p>「大大都怎麼跑實驗阿？」</p>
-
 <p>「包成 Docker 先放著。或是用 Makefile + GitLab 做版本管控。
 用 Jenkins + ZooKeeper 管理，然後隨時打點 OpenTSDB 用 Grafana 監控。」</p>
 </blockquote>
-
 <p>感覺好像相當有道理。像是可以把各種 jobs 交給 <a href="https://jenkins.io">Jenkins</a> 管理，藉此得知哪些已經跑完，哪些還要跑，然後選擇要在什麼機器跑，並且將結果回收到同一個地方。不過實際上到底要如何做到實在也找不到範例可抄襲。</p>
-
 <p>由於每天實在過得很忙亂，只好苟且的一天過一天。好不容易有個週末無車無人的時刻，趕緊稍微做點小實驗來測試怎麼樣的作法較好。</p>
-
 <p>這次要介紹的 <a href="https://github.com/IDSIA/sacred">Sacred</a> 其實最早是去年讀到 <a href="https://gab41.lab41.org/show-your-work-a-month-with-sacred-e665af4eeac2">〈Show Your Work: A Month with Sacred〉</a> 這篇文章時所發現的。它是從遠在瑞士的 <a href="http://www.idsia.ch/">Istituto Dalle Molle di Studi sull&rsquo;Intelligenza Artificiale (IDSIA)</a> 發展出來的一套工具，據說就是企圖解決做實驗難題的一個嘗試。</p>
-
 <h2 id="環境設定">環境設定</h2>
-
 <p>為了使用 Sacred，首先我裝了一套 <a href="https://www.mongodb.com/">MongoDB</a>，為了方便起見我就參考<a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">教學</a>直接裝在本機上。接著用 pip3 安裝 Sacred 相關套件，因為不知為何不指定版本會裝到舊的，所以這裡我就指定了 Sacred 的版本：</p>
-
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pip3 install <span class="nv">sacred</span><span class="o">==</span><span class="m">0</span>.7b3 pymongo</span></code></pre></div></div>
-
+<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pip3 install <span class="nv">sacred</span><span class="o">==</span>0.7b3 pymongo</span></code></pre></div></div>
 
 <p>除此之外也安裝其他實驗會用到的套件：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pip3 install xgboost jupyter matplotlib numpy tensorflow-gpu scikit-learn sacredboard</span></code></pre></div></div>
 
-
 <h2 id="實驗設計">實驗設計</h2>
-
 <p>這次我打算用知名的 <a href="http://yann.lecun.com/exdb/mnist/">MNIST</a> 手寫辨識資料集來做實驗，不過我將把訓練資料集隨機取樣 500、1000 或 1500 個來訓練分類器，藉此測試他們在資料稀少時的效能。同時為了避免受到取樣偏差的影響，同樣大小的取樣我會各作十次，再將十次的結果取平均值。</p>
-
 <p>這次測試的分類器則是預設參數的 xgboost、linear svm 和一個順便練習 TensorFlow 實作的 SoftmaxClassifier。</p>
-
 <h2 id="主程式">主程式</h2>
-
 <p>首先設定這次實驗所需的參數，我用最簡單的方法，使用 <code>ex.config</code> 來宣告實驗參數。其中亂數種子 <code>seed</code> 因為預設本來就有，就不特別列出了。</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># mnist.py</span>
 <span class="kn">from</span> <span class="nn">sacred</span> <span class="kn">import</span> <span class="n">Experiment</span>
@@ -216,8 +188,8 @@ if (!doNotTrack) {
 <span class="nd">@ex.config</span>
 <span class="k">def</span> <span class="nf">my_config</span><span class="p">():</span>
     <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">500</span>
-    <span class="n">classifier</span> <span class="o">=</span> <span class="s1">&#39;svc&#39;</span></code></pre></div>
-<p>緊接著實作實驗程式，每次將資料進行取樣，並且利用特定的分類器去驗證效能。利用 <code>ex.automain</code> 來宣告實驗主程式`。</p>
+    <span class="n">classifier</span> <span class="o">=</span> <span class="s1">&#39;svc&#39;</span>
+</code></pre></div><p>緊接著實作實驗程式，每次將資料進行取樣，並且利用特定的分類器去驗證效能。利用 <code>ex.automain</code> 來宣告實驗主程式`。</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># mnist.py</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 <span class="kn">from</span> <span class="nn">tensorflow.examples.tutorials.mnist</span> <span class="kn">import</span> <span class="n">input_data</span>
@@ -238,8 +210,8 @@ if (!doNotTrack) {
     <span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
     <span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_pred</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;train_accuracy&#39;</span><span class="p">:</span> <span class="n">train_accuracy</span><span class="p">,</span> <span class="s1">&#39;test_accuracy&#39;</span><span class="p">:</span> <span class="n">test_accuracy</span><span class="p">}</span></code></pre></div>
-<p>接下來實作取樣和選擇分類器的函式。值得注意的是，實驗參數因為可以被 Sacred 透過 <code>ex.capture</code> 自動傳入，所以呼叫子函數時可以不直接傳進去也沒關係。此外，<code>_rnd</code> 是一個會根據 <code>seed</code> 來決定的亂數器，在每次實驗時，只要 <code>seed</code> 一樣，則同一個函式呼叫被呼叫特定次數時的 <code>_rng</code> 就會產生一樣的亂數，所以可以確保取樣出來的資料是一樣的。詳情可見：<a href="http://sacred.readthedocs.io/en/latest/randomness.html">〈Controlling Randomness〉</a>。</p>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;train_accuracy&#39;</span><span class="p">:</span> <span class="n">train_accuracy</span><span class="p">,</span> <span class="s1">&#39;test_accuracy&#39;</span><span class="p">:</span> <span class="n">test_accuracy</span><span class="p">}</span>
+</code></pre></div><p>接下來實作取樣和選擇分類器的函式。值得注意的是，實驗參數因為可以被 Sacred 透過 <code>ex.capture</code> 自動傳入，所以呼叫子函數時可以不直接傳進去也沒關係。此外，<code>_rnd</code> 是一個會根據 <code>seed</code> 來決定的亂數器，在每次實驗時，只要 <code>seed</code> 一樣，則同一個函式呼叫被呼叫特定次數時的 <code>_rng</code> 就會產生一樣的亂數，所以可以確保取樣出來的資料是一樣的。詳情可見：<a href="http://sacred.readthedocs.io/en/latest/randomness.html">〈Controlling Randomness〉</a>。</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># mnist.py</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">xgboost</span> <span class="kn">as</span> <span class="nn">xgb</span>
@@ -264,11 +236,9 @@ if (!doNotTrack) {
     <span class="k">elif</span> <span class="n">classifier</span> <span class="o">==</span> <span class="s1">&#39;xgb&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBClassifier</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">None</span></code></pre></div>
-<p>SoftmaxClassifier 的程式我放在 <a href="https://github.com/shaform/experiments/blob/master/sacred/softmax.py">softmax.py</a>。 如有興趣可自行參考。</p>
-
+        <span class="k">return</span> <span class="bp">None</span>
+</code></pre></div><p>SoftmaxClassifier 的程式我放在 <a href="https://github.com/shaform/experiments/blob/master/sacred/softmax.py">softmax.py</a>。 如有興趣可自行參考。</p>
 <h2 id="執行實驗">執行實驗</h2>
-
 <p>我寫了一個簡單的 bash script 來幫我執行所有想執行的實驗。當然這種作法會導致 MNIST 被不斷重複讀取，感覺不是很有效率，若想節省機器時間或許可以考慮用 <a href="http://sacred.readthedocs.io/en/latest/experiment.html#run-the-experiment">ex.run</a> 來執行程式。</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
 </span><span class="cp"></span>
@@ -281,25 +251,19 @@ if (!doNotTrack) {
       python mnist.py with <span class="nv">classifier</span><span class="o">=</span><span class="nv">$clf</span> <span class="nv">sample_size</span><span class="o">=</span><span class="nv">$sample_size</span> <span class="nv">seed</span><span class="o">=</span><span class="nv">$seed</span> -m sacred <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span>
     <span class="k">done</span>
   <span class="k">done</span>
-<span class="k">done</span></code></pre></div>
-<p>使用 Sacred 的程式可以直接用 <code>with</code> 選項來傳入所有實驗參數。至於 <code>-m</code> 則是指定要寫入的 MongoDB 位址。由於我的資料庫直接裝在本機，所以這裡單純指定了資料集的名字。詳情可見：<a href="http://sacred.readthedocs.io/en/latest/command_line.html">〈Command-Line Interface〉</a>。至於 <code>|| exit 1</code> 則是為了讓我如果手動中斷程式時，for loop 可以被中斷而不會繼續跑下去。</p>
-
+<span class="k">done</span>
+</code></pre></div><p>使用 Sacred 的程式可以直接用 <code>with</code> 選項來傳入所有實驗參數。至於 <code>-m</code> 則是指定要寫入的 MongoDB 位址。由於我的資料庫直接裝在本機，所以這裡單純指定了資料集的名字。詳情可見：<a href="http://sacred.readthedocs.io/en/latest/command_line.html">〈Command-Line Interface〉</a>。至於 <code>|| exit 1</code> 則是為了讓我如果手動中斷程式時，for loop 可以被中斷而不會繼續跑下去。</p>
 <h2 id="回收結果">回收結果</h2>
-
 <p>一旦執行了以後 Sacred 就會自動將實驗參數、回傳結果以及一些像是執行時間、執行過程的 stdout 等等通通都寫進 MongoDB 當中。我們也可以執行 <code>sacredboard</code> 來觀察執行狀況。不過老實說這功能實在還有點陽春：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sacredboard -m sacred</span></code></pre></div></div>
 
-
-<p><img src="/images/sacredboard.png" alt="SacredBoard" /></p>
-
+<p><img src="/images/sacredboard.png" alt="SacredBoard"></p>
 <p>是以，我們還是自己寫個程式來回收吧。還好 MongoDB 裡紀錄了所有實驗參數，因此要回收特定數據也是相當容易的。</p>
-
 <p>這次我們還是會用 <a href="http://jupyter.readthedocs.io/en/latest/index.html">Jupyter Notebook</a> 方便畫圖。首先連結到本機的 MongoDB：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
 <span class="n">mc</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">()</span>
-<span class="n">db</span> <span class="o">=</span> <span class="n">mc</span><span class="p">[</span><span class="s1">&#39;sacred&#39;</span><span class="p">]</span></code></pre></div>
-<p>緊接著把每個分類器在不同情形的十個數據都回收：</p>
+<span class="n">db</span> <span class="o">=</span> <span class="n">mc</span><span class="p">[</span><span class="s1">&#39;sacred&#39;</span><span class="p">]</span>
+</code></pre></div><p>緊接著把每個分類器在不同情形的十個數據都回收：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="n">sample_sizes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">)</span>
@@ -321,8 +285,8 @@ if (!doNotTrack) {
             <span class="n">test_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">][</span><span class="s1">&#39;test_accuracy&#39;</span><span class="p">])</span>
         <span class="n">clf_mean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_accuracy</span><span class="p">))</span>
         <span class="n">clf_std</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">test_accuracy</span><span class="p">))</span>
-    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">clf_mean</span><span class="p">,</span> <span class="n">clf_std</span><span class="p">))</span></code></pre></div>
-<p>最後則把結果畫出來：</p>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">clf_mean</span><span class="p">,</span> <span class="n">clf_std</span><span class="p">))</span>
+</code></pre></div><p>最後則把結果畫出來：</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -339,8 +303,8 @@ if (!doNotTrack) {
     <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">xticks</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">clf</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">))</span>
     
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre></div>
-
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
 <div class="box">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
@@ -351,13 +315,9 @@ if (!doNotTrack) {
   </figure>
 </div>
 
-
 <p>完成！</p>
-
 <h2 id="結語">結語</h2>
-
 <p>本次的實驗程式放在 <a href="https://github.com/shaform/experiments/tree/master/sacred">shaform/experiments/sacred</a>，最後的 notebook 同時也可以在 <a href="http://nbviewer.jupyter.org/github/shaform/experiments/blob/master/sacred/Sampled%20MNIST.ipynb">Sampled MNIST</a> 上觀看。</p>
-
 
 
 <div class="box aligncenter">
@@ -382,7 +342,7 @@ if (!doNotTrack) {
       <div class="author-content">
       <p class="author-title">作者</p>
       <p class="author-name">Yong-Siang Shih</p>
-      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<br><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<!-- raw HTML omitted --><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
       </div>
     </div>
   </div>
@@ -481,7 +441,7 @@ if (!doNotTrack) {
             Shaform
             
               2010 -
-            2019
+            2020
           </small>
           
         </p>

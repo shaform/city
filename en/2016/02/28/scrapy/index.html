@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.74.1" />
   <meta charset="utf-8">
   <title>Scrapy &#43; Python 3: PTT Data Scraping and Analysis · City of Wings</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,25 +23,19 @@
 <meta property="og:description" content="Scrapy 1.1 with Python 3 Support Long long time ago, I wanted to learn about web crawling to scrape some data from the PTT forum to see what could be done with it. I found the Scrapy framework, and felt it had great potential. But it didn&rsquo;t support Python 3 at that time, so I&rsquo;ve decided to wait. Now, Scrapy 1.1 is released. Along with updated features, it also has" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/en/2016/02/28/scrapy/" />
-
 <meta property="og:image" content="https://city.shaform.com/images/2019/cobweb.jpg" />
-<meta property="article:published_time" content="2016-02-28T10:23:00&#43;08:00"/>
-<meta property="article:modified_time" content="2016-02-28T10:23:00&#43;08:00"/><meta property="og:site_name" content="City of Wings" />
-
+<meta property="article:published_time" content="2016-02-28T10:23:00+08:00" />
+<meta property="article:modified_time" content="2016-02-28T10:23:00+08:00" /><meta property="og:site_name" content="City of Wings" />
 <meta itemprop="name" content="Scrapy &#43; Python 3: PTT Data Scraping and Analysis">
 <meta itemprop="description" content="Scrapy 1.1 with Python 3 Support Long long time ago, I wanted to learn about web crawling to scrape some data from the PTT forum to see what could be done with it. I found the Scrapy framework, and felt it had great potential. But it didn&rsquo;t support Python 3 at that time, so I&rsquo;ve decided to wait. Now, Scrapy 1.1 is released. Along with updated features, it also has">
-
-
 <meta itemprop="datePublished" content="2016-02-28T10:23:00&#43;08:00" />
 <meta itemprop="dateModified" content="2016-02-28T10:23:00&#43;08:00" />
 <meta itemprop="wordCount" content="2008">
-
-  <meta itemprop="image" content="https://city.shaform.com/images/2019/cobweb.jpg">
-
+<meta itemprop="image" content="https://city.shaform.com/images/2019/cobweb.jpg">
 
 
-<meta itemprop="keywords" content="Python 3,Scrapy,PTT," />
-<meta name="twitter:card" content="summary_large_image"/>
+
+<meta itemprop="keywords" content="Python 3,Scrapy,PTT," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2019/cobweb.jpg"/>
 
 <meta name="twitter:title" content="Scrapy &#43; Python 3: PTT Data Scraping and Analysis"/>
@@ -168,15 +162,10 @@ if (!doNotTrack) {
   <main>
 <div class="container content">
   <article>
-  
-
-<h2 id="scrapy-1-1-with-python-3-support">Scrapy 1.1 with Python 3 Support</h2>
-
+  <h2 id="scrapy-11-with-python-3-support">Scrapy 1.1 with Python 3 Support</h2>
 <p>Long long time ago, I wanted to learn about web crawling to scrape some data from the <a href="https://www.ptt.cc/bbs/index.html">PTT</a> forum to see what could be done with it.
 I found the <a href="http://scrapy.org/">Scrapy</a> framework, and felt it had great potential. But it didn&rsquo;t support <a href="http://cyrille.rossant.net/why-you-should-move-to-python-3-now/">Python 3</a> at that time, so I&rsquo;ve decided to wait.</p>
-
 <p>Now, <a href="https://pypi.python.org/pypi/Scrapy/1.1.0">Scrapy 1.1</a> is released. Along with updated features, it also has <a href="https://github.com/scrapy/scrapy/issues/263">basic Python 3 support</a>. So I&rsquo;ve decided to test about it and start writing a web scraper.</p>
-
 
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
 <div class="box aligncenter">
@@ -188,41 +177,28 @@ I found the <a href="http://scrapy.org/">Scrapy</a> framework, and felt it had g
   </figure>
 </div>
 
-
 <h2 id="environment-setup">Environment Setup</h2>
-
 <p>Because I am going to scrape data from PTT forum, I&rsquo;ve decided to build my service on the machine inside NTU CS to minimize the possibility to be banned. I also set up a higher delay to prevent too many multiple concurrent connections.</p>
-
 <p>If you are using your own machine, you might need to install some additional packages:</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt-get install python3-dev libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev</span></code></pre></div></div>
 
-
 <p>Now, we create our virtual environment using <a href="https://docs.python.org/3/library/venv.html">pyvenv</a> so as to install our own packages:</p>
-
 <p><div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pyvenv-3.5 my_env
 </span><span class="hl"><span class="nb">source</span> my_env/bin/activate</span></code></pre></div></div>
 pip install -U pip</p>
-
 <p>Afterwards, install all the packages that are needed:</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># For some reasons, I need to use `python /sbin/pip3.5` instead of the following command on the machine</span>
-<span class="hl">pip install <span class="nv">Scrapy</span><span class="o">==</span><span class="m">1</span>.1.0 numpy notebook scipy scikit-learn seaborn jieba</span></code></pre></div></div>
-
+<span class="hl">pip install <span class="nv">Scrapy</span><span class="o">==</span>1.1.0 numpy notebook scipy scikit-learn seaborn jieba</span></code></pre></div></div>
 
 <h2 id="building-the-scraper">Building the Scraper</h2>
-
 <p>After reading the <a href="http://doc.scrapy.org/en/latest/intro/tutorial.html">tutorial</a>, I would start building my first Scrapy crawler!</p>
-
 <p>Firstly, create a project:</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">scrapy startproject ptt</span></code></pre></div></div>
-
 
 <p>Set up download delay:</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># &lt;root_dir&gt;/ptt/settings.py</span>
-<span class="n">DOWNLOAD_DELAY</span> <span class="o">=</span> <span class="mf">1.25</span></code></pre></div>
-<p>Define some fields to extract, including content and comments:</p>
+<span class="n">DOWNLOAD_DELAY</span> <span class="o">=</span> <span class="mf">1.25</span>
+</code></pre></div><p>Define some fields to extract, including content and comments:</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># &lt;root_dir&gt;/ptt/items.py</span>
 <span class="k">class</span> <span class="nc">PostItem</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Item</span><span class="p">):</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
@@ -231,9 +207,8 @@ pip install -U pip</p>
     <span class="n">content</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
     <span class="n">comments</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
     <span class="n">score</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span></code></pre></div>
-<p>Start modifying <code>&lt;root_dir&gt;/ptt/spiders/ptt.py</code> to actually build the scraper.</p>
-
+    <span class="n">url</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+</code></pre></div><p>Start modifying <code>&lt;root_dir&gt;/ptt/spiders/ptt.py</code> to actually build the scraper.</p>
 <p>Firstly, let&rsquo;s test if we could actually connect to PTT:</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">scrapy</span>
 
@@ -245,19 +220,15 @@ pip install -U pip</p>
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.html&#39;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span></code></pre></div>
-<p>On the <code>&lt;root_dir&gt;</code> directory (which contains <code>scrapy.cfg</code>), execute the following to start the program:</p>
-
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</code></pre></div><p>On the <code>&lt;root_dir&gt;</code> directory (which contains <code>scrapy.cfg</code>), execute the following to start the program:</p>
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">scrapy crawl ptt</span></code></pre></div></div>
-
 
 <p>After it finished, we should find a HTML file on the current directory. The page asks us whether we are older than 18 years old.
 In order to successfully scrape articles from the Gossiping board on PTT, we need to automatically answer this form in our program.
 Although we could also use <a href="http://doc.scrapy.org/en/latest/topics/request-response.html#topics-request-response">cookies</a> to pretend we have answered it, here I will actually submit the form to mimic human behaviour.
 (Scrapy would save the cookies generated during the process between connections.)</p>
-
 <h3 id="automatically-answer-the-age-question">Automatically Answer the Age Question</h3>
-
 <p>So we add a test to detect whether we are in the age question page by the <code>div.over18-notice</code> element.
 Here we use <a href="https://en.wikipedia.org/wiki/XPath">XPath</a> to specify the exact position of the element. I first knew about XPath while
 I was doing intern at Microsoft, so it feels familiar.</p>
@@ -282,13 +253,11 @@ I was doing intern at Microsoft, so it feels familiar.</p>
                 <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;you cannot pass&#39;</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-          <span class="c1"># ...</span></code></pre></div>
-<p>We utilize <code>FormRequest</code> to send the form, and use <code>callback</code> to get back to <code>parse</code> after form is submitted.
+          <span class="c1"># ...</span>
+</code></pre></div><p>We utilize <code>FormRequest</code> to send the form, and use <code>callback</code> to get back to <code>parse</code> after form is submitted.
 In case the attempt failed and we locked ourself into repeat submission of the form, I also use <code>MAX_RETRY</code>
 to restrict the number of submissions.</p>
-
 <h3 id="automatically-crawl-every-article-and-go-to-next-pages">Automatically Crawl Every Article and Go to Next Pages</h3>
-
 <p>Next, let&rsquo;s build a spider to extract links for the posts. Here we also use <a href="http://doc.scrapy.org/en/stable/topics/selectors.html">CSS Selector</a>,
 <code>css('.r-ent &gt; div.title &gt; a::attr(href)')</code> to get the links of the articles.
 Afterwards, we use <code>response.urljoin</code> to convert relative URLs to absolute URLs and pass them to <code>parse_post</code> for further processing.</p>
@@ -317,12 +286,10 @@ Afterwards, we use <code>response.urljoin</code> to convert relative URLs to abs
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;no next page&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;max pages reached&#39;</span><span class="p">)</span></code></pre></div>
-<p>Finally, we use XPath to extract the link to next page, and automatically follow the pages.
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;max pages reached&#39;</span><span class="p">)</span>
+</code></pre></div><p>Finally, we use XPath to extract the link to next page, and automatically follow the pages.
 <code>MAX_PAGES</code> is used to control the maximum number of pages to follow.</p>
-
 <h3 id="actually-scrape-the-posts">Actually Scrape the Posts</h3>
-
 <p>Finally, let&rsquo;s actually download the posts.
 We would extract title, author, content, and comments. In addition, we record the positivity and negativity
 for each comment as well as for the post.</p>
@@ -371,22 +338,16 @@ for each comment as well as for the post.</p>
         <span class="n">item</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_score</span>
         <span class="n">item</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span>
 
-        <span class="k">yield</span> <span class="n">item</span></code></pre></div>
-<p>Finally, execute the following command. The crawler would start to scrape the posts and save them into a big JSON file:</p>
-
+        <span class="k">yield</span> <span class="n">item</span>
+</code></pre></div><p>Finally, execute the following command. The crawler would start to scrape the posts and save them into a big JSON file:</p>
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">scrapy crawl ptt -o gossip.json</span></code></pre></div></div>
 
-
 <h2 id="data-analysis-in-ipython-notebook">Data Analysis in IPython Notebook</h2>
-
 <p>After we downloaded the posts, we could start data analysis.
 In this experiment, I downloaded 1881 articles from the Gossiping board on PTT.
 We will use IPython Notebook to do data analysis, the experiment could be viewed on <a href="http://nbviewer.jupyter.org/github/shaform/experiments/blob/master/scrapy/PTT%20Analysis.ipynb">PTT Analysis @ nbviewer</a>.</p>
-
 <p>Because I found the figures built with <a href="http://stanford.edu/~mwaskom/software/seaborn/">Seaborn</a> seems to be more pretty when I was watching <a href="http://www.cs109.org">CS 109</a> videos, I would try it in this experiment as well.</p>
-
 <p>We will use the following packages:</p>
-
 <ol>
 <li><a href="http://matplotlib.org/">matplotlib</a></li>
 <li><a href="http://www.numpy.org/">Numpy</a></li>
@@ -394,7 +355,6 @@ We will use IPython Notebook to do data analysis, the experiment could be viewed
 <li><a href="http://stanford.edu/~mwaskom/software/seaborn/">Seaborn</a></li>
 <li><a href="https://github.com/fxsjy/jieba">Jieba Chinese segmenter</a></li>
 </ol>
-
 <p>Firstly load all packages:</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">%</span><span class="n">matplotlib</span> <span class="n">notebook</span>
 
@@ -411,16 +371,15 @@ We will use IPython Notebook to do data analysis, the experiment could be viewed
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfTransformer</span>
 <span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">LinearSVC</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span></code></pre></div>
-<p>And then load the articles:</p>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+</code></pre></div><p>And then load the articles:</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># load ptt posts</span>
 
 <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;gossip.json&#39;</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">posts</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></code></pre></div>
-<h3 id="comments-analysis">Comments Analysis</h3>
-
+    <span class="n">posts</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</code></pre></div><h3 id="comments-analysis">Comments Analysis</h3>
 <p>Let&rsquo;s first figure out how many comments everyone has. Maybe this shows how addicted everyone is to PTT. But due to
 privacy concern, I would not display the actual IDs here.
 Firstly, compute the number of comments:</p>
@@ -439,8 +398,8 @@ Firstly, compute the number of comments:</p>
             <span class="n">total_pushes</span><span class="p">[</span><span class="n">user</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">elif</span> <span class="n">comment</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">total_hates</span><span class="p">[</span><span class="n">user</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span></code></pre></div>
-<p>And then we could draw a figure the show the most active users.</p>
+            <span class="n">total_hates</span><span class="p">[</span><span class="n">user</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div><p>And then we could draw a figure the show the most active users.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">show_distributions</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">pushes</span><span class="p">,</span> <span class="n">hates</span><span class="p">):</span>
     <span class="n">sorted_cnts</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])][:</span><span class="mi">100</span><span class="p">]</span>
     <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">counts</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">sorted_cnts</span><span class="p">]</span>
@@ -456,7 +415,7 @@ Firstly, compute the number of comments:</p>
     <span class="n">sns</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_hates</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Total {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;hates&#39;</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">,</span>
            <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
            <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Total comments&#39;</span><span class="p">)</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -464,11 +423,9 @@ Firstly, compute the number of comments:</p>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
 <span class="c1"># display pushes</span>
-<span class="n">show_distributions</span><span class="p">(</span><span class="n">total_comments</span><span class="p">,</span> <span class="n">total_pushes</span><span class="p">,</span> <span class="n">total_hates</span><span class="p">)</span></code></pre></div>
-<p>As we could see, most users have positive comments, but there are also some users post a lot of negative comments!</p>
-
+<span class="n">show_distributions</span><span class="p">(</span><span class="n">total_comments</span><span class="p">,</span> <span class="n">total_pushes</span><span class="p">,</span> <span class="n">total_hates</span><span class="p">)</span>
+</code></pre></div><p>As we could see, most users have positive comments, but there are also some users post a lot of negative comments!</p>
 <h4 id="how-many-users-have-a-specific-number-of-comments">How Many Users Have a Specific Number of Comments?</h4>
-
 
 
 <div class="box">
@@ -480,13 +437,10 @@ Firstly, compute the number of comments:</p>
   </figure>
 </div>
 
-
 <h3 id="word-analysis">Word Analysis</h3>
-
 <p>Let&rsquo;s see what kinds of words are strongly correlated to negative and positive
 responses. And what kinds of words are most frequently used in positive and negative
 comments.</p>
-
 <p>Firstly, use Jieba segmenter to segment the texts and collect the words.
 We also record the positivity and negativity of each article.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># grap post</span>
@@ -503,8 +457,8 @@ We also record the positivity and negativity of each article.</p>
                     <span class="n">d</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">post</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span></code></pre></div>
-<p>We also process comments in the same way.</p>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">post</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div><p>We also process comments in the same way.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># grap comments</span>
 <span class="n">c_words</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">c_scores</span> <span class="o">=</span> <span class="p">[]</span>
@@ -518,8 +472,8 @@ We also record the positivity and negativity of each article.</p>
                 <span class="n">d</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">c_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">comment</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
-                <span class="n">c_words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span></code></pre></div>
-<p>Finally, use <code>TfidfTransformer</code> to build the feature vector, and use <code>LinearSVC</code> to train a classifier,</p>
+                <span class="n">c_words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</code></pre></div><p>Finally, use <code>TfidfTransformer</code> to build the feature vector, and use <code>LinearSVC</code> to train a classifier,</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># convert to vectors</span>
 <span class="n">dvec</span> <span class="o">=</span> <span class="n">DictVectorizer</span><span class="p">()</span>
 <span class="n">tfidf</span> <span class="o">=</span> <span class="n">TfidfTransformer</span><span class="p">()</span>
@@ -533,8 +487,8 @@ We also record the positivity and negativity of each article.</p>
 <span class="n">svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">scores</span><span class="p">)</span>
 
 <span class="n">c_svc</span> <span class="o">=</span> <span class="n">LinearSVC</span><span class="p">()</span>
-<span class="n">c_svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">c_X</span><span class="p">,</span> <span class="n">c_scores</span><span class="p">)</span></code></pre></div>
-<p>And then we could make the figure,</p>
+<span class="n">c_svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">c_X</span><span class="p">,</span> <span class="n">c_scores</span><span class="p">)</span>
+</code></pre></div><p>And then we could make the figure,</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">display_top_features</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">top_n</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="nb">abs</span><span class="p">):</span>
     <span class="n">top_features</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">names</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">select</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)[:</span><span class="n">top_n</span><span class="p">]</span>
     <span class="n">top_weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">top_features</span><span class="p">]</span>
@@ -551,15 +505,13 @@ We also record the positivity and negativity of each article.</p>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">ind</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">top_names</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontname&#39;</span><span class="p">:</span> <span class="s1">&#39;Droid Sans Fallback&#39;</span><span class="p">,</span> <span class="s1">&#39;fontsize&#39;</span><span class="p">:</span><span class="mi">12</span><span class="p">})</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></code></pre></div>
-<p>Originally I want to show positive and negative words in the same figure, but I found that
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</code></pre></div><p>Originally I want to show positive and negative words in the same figure, but I found that
 negative words dominate the figure, so I put them into different figures.</p>
-
 <p>Firstly, let&rsquo;s see the negative words in posts. Not sure why, but when the posts mention <code>妹妹</code>, they are more likely to attract negative responses.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># top features for posts</span>
-<span class="n">display_top_features</span><span class="p">(</span><span class="n">svc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dvec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="mi">30</span><span class="p">)</span></code></pre></div>
-<h4 id="negative-words-in-posts">Negative Words in Posts</h4>
-
+<span class="n">display_top_features</span><span class="p">(</span><span class="n">svc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dvec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="mi">30</span><span class="p">)</span>
+</code></pre></div><h4 id="negative-words-in-posts">Negative Words in Posts</h4>
 
 
 <div class="box">
@@ -571,12 +523,10 @@ negative words dominate the figure, so I put them into different figures.</p>
   </figure>
 </div>
 
-
 <p>Unfortunately, no interesting patterns are observed for positive words in posts.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># top positive features for posts</span>
-<span class="n">display_top_features</span><span class="p">(</span><span class="n">svc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dvec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="mi">30</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span></code></pre></div>
-<h4 id="positive-words-in-posts">Positive Words in Posts</h4>
-
+<span class="n">display_top_features</span><span class="p">(</span><span class="n">svc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dvec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="mi">30</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+</code></pre></div><h4 id="positive-words-in-posts">Positive Words in Posts</h4>
 
 
 <div class="box">
@@ -588,15 +538,13 @@ negative words dominate the figure, so I put them into different figures.</p>
   </figure>
 </div>
 
-
 <p>The positive and negative words in comments are very interesting, the strongest features are
 <code>紅明顯</code> and <code>給推</code>.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># top features for comments</span>
 <span class="n">display_top_features</span><span class="p">(</span><span class="n">c_svc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c_dvec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="mi">30</span><span class="p">)</span>
 <span class="c1"># top positive features for comments</span>
-<span class="n">display_top_features</span><span class="p">(</span><span class="n">c_svc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c_dvec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="mi">30</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span></code></pre></div>
-<h4 id="negative-words-in-comments">Negative Words in Comments</h4>
-
+<span class="n">display_top_features</span><span class="p">(</span><span class="n">c_svc</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c_dvec</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">(),</span> <span class="mi">30</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+</code></pre></div><h4 id="negative-words-in-comments">Negative Words in Comments</h4>
 
 
 <div class="box">
@@ -608,9 +556,7 @@ negative words dominate the figure, so I put them into different figures.</p>
   </figure>
 </div>
 
-
 <h4 id="positive-words-in-comments">Positive Words in Comments</h4>
-
 
 
 <div class="box">
@@ -622,17 +568,11 @@ negative words dominate the figure, so I put them into different figures.</p>
   </figure>
 </div>
 
-
 <h2 id="conclusions">Conclusions</h2>
-
 <p>Although many years have passed, <a href="http://py3readiness.org/">Python 3 support</a> still has not reach desired states, but it&rsquo;s already getting better. Hopefully more people will start programming in Python 3.</p>
-
 <p>After I&rsquo;ve finished the analysis, I feel that PTT is really a great place to learn about the current topics people are interested about in Taiwan. Not sure whether there will be other applications.</p>
-
 <p>The code used in this experiment is on GitHub for reference: <a href="https://github.com/shaform/experiments/tree/master/scrapy">https://github.com/shaform/experiments/tree/master/scrapy</a>.</p>
-
 <h2 id="links">Links</h2>
-
 <p>If you like this article, you might also be interested in <a href="/zh/2017/05/13/scrapy-cloud/">〈Scrapy Cloud + Scrapy 網路爬蟲〉</a>.</p>
 
   </article>
@@ -647,7 +587,7 @@ negative words dominate the figure, so I put them into different figures.</p>
       <div class="author-content">
       <p class="author-title">Author</p>
       <p class="author-name">Yong-Siang Shih</p>
-      <p class="author-desc">Software Engineer, Machine Learning Scientist, Open Source Enthusiast. Worked at Appier building machine learning systems, and interned at Google, IBM, and Microsoft as software engineering intern. Love to learn and build things.<br><a href="https://github.com/shaform">* Follow me on GitHub</a></p>
+      <p class="author-desc">Software Engineer, Machine Learning Scientist, Open Source Enthusiast. Worked at Appier building machine learning systems, and interned at Google, IBM, and Microsoft as software engineering intern. Love to learn and build things.<!-- raw HTML omitted --><a href="https://github.com/shaform">* Follow me on GitHub</a></p>
       </div>
     </div>
   </div>
@@ -739,7 +679,7 @@ negative words dominate the figure, so I put them into different figures.</p>
             Shaform
             
               2010 -
-            2019
+            2020
           </small>
           
         </p>

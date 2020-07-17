@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.74.1" />
   <meta charset="utf-8">
   <title>使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,25 +22,19 @@
 <meta property="og:description" content="前言 當使用 Dropbox 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 VeraCrypt 之類的加密硬碟技術在 Dropbox" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/zh/2018/12/08/gocryptfs/" />
-
 <meta property="og:image" content="https://city.shaform.com/images/2017/padlocks.jpg" />
-<meta property="article:published_time" content="2018-12-08T20:20:00-05:00"/>
-<meta property="article:modified_time" content="2018-12-08T20:20:00-05:00"/>
-
+<meta property="article:published_time" content="2018-12-08T20:20:00-05:00" />
+<meta property="article:modified_time" content="2018-12-08T20:20:00-05:00" />
 <meta itemprop="name" content="使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案">
 <meta itemprop="description" content="前言 當使用 Dropbox 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 VeraCrypt 之類的加密硬碟技術在 Dropbox">
-
-
 <meta itemprop="datePublished" content="2018-12-08T20:20:00-05:00" />
 <meta itemprop="dateModified" content="2018-12-08T20:20:00-05:00" />
 <meta itemprop="wordCount" content="555">
-
-  <meta itemprop="image" content="https://city.shaform.com/images/2017/padlocks.jpg">
-
+<meta itemprop="image" content="https://city.shaform.com/images/2017/padlocks.jpg">
 
 
-<meta itemprop="keywords" content="gocryptfs," />
-<meta name="twitter:card" content="summary_large_image"/>
+
+<meta itemprop="keywords" content="gocryptfs," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2017/padlocks.jpg"/>
 
 <meta name="twitter:title" content="使用 gocryptfs 加密 Dropbox 等雲端硬碟的檔案"/>
@@ -159,27 +153,16 @@ if (!doNotTrack) {
   <main>
 <div class="container content">
   <article>
-  
-
-<h2 id="前言">前言</h2>
-
+  <h2 id="前言">前言</h2>
 <p>當使用 <a href="https://dropbox.com">Dropbox</a> 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 <a href="https://www.veracrypt.fr/en/Home.html">VeraCrypt</a> 之類的加密硬碟技術在 Dropbox 裡存放一個加密檔案空間，但由於整個加密空間視為一個檔案，如檔案太大則同步時可能會花上不少時間。</p>
-
 <p>研究了一下後發現，其實也是有把加密空間表示成許多檔案的加密工具，例如像是 <a href="https://github.com/rfjakob/gocryptfs">gocryptfs</a> 就是一例。</p>
-
 <p>本文便簡單紀錄 gocryptfs 的用法。</p>
-
 <h2 id="安裝">安裝</h2>
-
 <p>要在 Ubuntu 底下安裝 gocryptfs 相當容易，可以使用以下指令：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install gocryptfs</span></code></pre></div></div>
 
-
 <h2 id="建立加密資料夾">建立加密資料夾</h2>
-
 <p>建立加密資料夾相當容易，首先進到和雲端同步的檔案夾，例如像是 <code>$HOME/Dropbox</code>，然後直接建立一個新資料夾，並用 <code>gocryptfs -init</code> 指令初始化:</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">mkdir ENCRYPTED_DIR
 </span><span class="hl">gocryptfs -init ENCRYPTED_DIR
 </span>Choose a password <span class="k">for</span> protecting your files.
@@ -188,15 +171,12 @@ Repeat:
 The gocryptfs filesystem has been created successfully.
 You can now mount it using: gocryptfs ENCRYPTED_DIR MOUNTPOINT</code></pre></div></div>
 
-
 <p>裡頭大概會長這樣：</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ENCRYPTED_DIR/
 ├── gocryptfs.conf
-└── gocryptfs.diriv</code></pre></div>
-<h2 id="掛載加密資料夾">掛載加密資料夾</h2>
-
+└── gocryptfs.diriv
+</code></pre></div><h2 id="掛載加密資料夾">掛載加密資料夾</h2>
 <p>緊接著，在其他非雲端同步的地方建立掛載點，並掛載加密資料夾：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">mkdir MOUNT_DIR
 </span><span class="hl">gocryptfs <span class="nv">$DROPBOX_DIR</span>/ENCRYPTED_DIR MOUNT_DIR
 </span>Password:
@@ -213,25 +193,19 @@ paper and store it in a drawer. Use <span class="s2">&#34;-q&#34;</span> to supp
 
 Filesystem mounted and ready.</code></pre></div></div>
 
-
 <p>這樣就能在 <code>MOUNT_DIR</code> 資料夾裡頭存取檔案了。比如說我們可以隨便新增一個檔案：
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">echo</span> <span class="nb">test</span> &gt; MOUNT_DIR/test.txt</span></code></pre></div></div>
 </p>
-
 <p>則就可以看到加密資料夾裡頭的加密檔也同步更新，並同步到雲端硬碟上：</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ENCRYPTED_DIR/
 ├── 76h5Zq2yx76i5OP3HrrS3A
 ├── gocryptfs.conf
-└── gocryptfs.diriv</code></pre></div>
-<h2 id="卸載加密資料夾">卸載加密資料夾</h2>
-
+└── gocryptfs.diriv
+</code></pre></div><h2 id="卸載加密資料夾">卸載加密資料夾</h2>
 <p>最後要把資料夾關閉則可使用以下指令：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">fusermount -u MOUNT_DIR</span></code></pre></div></div>
 
-
 <p>下次要打開加密資料夾存取，則再次使用 <code>gocryptfs ENCRYPTED_DIR MOUNT_DIR</code> 指令即可。</p>
-
 
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
 <div class="box aligncenter">
@@ -256,7 +230,7 @@ Filesystem mounted and ready.</code></pre></div></div>
       <div class="author-content">
       <p class="author-title">作者</p>
       <p class="author-name">Yong-Siang Shih</p>
-      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<br><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<!-- raw HTML omitted --><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
       </div>
     </div>
   </div>
@@ -355,7 +329,7 @@ Filesystem mounted and ready.</code></pre></div></div>
             Shaform
             
               2010 -
-            2019
+            2020
           </small>
           
         </p>

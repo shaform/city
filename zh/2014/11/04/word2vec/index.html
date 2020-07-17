@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.74.1" />
   <meta charset="utf-8">
   <title>用中文資料測試 word2vec · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,25 +22,19 @@
 <meta property="og:description" content="最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/zh/2014/11/04/word2vec/" />
-
 <meta property="og:image" content="https://city.shaform.com/images/2016/dots.jpg" />
-<meta property="article:published_time" content="2014-11-04T17:20:00&#43;08:00"/>
-<meta property="article:modified_time" content="2014-11-04T17:20:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2014-11-04T17:20:00+08:00" />
+<meta property="article:modified_time" content="2014-11-04T17:20:00+08:00" />
 <meta itemprop="name" content="用中文資料測試 word2vec">
 <meta itemprop="description" content="最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一">
-
-
 <meta itemprop="datePublished" content="2014-11-04T17:20:00&#43;08:00" />
 <meta itemprop="dateModified" content="2014-11-04T17:20:00&#43;08:00" />
 <meta itemprop="wordCount" content="979">
-
-  <meta itemprop="image" content="https://city.shaform.com/images/2016/dots.jpg">
-
+<meta itemprop="image" content="https://city.shaform.com/images/2016/dots.jpg">
 
 
-<meta itemprop="keywords" content="word2vec,Chinese,Python,jieba," />
-<meta name="twitter:card" content="summary_large_image"/>
+
+<meta itemprop="keywords" content="word2vec,Chinese,Python,jieba," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/dots.jpg"/>
 
 <meta name="twitter:title" content="用中文資料測試 word2vec"/>
@@ -146,8 +140,8 @@ if (!doNotTrack) {
           <p class="float-right header-tags">
               <i class="fas fa-tags" aria-hidden="true"></i>
               <a href="https://city.shaform.com/zh/tag/chinese/">Chinese</a>, 
-                <a href="https://city.shaform.com/zh/tag/python/">Python</a>, 
                 <a href="https://city.shaform.com/zh/tag/jieba/">jieba</a>, 
+                <a href="https://city.shaform.com/zh/tag/python/">Python</a>, 
                 <a href="https://city.shaform.com/zh/tag/word2vec/">word2vec</a>
           </p>
         
@@ -162,67 +156,41 @@ if (!doNotTrack) {
   <main>
 <div class="container content">
   <article>
-  
-
-<p>最近因為一些學習上的需要接觸了 <a href="https://code.google.com/p/word2vec/">word2vec</a>，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。</p>
-
+  <p>最近因為一些學習上的需要接觸了 <a href="https://code.google.com/p/word2vec/">word2vec</a>，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。</p>
 <p>不過 word2vec 是把每個詞本身用一個多維向量來表示，把詞投影到一個向量空間裡。而且不知道為什麼投影出來的空間有些特殊的性質，比如說相同屬性的詞可能會靠得很近，甚至部份的向量有邏輯上的線性關係等等：</p>
-
 <pre><code>vector('King') - vector('Man') + vector('Woman') ~= vector('Queen')
 </code></pre>
-
 <p>這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。</p>
-
 <h2 id="語料">語料</h2>
-
 <p>不太確定有什麼開放的中文語料可供使用，於是決定先用<a href="https://github.com/audreyt/moedict-webkit">萌典</a>來做實驗，可按照教學，下載萌典資料：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">git clone --depth <span class="m">1</span> https://github.com/g0v/moedict-data.git
 </span><span class="hl">git clone --depth <span class="m">1</span> https://github.com/g0v/moedict-epub.git
 </span><span class="hl">cp -v moedict-data/dict-revised.json moedict-epub/
 </span><span class="hl"><span class="nb">cd</span> moedict-epub
 </span><span class="hl">perl json2unicode.pl &gt; dict-revised.unicode.json</span></code></pre></div></div>
 
-
 <p>緊接著我自己寫了一個 <a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/extract_json.py">extract_json.py</a> 把當中可供訓練的句子抽出來：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">python3 extract_json.py &lt; dict-revised.unicode.json &gt; sentences.txt</span></code></pre></div></div>
 
-
 <h2 id="斷詞">斷詞</h2>
-
 <p>因為 word2vec 的輸入必須是以空白隔開的詞，這樣得出來的句子還不能直接使用。於是我用了結巴斷詞，寫了一個 <a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/cut.py">cut.py</a> 來處理這些句子。</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">python cut.py &lt; sentences.txt &gt; sentences.segged.txt</span></code></pre></div></div>
 
-
 <p>斷出來的結果大約像是：</p>
-
 <pre><code>紅樓夢 ． 第十七回 ： 「 一 槅 一 槅 ， 或 有 貯書處 ， 或 有 設鼎處 ， 或 安置 筆硯 處 ， 或供 設瓶花 、 或 安放 盆景 處 。 」 
 </code></pre>
-
 <p>感覺雖不是很理想，但尚可接受。</p>
-
 <h2 id="使用-word2vec-訓練詞向量">使用 word2vec 訓練詞向量</h2>
-
 <p>接著我就用工作站把詞全部丟給 word2vec 訓練：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./word2vec -train sentences.segged.txt -output vectors.bin -cbow <span class="m">0</span> -size <span class="m">200</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">0</span> -sample 1e-4 -threads <span class="m">24</span> -binary <span class="m">1</span> -iter <span class="m">20</span> -min-count <span class="m">1</span></span></code></pre></div></div>
 
-
 <p>因為萌典抽出來的資料不算多，所以訓練起來滿快的，只是當然效果就不太好了：</p>
-
-<p><img src="/images/train_word2vec.png" alt="word2vec running..." /></p>
-
+<p><img src="/images/train_word2vec.png" alt="word2vec running&hellip;"></p>
 <h2 id="測試">測試</h2>
-
 <p>首先測試距離相近的字：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./distance vectors.bin </span></code></pre></div></div>
 
-
 <p>雖然效果差強人意，不過還是可以看到相同屬性的字確實有些群聚效應：</p>
-
 <pre><code>Enter word or sentence (EXIT to break): 法國
 
 Word: 法國  Position in vocabulary: 992
@@ -237,14 +205,10 @@ Word: 法國  Position in vocabulary: 992
                                           奧地利         0.696855
                                           蘇格蘭         0.689557
 </code></pre>
-
 <p>接著測試線性關係，A 比 B 就好像 C 比什麼？：</p>
-
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./word-analogy vectors.bin </span></code></pre></div></div>
 
-
 <p>對於國家與都市的推理，也稍有效果：</p>
-
 <pre><code>Enter three words (EXIT to break): 法國 巴黎 英國
 
 Word: 法國  Position in vocabulary: 992
@@ -265,21 +229,15 @@ Word: 英國  Position in vocabulary: 822
                                           羅浮宮         0.555593
                                           油畫院         0.554334
 </code></pre>
-
 <p>訓練出來的詞向量或許可以供進一步利用，只是在實際使用之前無法確定是否適用於特定的應用。</p>
-
 <h2 id="程式碼">程式碼</h2>
-
 <p>我把相關的程式碼放在 GitHub 上面供參考：<a href="https://github.com/shaform/experiments/tree/master/word2vec_tw">https://github.com/shaform/experiments/tree/master/word2vec_tw</a></p>
-
 <h2 id="參考資料">參考資料</h2>
-
 <ol>
 <li><a href="https://code.google.com/p/word2vec/">word2vec</a></li>
 <li><a href="http://www.cnblogs.com/hebin/p/3507609.html">利用中文数据跑Google开源项目word2vec</a></li>
 <li><a href="http://blog.fukuball.com/ru-he-shi-yong-jieba-jie-ba-zhong-wen-fen-ci-cheng-shi/">如何使用 JIEBA 結巴中文分詞程式</a></li>
 </ol>
-
 
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
 <div class="box aligncenter">
@@ -304,7 +262,7 @@ Word: 英國  Position in vocabulary: 822
       <div class="author-content">
       <p class="author-title">作者</p>
       <p class="author-name">Yong-Siang Shih</p>
-      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<br><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<!-- raw HTML omitted --><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
       </div>
     </div>
   </div>
@@ -403,7 +361,7 @@ Word: 英國  Position in vocabulary: 822
             Shaform
             
               2010 -
-            2019
+            2020
           </small>
           
         </p>

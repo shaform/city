@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on City of Wings</title>
@@ -66,20 +66,20 @@
     </item>
     
     <item>
-      <title>CUDA</title>
-      <link>https://city.shaform.com/en/tag/cuda/</link>
-      <pubDate>Mon, 23 Oct 2017 21:30:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/cuda/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Caffe</title>
       <link>https://city.shaform.com/en/tag/caffe/</link>
       <pubDate>Mon, 23 Oct 2017 21:30:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/tag/caffe/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CUDA</title>
+      <link>https://city.shaform.com/en/tag/cuda/</link>
+      <pubDate>Mon, 23 Oct 2017 21:30:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/cuda/</guid>
       <description></description>
     </item>
     
@@ -138,15 +138,6 @@
     </item>
     
     <item>
-      <title>Spark</title>
-      <link>https://city.shaform.com/en/tag/spark/</link>
-      <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/spark/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>snappy</title>
       <link>https://city.shaform.com/en/tag/snappy/</link>
       <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
@@ -161,6 +152,15 @@
       <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/tag/snappycat/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spark</title>
+      <link>https://city.shaform.com/en/tag/spark/</link>
+      <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/spark/</guid>
       <description></description>
     </item>
     
@@ -201,6 +201,15 @@
     </item>
     
     <item>
+      <title>browser</title>
+      <link>https://city.shaform.com/en/tag/browser/</link>
+      <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/en/tag/browser/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Google Inbox</title>
       <link>https://city.shaform.com/en/tag/google-inbox/</link>
       <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
@@ -215,15 +224,6 @@
       <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/tag/internet/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>browser</title>
-      <link>https://city.shaform.com/en/tag/browser/</link>
-      <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/tag/browser/</guid>
       <description></description>
     </item>
     

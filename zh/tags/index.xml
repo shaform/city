@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on 翼之都</title>
@@ -6,10 +6,28 @@
     <description>Recent content in Tags on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2020 20:40:00 -0400</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/zh/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>LUKS</title>
+      <link>https://city.shaform.com/zh/tag/luks/</link>
+      <pubDate>Thu, 16 Jul 2020 20:40:00 -0400</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/luks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ubuntu</title>
+      <link>https://city.shaform.com/zh/tag/ubuntu/</link>
+      <pubDate>Thu, 16 Jul 2020 20:40:00 -0400</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/ubuntu/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>PackedSequence</title>
@@ -30,15 +48,6 @@
     </item>
     
     <item>
-      <title>Plurk</title>
-      <link>https://city.shaform.com/zh/tag/plurk/</link>
-      <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/plurk/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>crawler</title>
       <link>https://city.shaform.com/zh/tag/crawler/</link>
       <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
@@ -53,6 +62,15 @@
       <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Plurk</title>
+      <link>https://city.shaform.com/zh/tag/plurk/</link>
+      <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/plurk/</guid>
       <description></description>
     </item>
     
@@ -102,15 +120,6 @@
     </item>
     
     <item>
-      <title>SSH</title>
-      <link>https://city.shaform.com/zh/tag/ssh/</link>
-      <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/ssh/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>linux</title>
       <link>https://city.shaform.com/zh/tag/linux/</link>
       <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
@@ -120,11 +129,29 @@
     </item>
     
     <item>
+      <title>SSH</title>
+      <link>https://city.shaform.com/zh/tag/ssh/</link>
+      <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/ssh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Google Forms</title>
       <link>https://city.shaform.com/zh/tag/google-forms/</link>
       <pubDate>Sat, 16 Sep 2017 16:42:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/google-forms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gnupg</title>
+      <link>https://city.shaform.com/zh/tag/gnupg/</link>
+      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/gnupg/</guid>
       <description></description>
     </item>
     
@@ -143,24 +170,6 @@
       <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/openpgp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>YubiKey</title>
-      <link>https://city.shaform.com/zh/tag/yubikey/</link>
-      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/yubikey/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gnupg</title>
-      <link>https://city.shaform.com/zh/tag/gnupg/</link>
-      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/gnupg/</guid>
       <description></description>
     </item>
     
@@ -188,6 +197,15 @@
       <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/truecrypt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>YubiKey</title>
+      <link>https://city.shaform.com/zh/tag/yubikey/</link>
+      <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/yubikey/</guid>
       <description></description>
     </item>
     
@@ -228,6 +246,15 @@
     </item>
     
     <item>
+      <title>deep learning</title>
+      <link>https://city.shaform.com/zh/tag/deep-learning/</link>
+      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>GAN</title>
       <link>https://city.shaform.com/zh/tag/gan/</link>
       <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
@@ -242,15 +269,6 @@
       <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/tensorflow/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>deep learning</title>
-      <link>https://city.shaform.com/zh/tag/deep-learning/</link>
-      <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/deep-learning/</guid>
       <description></description>
     </item>
     
@@ -273,6 +291,15 @@
     </item>
     
     <item>
+      <title>jupyter</title>
+      <link>https://city.shaform.com/zh/tag/jupyter/</link>
+      <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/jupyter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Python</title>
       <link>https://city.shaform.com/zh/tag/python/</link>
       <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
@@ -287,24 +314,6 @@
       <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/sacred/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>jupyter</title>
-      <link>https://city.shaform.com/zh/tag/jupyter/</link>
-      <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/jupyter/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>TensorBox</title>
-      <link>https://city.shaform.com/zh/tag/tensorbox/</link>
-      <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/tensorbox/</guid>
       <description></description>
     </item>
     
@@ -327,11 +336,11 @@
     </item>
     
     <item>
-      <title>CUDA</title>
-      <link>https://city.shaform.com/zh/tag/cuda/</link>
-      <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
+      <title>TensorBox</title>
+      <link>https://city.shaform.com/zh/tag/tensorbox/</link>
+      <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/cuda/</guid>
+      <guid>https://city.shaform.com/zh/tag/tensorbox/</guid>
       <description></description>
     </item>
     
@@ -345,11 +354,11 @@
     </item>
     
     <item>
-      <title>Ubuntu</title>
-      <link>https://city.shaform.com/zh/tag/ubuntu/</link>
+      <title>CUDA</title>
+      <link>https://city.shaform.com/zh/tag/cuda/</link>
       <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
       
-      <guid>https://city.shaform.com/zh/tag/ubuntu/</guid>
+      <guid>https://city.shaform.com/zh/tag/cuda/</guid>
       <description></description>
     </item>
     
@@ -633,20 +642,20 @@
     </item>
     
     <item>
-      <title>UEFI</title>
-      <link>https://city.shaform.com/zh/tag/uefi/</link>
-      <pubDate>Thu, 19 Jun 2014 16:05:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/uefi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Ubuntu 14.04</title>
       <link>https://city.shaform.com/zh/tag/ubuntu-14.04/</link>
       <pubDate>Thu, 19 Jun 2014 16:05:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/ubuntu-14.04/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>UEFI</title>
+      <link>https://city.shaform.com/zh/tag/uefi/</link>
+      <pubDate>Thu, 19 Jun 2014 16:05:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/uefi/</guid>
       <description></description>
     </item>
     
@@ -687,6 +696,15 @@
     </item>
     
     <item>
+      <title>Hadoop</title>
+      <link>https://city.shaform.com/zh/tag/hadoop/</link>
+      <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/hadoop/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>HBase</title>
       <link>https://city.shaform.com/zh/tag/hbase/</link>
       <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
@@ -705,29 +723,11 @@
     </item>
     
     <item>
-      <title>Hadoop</title>
-      <link>https://city.shaform.com/zh/tag/hadoop/</link>
-      <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/hadoop/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>dvorak</title>
       <link>https://city.shaform.com/zh/tag/dvorak/</link>
       <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/dvorak/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>qwerty</title>
-      <link>https://city.shaform.com/zh/tag/qwerty/</link>
-      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/qwerty/</guid>
       <description></description>
     </item>
     

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.74.1" />
   <meta charset="utf-8">
   <title>從 Pelican 及 WordPress 轉移到 Hugo · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,25 +23,19 @@
 <meta property="og:description" content="記得在 2014 年的時候把網誌搬到了 Pelican 上。當初會在各種靜態網頁生成器中選擇 Pelican，一方面是看到學姐的示範，另方面也是因為自己有在用 Pytho" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/zh/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/" />
-
 <meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" />
-<meta property="article:published_time" content="2018-07-22T14:30:00&#43;08:00"/>
-<meta property="article:modified_time" content="2018-07-22T14:30:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2018-07-22T14:30:00+08:00" />
+<meta property="article:modified_time" content="2018-07-22T14:30:00+08:00" />
 <meta itemprop="name" content="從 Pelican 及 WordPress 轉移到 Hugo">
 <meta itemprop="description" content="記得在 2014 年的時候把網誌搬到了 Pelican 上。當初會在各種靜態網頁生成器中選擇 Pelican，一方面是看到學姐的示範，另方面也是因為自己有在用 Pytho">
-
-
 <meta itemprop="datePublished" content="2018-07-22T14:30:00&#43;08:00" />
 <meta itemprop="dateModified" content="2018-07-22T14:30:00&#43;08:00" />
 <meta itemprop="wordCount" content="524">
-
-  <meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
-
+<meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
 
 
-<meta itemprop="keywords" content="Hugo,Pelican," />
-<meta name="twitter:card" content="summary_large_image"/>
+
+<meta itemprop="keywords" content="Hugo,Pelican," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg"/>
 
 <meta name="twitter:title" content="從 Pelican 及 WordPress 轉移到 Hugo"/>
@@ -168,24 +162,16 @@ if (!doNotTrack) {
 <div class="container content">
   <article>
   <p>記得在 <a href="/zh/2014/05/17/migrate-from-pixnet-to-pelican/">2014 年的時候</a>把網誌搬到了 <a href="https://github.com/getpelican/pelican">Pelican</a> 上。當初會在各種<a href="https://www.staticgen.com/">靜態網頁生成器</a>中選擇 Pelican，一方面是看到<a href="https://github.com/jsliang/pelican-fresh/">學姐的示範</a>，另方面也是因為自己有在用 Python，所以用起以 Python 開發的 Pelican 感覺比較熟悉。</p>
-
 <p>時過境遷，學姐當初採用 Pelican 網誌似乎也關閉了，而 Pelican 的開發活躍度也下降許多。加上隨著文章增加，Pelican 的速度也越來越慢，我也動了更換架構的念頭。</p>
-
 <p>於是就看上了 <a href="https://gohugo.io">Hugo</a>，除了速度飛快以外，開發活躍度也非常值得期待。另外就是，他是用 <a href="https://golang.org">Go</a> 寫的，勉強也算的上是我有使用的語言之一。</p>
-
 <p>從 Pelican 的轉移，因為想先保持佈景，所以主要的時間花在把佈景 <a href="https://github.com/molivier/nest">Nest</a> 改造成 Hugo 可用的 <a href="https://github.com/shaform/hugo-theme-den">Den</a> 上。Markdown 本身倒是不須太多的修改，主要是更動 Pelican 裡的 <code>{filename}</code> 路徑寫法，以及更動 code block 的表示方法。因為寫程式去解析 Markdown 有點麻煩，所以我主要是<a href="http://vim.wikia.com/wiki/Recording_keys_for_repeated_jobs">紀錄 Vim 指令</a>來更動每個檔案。</p>
-
 <p>從 WordPress 轉移過來的一座島就麻煩不少，雖然我直接採用了現成的佈景，還是寫了 <a href="https://github.com/shaform/wp2hugo">wp2hugo</a> 去下載我網誌用到的所有圖片，並且解析匯出的 XML 檔案轉成 Markdown 格式。並且還是花了一些手動的功夫去處理 <a href="https://en.support.wordpress.com/shortcodes/">WordPress Shortcodes</a> 才完整轉移。</p>
-
 <p>這次轉移時，順便更動了一些翼之都當初從 Blogger 搬移過來的 URL 架構。為了讓原本的網址仍然可以連上，我也用了 Hugo 的 <a href="https://gohugo.io/content-management/urls/#aliases">Aliases</a> 功能替每個文章轉址。另外也讓一座島和翼之都都變成雙語網誌了。</p>
-
 <p>最後的結果如下：</p>
-
 <ul>
 <li><a href="https://city.shaform.com/">翼之都</a></li>
 <li><a href="https://island.shaform.com/">一座島</a></li>
 </ul>
-
 
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
 <div class="box aligncenter">
@@ -210,7 +196,7 @@ if (!doNotTrack) {
       <div class="author-content">
       <p class="author-title">作者</p>
       <p class="author-name">Yong-Siang Shih</p>
-      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<br><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<!-- raw HTML omitted --><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
       </div>
     </div>
   </div>
@@ -309,7 +295,7 @@ if (!doNotTrack) {
             Shaform
             
               2010 -
-            2019
+            2020
           </small>
           
         </p>

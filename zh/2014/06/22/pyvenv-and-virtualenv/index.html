@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.74.1" />
   <meta charset="utf-8">
   <title>在工作站上使用自己的 Python 並安裝自訂套件 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,25 +22,19 @@
 <meta property="og:description" content="使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/zh/2014/06/22/pyvenv-and-virtualenv/" />
-
 <meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" />
-<meta property="article:published_time" content="2014-06-22T10:30:00&#43;08:00"/>
-<meta property="article:modified_time" content="2014-06-22T10:30:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2014-06-22T10:30:00+08:00" />
+<meta property="article:modified_time" content="2014-06-22T10:30:00+08:00" />
 <meta itemprop="name" content="在工作站上使用自己的 Python 並安裝自訂套件">
 <meta itemprop="description" content="使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程">
-
-
 <meta itemprop="datePublished" content="2014-06-22T10:30:00&#43;08:00" />
 <meta itemprop="dateModified" content="2014-06-22T10:30:00&#43;08:00" />
 <meta itemprop="wordCount" content="800">
-
-  <meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
-
+<meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
 
 
-<meta itemprop="keywords" content="linux,Python,pyvenv,virtualenv," />
-<meta name="twitter:card" content="summary_large_image"/>
+
+<meta itemprop="keywords" content="linux,Python,pyvenv,virtualenv," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg"/>
 
 <meta name="twitter:title" content="在工作站上使用自己的 Python 並安裝自訂套件"/>
@@ -145,8 +139,8 @@ if (!doNotTrack) {
           <div class="clearfix"></div>
           <p class="float-right header-tags">
               <i class="fas fa-tags" aria-hidden="true"></i>
-              <a href="https://city.shaform.com/zh/tag/python/">Python</a>, 
-                <a href="https://city.shaform.com/zh/tag/linux/">linux</a>, 
+              <a href="https://city.shaform.com/zh/tag/linux/">linux</a>, 
+                <a href="https://city.shaform.com/zh/tag/python/">Python</a>, 
                 <a href="https://city.shaform.com/zh/tag/pyvenv/">pyvenv</a>, 
                 <a href="https://city.shaform.com/zh/tag/virtualenv/">virtualenv</a>
           </p>
@@ -162,70 +156,59 @@ if (!doNotTrack) {
   <main>
 <div class="container content">
   <article>
-  
-
-<p>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。</p>
-
+  <p>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。</p>
 <p>遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。</p>
-
 <h2 id="pyvenv">pyvenv</h2>
-
 <p><a href="https://docs.python.org/3.4/library/venv.html">pyvenv</a> 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=732703">bug 732703</a> 所以暫時無法使用。不過還是介紹一下他的用法：</p>
-
 <ol>
-<li><p>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，3.4 則可選擇不同版本：</p>
-
+<li>
+<p>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，3.4 則可選擇不同版本：</p>
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pyvenv-3.4 <span class="o">[</span>--system-site-packages<span class="o">]</span> ENV_DIR</span></code></pre></div></div>
+
 </li>
-
-<li><p>啟用特定的 virtual environment：</p>
-
+<li>
+<p>啟用特定的 virtual environment：</p>
 <div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">source</span> ENV_DIR/bin/activate</span></code></pre></div></div>
 
-
 <p>這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">(</span>name<span class="o">)</span>$</code></pre></div>
-<p>以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。</p>
-
-<h2 id="virtualenv">virtualenv</h2>
-
-<p>如果工作站上有安裝 <a href="http://virtualenv.readthedocs.org/en/latest/">virtualenv</a> 的話，也可以用這個套件達到相同功能，好處是 Python 2 也可以用。</p>
-
-<ol>
-<li>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，python3.4 則可選擇不同版本（包含 python2）：</li>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">(</span>name<span class="o">)</span>$
+</code></pre></div><p>以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。</p>
+</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">virtualenv <span class="o">[</span>--system-site-packages<span class="o">]</span> -p python3.4 ENV_DIR</code></pre></div></li>
-
-<li><p>啟用特定的 virtual environment：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">source</span> ENV_DIR/bin/activate</code></pre></div>
-<p>這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">(</span>name<span class="o">)</span>$</code></pre></div>
-<p>使用 <code>which</code> 可以看到 python 路徑：</p>
+<h2 id="virtualenv">virtualenv</h2>
+<p>如果工作站上有安裝 <a href="http://virtualenv.readthedocs.org/en/latest/">virtualenv</a> 的話，也可以用這個套件達到相同功能，好處是 Python 2 也可以用。</p>
+<ol>
+<li>
+<p>在 ENV_DIR 建立 virtual environment，<code>--system-site-packages</code> 參數則是讓系統安裝的套件也能被這個環境使用，python3.4 則可選擇不同版本（包含 python2）：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">virtualenv <span class="o">[</span>--system-site-packages<span class="o">]</span> -p python3.4 ENV_DIR
+</code></pre></div></li>
+<li>
+<p>啟用特定的 virtual environment：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">source</span> ENV_DIR/bin/activate
+</code></pre></div><p>這時你就會發現在 prompt 前多了個名字，然後直接用 pip 安裝套件就會裝到這個 local 的 environment 了：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">(</span>name<span class="o">)</span>$
+</code></pre></div><p>使用 <code>which</code> 可以看到 python 路徑：</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">which python
 ENV_DIR/bin/python
 
 which pip
-ENV_DIR/bin/pip</code></pre></div>
-<p>注意到如果當初指定用 python3.4 的話，這裡雖然下的是 python，其實也是 3.4 版。以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。</p>
-
+ENV_DIR/bin/pip
+</code></pre></div><p>注意到如果當初指定用 python3.4 的話，這裡雖然下的是 python，其實也是 3.4 版。以後要啟用某個 environment 時都要重新用 2 提到的方法啟用。</p>
+</li>
+</ol>
 <p>如果有裝 <a href="http://virtualenvwrapper.readthedocs.org/en/latest/">virtualenvwrapper</a> 的話其實還有更方便的方法，可以自行參考文件。</p>
-
 <h2 id="local-packages">Local Packages</h2>
-
 <p>如果實在是無法建立 virtual environment 的話，只能使用舊方法來安裝 local 套件了，首先在 <code>.bashrc</code> 加入對應的參數，使得執行 Python 時會載入 local 套件：</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">alias</span> <span class="nv">python3</span><span class="o">=</span><span class="s2">&#34;PYTHONPATH=</span><span class="nv">$PYTHONPATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/.local/lib/python3.4/site-packages python3&#34;</span>
-<span class="nb">alias</span> <span class="nv">python</span><span class="o">=</span><span class="s2">&#34;PYTHONPATH=</span><span class="nv">$PYTHONPATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/.local/lib/python2.7/site-packages python&#34;</span></code></pre></div></li>
-</ol>
-
-<p>其中各版本的路徑可自行調整。</p>
-
+<span class="nb">alias</span> <span class="nv">python</span><span class="o">=</span><span class="s2">&#34;PYTHONPATH=</span><span class="nv">$PYTHONPATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/.local/lib/python2.7/site-packages python&#34;</span>
+</code></pre></div><p>其中各版本的路徑可自行調整。</p>
 <p>接下來安裝套件時都加上 &ndash;user 參數即可，例如：</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">pip3 install --user flask
 python3.4 setup.py install --user
 
 pip2 install --user flask
-python2 setup.py install --user</code></pre></div>
-
+python2 setup.py install --user
+</code></pre></div>
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
 <div class="box aligncenter">
   <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
@@ -249,7 +232,7 @@ python2 setup.py install --user</code></pre></div>
       <div class="author-content">
       <p class="author-title">作者</p>
       <p class="author-name">Yong-Siang Shih</p>
-      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<br><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<!-- raw HTML omitted --><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
       </div>
     </div>
   </div>
@@ -348,7 +331,7 @@ python2 setup.py install --user</code></pre></div>
             Shaform
             
               2010 -
-            2019
+            2020
           </small>
           
         </p>

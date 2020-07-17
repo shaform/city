@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.74.1" />
   <meta charset="utf-8">
   <title>生成對抗網路 - Generative Adversarial Networks · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,25 +22,19 @@
 <meta property="og:description" content="前言 記得最早聽說 Generative Adversarial Networks 似乎是去年看到〈Image Completion with Deep Learning in TensorFlow〉這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://city.shaform.com/zh/2017/04/04/generative-adversarial-networks/" />
-
 <meta property="og:image" content="https://city.shaform.com/images/2017/mog.png" />
-<meta property="article:published_time" content="2017-04-04T15:37:00&#43;08:00"/>
-<meta property="article:modified_time" content="2017-04-04T15:37:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2017-04-04T15:37:00+08:00" />
+<meta property="article:modified_time" content="2017-04-04T15:37:00+08:00" />
 <meta itemprop="name" content="生成對抗網路 - Generative Adversarial Networks">
 <meta itemprop="description" content="前言 記得最早聽說 Generative Adversarial Networks 似乎是去年看到〈Image Completion with Deep Learning in TensorFlow〉這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把">
-
-
 <meta itemprop="datePublished" content="2017-04-04T15:37:00&#43;08:00" />
 <meta itemprop="dateModified" content="2017-04-04T15:37:00&#43;08:00" />
-<meta itemprop="wordCount" content="1133">
-
-  <meta itemprop="image" content="https://city.shaform.com/images/2017/mog.png">
-
+<meta itemprop="wordCount" content="1111">
+<meta itemprop="image" content="https://city.shaform.com/images/2017/mog.png">
 
 
-<meta itemprop="keywords" content="GAN,TensorFlow,deep learning," />
-<meta name="twitter:card" content="summary_large_image"/>
+
+<meta itemprop="keywords" content="GAN,TensorFlow,deep learning," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2017/mog.png"/>
 
 <meta name="twitter:title" content="生成對抗網路 - Generative Adversarial Networks"/>
@@ -145,9 +139,9 @@ if (!doNotTrack) {
           <div class="clearfix"></div>
           <p class="float-right header-tags">
               <i class="fas fa-tags" aria-hidden="true"></i>
-              <a href="https://city.shaform.com/zh/tag/gan/">GAN</a>, 
-                <a href="https://city.shaform.com/zh/tag/tensorflow/">TensorFlow</a>, 
-                <a href="https://city.shaform.com/zh/tag/deep-learning/">deep learning</a>
+              <a href="https://city.shaform.com/zh/tag/deep-learning/">deep learning</a>, 
+                <a href="https://city.shaform.com/zh/tag/gan/">GAN</a>, 
+                <a href="https://city.shaform.com/zh/tag/tensorflow/">TensorFlow</a>
           </p>
         
         
@@ -161,27 +155,15 @@ if (!doNotTrack) {
   <main>
 <div class="container content">
   <article>
-  
-
-<h2 id="前言">前言</h2>
-
+  <h2 id="前言">前言</h2>
 <p>記得最早聽說 <a href="https://arxiv.org/abs/1701.00160">Generative Adversarial Networks</a> 似乎是去年看到<a href="https://bamos.github.io/2016/08/09/deep-completion/">〈Image Completion with Deep Learning in TensorFlow〉</a>這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把人臉的中心遮起來，然後再用 GAN 補完幻想的人臉。效果如下所示。當時覺得感覺好酷阿，想像中可以腦補的東西真的很多，例如後來看到有人<a href="https://blog.insightdatascience.com/isee-removing-eyeglasses-from-faces-using-deep-learning-d4e7d935376f">腦補眼鏡</a>、<a href="http://www.digitaltrends.com/photography/faceapp-neural-net-image-editing/">腦補笑容和年紀</a>，或者<a href="https://zhuanlan.zhihu.com/p/25542274">腦補動漫人物</a>。而 GAN 作為其中一種生成模型，<a href="https://www.quora.com/What-are-the-pros-and-cons-of-Generative-Adversarial-Networks-vs-Variational-Autoencoders">視覺效果是相當不錯的</a>。</p>
-
-<p><blockquote class="twitter-tweet tw-align-center" data-lang="en"><p lang="en" dir="ltr">Superb tutorial on adversarial nets by <a href="https://twitter.com/brandondamos">@brandondamos</a><br>Bonus section: thoughts on Torch vs TF<a href="https://t.co/uwG8l2qytd">https://t.co/uwG8l2qytd</a> <a href="https://t.co/P0XpEmbiyZ">pic.twitter.com/P0XpEmbiyZ</a></p>&mdash; Soumith Chintala (@soumithchintala) <a href="https://twitter.com/soumithchintala/status/763039826136469504">August 9, 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
+<!-- raw HTML omitted -->
 <p>就在那附近的時候，也終於下定決心換新六年多沒更新的桌機，順便買了一張 GTX 1060 來練習 Deep Learning。只是後來因為生活忙碌，所以雖然偶爾有拿別人的程式來跑跑看看效果，但一直沒有真正的寫程式。</p>
-
-<p>現在剛好遇到連假，想說練習一下 TensorFlow，決定模仿<a href="https://arxiv.org/abs/1701.07875">〈ご注文は機械学習ですか？〉</a>網誌上的文章，做點簡單的實驗。</p>
-
+<p>現在剛好遇到連假，想說練習一下 TensorFlow，決定模仿<a href="http://musyoku.github.io/2017/02/06/Wasserstein-GAN/">〈ご注文は機械学習ですか？〉</a>網誌上的文章，做點簡單的實驗。</p>
 <h2 id="環境">環境</h2>
-
 <p>這次我是用 TensorFlow 1.0 配合 GTX 1060 來做這次的實驗。Python 則是用 Anaconda 安裝 Python 3.6。</p>
-
 <p>本次使用的程式碼可以在 <a href="https://github.com/shaform/DeepNetworks">DeepNetworks</a> 找到。 如有興趣可自行參考。將會用 Jupyter Notebook 來做實驗，可以在<a href="https://github.com/shaform/DeepNetworks/blob/master/notebooks/GAN%20-%20Mixture%20of%20Gaussians.ipynb">〈GAN - Mixture of Gaussians Experiment〉</a>找到實驗的過程。</p>
-
 <p>我將用個簡單的二維資料來測試 GAN 學會其分佈的能力。如下所示，每個白點都是一個資料點，希望 GAN 能成功學會他們主要分佈於七個地方。</p>
-
 
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
 <div class="box">
@@ -193,15 +175,10 @@ if (!doNotTrack) {
   </figure>
 </div>
 
-
 <h2 id="生成實驗">生成實驗</h2>
-
-<p>這個實驗我先實做了三個模型，一個是基本的 GAN，不過我加上了 label smoothing 的修改，同時雖然是用 fully-connected layers 但 batch normalization 和 activation functions 有參考一些 DCGAN 的設計。第二個則是和<a href="https://arxiv.org/abs/1610.09585">〈Conditional Image Synthesis With Auxiliary Classifier GANs〉</a>很像的 ACGAN，在訓練時會告知資料點是 0~6 哪一群的資料點。生成時也會 7 群可以條件式的分開產生。最後則是 <a href="https://arxiv.org/abs/1701.07875">WGAN</a>。</p>
-
+<p>這個實驗我先實做了三個模型，一個是基本的 GAN，不過我加上了 label smoothing 的修改，同時雖然是用 fully-connected layers 但 batch normalization 和 activation functions 有參考一些 DCGAN 的設計。第二個則是和<a href="https://arxiv.org/abs/1610.09585">〈Conditional Image Synthesis With Auxiliary Classifier GANs〉</a>很像的 ACGAN，在訓練時會告知資料點是 0~6 哪一群的資料點。生成時也會 7 群可以條件式的分開產生。最後則是 <a href="http://musyoku.github.io/2017/02/06/Wasserstein-GAN/">WGAN</a>。</p>
 <p>GAN 和 ACGAN 都跑一樣多的 epochs，但是 WGAN 因為 discriminator 要多用很多資料訓練很多次，而且 learning rate 又比較小，所以要跑相對多很多的 epochs 才能得到結果。</p>
-
 <p>結果如下所示，其中 ACGAN 每個顏色表示是在輸入要求生成不同群的資料。可以看到確實成功的學會不同群的資料位置。</p>
-
 
 
 <div class="box">
@@ -213,15 +190,10 @@ if (!doNotTrack) {
   </figure>
 </div>
 
-
 <h2 id="learning-to-discover-cross-domain-relations-with-generative-adversarial-networks">Learning to Discover Cross-Domain Relations with Generative Adversarial Networks</h2>
-
 <p>同時，最近又恰好看見一個新的 <a href="https://arxiv.org/abs/1703.05192">DiscoGAN</a>，相當神奇。只要將兩組沒有事先標記他們之間對應的資料丟進去，就可以自動學會兩組資料的對應。</p>
-
 <p>也就是說，假設我改用有 8 群分佈的 Mixture of Gaussians 將其中 4 群當成第一份資料，另外 4 群當成第二份資料，應該可以期待 DiscoGAN 有可能會把兩邊的四群各自一對一對應。</p>
-
 <p>實驗結果如下，六欄分別是：</p>
-
 <ol>
 <li>原始的第一份資料，共有四群</li>
 <li>透過 DiscoGAN 轉換成第二份資料，同樣顏色是從同樣的資料點轉換過來的，可以看見他確實大概的把四群一對一對應了。</li>
@@ -230,7 +202,6 @@ if (!doNotTrack) {
 <li>透過 DiscoGAN 轉換成第一份資料。</li>
 <li>透過 DiscoGAN 再轉回第二份資料。</li>
 </ol>
-
 
 
 <div class="box">
@@ -242,11 +213,8 @@ if (!doNotTrack) {
   </figure>
 </div>
 
-
 <h2 id="結語">結語</h2>
-
 <p>這次為了實做學到不少東西，像是 <code>tf.contrib.layers.batch_norm</code> 在 share weights 時要如何使用，同時雖然我還沒做完圖像的實驗，不過也學了不少 tensorflow 的 <a href="https://www.tensorflow.org/api_guides/python/io_ops">I/O</a>。希望有空時能更新這篇文章，再加上圖像實驗以及更詳細的 GAN 介紹。</p>
-
 
 
 <div class="box aligncenter" style="max-width:400px;">
@@ -271,7 +239,7 @@ if (!doNotTrack) {
       <div class="author-content">
       <p class="author-title">作者</p>
       <p class="author-name">Yong-Siang Shih</p>
-      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<br><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<!-- raw HTML omitted --><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
       </div>
     </div>
   </div>
@@ -370,7 +338,7 @@ if (!doNotTrack) {
             Shaform
             
               2010 -
-            2019
+            2020
           </small>
           
         </p>
