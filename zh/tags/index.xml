@@ -6,10 +6,19 @@
     <description>Recent content in Tags on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 16 Jul 2020 20:40:00 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2020 10:40:00 -0400</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/zh/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>GnuCash</title>
+      <link>https://city.shaform.com/zh/tag/gnucash/</link>
+      <pubDate>Sun, 30 Aug 2020 10:40:00 -0400</pubDate>
+      
+      <guid>https://city.shaform.com/zh/tag/gnucash/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>LUKS</title>
@@ -719,15 +728,6 @@
       <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/tag/hdfs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>dvorak</title>
-      <link>https://city.shaform.com/zh/tag/dvorak/</link>
-      <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/zh/tag/dvorak/</guid>
       <description></description>
     </item>
     

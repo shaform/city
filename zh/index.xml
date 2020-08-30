@@ -6,10 +6,101 @@
     <description>Recent content on 翼之都</description><webfeeds:icon>https://city.shaform.com/favicon.ico</webfeeds:icon>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 16 Jul 2020 20:40:00 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2020 10:40:00 -0400</lastBuildDate>
     
     <atom:link href="https://city.shaform.com/zh/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案</title>
+      <link>https://city.shaform.com/zh/2020/08/30/gnucash-importer/</link>
+      <pubDate>Sun, 30 Aug 2020 10:40:00 -0400</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2020/08/30/gnucash-importer/</guid>
+      
+        <description>&lt;h2 id=&#34;問題&#34;&gt;問題&lt;/h2&gt;
+&lt;p&gt;一直以來都是使用 &lt;a href=&#34;https://www.gnucash.org/&#34;&gt;GnuCash&lt;/a&gt; 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀行裡的各種複雜交易如果都手動輸入感覺就相當花時間了。（其實一方面也是因為不會每週都記錄券商交易，而是累積起來一次輸入，所以心理上感覺比較繁雜。）所以最近研究了一下 &lt;a href=&#34;https://www.gnucash.org/&#34;&gt;GnuCash&lt;/a&gt; 的&lt;a href=&#34;https://www.gnucash.org/docs/v3/C/gnucash-help/trans-import.html&#34;&gt;自動匯入功能&lt;/a&gt;，發現當中有許多不太彈性的地方，除此之外，匯入速度不知為何十分緩慢，讓人不禁覺得自己手動輸入搞不好還比較快。&lt;/p&gt;
+&lt;p&gt;為了解決這個問題，就來研究了一下 GnuCash 的 &lt;a href=&#34;https://wiki.gnucash.org/wiki/Python_Bindings&#34;&gt;Python bindings&lt;/a&gt; 尋找能夠自動輸入大量交易的方法。最後在一番研究之後，參考了 GnuCash 裡頭的 &lt;a href=&#34;https://github.com/Gnucash/gnucash/tree/e0e77ca39dd15e8bf7df69b924ffcb4de2fea47d/bindings/python/example_scripts&#34;&gt;example scripts&lt;/a&gt;，寫了一個簡單的 &lt;a href=&#34;https://github.com/shaform/gnucash-importer&#34;&gt;gnucash-importer&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;gnucash-importer&#34;&gt;GnuCash Importer&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/shaform/gnucash-importer&#34;&gt;gnucash-importer&lt;/a&gt; 的功能是可以讀取 CSV 格式的記帳檔案，然後把裡頭的資料寫進 GnuCash 的檔案之中。使用這個工具作為輸入的手段的話，就能先將想插入的資料轉換成 CSV 格式，然後再透過 &lt;a href=&#34;https://github.com/shaform/gnucash-importer&#34;&gt;gnucash-importer&lt;/a&gt; 寫入 GnuCash 之中。&lt;/p&gt;
+&lt;p&gt;比如說如果先將股票帳戶的資料透過某種方法轉換成如下的格式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;date,description,commodity,memo,account,amount,value
+09/24/2020,Purchase VTI,CURRENCY::USD,,Assets:Current Assets:Cash Account:TD Ameritrade,,-2500.00
+,,,,Assets:Investments:Stock:VTI,10,2500.00
+09/07/2020,BND Dividend,CURRENCY::USD,,Assets:Current Assets:Cash Account:TD Ameritrade,,70.00
+,,,,Income:Dividend Income:Dividend Income USD:BND Dividend,,-100.00
+,,,,Assets:Investments:Bond:BND,,
+,,,W-8 Tax Withholding - BND,Expenses:Taxes:Federal:Taxes Withholding:Taxes Withholding USD:2020 Taxes Withholding USD,,30.00
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然後再利用 &lt;a href=&#34;https://github.com/shaform/gnucash-importer&#34;&gt;gnucash-importer&lt;/a&gt; 來插入資料：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;python -m gnucash_importer target.gnucash source.csv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;就可以自動插入一筆購買 10 shares of VTI 的紀錄，和一筆得到 BND 的利息的紀錄。&lt;/p&gt;
+&lt;p&gt;所以說只要另外寫一些程式，把平常的帳戶資料先轉成這個格式的 CSV，就能簡單的匯入 GnuCash 之中了。&lt;/p&gt;
+&lt;p&gt;說穿了其實核心部份只是利用了簡單的 API：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;gnucash&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;DAY&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;24&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;MONTH&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;9&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;YEAR&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2020&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;DESCRIPTION&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;Purchase VTI&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;ACCOUNT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;Assets:Current Assets:Cash Account:TD Ameritrade&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;VTI_ACCOUNT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;Assets:Investments:Stock:VTI&amp;#39;&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;lookup_account&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;root_account&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;account_path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;names&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;account_path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;split&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;:&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;account&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;root_account&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;names&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;account&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;account&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;lookup_by_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;account&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;gnucash&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;gnucash_path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;gnucash&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SessionOpenMode&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SESSION_NORMAL_OPEN&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;book&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;book&lt;/span&gt;
+
+    &lt;span class=&#34;n&#34;&gt;comm_table&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;book&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_table&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;commodity&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;comm_table&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;lookup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;CURRENCY&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;USD&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;# 指定幣種和基本敘述&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;trans&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;gnucash&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Transaction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;book&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;trans&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;BeginEdit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;trans&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SetDate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DAY&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MONTH&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;YEAR&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;trans&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SetCurrency&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;commodity&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;trans&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SetDescription&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DESCRIPTION&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;# 紀錄從現金帳戶花去 -2500&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;split&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;gnucash&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Split&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;book&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;split&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SetValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gnucash&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GncNumeric&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2500&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;root_acct&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;book&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_root_account&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;acct&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;lookup_account&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;root_acct&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ACCOUNT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;split&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SetAccount&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;acct&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;split&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SetParent&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;trans&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;# 紀錄 VTI 持有增加 $2500 = 10 shares&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;vti_split&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;gnucash&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Split&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;book&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;vti_split&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SetValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gnucash&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GncNumeric&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2500&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;vti_split&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SetAmount&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gnucash&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GncNumeric&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;vti_acct&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;lookup_account&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;root_acct&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;VTI_ACCOUNT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;vti_split&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SetAccount&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vti_acct&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;vti_split&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SetParent&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;trans&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+    &lt;span class=&#34;n&#34;&gt;trans&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;CommitEdit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;其他可能性&#34;&gt;其他可能性&lt;/h2&gt;
+&lt;p&gt;其實之所以突然想來寫個 importer ，還有一個原因是先前看過別人用 &lt;a href=&#34;https://byvoid.com/zht/blog/beancount-bookkeeping-1/&#34;&gt;beancount 記帳的心得&lt;/a&gt;，對於像那樣直接用純文字記帳的方法感到有點興趣。由於是純文字，很有彈性，要寫各種 importer 當然也不成問題。實際上官方好像就有提供各種 importers 來使用的樣子。&lt;/p&gt;
+&lt;p&gt;但因為太習慣 GnuCash 有各種自動完成，以及各種方便顯示的圖表了，所以目前還在觀望之中。乍看之下如果使用 &lt;a href=&#34;https://beancount.github.io/fava/&#34;&gt;fava&lt;/a&gt; 的話，雖然可以顯示一些基本的圖表，但跟 GnuCash 比起來還是有點距離。雖然因為很有彈性，所以理論上可以寫各種擴充套件，甚至搞不好早就有人寫好了強大的圖表套件。但一直還沒時間研究，所以只好暫時繼續使用 GnuCash 了。未來再看情形重新評估看看。&lt;/p&gt;
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img class=&#34;webfeedsFeaturedVisual&#34; itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2020/euro-870757_640.jpg&#34; alt=&#34;Cash&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
+</description>
+      
+    </item>
     
     <item>
       <title>修復在加密硬碟裡安裝 Ubuntu 20.04 後無法開機的問題</title>

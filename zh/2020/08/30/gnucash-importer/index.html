@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta name="generator" content="Hugo 0.74.3" />
+  <meta charset="utf-8">
+  <title>利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案 · 翼之都</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="問題 一直以來都是使用 GnuCash 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀" />
+
+  <meta name="keywords" content="Shaform, open source, Python, machine learning, software" />
+
+<link rel="canonical" href="https://city.shaform.com/zh/2020/08/30/gnucash-importer/" />
+<link rel="icon" href="https://city.shaform.com/favicon.ico" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link rel="stylesheet" href="https://city.shaform.com/css/den.css">
+
+
+
+
+<meta property="og:title" content="利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案" />
+<meta property="og:description" content="問題 一直以來都是使用 GnuCash 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://city.shaform.com/zh/2020/08/30/gnucash-importer/" />
+<meta property="og:image" content="https://city.shaform.com/images/2020/euro-870757_640.jpg" />
+<meta property="article:published_time" content="2020-08-30T10:40:00-04:00" />
+<meta property="article:modified_time" content="2020-08-30T10:40:00-04:00" />
+<meta itemprop="name" content="利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案">
+<meta itemprop="description" content="問題 一直以來都是使用 GnuCash 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀">
+<meta itemprop="datePublished" content="2020-08-30T10:40:00-04:00" />
+<meta itemprop="dateModified" content="2020-08-30T10:40:00-04:00" />
+<meta itemprop="wordCount" content="945">
+<meta itemprop="image" content="https://city.shaform.com/images/2020/euro-870757_640.jpg">
+
+
+
+<meta itemprop="keywords" content="GnuCash," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://city.shaform.com/images/2020/euro-870757_640.jpg"/>
+
+<meta name="twitter:title" content="利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案"/>
+<meta name="twitter:description" content="問題 一直以來都是使用 GnuCash 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀"/>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-13132274-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+<body>
+  
+  <div class="header-container" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://city.shaform.com/images/background.jpg'); background-position: center; background-size: cover;">
+  <div class="container">
+  <nav class="header-nav navbar navbar-expand-md navbar-dark light-dark">
+    <div class="header-logo navbar-brand">
+      
+        <a class="float-left" href="https://city.shaform.com/zh/">
+      
+        
+        <img class="mr20 header-logo-image" src="https://city.shaform.com/images/fly.png" alt="logo">
+        
+        
+          翼之都
+         
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-menu collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            
+              
+                <a class="nav-link" href="https://city.shaform.com/zh/category/ideas/">點子</a>
+              
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              
+                <a class="nav-link" href="https://city.shaform.com/zh/category/notes/">筆記</a>
+              
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              
+                <a class="nav-link" href="https://city.shaform.com/zh/category/projects/">專案</a>
+              
+            
+          </li>
+        
+          <li class="nav-item">
+            
+              
+                <a class="nav-link" href="https://www.google.com/search?q=site:city.shaform.com">搜尋</a>
+              
+            
+          </li>
+        
+        
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="https://city.shaform.com/en/"><i class="fas fa-globe"></i> English</a>
+            </li>
+          
+          
+        
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container header-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="header-content">
+        <h1 class="header-title">利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案</h1>
+        <p class="header-date">作者：
+          Yong-Siang Shih /
+        
+        Sun 30 August 2020
+          / 分類：
+          <a href="https://city.shaform.com/zh/category/projects/">Projects</a>
+        </p>
+        
+        <div class="header-underline"></div>
+        
+          <div class="clearfix"></div>
+          <p class="float-right header-tags">
+              <i class="fas fa-tags" aria-hidden="true"></i>
+              <a href="https://city.shaform.com/zh/tag/gnucash/">GnuCash</a>
+          </p>
+        
+        
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+  <main>
+<div class="container content">
+  <article>
+  <h2 id="問題">問題</h2>
+<p>一直以來都是使用 <a href="https://www.gnucash.org/">GnuCash</a> 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀行裡的各種複雜交易如果都手動輸入感覺就相當花時間了。（其實一方面也是因為不會每週都記錄券商交易，而是累積起來一次輸入，所以心理上感覺比較繁雜。）所以最近研究了一下 <a href="https://www.gnucash.org/">GnuCash</a> 的<a href="https://www.gnucash.org/docs/v3/C/gnucash-help/trans-import.html">自動匯入功能</a>，發現當中有許多不太彈性的地方，除此之外，匯入速度不知為何十分緩慢，讓人不禁覺得自己手動輸入搞不好還比較快。</p>
+<p>為了解決這個問題，就來研究了一下 GnuCash 的 <a href="https://wiki.gnucash.org/wiki/Python_Bindings">Python bindings</a> 尋找能夠自動輸入大量交易的方法。最後在一番研究之後，參考了 GnuCash 裡頭的 <a href="https://github.com/Gnucash/gnucash/tree/e0e77ca39dd15e8bf7df69b924ffcb4de2fea47d/bindings/python/example_scripts">example scripts</a>，寫了一個簡單的 <a href="https://github.com/shaform/gnucash-importer">gnucash-importer</a>。</p>
+<h2 id="gnucash-importer">GnuCash Importer</h2>
+<p><a href="https://github.com/shaform/gnucash-importer">gnucash-importer</a> 的功能是可以讀取 CSV 格式的記帳檔案，然後把裡頭的資料寫進 GnuCash 的檔案之中。使用這個工具作為輸入的手段的話，就能先將想插入的資料轉換成 CSV 格式，然後再透過 <a href="https://github.com/shaform/gnucash-importer">gnucash-importer</a> 寫入 GnuCash 之中。</p>
+<p>比如說如果先將股票帳戶的資料透過某種方法轉換成如下的格式：</p>
+<pre><code>date,description,commodity,memo,account,amount,value
+09/24/2020,Purchase VTI,CURRENCY::USD,,Assets:Current Assets:Cash Account:TD Ameritrade,,-2500.00
+,,,,Assets:Investments:Stock:VTI,10,2500.00
+09/07/2020,BND Dividend,CURRENCY::USD,,Assets:Current Assets:Cash Account:TD Ameritrade,,70.00
+,,,,Income:Dividend Income:Dividend Income USD:BND Dividend,,-100.00
+,,,,Assets:Investments:Bond:BND,,
+,,,W-8 Tax Withholding - BND,Expenses:Taxes:Federal:Taxes Withholding:Taxes Withholding USD:2020 Taxes Withholding USD,,30.00
+</code></pre><p>然後再利用 <a href="https://github.com/shaform/gnucash-importer">gnucash-importer</a> 來插入資料：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python -m gnucash_importer target.gnucash source.csv
+</code></pre></div><p>就可以自動插入一筆購買 10 shares of VTI 的紀錄，和一筆得到 BND 的利息的紀錄。</p>
+<p>所以說只要另外寫一些程式，把平常的帳戶資料先轉成這個格式的 CSV，就能簡單的匯入 GnuCash 之中了。</p>
+<p>說穿了其實核心部份只是利用了簡單的 API：</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">gnucash</span>
+
+<span class="n">DAY</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="n">MONTH</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">YEAR</span> <span class="o">=</span> <span class="mi">2020</span>
+<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;Purchase VTI&#39;</span>
+<span class="n">ACCOUNT</span> <span class="o">=</span> <span class="s1">&#39;Assets:Current Assets:Cash Account:TD Ameritrade&#39;</span>
+<span class="n">VTI_ACCOUNT</span> <span class="o">=</span> <span class="s1">&#39;Assets:Investments:Stock:VTI&#39;</span>
+
+<span class="k">def</span> <span class="nf">lookup_account</span><span class="p">(</span><span class="n">root_account</span><span class="p">,</span> <span class="n">account_path</span><span class="p">):</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">account_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="n">root_account</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+        <span class="n">account</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">lookup_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">account</span>
+
+<span class="k">with</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span>
+        <span class="n">gnucash_path</span><span class="p">,</span>
+        <span class="n">gnucash</span><span class="o">.</span><span class="n">SessionOpenMode</span><span class="o">.</span><span class="n">SESSION_NORMAL_OPEN</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">book</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">book</span>
+
+    <span class="n">comm_table</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">get_table</span><span class="p">()</span>
+    <span class="n">commodity</span> <span class="o">=</span> <span class="n">comm_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s1">&#39;CURRENCY&#39;</span><span class="p">,</span> <span class="s1">&#39;USD&#39;</span><span class="p">)</span>
+
+    <span class="c1"># 指定幣種和基本敘述</span>
+    <span class="n">trans</span> <span class="o">=</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Transaction</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">BeginEdit</span><span class="p">()</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">SetDate</span><span class="p">(</span><span class="n">DAY</span><span class="p">,</span> <span class="n">MONTH</span><span class="p">,</span> <span class="n">YEAR</span><span class="p">)</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">SetCurrency</span><span class="p">(</span><span class="n">commodity</span><span class="p">)</span>
+    <span class="n">trans</span><span class="o">.</span><span class="n">SetDescription</span><span class="p">(</span><span class="n">DESCRIPTION</span><span class="p">)</span>
+
+    <span class="c1"># 紀錄從現金帳戶花去 -2500</span>
+    <span class="n">split</span> <span class="o">=</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+    <span class="n">split</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">gnucash</span><span class="o">.</span><span class="n">GncNumeric</span><span class="p">(</span><span class="o">-</span><span class="mi">2500</span><span class="p">))</span>
+    <span class="n">root_acct</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">get_root_account</span><span class="p">()</span>
+    <span class="n">acct</span> <span class="o">=</span> <span class="n">lookup_account</span><span class="p">(</span><span class="n">root_acct</span><span class="p">,</span> <span class="n">ACCOUNT</span><span class="p">)</span>
+    <span class="n">split</span><span class="o">.</span><span class="n">SetAccount</span><span class="p">(</span><span class="n">acct</span><span class="p">)</span>
+    <span class="n">split</span><span class="o">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">trans</span><span class="p">)</span>
+
+    <span class="c1"># 紀錄 VTI 持有增加 $2500 = 10 shares</span>
+    <span class="n">vti_split</span> <span class="o">=</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">gnucash</span><span class="o">.</span><span class="n">GncNumeric</span><span class="p">(</span><span class="mi">2500</span><span class="p">))</span>
+    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetAmount</span><span class="p">(</span><span class="n">gnucash</span><span class="o">.</span><span class="n">GncNumeric</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">vti_acct</span> <span class="o">=</span> <span class="n">lookup_account</span><span class="p">(</span><span class="n">root_acct</span><span class="p">,</span> <span class="n">VTI_ACCOUNT</span><span class="p">)</span>
+    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetAccount</span><span class="p">(</span><span class="n">vti_acct</span><span class="p">)</span>
+    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">trans</span><span class="p">)</span>
+
+    <span class="n">trans</span><span class="o">.</span><span class="n">CommitEdit</span><span class="p">()</span>
+</code></pre></div><h2 id="其他可能性">其他可能性</h2>
+<p>其實之所以突然想來寫個 importer ，還有一個原因是先前看過別人用 <a href="https://byvoid.com/zht/blog/beancount-bookkeeping-1/">beancount 記帳的心得</a>，對於像那樣直接用純文字記帳的方法感到有點興趣。由於是純文字，很有彈性，要寫各種 importer 當然也不成問題。實際上官方好像就有提供各種 importers 來使用的樣子。</p>
+<p>但因為太習慣 GnuCash 有各種自動完成，以及各種方便顯示的圖表了，所以目前還在觀望之中。乍看之下如果使用 <a href="https://beancount.github.io/fava/">fava</a> 的話，雖然可以顯示一些基本的圖表，但跟 GnuCash 比起來還是有點距離。雖然因為很有彈性，所以理論上可以寫各種擴充套件，甚至搞不好早就有人寫好了強大的圖表套件。但一直還沒時間研究，所以只好暫時繼續使用 GnuCash 了。未來再看情形重新評估看看。</p>
+
+<link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
+<div class="box aligncenter">
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2020/euro-870757_640.jpg" alt="Cash" />
+    </div>
+    
+  </figure>
+</div>
+
+
+  </article>
+
+  
+  
+    
+    <div class="author-card">
+    <div class="underline"></div>
+    <div class="author-box">
+      <div class="author-image"><a href="https://shaform.com"><img src="/images/shaform.jpg" alt="Yong-Siang Shih" /></a></div>
+      <div class="author-content">
+      <p class="author-title">作者</p>
+      <p class="author-name">Yong-Siang Shih</p>
+      <p class="author-desc">軟體工程師，機器學習科學家，開放原始碼愛好者。曾在 Appier 從事機器學習系統開發，也曾在 Google, IBM, Microsoft 擔任軟體實習生。喜好探索學習新科技。<!-- raw HTML omitted --><a href="https://github.com/shaform">* 在 GitHub 上追蹤我</a></p>
+      </div>
+    </div>
+  </div>
+    
+  
+  
+<div class="disqus-comment">
+<div>
+<div class="comment-underline"></div>
+</div>
+<div class="btn btn-secondary disqus-button" id="load_disqus" onclick="load_disqus()">
+  載入 Disqus 評論
+</div>
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://city.shaform.com/zh/2020/08/30/gnucash-importer/";
+  };
+  function load_disqus() {
+    
+    
+    if (window.location.hostname === 'localhost') return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'cityofwings';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    dsq.setAttribute('data-timestamp', +new Date());
+    (document.head || document.body).appendChild(dsq);
+
+    $('#load_disqus').remove();
+  };
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+</div>
+
+
+</div>
+
+  </main><div class="footer gradient-2">
+  <div class="container footer-container ">
+    <div class="row">
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        <div class="footer-title">網站地圖</div>
+        <ul class="list-unstyled">
+            
+              
+                <li><a href="https://city.shaform.com/zh/tags/">標籤</a></li>
+              
+              
+                <li><a href="https://city.shaform.com/zh/categories/">分類</a></li>
+              
+            
+            
+            
+            <li><a rel="alternate" type="application/rss&#43;xml" href="https://city.shaform.com/zh/index.xml"><i class="fas fa-rss-square"></i> RSS 訂閱</a></li>
+            
+            
+            
+              
+                <li><a type="application/rss+xml" href="https://city.shaform.com/feeds/all.atom.xml"><i class="fas fa-rss-square"></i> RSS 訂閱 (中&#43;英)</a></li>
+              
+            
+        </ul>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">社群</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://github.com/shaform/" rel="noopener" target="_blank">GitHub</a></li>
+          
+        </ul>
+        
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+        
+        <div class="footer-title">連結</div>
+        <ul class="list-unstyled">
+          
+          <li><a href="https://shaform.com/" rel="noopener" target="_blank">關於我</a></li>
+          
+          <li><a href="https://island.shaform.com/" rel="noopener" target="_blank">一座島</a></li>
+          
+        </ul>
+        
+      </div> 
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <p class="pull-right text-right">
+          <small><em>Proudly powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a></em></small><br/>
+          <small><em>Theme - <a href="https://github.com/shaform/hugo-theme-den" rel="noopener" target="_blank">Den</a></em></small><br/>
+          <small>
+            &copy; 
+            Shaform
+            
+              2010 -
+            2020
+          </small>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+  if ($('#load_disqus').length) {
+    $(window).scroll(function() {
+      if ($('#load_disqus').length) {
+        var elementTop = $('#load_disqus').offset().top;
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + $(window).height();
+        if (viewportTop < elementTop && elementTop < viewportBottom) {
+          load_disqus();
+        }
+      }
+    });
+  }
+});
+</script>
+
+</body>
+</html>

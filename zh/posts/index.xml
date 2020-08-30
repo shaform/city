@@ -6,10 +6,19 @@
     <description>Recent content in Posts on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 16 Jul 2020 20:40:00 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2020 10:40:00 -0400</lastBuildDate>
     
 	<atom:link href="https://city.shaform.com/zh/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案</title>
+      <link>https://city.shaform.com/zh/2020/08/30/gnucash-importer/</link>
+      <pubDate>Sun, 30 Aug 2020 10:40:00 -0400</pubDate>
+      
+      <guid>https://city.shaform.com/zh/2020/08/30/gnucash-importer/</guid>
+      <description>問題 一直以來都是使用 GnuCash 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀</description>
+    </item>
     
     <item>
       <title>修復在加密硬碟裡安裝 Ubuntu 20.04 後無法開機的問題</title>
