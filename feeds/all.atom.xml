@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" version="2.0">
   <channel>
     <title>翼之都</title>
     <link>https://city.shaform.com/</link>
@@ -16,8 +16,8 @@
       <pubDate>Sun, 30 Aug 2020 10:40:00 -0400</pubDate>
       
       <guid>https://city.shaform.com/zh/2020/08/30/gnucash-importer/</guid>
-      <description>問題 一直以來都是使用 GnuCash 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀</description>
-      <content:encoded>&lt;h2 id="問題"&gt;問題&lt;/h2&gt;
+      
+        <description>&lt;h2 id="問題"&gt;問題&lt;/h2&gt;
 &lt;p&gt;一直以來都是使用 &lt;a href="https://www.gnucash.org/"&gt;GnuCash&lt;/a&gt; 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀行裡的各種複雜交易如果都手動輸入感覺就相當花時間了。（其實一方面也是因為不會每週都記錄券商交易，而是累積起來一次輸入，所以心理上感覺比較繁雜。）所以最近研究了一下 &lt;a href="https://www.gnucash.org/"&gt;GnuCash&lt;/a&gt; 的&lt;a href="https://www.gnucash.org/docs/v3/C/gnucash-help/trans-import.html"&gt;自動匯入功能&lt;/a&gt;，發現當中有許多不太彈性的地方，除此之外，匯入速度不知為何十分緩慢，讓人不禁覺得自己手動輸入搞不好還比較快。&lt;/p&gt;
 &lt;p&gt;為了解決這個問題，就來研究了一下 GnuCash 的 &lt;a href="https://wiki.gnucash.org/wiki/Python_Bindings"&gt;Python bindings&lt;/a&gt; 尋找能夠自動輸入大量交易的方法。最後在一番研究之後，參考了 GnuCash 裡頭的 &lt;a href="https://github.com/Gnucash/gnucash/tree/e0e77ca39dd15e8bf7df69b924ffcb4de2fea47d/bindings/python/example_scripts"&gt;example scripts&lt;/a&gt;，寫了一個簡單的 &lt;a href="https://github.com/shaform/gnucash-importer"&gt;gnucash-importer&lt;/a&gt;。&lt;/p&gt;
 &lt;h2 id="gnucash-importer"&gt;GnuCash Importer&lt;/h2&gt;
@@ -91,13 +91,14 @@
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2020/euro-870757_640.jpg" alt="Cash" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2020/euro-870757_640.jpg" alt="Cash" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -106,8 +107,8 @@
       <pubDate>Thu, 16 Jul 2020 20:40:00 -0400</pubDate>
       
       <guid>https://city.shaform.com/zh/2020/07/16/fix-unbootable-ubuntu/</guid>
-      <description>問題 最近嘗試在不同的筆電上安裝 Ubuntu 20.04，發現如果選擇使用 LUKS 加密整個硬碟然後再把 Ubuntu 裝在裡頭的話，似乎有的時候會導致安裝好的 Ubuntu 無法開機。雖然</description>
-      <content:encoded>&lt;h2 id="問題"&gt;問題&lt;/h2&gt;
+      
+        <description>&lt;h2 id="問題"&gt;問題&lt;/h2&gt;
 &lt;p&gt;最近嘗試在不同的筆電上安裝 &lt;a href="https://ubuntu.com/blog/ubuntu-20-04-lts-arrives"&gt;Ubuntu 20.04&lt;/a&gt;，發現如果選擇使用 &lt;a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup"&gt;LUKS&lt;/a&gt; 加密整個硬碟然後再把 Ubuntu 裝在裡頭的話，似乎有的時候會導致安裝好的 Ubuntu 無法開機。雖然不是很確定觸發的理由為何以及解法的原理為何，但也遇到了兩次了，於是便決定順手把解法紀錄下來以免之後又再遇到。&lt;/p&gt;
 &lt;p&gt;問題大概如下：在開機的時候，無法成功進入 Ubuntu，而會進入 &lt;a href="https://en.wikipedia.org/wiki/BusyBox"&gt;BusyBox&lt;/a&gt;，並顯示類似下面的畫面：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;BusyBox v1.18.5 &lt;span class="o"&gt;(&lt;/span&gt;Ubuntu 1:1.18.5-1ubuntu4&lt;span class="o"&gt;)&lt;/span&gt; built-in shell &lt;span class="o"&gt;(&lt;/span&gt;ash&lt;span class="o"&gt;)&lt;/span&gt;
@@ -156,7 +157,7 @@
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -167,7 +168,8 @@
 &lt;li&gt;&lt;a href="https://feeding.cloud.geek.nz/posts/recovering-from-unbootable-ubuntu-encrypted-lvm-root-partition/"&gt;Recovering from an unbootable Ubuntu encrypted LVM root partition&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://gist.github.com/dragon788/e777ba64d373210e4f6306ad40ee0e80"&gt;Repair &amp;ldquo;ubuntu&amp;ndash;vg-root&amp;rdquo; not found with LUKS and LVM encryption&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -176,8 +178,8 @@
       <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
       
       <guid>https://city.shaform.com/zh/2019/01/15/sort-sequences-in-pytorch/</guid>
-      <description>前言 使用 PyTorch 的 PackedSequence 雖然可以較快速的處理長短不一的序列資料，但是用起來有個不方便的地方。就是同一個 batch 裡的資料，長度必須由長到短排列。但是如果是在做</description>
-      <content:encoded>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
 &lt;p&gt;使用 &lt;a href="https://pytorch.org/"&gt;PyTorch&lt;/a&gt; 的 &lt;a href="https://pytorch.org/docs/stable/nn.html#torch.nn.utils.rnn.PackedSequence"&gt;PackedSequence&lt;/a&gt; 雖然可以較快速的處理長短不一的序列資料，但是用起來有個不方便的地方。就是同一個 batch 裡的資料，長度必須由長到短排列。但是如果是在做機器翻譯之類的 &lt;a href="https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html"&gt;Seq2Seq&lt;/a&gt; 應用，同時有輸入字串和輸出字串，兩者的長度排序不見得會完全一樣。此時簡單的作法是照輸入排序，然後在 encoder 使用 PackedSequence，但是 decoder 就不要使用。但是其實也可以在 decoder 輸入時，先把資料排序，然後等 decoder 輸出後，再重新把資料轉換為原本的順序。本文就紀錄這種作法。&lt;/p&gt;
 &lt;p&gt;註：新版的 PyTorch 將會&lt;a href="https://github.com/pytorch/pytorch/pull/15225"&gt;內建這種功能&lt;/a&gt;，就不用再使用本文的做法了。&lt;/p&gt;
 
@@ -185,7 +187,7 @@
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2019/geese.jpg" alt="Order" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2019/geese.jpg" alt="Order" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -223,7 +225,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;          &lt;span class="n"&gt;ht&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;          &lt;span class="n"&gt;ct&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;這種寫法依然還是可以正常的進行 backpropagation，所以轉回原本序列的 tensors 可以直接傳出去，外頭也不會發現在這裡我們曾經重新排序了兩次。&lt;/p&gt;
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -232,8 +235,8 @@
       <pubDate>Tue, 15 Jan 2019 18:10:00 -0500</pubDate>
       
       <guid>https://city.shaform.com/en/2019/01/15/sort-sequences-in-pytorch/</guid>
-      <description>Introduction Although using PackedSequence in PyTorch allows faster processing for sequential data, there is something inconvenient: the sequences must be sorted according to lengths in a batch. If we are doing Seq2Seq such as machine translation, there exist input and output sequences, and their lengths might not match. We could simply sort the sequences according to lengths of input and only use PackedSequence in encoder while not using it in decoder.</description>
-      <content:encoded>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+      
+        <description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Although using &lt;a href="https://pytorch.org/docs/stable/nn.html#torch.nn.utils.rnn.PackedSequence"&gt;PackedSequence&lt;/a&gt; in &lt;a href="https://pytorch.org/"&gt;PyTorch&lt;/a&gt; allows faster processing for sequential data, there is something inconvenient: the sequences must be sorted according to lengths in a batch.
 If we are doing &lt;a href="https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html"&gt;Seq2Seq&lt;/a&gt; such as machine translation, there exist input and output sequences, and their lengths might not match.
 We could simply sort the sequences according to lengths of input and only use PackedSequence in encoder while not using it in decoder.
@@ -244,7 +247,7 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2019/geese.jpg" alt="Order" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2019/geese.jpg" alt="Order" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -282,7 +285,8 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;          &lt;span class="n"&gt;ht&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;          &lt;span class="n"&gt;ct&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unsorted_idx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The resulting tensors could still do backpropagation as usual, so the unsorted tensors could be returned directly.&lt;/p&gt;
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -291,8 +295,8 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
       <pubDate>Fri, 11 Jan 2019 20:40:00 -0500</pubDate>
       
       <guid>https://city.shaform.com/zh/2019/01/11/plurk-crawler/</guid>
-      <description>前言 記得剛開始學習 Go 好像是在 2013 年的時候，不過後來就一直沒太多機會使用。最近剛好想寫個爬蟲，於是就決定用 Go 來練習看看。 這次的目標是 Plurk 噗浪上的「</description>
-      <content:encoded>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
 &lt;p&gt;記得剛開始學習 Go 好像是在 2013 年的時候，不過後來就一直沒太多機會使用。最近剛好想寫個爬蟲，於是就決定用 Go 來練習看看。&lt;/p&gt;
 &lt;p&gt;這次的目標是 Plurk 噗浪上的&lt;a href="https://www.plurk.com/anonymous"&gt;「偷偷說河道」&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;本次的程式放在 &lt;a href="https://github.com/shaform/experiments/tree/master/plurk_crawler"&gt;shaform/experiments/plurk_crawler&lt;/a&gt;。&lt;/p&gt;
@@ -301,7 +305,7 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2019/cobweb.jpg" alt="Coweb" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2019/cobweb.jpg" alt="Coweb" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -494,7 +498,8 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;接著或許就能進行噗浪輿情分析之類等等的運用。&lt;/p&gt;
 &lt;h2 id="結語"&gt;結語&lt;/h2&gt;
 &lt;p&gt;感覺如果要快速的寫一些 scripts 還是 Python 比較好用，但 Go 寫起來已經算是很快了。本次的程式放在 &lt;a href="https://github.com/shaform/experiments/tree/master/plurk_crawler"&gt;shaform/experiments/plurk_crawler&lt;/a&gt;。&lt;/p&gt;
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -503,8 +508,8 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
       <pubDate>Sat, 08 Dec 2018 20:20:00 -0500</pubDate>
       
       <guid>https://city.shaform.com/zh/2018/12/08/gocryptfs/</guid>
-      <description>前言 當使用 Dropbox 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 VeraCrypt 之類的加密硬碟技術在 Dropbox</description>
-      <content:encoded>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
 &lt;p&gt;當使用 &lt;a href="https://dropbox.com"&gt;Dropbox&lt;/a&gt; 等雲端硬碟儲存檔案的時候，有時難免會擔心資料的安全性問題而不敢上傳太過私人的資料。雖然也可以利用一些像是 &lt;a href="https://www.veracrypt.fr/en/Home.html"&gt;VeraCrypt&lt;/a&gt; 之類的加密硬碟技術在 Dropbox 裡存放一個加密檔案空間，但由於整個加密空間視為一個檔案，如檔案太大則同步時可能會花上不少時間。&lt;/p&gt;
 &lt;p&gt;研究了一下後發現，其實也是有把加密空間表示成許多檔案的加密工具，例如像是 &lt;a href="https://github.com/rfjakob/gocryptfs"&gt;gocryptfs&lt;/a&gt; 就是一例。&lt;/p&gt;
 &lt;p&gt;本文便簡單紀錄 gocryptfs 的用法。&lt;/p&gt;
@@ -562,13 +567,14 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2017/padlocks.jpg" alt="Locks" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2017/padlocks.jpg" alt="Locks" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -577,8 +583,8 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
       <pubDate>Sun, 11 Nov 2018 11:40:00 -0500</pubDate>
       
       <guid>https://city.shaform.com/zh/2018/11/11/zarr/</guid>
-      <description>前言 當使用大量的資料進行機器學習系統的訓練時，總是得花一些心力處理資料集的讀取。尤其如果有大量的圖片，則直接用檔案系統存放很多圖片不僅有些傳</description>
-      <content:encoded>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
 &lt;p&gt;當使用大量的資料進行機器學習系統的訓練時，總是得花一些心力處理資料集的讀取。尤其如果有大量的圖片，則直接用檔案系統存放很多圖片不僅有些傳送和儲存的麻煩，也會讓讀檔變得沒有效率。&lt;/p&gt;
 &lt;p&gt;雖然也曾接觸過 &lt;a href="https://github.com/h5py/h5py"&gt;HDF5&lt;/a&gt; 等資料格式，但不知為何存取起來相當緩慢。所以後來就都直接用 binary 檔案，&lt;a href="https://github.com/appier/compatibility-family-learning/blob/master/cfl/input_data.py"&gt;自己寫資料格式的存取&lt;/a&gt;。然而，這樣每次不同的資料無法直接通用，且自己寫檔案格式也很難保證速度上達到最好的效果。&lt;/p&gt;
 &lt;p&gt;直到最近發現有個叫做 &lt;a href="https://zarr.readthedocs.io/en/stable/"&gt;Zarr&lt;/a&gt; 的檔案存取格式，使用起來似乎相當快速。是以撰寫此文紀錄使用的方式。&lt;/p&gt;
@@ -787,13 +793,14 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2018/storage.jpg" alt="Storage" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2018/storage.jpg" alt="Storage" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -802,8 +809,8 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
       <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</guid>
-      <description>記得在 2014 年的時候把網誌搬到了 Pelican 上。當初會在各種靜態網頁生成器中選擇 Pelican，一方面是看到學姐的示範，另方面也是因為自己有在用 Pytho</description>
-      <content:encoded>&lt;p&gt;記得在 &lt;a href="/zh/2014/05/17/migrate-from-pixnet-to-pelican/"&gt;2014 年的時候&lt;/a&gt;把網誌搬到了 &lt;a href="https://github.com/getpelican/pelican"&gt;Pelican&lt;/a&gt; 上。當初會在各種&lt;a href="https://www.staticgen.com/"&gt;靜態網頁生成器&lt;/a&gt;中選擇 Pelican，一方面是看到&lt;a href="https://github.com/jsliang/pelican-fresh/"&gt;學姐的示範&lt;/a&gt;，另方面也是因為自己有在用 Python，所以用起以 Python 開發的 Pelican 感覺比較熟悉。&lt;/p&gt;
+      
+        <description>&lt;p&gt;記得在 &lt;a href="https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/"&gt;2014 年的時候&lt;/a&gt;把網誌搬到了 &lt;a href="https://github.com/getpelican/pelican"&gt;Pelican&lt;/a&gt; 上。當初會在各種&lt;a href="https://www.staticgen.com/"&gt;靜態網頁生成器&lt;/a&gt;中選擇 Pelican，一方面是看到&lt;a href="https://github.com/jsliang/pelican-fresh/"&gt;學姐的示範&lt;/a&gt;，另方面也是因為自己有在用 Python，所以用起以 Python 開發的 Pelican 感覺比較熟悉。&lt;/p&gt;
 &lt;p&gt;時過境遷，學姐當初採用 Pelican 網誌似乎也關閉了，而 Pelican 的開發活躍度也下降許多。加上隨著文章增加，Pelican 的速度也越來越慢，我也動了更換架構的念頭。&lt;/p&gt;
 &lt;p&gt;於是就看上了 &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt;，除了速度飛快以外，開發活躍度也非常值得期待。另外就是，他是用 &lt;a href="https://golang.org"&gt;Go&lt;/a&gt; 寫的，勉強也算的上是我有使用的語言之一。&lt;/p&gt;
 &lt;p&gt;從 Pelican 的轉移，因為想先保持佈景，所以主要的時間花在把佈景 &lt;a href="https://github.com/molivier/nest"&gt;Nest&lt;/a&gt; 改造成 Hugo 可用的 &lt;a href="https://github.com/shaform/hugo-theme-den"&gt;Den&lt;/a&gt; 上。Markdown 本身倒是不須太多的修改，主要是更動 Pelican 裡的 &lt;code&gt;{filename}&lt;/code&gt; 路徑寫法，以及更動 code block 的表示方法。因為寫程式去解析 Markdown 有點麻煩，所以我主要是&lt;a href="http://vim.wikia.com/wiki/Recording_keys_for_repeated_jobs"&gt;紀錄 Vim 指令&lt;/a&gt;來更動每個檔案。&lt;/p&gt;
@@ -819,13 +826,14 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -834,9 +842,8 @@ But there is another approach: sort sequences again for decoder and &lt;em&gt;un
       <pubDate>Sun, 22 Jul 2018 14:30:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2018/07/22/migrate-from-pelican-and-wordpress-to-hugo/</guid>
-      <description>Back in 2014, I migrated my blogs to Pelican. While there were many static site generators to choose from, the reason I chose Pelican was twofold. Firstly, I was influenced by my friend who used Pelican. Secondly, I had been using Python for some time and therefore I liked the fact that Pelican was developed with Python.
-Years have passed. It appears that my friend is no longer using Pelican for her blog.</description>
-      <content:encoded>&lt;p&gt;&lt;a href="/zh/2014/05/17/migrate-from-pixnet-to-pelican/"&gt;Back in 2014&lt;/a&gt;, I migrated my blogs to &lt;a href="https://github.com/getpelican/pelican"&gt;Pelican&lt;/a&gt;. While there were many &lt;a href="https://www.staticgen.com/"&gt;static site generators&lt;/a&gt; to choose from, the reason I chose Pelican was twofold. Firstly, I was influenced by &lt;a href="https://github.com/jsliang/pelican-fresh/"&gt;my friend who used Pelican&lt;/a&gt;. Secondly, I had been using Python for some time and therefore I liked the fact that Pelican was developed with Python.&lt;/p&gt;
+      
+        <description>&lt;p&gt;&lt;a href="https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/"&gt;Back in 2014&lt;/a&gt;, I migrated my blogs to &lt;a href="https://github.com/getpelican/pelican"&gt;Pelican&lt;/a&gt;. While there were many &lt;a href="https://www.staticgen.com/"&gt;static site generators&lt;/a&gt; to choose from, the reason I chose Pelican was twofold. Firstly, I was influenced by &lt;a href="https://github.com/jsliang/pelican-fresh/"&gt;my friend who used Pelican&lt;/a&gt;. Secondly, I had been using Python for some time and therefore I liked the fact that Pelican was developed with Python.&lt;/p&gt;
 &lt;p&gt;Years have passed. It appears that my friend is no longer using Pelican for her blog. In addition, the development on Pelican is no longer as active as before. Moreover, Pelican gets slower as the number of articles grows. Therefore, I start to think about migrating to a new static site generator.&lt;/p&gt;
 &lt;p&gt;I decided to use &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt;. It&amp;rsquo;s fast, actively developed, and it&amp;rsquo;s built with &lt;a href="https://golang.org"&gt;Go&lt;/a&gt;, which I also use from time to time.&lt;/p&gt;
 &lt;p&gt;Because I want to keep the theme of &lt;em&gt;City of Wings&lt;/em&gt;, I spent most of my time porting &lt;a href="https://github.com/molivier/nest"&gt;Nest&lt;/a&gt; to &lt;a href="https://github.com/shaform/hugo-theme-den"&gt;Den&lt;/a&gt;. Once the theme is ported, the remaining task is easy. The Markdown files do not require too much modification. Mostly I only modified the &lt;code&gt;{filename}&lt;/code&gt; URLs for Pelican, and the representation of code blocks. Because it&amp;rsquo;s a little bit troublesome to parse Markdown, I simply used &lt;a href="http://vim.wikia.com/wiki/Recording_keys_for_repeated_jobs"&gt;Vim commands&lt;/a&gt; to modify each file.&lt;/p&gt;
@@ -852,13 +859,14 @@ Years have passed. It appears that my friend is no longer using Pelican for her 
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -867,10 +875,8 @@ Years have passed. It appears that my friend is no longer using Pelican for her 
       <pubDate>Mon, 16 Jul 2018 21:30:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2018/07/16/generate-rss-feed-for-all-languages-in-hugo/</guid>
-      <description>Hugo supports multilingual sites natively, and it generates a RSS feed for each sub-site of different language. However, it might be desirable to generate a global feed that includes all articles in all sub-sites.
-One possibility is to define a custom output format for homepage in config.toml:
-[outputs] home = [&amp;#34;HTML&amp;#34;, &amp;#34;RSS&amp;#34;, &amp;#34;FEED&amp;#34;] [mediaTypes] [mediaTypes.&amp;#34;application/rss&amp;#34;] suffixes = [&amp;#34;xml&amp;#34;] [outputFormats] [outputFormats.FEED] mediatype = &amp;#34;application/rss&amp;#34; baseName = &amp;#34;feed&amp;#34; In layouts/index.feed.xml, we then use the following range loop to iterate though all pages in all languages:</description>
-      <content:encoded>&lt;p&gt;&lt;a href="http://gohugo.io"&gt;Hugo&lt;/a&gt; supports multilingual sites natively, and it generates a RSS feed
+      
+        <description>&lt;p&gt;&lt;a href="http://gohugo.io"&gt;Hugo&lt;/a&gt; supports multilingual sites natively, and it generates a RSS feed
 for each sub-site of different language. However, it might be desirable to generate a global feed that includes
 all articles in all sub-sites.&lt;/p&gt;
 &lt;p&gt;One possibility is to define a custom output format for homepage in &lt;code&gt;config.toml&lt;/code&gt;:&lt;/p&gt;
@@ -990,13 +996,14 @@ This is also how the current global RSS feed for City of Wings is generated.&lt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -1005,8 +1012,8 @@ This is also how the current global RSS feed for City of Wings is generated.&lt;
       <pubDate>Sat, 28 Oct 2017 21:45:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2017/10/28/ssh-proxycommand/</guid>
-      <description>以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 nlg 程式： #!/bin/bash NLG_WKS_3F={NLG_WKS_3F_HOST} NLG_WKS_2F={NLG_WKS_2F_HOST} case $1 in [3-9]) ssh $USER@$NLG_WKS_3F -p 2200$MACHINE ;; &amp;#34;a&amp;#34;)</description>
-      <content:encoded>&lt;p&gt;以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 &lt;code&gt;nlg&lt;/code&gt; 程式：&lt;/p&gt;
+      
+        <description>&lt;p&gt;以前使用 NLG 實驗室工作站時常會需要記下每台機器的 port 要如何連，感覺很不方便，於是就向學長學習，寫了類似像下面的 &lt;code&gt;nlg&lt;/code&gt; 程式：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#!/bin/bash
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;&lt;/span&gt;&lt;span class="nv"&gt;NLG_WKS_3F&lt;/span&gt;&lt;span class="o"&gt;={&lt;/span&gt;NLG_WKS_3F_HOST&lt;span class="o"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;NLG_WKS_2F&lt;/span&gt;&lt;span class="o"&gt;={&lt;/span&gt;NLG_WKS_2F_HOST&lt;span class="o"&gt;}&lt;/span&gt;
@@ -1049,7 +1056,7 @@ This is also how the current global RSS feed for City of Wings is generated.&lt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Host nlg-wks-*
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;User &lt;span class="o"&gt;{&lt;/span&gt;USER&lt;span class="o"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ProxyCommand ssh -q -W %h:%p nlgs
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;具體的意思是，在連 &lt;code&gt;nlg-wks-*&lt;/code&gt; 機器時，會先連上 &lt;code&gt;nlgs&lt;/code&gt; 機器，然後再從 &lt;code&gt;nlgs&lt;/code&gt; 連 &lt;code&gt;nlg-wks-*&lt;/code&gt; (因此 &lt;code&gt;nlgs&lt;/code&gt; 機器本身，要看得懂 &lt;code&gt;nlg-wks-*&lt;/code&gt; 才行，幸好之前在處理 &lt;a href="/zh/2014/12/13/migrate-from-nis-to-ldap/"&gt;LDAP&lt;/a&gt; 時已經順便把 DNS 紀錄都設了)。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;具體的意思是，在連 &lt;code&gt;nlg-wks-*&lt;/code&gt; 機器時，會先連上 &lt;code&gt;nlgs&lt;/code&gt; 機器，然後再從 &lt;code&gt;nlgs&lt;/code&gt; 連 &lt;code&gt;nlg-wks-*&lt;/code&gt; (因此 &lt;code&gt;nlgs&lt;/code&gt; 機器本身，要看得懂 &lt;code&gt;nlg-wks-*&lt;/code&gt; 才行，幸好之前在處理 &lt;a href="https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/"&gt;LDAP&lt;/a&gt; 時已經順便把 DNS 紀錄都設了)。&lt;/p&gt;
 &lt;p&gt;如此一來，就能用以下指令，先跳到一個主機，再跳到其他主機了：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line hl"&gt;&lt;span class="cl"&gt;ssh nlg-wks-b&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -1063,13 +1070,14 @@ This is also how the current global RSS feed for City of Wings is generated.&lt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -1078,8 +1086,8 @@ This is also how the current global RSS feed for City of Wings is generated.&lt;
       <pubDate>Mon, 23 Oct 2017 21:30:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2017/10/23/install-tensorflow-and-caffe-on-ubuntu/</guid>
-      <description>Previously I have written about 在Ubuntu 安裝 TensorFlow 的紀錄 (Installing TensorFlow on Ubuntu). Years have passed, and even though Ubuntu is still on 16.04，TensorFlow has already made great progress. I&amp;rsquo;ve decided to write another post to show how to install TensorFlow and Caffe with Anaconda. GPU</description>
-      <content:encoded>&lt;p&gt;Previously I have written about &lt;a href="/zh/2016/10/31/install-tensorflow-with-cuda/"&gt;在Ubuntu 安裝 TensorFlow 的紀錄 (Installing
+      
+        <description>&lt;p&gt;Previously I have written about &lt;a href="https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/"&gt;在Ubuntu 安裝 TensorFlow 的紀錄 (Installing
 TensorFlow on Ubuntu)&lt;/a&gt;.  Years have passed, and even though
 Ubuntu is still on 16.04，TensorFlow has already made great progress.  I&amp;rsquo;ve
 decided to write another post to show how to install TensorFlow and Caffe with
@@ -1194,13 +1202,14 @@ changed to the current Python version:&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -1209,8 +1218,8 @@ changed to the current Python version:&lt;/p&gt;
       <pubDate>Sat, 16 Sep 2017 16:42:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2017/09/16/auto-create-google-forms/</guid>
-      <description>前言 最近因為一些研究上的需要，需要進行問卷調查。雖然也可以用自己架的伺服器和網頁界面，可是難免擔心資安的疑慮。 於是就想到可以使用 Google Forms</description>
-      <content:encoded>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
 &lt;p&gt;最近因為一些研究上的需要，需要進行問卷調查。雖然也可以用自己架的伺服器和網頁界面，可是難免擔心資安的疑慮。
 於是就想到可以使用 &lt;a href="https://www.google.com/forms/about/"&gt;Google Forms&lt;/a&gt;，來進行問卷調查與回收。
 為了避免未來有需要時忘記作法，便記下筆記當作未來的參考。&lt;/p&gt;
@@ -1220,7 +1229,7 @@ changed to the current Python version:&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2017/question-mark.jpg" alt="Question Mark" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2017/question-mark.jpg" alt="Question Mark" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -1342,13 +1351,14 @@ changed to the current Python version:&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;  &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;點擊 &lt;code&gt;Run -&amp;gt; makeOurForm&lt;/code&gt; 熱騰騰的問卷就產生好了，可參考下圖。&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/survey.png" alt="Dogs vs. Cats Survey"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://city.shaform.com/images/survey.png" alt="Dogs vs. Cats Survey"&gt;&lt;/p&gt;
 &lt;h2 id="程式碼"&gt;程式碼&lt;/h2&gt;
 &lt;p&gt;照慣例，程式碼放在下述地方供參考：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://github.com/shaform/experiments/tree/master/google-forms"&gt;https://github.com/shaform/experiments/tree/master/google-forms&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -1357,8 +1367,8 @@ changed to the current Python version:&lt;/p&gt;
       <pubDate>Sun, 28 May 2017 20:11:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2017/05/28/password-management/</guid>
-      <description>前言：逐步學習資訊安全 經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 LUKS 加密，</description>
-      <content:encoded>&lt;h2 id="前言逐步學習資訊安全"&gt;前言：逐步學習資訊安全&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言逐步學習資訊安全"&gt;前言：逐步學習資訊安全&lt;/h2&gt;
 &lt;p&gt;經過多年的學習，筆者的資訊安全管理方式也是有所進步。以檔案加密而言。從一開始完全不加密，到後來會把特定磁區使用 &lt;a href="https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup"&gt;LUKS&lt;/a&gt; 加密，又到後來啟用了家目錄的 &lt;a href="http://ecryptfs.org/"&gt;eCryptfs&lt;/a&gt;，並開始不太敢用沒加密的 Windows，只在 Ubuntu 上工作。其他還試過 &lt;a href="https://en.wikipedia.org/wiki/TrueCrypt"&gt;TrueCrypt&lt;/a&gt; 來加密硬碟，還曾經因為忘記密鑰，忍痛把某個硬碟裡的檔案放棄了呢。最近也受擅長資訊安全的朋友的建議，想來研究&lt;a href="https://twopointfouristan.wordpress.com/2011/04/17/pwning-past-whole-disk-encryption/"&gt;也考慮開機磁區問題的全硬碟加密可能性&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;另一方面，對密碼管理也是多有嘗試。一開始設密碼也是使用像是生日、人名、單字之類的簡易密碼。當然很快就被破解了。後來使用了更加複雜的密碼，可是不同網站還是設成一樣，這樣要是有的網站&lt;a href="http://plainpass.com/"&gt;密碼沒加密&lt;/a&gt;，一被破解，全部網站的密碼也就被得知了。可是每個網站都用不同密碼實在太難記了，於是有段時期又改用某種神秘公式，配合不同網站性質，產生每個網站的獨特密碼。同樣的道理也能將每張金融卡的密碼都設成不一樣。一些不重要的網站則使用&lt;a href="https://xkcd.com/936/"&gt;很長但好記的密碼&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;只是公式的主意看似可行，但如果被歹徒看見足夠多的密碼，或許他也有機會猜出背後的公式。同時每次想換密碼，都要想個全新的公式，並且一次換掉所有密碼，否則根本記不起哪個網站是用哪個規則，感覺也很麻煩。&lt;/p&gt;
@@ -1716,13 +1726,14 @@ changed to the current Python version:&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2017/padlocks.jpg" alt="Locks" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2017/padlocks.jpg" alt="Locks" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -1731,9 +1742,9 @@ changed to the current Python version:&lt;/p&gt;
       <pubDate>Sat, 13 May 2017 16:10:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2017/05/13/scrapy-cloud/</guid>
-      <description>前言：取得研究資料集 最近聽到不少擅長 Deep Learning 的朋友買了顯示卡準備自己做起研究，讓人也十分受到激勵。不過平常想自己做研究時，常常會因為沒有適當的資</description>
-      <content:encoded>&lt;h2 id="前言取得研究資料集"&gt;前言：取得研究資料集&lt;/h2&gt;
-&lt;p&gt;最近聽到不少擅長 Deep Learning 的朋友買了&lt;a href="https://www.nvidia.com/en-us/geforce/products/10series/geforce-gtx-1080-ti/"&gt;顯示卡&lt;/a&gt;準備自己做起研究，讓人也十分受到激勵。不過平常想自己做研究時，常常會因為沒有適當的資料集而窒礙難行。尤其不少學術資料集似乎需要由研究單位出面才能取得，使得默默無名的個人研究者深感惶恐，此時撰寫網路爬蟲蒐集資料便成為必要的麻煩。無怪乎本站的&lt;a href="/zh/2016/02/28/scrapy/"&gt;〈Scrapy 筆記〉&lt;/a&gt;似乎也一直很熱門。&lt;/p&gt;
+      
+        <description>&lt;h2 id="前言取得研究資料集"&gt;前言：取得研究資料集&lt;/h2&gt;
+&lt;p&gt;最近聽到不少擅長 Deep Learning 的朋友買了&lt;a href="https://www.nvidia.com/en-us/geforce/products/10series/geforce-gtx-1080-ti/"&gt;顯示卡&lt;/a&gt;準備自己做起研究，讓人也十分受到激勵。不過平常想自己做研究時，常常會因為沒有適當的資料集而窒礙難行。尤其不少學術資料集似乎需要由研究單位出面才能取得，使得默默無名的個人研究者深感惶恐，此時撰寫網路爬蟲蒐集資料便成為必要的麻煩。無怪乎本站的&lt;a href="https://city.shaform.com/zh/2016/02/28/scrapy/"&gt;〈Scrapy 筆記〉&lt;/a&gt;似乎也一直很熱門。&lt;/p&gt;
 &lt;p&gt;只是平常在學校有龐大學術網路資源的支持，撰寫爬蟲還算可行。但自己一個人寫爬蟲就很辛苦了。總會擔心 IP 被阻擋要怎麼辦，還有電腦開太久，到處亂爬，會不會因此被駭客攻擊等問題。&lt;/p&gt;
 &lt;p&gt;就在最近，得知有 &lt;a href="https://scrapinghub.com/scrapy-cloud/"&gt;Scrapy Cloud&lt;/a&gt; 這樣方便的服務，可以用來架設自己的爬蟲，感覺相當方便。於是本文就以 &lt;a href="https://www.ptt.cc/bbs/Beauty/index.html"&gt;PTT Beauty 板&lt;/a&gt; 為範例，紀錄利用 Scrapy Cloud 撰寫爬蟲的過程。&lt;/p&gt;
 
@@ -1741,7 +1752,7 @@ changed to the current Python version:&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2019/cobweb.jpg" alt="Coweb" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2019/cobweb.jpg" alt="Coweb" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2226,11 +2237,12 @@ html2text==2016.5.29
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line hl"&gt;&lt;span class="cl"&gt;shub deploy&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;最後就能在 Dashboard 上執行 script 了，記得在 Arguments 欄位填上 &lt;code&gt;beauty_images&lt;/code&gt; 等參數。&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/upload_items.png" alt="upload_items.py"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://city.shaform.com/images/upload_items.png" alt="upload_items.py"&gt;&lt;/p&gt;
 &lt;h2 id="結語"&gt;結語&lt;/h2&gt;
 &lt;p&gt;如此一來就能順利的每天抓文章和圖了，其他像是偵測不要抓到同樣的文章等等的功能就請各位自行研究了。&lt;/p&gt;
 &lt;p&gt;這次實驗所用到的程式碼按照慣例放在 GitHub 上面供參考：&lt;a href="https://github.com/shaform/ptt-beauty"&gt;https://github.com/shaform/ptt-beauty&lt;/a&gt;。&lt;/p&gt;
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -2239,8 +2251,8 @@ html2text==2016.5.29
       <pubDate>Tue, 04 Apr 2017 15:37:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2017/04/04/generative-adversarial-networks/</guid>
-      <description>前言 記得最早聽說 Generative Adversarial Networks 似乎是去年看到〈Image Completion with Deep Learning in TensorFlow〉這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把</description>
-      <content:encoded>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
 &lt;p&gt;記得最早聽說 &lt;a href="https://arxiv.org/abs/1701.00160"&gt;Generative Adversarial Networks&lt;/a&gt; 似乎是去年看到&lt;a href="https://bamos.github.io/2016/08/09/deep-completion/"&gt;〈Image Completion with Deep Learning in TensorFlow〉&lt;/a&gt;這篇文章。這篇文章提到如何用 GAN 來對圖片進行腦補。比如說像是把人臉的中心遮起來，然後再用 GAN 補完幻想的人臉。效果如下所示。當時覺得感覺好酷阿，想像中可以腦補的東西真的很多，例如後來看到有人&lt;a href="https://blog.insightdatascience.com/isee-removing-eyeglasses-from-faces-using-deep-learning-d4e7d935376f"&gt;腦補眼鏡&lt;/a&gt;、&lt;a href="http://www.digitaltrends.com/photography/faceapp-neural-net-image-editing/"&gt;腦補笑容和年紀&lt;/a&gt;，或者&lt;a href="https://zhuanlan.zhihu.com/p/25542274"&gt;腦補動漫人物&lt;/a&gt;。而 GAN 作為其中一種生成模型，&lt;a href="https://www.quora.com/What-are-the-pros-and-cons-of-Generative-Adversarial-Networks-vs-Variational-Autoencoders"&gt;視覺效果是相當不錯的&lt;/a&gt;。&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;就在那附近的時候，也終於下定決心換新六年多沒更新的桌機，順便買了一張 GTX 1060 來練習 Deep Learning。只是後來因為生活忙碌，所以雖然偶爾有拿別人的程式來跑跑看看效果，但一直沒有真正的寫程式。&lt;/p&gt;
@@ -2254,7 +2266,7 @@ html2text==2016.5.29
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2017/mog.png" alt="Mixture of Gaussians" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2017/mog.png" alt="Mixture of Gaussians" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2269,7 +2281,7 @@ html2text==2016.5.29
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2017/compare.png" alt="Compare" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2017/compare.png" alt="Compare" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2292,7 +2304,7 @@ html2text==2016.5.29
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2017/discogan.png" alt="DiscoGAN" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2017/discogan.png" alt="DiscoGAN" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2305,13 +2317,14 @@ html2text==2016.5.29
 &lt;div class="box aligncenter" style="max-width:400px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -2320,8 +2333,8 @@ html2text==2016.5.29
       <pubDate>Sat, 25 Mar 2017 09:09:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2017/03/25/ansible-and-yadm/</guid>
-      <description>前言 還記得當年修計算機系統管理時曾經為了做 NFS + NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形</description>
-      <content:encoded>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
 &lt;p&gt;還記得&lt;a href="https://island.shaform.com/zh/2013/01/01/computer-system-administration/"&gt;當年修計算機系統管理&lt;/a&gt;時曾經為了做 NFS + NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形，但還是得常常重灌電腦。像是研究所期間，自己的桌機、筆電，以及實驗室的桌機都是自己裝的 Ubuntu，而每次升級病發就會想重灌成新的版本，久了以後慢慢把安裝的東西寫成 Bash scripts，可是還是相當繁瑣。&lt;/p&gt;
 &lt;p&gt;就在最近的時候，偷聽大大們聊天，得知了 &lt;a href="https://www.ansible.com/"&gt;Ansible&lt;/a&gt; 這個方便的自動化部屬工具。由於它使用時目的端完全不須安裝任何套件，而是從本地端完全使用 SSH 進去目的端安裝設定軟體，感覺也挺適合個人重灌的需求。於是就花了一點時間研究了一下。在此同時，也得知了 &lt;a href="https://github.com/TheLocehiliosan/yadm"&gt;yadm&lt;/a&gt; 這個 &lt;a href="https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789"&gt;dotfiles&lt;/a&gt; 管理套件，也花了一點時間把原本用 Makefile 來安裝的 dotfiles 改成用 yadm 管理了。&lt;/p&gt;
 &lt;h2 id="ansible-設定"&gt;Ansible 設定&lt;/h2&gt;
@@ -2557,13 +2570,14 @@ html2text==2016.5.29
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -2572,8 +2586,8 @@ html2text==2016.5.29
       <pubDate>Sat, 18 Mar 2017 15:33:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2017/03/18/run-experiments-with-sacred/</guid>
-      <description>前言 前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。 以執行而言，由於處理的檔案龐大</description>
-      <content:encoded>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
 &lt;p&gt;前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。&lt;/p&gt;
 &lt;p&gt;以執行而言，由於處理的檔案龐大、計算時間冗長、使用機器繁多，如何最有效率的把實驗跑完，同時又盡可能避免重複計算浪費時間，就成了難題。尤其考慮有時會因為不可抗力因素導致部份實驗中斷，此時要如何從一半的結果繼續執行，同時又最節省時間也是值得思考的點。&lt;/p&gt;
 &lt;p&gt;管理實驗數據部份，也因為使用機器增多及實驗繁多而複雜了起來。看到有種作法是利用 bash script 或者 Makefile 紀錄參數，然後將不同參數輸出的 stdout 導進指定的檔案名字裡來產生不同條件的實驗數據。不過這樣做很容易就會不小心改了參數卻把輸出導進錯誤的地方，導致最後數據錯誤。同時如果有很多台機器，資料又存在本機，那就得進行不少手動處理而無法全自動重現實驗結果。&lt;/p&gt;
@@ -2675,7 +2689,7 @@ html2text==2016.5.29
 &lt;p&gt;一旦執行了以後 Sacred 就會自動將實驗參數、回傳結果以及一些像是執行時間、執行過程的 stdout 等等通通都寫進 MongoDB 當中。我們也可以執行 &lt;code&gt;sacredboard&lt;/code&gt; 來觀察執行狀況。不過老實說這功能實在還有點陽春：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line hl"&gt;&lt;span class="cl"&gt;sacredboard -m sacred&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src="/images/sacredboard.png" alt="SacredBoard"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://city.shaform.com/images/sacredboard.png" alt="SacredBoard"&gt;&lt;/p&gt;
 &lt;p&gt;是以，我們還是自己寫個程式來回收吧。還好 MongoDB 裡紀錄了所有實驗參數，因此要回收特定數據也是相當容易的。&lt;/p&gt;
 &lt;p&gt;這次我們還是會用 &lt;a href="http://jupyter.readthedocs.io/en/latest/index.html"&gt;Jupyter Notebook&lt;/a&gt; 方便畫圖。首先連結到本機的 MongoDB：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pymongo&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MongoClient&lt;/span&gt;
@@ -2727,7 +2741,7 @@ html2text==2016.5.29
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2017/accuracy.png" alt="Accuracy" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2017/accuracy.png" alt="Accuracy" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2741,13 +2755,14 @@ html2text==2016.5.29
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/dots.jpg" alt="Dots" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/dots.jpg" alt="Dots" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -2756,14 +2771,14 @@ html2text==2016.5.29
       <pubDate>Sat, 05 Nov 2016 13:40:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2016/11/05/detect-cats-with-tensorbox/</guid>
-      <description>最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番</description>
-      <content:encoded>&lt;p&gt;最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番搜尋，發現 &lt;a href="https://github.com/Russell91/TensorBox"&gt;TensorBox&lt;/a&gt; 似乎是個用來訓練單一物體偵測器的簡單套件，於是便利用貓咪來進行了簡單的嘗試。&lt;/p&gt;
+      
+        <description>&lt;p&gt;最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番搜尋，發現 &lt;a href="https://github.com/Russell91/TensorBox"&gt;TensorBox&lt;/a&gt; 似乎是個用來訓練單一物體偵測器的簡單套件，於是便利用貓咪來進行了簡單的嘗試。&lt;/p&gt;
 
 &lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/cat-detector.png" alt="Detect a Cat" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/cat-detector.png" alt="Detect a Cat" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -2985,9 +3000,10 @@ html2text==2016.5.29
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;        &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new_img&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;就可以&lt;a href="https://nbviewer.jupyter.org/github/shaform/experiments/blob/master/cat/Detect%20Cats.ipynb"&gt;在 Notebook 上看到成果&lt;/a&gt;了！！！&lt;/p&gt;
 &lt;p&gt;以下分別展示一張成功和一張失敗的照片，如果增加更多訓練資料或者使用更容易辨認的物體，效果應該可以更好才是。&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/cat-success.png" alt="Detect a Cat Successfully"&gt;
-&lt;img src="/images/cat-failure.png" alt="Failed to Detect a Cat"&gt;&lt;/p&gt;
-</content:encoded>
+&lt;p&gt;&lt;img src="https://city.shaform.com/images/cat-success.png" alt="Detect a Cat Successfully"&gt;
+&lt;img src="https://city.shaform.com/images/cat-failure.png" alt="Failed to Detect a Cat"&gt;&lt;/p&gt;
+</description>
+      
     </item>
     
     <item>
@@ -2996,8 +3012,8 @@ html2text==2016.5.29
       <pubDate>Mon, 31 Oct 2016 21:28:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/</guid>
-      <description>本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安</description>
-      <content:encoded>&lt;p&gt;本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。&lt;/p&gt;
+      
+        <description>&lt;p&gt;本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。&lt;/p&gt;
 &lt;h2 id="顯卡設定"&gt;顯卡設定&lt;/h2&gt;
 &lt;h3 id="基礎設定"&gt;基礎設定&lt;/h3&gt;
 &lt;p&gt;首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。&lt;/p&gt;
@@ -3059,13 +3075,14 @@ html2text==2016.5.29
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -3074,8 +3091,8 @@ html2text==2016.5.29
       <pubDate>Sat, 10 Sep 2016 19:44:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2016/09/10/py3tracker/</guid>
-      <description>Porting to Python 3 Python 3 已經釋出近八年，原本一片慘紅的 Python 3 Readiness 和 PYTHON 3 WALL OF SUPERPOWERS 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，也開始有些專案漸漸要</description>
-      <content:encoded>&lt;h2 id="porting-to-python-3"&gt;Porting to Python 3&lt;/h2&gt;
+      
+        <description>&lt;h2 id="porting-to-python-3"&gt;Porting to Python 3&lt;/h2&gt;
 &lt;p&gt;Python 3 已經釋出近八年，原本一片慘紅的 &lt;a href="http://py3readiness.org/"&gt;Python 3 Readiness&lt;/a&gt; 和 &lt;a href="http://python3wos.mybluemix.net/"&gt;PYTHON 3 WALL OF SUPERPOWERS&lt;/a&gt; 都已經接近全綠，真的可以看見社群逐漸朝向 Python 3 的努力。事實上，&lt;a href="https://blog.jupyter.org/release-of-ipython-5-0-8ce60b8d2e8e"&gt;也開始有些專案漸漸要中止 Python 2 的支援了。&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;然而其實還是有不少常用的 packages 並不支援 Python 3，像是最近常會用到的 &lt;a href="https://github.com/s3tools/s3cmd"&gt;s3cmd&lt;/a&gt; 就是一例。到了他們的 Issues 頁面瞧瞧，發現其實&lt;a href="https://github.com/s3tools/s3cmd/issues/335"&gt;很早以前就有想支援 Python 3 的聲音&lt;/a&gt;，只是一直沒有人力去做。&lt;/p&gt;
 &lt;p&gt;其實，雖然要完全支援的話工程有點浩大，但一小步一小步做起來就在可以處理的範圍之內。有些情況甚至用 &lt;a href="https://docs.python.org/3.5/library/2to3.html"&gt;2to3&lt;/a&gt; 就能有很大幫助了。於是忍不住就順手發了一個 &lt;a href="https://github.com/s3tools/s3cmd/pull/785"&gt;pull request&lt;/a&gt;，結果很順利就被 merge 了。感覺是很低成本的讓自己感覺對世界有貢獻的方法之一。&lt;/p&gt;
@@ -3091,13 +3108,14 @@ html2text==2016.5.29
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -3106,8 +3124,8 @@ html2text==2016.5.29
       <pubDate>Tue, 26 Jul 2016 22:30:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2016/07/26/bs2-backup/</guid>
-      <description>前言 bs2.to 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動</description>
-      <content:encoded>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
 &lt;p&gt;bs2.to 就要關閉了，雖然官方有提供個人板備份功能，可是公開板因為著作權問題無法備份，而若要自行轉寄信箱又太過操勞，於是我就想研究一下是否有自動備份的選擇。&lt;/p&gt;
 &lt;p&gt;經過一番搜尋，似乎有個古老的 &lt;a href="https://github.com/iblis17/bs2-crawler"&gt;bs2-crawler&lt;/a&gt;。雖然一開始無法成功跑起來，不過經過修改，似乎真的可以拿來備份 bs2 的看板了。&lt;/p&gt;
 &lt;p&gt;以下就是修改版本 &lt;a href="https://github.com/shaform/bs2-crawler"&gt;bs2-crawler@shaform&lt;/a&gt;，的使用教學。&lt;/p&gt;
@@ -3136,13 +3154,14 @@ source env/bin/activate&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -3151,8 +3170,8 @@ source env/bin/activate&lt;/p&gt;
       <pubDate>Sat, 19 Mar 2016 09:02:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2016/03/19/gspread/</guid>
-      <description>前言 Google Sheets 和傳統試算表最大的差異或許在於他的資料存放在遠端，所以可以從任何地方存取，也很方便和別人共享編輯。因為這個特性，使得我偶爾會將一些實</description>
-      <content:encoded>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
+      
+        <description>&lt;h2 id="前言"&gt;前言&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://www.google.com/sheets/about/"&gt;Google Sheets&lt;/a&gt; 和傳統試算表最大的差異或許在於他的資料存放在遠端，所以可以從任何地方存取，也很方便和別人共享編輯。因為這個特性，使得我偶爾會將一些實驗資料放到 Google Sheets 上面。&lt;/p&gt;
 &lt;p&gt;有的時候這些實驗數據是隨著時間固定產生的，此時如果總是自己剪剪貼貼，難免會覺得有些浪費時間。幸好，Google 提供了 &lt;a href="https://developers.google.com/google-apps/spreadsheets/"&gt;Sheets API&lt;/a&gt;，所以我們可以透過程式自動將資料寫進試算表裡。&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/burnash/gspread"&gt;gspread&lt;/a&gt; 將底層的 API 又包裝成更方便好用的界面，是使用 Python 來存取 Google Sheets 很好的選擇。&lt;/p&gt;
@@ -3189,7 +3208,7 @@ source env/bin/activate&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="建立試算表"&gt;建立試算表&lt;/h2&gt;
 &lt;p&gt;接下來我們到 &lt;a href="https://www.google.com/sheets/about/"&gt;Google Sheets&lt;/a&gt; 建立一個試算表，同時將試算表分享給剛剛的 &lt;code&gt;auth.json&lt;/code&gt; 裡 &lt;code&gt;client_email&lt;/code&gt; 欄位提到的 email 帳號： &lt;code&gt;name...@....gserviceaccount.com&lt;/code&gt;，並給予編輯的權限，這樣子才有辦法透過程式存取。&lt;/p&gt;
 &lt;p&gt;將試算表多餘的欄位刪除，只剩下 date, item, price 三欄，並留下新的一個空白行，好讓程式插入資料時，也能有白色背景。&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/gspread-1.png" alt="Create a spreadsheet"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://city.shaform.com/images/gspread-1.png" alt="Create a spreadsheet"&gt;&lt;/p&gt;
 &lt;p&gt;最後我們把網址中 &lt;code&gt;https://docs.google.com/spreadsheets/d/{key}/edit&lt;/code&gt; 的 &lt;code&gt;{key}&lt;/code&gt; 複製到 &lt;code&gt;spreadsheet_key&lt;/code&gt; 檔案裡，供之後程式要開啟試算表時存取。&lt;/p&gt;
 &lt;h2 id="抓取資料"&gt;抓取資料&lt;/h2&gt;
 &lt;p&gt;這裡我們透過 &lt;a href="http://www.crummy.com/software/BeautifulSoup/"&gt;BeautifulSoup&lt;/a&gt; 從某個價格看板挖出最便宜的記憶體價格當作指標指數。確切的來說，我們先搜尋「記憶體 RAM」關鍵字找出項目清單，然後一個一個搜尋價格，並紀錄最便宜的項目。&lt;/p&gt;
@@ -3256,7 +3275,7 @@ source env/bin/activate&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;                 &lt;span class="n"&gt;cheapest_price&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;測試一下，應該可以看到資料被成功插入：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;python update.py
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src="/images/gspread-2.png" alt="Insert data"&gt;&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src="https://city.shaform.com/images/gspread-2.png" alt="Insert data"&gt;&lt;/p&gt;
 &lt;h2 id="設定-crontab"&gt;設定 crontab&lt;/h2&gt;
 &lt;p&gt;當然，每次都要手動執行程式一點也不自動。所以我們會用 &lt;a href="https://help.ubuntu.com/community/CronHowto"&gt;crontab&lt;/a&gt; 來自動執行我們的程式。&lt;/p&gt;
 &lt;p&gt;由於我們使用到了 &lt;code&gt;pyvenv&lt;/code&gt;，而且很多檔案路徑都是用相對路徑，因此我另外寫了一個 bash script 來幫忙設定好執行 Python 的步驟。&lt;/p&gt;
@@ -3284,13 +3303,14 @@ source env/bin/activate&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/dots.jpg" alt="Dots" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/dots.jpg" alt="Dots" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -3299,8 +3319,8 @@ source env/bin/activate&lt;/p&gt;
       <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2016/02/28/scrapy/</guid>
-      <description>Scrapy 1.1 with Python 3 Support 很久很久以前，曾經想要學學網路爬蟲，爬一些 PTT 的資料來看看能幹嘛。當時找到了 Scrapy 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 Python 3</description>
-      <content:encoded>&lt;h2 id="scrapy-11-with-python-3-support"&gt;Scrapy 1.1 with Python 3 Support&lt;/h2&gt;
+      
+        <description>&lt;h2 id="scrapy-11-with-python-3-support"&gt;Scrapy 1.1 with Python 3 Support&lt;/h2&gt;
 &lt;p&gt;很久很久以前，曾經想要學學網路爬蟲，爬一些 &lt;a href="https://www.ptt.cc/bbs/index.html"&gt;PTT&lt;/a&gt; 的資料來看看能幹嘛。當時找到了 &lt;a href="http://scrapy.org/"&gt;Scrapy&lt;/a&gt; 這個程式庫，覺得很有潛力。只可惜當初他還不太支援 &lt;a href="http://cyrille.rossant.net/why-you-should-move-to-python-3-now/"&gt;Python 3&lt;/a&gt;，於是就暫且放下學習的念頭，想說先等等看。&lt;/p&gt;
 &lt;p&gt;如今，&lt;a href="https://pypi.python.org/pypi/Scrapy/1.1.0"&gt;Scrapy 1.1&lt;/a&gt; 釋出，除了一些功能的更新外，他也終於要&lt;a href="https://github.com/scrapy/scrapy/issues/263"&gt;支援基本的 Python 3&lt;/a&gt; 了！於是抱持著推廣 Python 3 的想法，重拾之前的目標，實際測試了一下網路爬蟲的撰寫。&lt;/p&gt;
 
@@ -3308,7 +3328,7 @@ source env/bin/activate&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2019/cobweb.jpg" alt="Coweb" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2019/cobweb.jpg" alt="Coweb" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3557,7 +3577,7 @@ pip install -U pip&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/push.png" alt="Push" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/push.png" alt="Push" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3639,7 +3659,7 @@ pip install -U pip&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/negative.png" alt="Negative" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/negative.png" alt="Negative" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3654,7 +3674,7 @@ pip install -U pip&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/positive.png" alt="Positive" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/positive.png" alt="Positive" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3671,7 +3691,7 @@ pip install -U pip&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/negative-push.png" alt="Negative Push" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/negative-push.png" alt="Negative Push" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3683,7 +3703,7 @@ pip install -U pip&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/positive-push.png" alt="Positive Push" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/positive-push.png" alt="Positive Push" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3695,8 +3715,9 @@ pip install -U pip&lt;/p&gt;
 &lt;p&gt;做完分析感覺 PTT 實在是一個寶庫，尤其各種特殊看板似乎很適合拿來測風向。不知還能做出什麼分析應用呢？&lt;/p&gt;
 &lt;p&gt;這次實驗所用到的程式碼按照慣例放在 GitHub 上面供參考：&lt;a href="https://github.com/shaform/experiments/tree/master/scrapy"&gt;https://github.com/shaform/experiments/tree/master/scrapy&lt;/a&gt;。&lt;/p&gt;
 &lt;h2 id="連結"&gt;連結&lt;/h2&gt;
-&lt;p&gt;若您喜歡這篇文章，或許你也會對下一篇：&lt;a href="/zh/2017/05/13/scrapy-cloud/"&gt;〈Scrapy Cloud + Scrapy 網路爬蟲〉&lt;/a&gt;感興趣。&lt;/p&gt;
-</content:encoded>
+&lt;p&gt;若您喜歡這篇文章，或許你也會對下一篇：&lt;a href="https://city.shaform.com/zh/2017/05/13/scrapy-cloud/"&gt;〈Scrapy Cloud + Scrapy 網路爬蟲〉&lt;/a&gt;感興趣。&lt;/p&gt;
+</description>
+      
     </item>
     
     <item>
@@ -3705,8 +3726,8 @@ pip install -U pip&lt;/p&gt;
       <pubDate>Sun, 28 Feb 2016 10:23:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2016/02/28/scrapy/</guid>
-      <description>Scrapy 1.1 with Python 3 Support Long long time ago, I wanted to learn about web crawling to scrape some data from the PTT forum to see what could be done with it. I found the Scrapy framework, and felt it had great potential. But it didn&amp;rsquo;t support Python 3 at that time, so I&amp;rsquo;ve decided to wait. Now, Scrapy 1.1 is released. Along with updated features, it also has</description>
-      <content:encoded>&lt;h2 id="scrapy-11-with-python-3-support"&gt;Scrapy 1.1 with Python 3 Support&lt;/h2&gt;
+      
+        <description>&lt;h2 id="scrapy-11-with-python-3-support"&gt;Scrapy 1.1 with Python 3 Support&lt;/h2&gt;
 &lt;p&gt;Long long time ago, I wanted to learn about web crawling to scrape some data from the &lt;a href="https://www.ptt.cc/bbs/index.html"&gt;PTT&lt;/a&gt; forum to see what could be done with it.
 I found the &lt;a href="http://scrapy.org/"&gt;Scrapy&lt;/a&gt; framework, and felt it had great potential. But it didn&amp;rsquo;t support &lt;a href="http://cyrille.rossant.net/why-you-should-move-to-python-3-now/"&gt;Python 3&lt;/a&gt; at that time, so I&amp;rsquo;ve decided to wait.&lt;/p&gt;
 &lt;p&gt;Now, &lt;a href="https://pypi.python.org/pypi/Scrapy/1.1.0"&gt;Scrapy 1.1&lt;/a&gt; is released. Along with updated features, it also has &lt;a href="https://github.com/scrapy/scrapy/issues/263"&gt;basic Python 3 support&lt;/a&gt;. So I&amp;rsquo;ve decided to test about it and start writing a web scraper.&lt;/p&gt;
@@ -3715,7 +3736,7 @@ I found the &lt;a href="http://scrapy.org/"&gt;Scrapy&lt;/a&gt; framework, and f
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2019/cobweb.jpg" alt="Coweb" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2019/cobweb.jpg" alt="Coweb" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -3975,7 +3996,7 @@ Firstly, compute the number of comments:&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/push.png" alt="Push" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/push.png" alt="Push" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4061,7 +4082,7 @@ negative words dominate the figure, so I put them into different figures.&lt;/p&
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/negative.png" alt="Negative" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/negative.png" alt="Negative" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4076,7 +4097,7 @@ negative words dominate the figure, so I put them into different figures.&lt;/p&
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/positive.png" alt="Positive" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/positive.png" alt="Positive" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4094,7 +4115,7 @@ negative words dominate the figure, so I put them into different figures.&lt;/p&
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/negative-push.png" alt="Negative Push" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/negative-push.png" alt="Negative Push" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4106,7 +4127,7 @@ negative words dominate the figure, so I put them into different figures.&lt;/p&
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2016/positive-push.png" alt="Positive Push" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2016/positive-push.png" alt="Positive Push" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4117,8 +4138,9 @@ negative words dominate the figure, so I put them into different figures.&lt;/p&
 &lt;p&gt;After I&amp;rsquo;ve finished the analysis, I feel that PTT is really a great place to learn about the current topics people are interested about in Taiwan. Not sure whether there will be other applications.&lt;/p&gt;
 &lt;p&gt;The code used in this experiment is on GitHub for reference: &lt;a href="https://github.com/shaform/experiments/tree/master/scrapy"&gt;https://github.com/shaform/experiments/tree/master/scrapy&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="links"&gt;Links&lt;/h2&gt;
-&lt;p&gt;If you like this article, you might also be interested in &lt;a href="/zh/2017/05/13/scrapy-cloud/"&gt;〈Scrapy Cloud + Scrapy 網路爬蟲〉&lt;/a&gt;.&lt;/p&gt;
-</content:encoded>
+&lt;p&gt;If you like this article, you might also be interested in &lt;a href="https://city.shaform.com/zh/2017/05/13/scrapy-cloud/"&gt;〈Scrapy Cloud + Scrapy 網路爬蟲〉&lt;/a&gt;.&lt;/p&gt;
+</description>
+      
     </item>
     
     <item>
@@ -4127,8 +4149,8 @@ negative words dominate the figure, so I put them into different figures.&lt;/p&
       <pubDate>Fri, 26 Feb 2016 07:12:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2016/02/26/caffe/</guid>
-      <description>前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。 由於自己對該程式庫也不是很熟悉，加上一直拖稿導致 Caffe 在撰寫期間也已經有不少變動，</description>
-      <content:encoded>&lt;p&gt;前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。
+      
+        <description>&lt;p&gt;前陣子有機會研究了一下 Caffe framework 的程式碼，於是把內容記下來避免忘記。
 由於自己對該程式庫也不是很熟悉，加上一直拖稿導致 Caffe 在撰寫期間也已經有不少變動，
 以致可能有許多不正確的地方，還請各位大大不吝指教。&lt;/p&gt;
 &lt;p&gt;主要分成四個部份來講。首先是整個 Caffe 的大架構，以及一些重要的元件。
@@ -4140,7 +4162,7 @@ negative words dominate the figure, so I put them into different figures.&lt;/p&
 Caffe 的 command line 工具有幾個功能，他可以讓你 train 一個 model，
 也可以讓你用 train 好的 model 來進行效能的檢驗。當他在做 training 時，
 他會建立一個 Solver 物件，他的主要功能就是協調類神經網路的運作來進行訓練。&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/caffe_overview.png" alt="Overview"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://city.shaform.com/images/caffe_overview.png" alt="Overview"&gt;&lt;/p&gt;
 &lt;p&gt;我們可以用一個設定檔來指定 Solver 的參數，像是 learning rate 或者是 Solver 的種類，
 例如 SGD Solver 等等。在設定檔中，可以指定一個 training net 的參數，
 testing nets 則有可能有多個。例如如果要用不同的 data set 同時驗證 model 的效能時就可以用到。
@@ -4413,13 +4435,14 @@ decay。&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/artificial-neural-network.png" alt="Neural Networks" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/artificial-neural-network.png" alt="Neural Networks" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -4428,8 +4451,8 @@ decay。&lt;/p&gt;
       <pubDate>Sat, 26 Dec 2015 18:46:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2015/12/26/ipython-notebook/</guid>
-      <description>為什麼是 IPython Notebook? 還記得第一次認識到 IPython Notebook 是在 Taipei.py 吧。 當時我還十分懷疑到底使用瀏覽器界面寫 Python 能有什麼好處。 尤其，這樣根本無法使用 Vim 的強大指令。 雖然有安</description>
-      <content:encoded>&lt;h2 id="為什麼是-ipython-notebook"&gt;為什麼是 IPython Notebook?&lt;/h2&gt;
+      
+        <description>&lt;h2 id="為什麼是-ipython-notebook"&gt;為什麼是 IPython Notebook?&lt;/h2&gt;
 &lt;p&gt;還記得第一次認識到 &lt;a href="http://ipython.org/notebook.html"&gt;IPython Notebook&lt;/a&gt;
 是在 &lt;a href="http://www.meetup.com/Taipei-py/"&gt;Taipei.py&lt;/a&gt; 吧。
 當時我還十分懷疑到底使用瀏覽器界面寫 Python 能有什麼好處。
@@ -4519,7 +4542,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2015/sentiment_words.png" alt="Top features" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/sentiment_words.png" alt="Top features" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4556,7 +4579,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2015/word_cloud.png" alt="Word cloud" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/word_cloud.png" alt="Word cloud" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4590,7 +4613,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2015/iris.png" alt="IRIS" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/iris.png" alt="IRIS" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4638,7 +4661,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2015/t-sne.png" alt="MNIST" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/t-sne.png" alt="MNIST" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4675,7 +4698,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box aligncenter" style="max-width:480px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2015/lda.png" alt="LDA" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/lda.png" alt="LDA" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4723,7 +4746,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2015/submissions.png" alt="Submissions" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/submissions.png" alt="Submissions" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4761,7 +4784,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box aligncenter" style="max-width:480px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2015/cluster1.png" alt="Cluster 1" style="max-height:480px;" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/cluster1.png" alt="Cluster 1" style="max-height:480px;" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4772,7 +4795,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box aligncenter" style="max-width:480px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2015/cluster8.png" alt="Cluster 8" style="max-height:480px;" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/cluster8.png" alt="Cluster 8" style="max-height:480px;" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4825,7 +4848,7 @@ polarity dataset 來示範這個概念：&lt;/p&gt;
 &lt;div class="box aligncenter" style="max-width:365px;"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img  itemprop="thumbnail" src="/images/2015/deadline.png" alt="Deadline" style="max-height:269px;" /&gt;
+      &lt;img  itemprop="thumbnail" src="https://city.shaform.com/images/2015/deadline.png" alt="Deadline" style="max-height:269px;" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -4847,13 +4870,14 @@ IPython Notebook。最近也聽說 &lt;a href="http://cs109.github.io/2015/"&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/dots.jpg" alt="Dots" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/dots.jpg" alt="Dots" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -4862,9 +4886,8 @@ IPython Notebook。最近也聽說 &lt;a href="http://cs109.github.io/2015/"&gt;
       <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2015/11/06/snappycat/</guid>
-      <description>I often encounter Snappy-compressed files recently when I am learning Spark. Although we could just use sc.textFile to read them in Spark, sometimes we might want to download them locally for processing. However, reading these files locally is complicated because the file format is not exactly Snappy-compressed files, as Hadoop stores those files in its own way.
-Most of existing solutions use Java to link with Hadoop library, but the setup is rather complicated.</description>
-      <content:encoded>&lt;p&gt;I often encounter &lt;a href="https://blog.cloudera.com/blog/2011/09/snappy-and-hadoop/"&gt;Snappy&lt;/a&gt;-compressed files recently when I am learning
+      
+        <description>&lt;p&gt;I often encounter &lt;a href="https://blog.cloudera.com/blog/2011/09/snappy-and-hadoop/"&gt;Snappy&lt;/a&gt;-compressed files recently when I am learning
 Spark.  Although we could just use &lt;code&gt;sc.textFile&lt;/code&gt; to read them in Spark,
 sometimes we might want to download them locally for processing. However,
 reading these files locally is complicated because the file format is not
@@ -4893,13 +4916,14 @@ In such cases, the files would only contain two 32-bit 0s.&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -4908,8 +4932,8 @@ In such cases, the files would only contain two 32-bit 0s.&lt;/p&gt;
       <pubDate>Sun, 30 Aug 2015 17:15:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2015/08/30/spark-for-word2vec/</guid>
-      <description>先前曾提過 word2vec 可以把語料中的詞轉換成詞向量。 雖然原本提供的 word2vec 工具速度已經很快， 但是如果要訓練更大規模的語料還是需要不少時間。 例如之前在處理 ClueWeb09 時</description>
-      <content:encoded>&lt;p&gt;先前曾提過 &lt;a href="/zh/2014/11/04/word2vec/"&gt;word2vec 可以把語料中的詞轉換成詞向量&lt;/a&gt;。
+      
+        <description>&lt;p&gt;先前曾提過 &lt;a href="https://city.shaform.com/zh/2014/11/04/word2vec/"&gt;word2vec 可以把語料中的詞轉換成詞向量&lt;/a&gt;。
 雖然原本提供的 &lt;a href="https://groups.google.com/forum/#!forum/word2vec-toolkit"&gt;word2vec&lt;/a&gt; 工具速度已經很快，
 但是如果要訓練更大規模的語料還是需要不少時間。
 例如之前在處理 &lt;a href="http://www.lemurproject.org/clueweb09.php/"&gt;ClueWeb09&lt;/a&gt; 時，以實驗室的機器來說，就算只處理中文部份，
@@ -5037,13 +5061,14 @@ Word2Vec 參數設定則可參考 &lt;a href="https://spark.apache.org/docs/late
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/dots.jpg" alt="Dots" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/dots.jpg" alt="Dots" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -5052,16 +5077,15 @@ Word2Vec 參數設定則可參考 &lt;a href="https://spark.apache.org/docs/late
       <pubDate>Sat, 06 Jun 2015 11:05:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2015/06/06/caffe-sentiment-analysis/</guid>
-      <description>Caffe is a deep learning framework that can be used to develop neural network models. Although Caffe is usually used for image classification, it does not prevent us from utilizing it for other tasks. In this article, we outline the procedure to convert Paragraph Vectors into the LMDB format that Caffe understands, and create a simple model to train and predict the sentiment for movie reviews.
-Data Preparation While in the previous post we use custom Chinese corpus for sentiment analysis, this time we utilize the scripts provided by mesnilgr/iclr15 to download the Large Movie Review Dataset so it&amp;rsquo;s easier to reproduce the results.</description>
-      <content:encoded>&lt;p&gt;&lt;a href="http://caffe.berkeleyvision.org/"&gt;Caffe&lt;/a&gt; is a deep learning framework that can be used to
+      
+        <description>&lt;p&gt;&lt;a href="http://caffe.berkeleyvision.org/"&gt;Caffe&lt;/a&gt; is a deep learning framework that can be used to
 develop neural network models. Although Caffe is usually used
 for image classification, it does not prevent us from utilizing it
 for other tasks. In this article, we outline the procedure to convert
 &lt;a href="http://arxiv.org/abs/1405.4053"&gt;Paragraph Vectors&lt;/a&gt; into the &lt;a href="http://symas.com/mdb/"&gt;LMDB&lt;/a&gt; format that Caffe understands, and
 create a simple model to train and predict the sentiment for movie reviews.&lt;/p&gt;
 &lt;h2 id="data-preparation"&gt;Data Preparation&lt;/h2&gt;
-&lt;p&gt;While in the &lt;a href="/zh/2015/03/27/sentiment-analysis/"&gt;previous post&lt;/a&gt; we use custom Chinese corpus
+&lt;p&gt;While in the &lt;a href="https://city.shaform.com/zh/2015/03/27/sentiment-analysis/"&gt;previous post&lt;/a&gt; we use custom Chinese corpus
 for sentiment analysis, this time we utilize the scripts provided
 by &lt;a href="https://github.com/mesnilgr/iclr15"&gt;mesnilgr/iclr15&lt;/a&gt; to download the &lt;a href="http://ai.stanford.edu/~amaas/data/sentiment/"&gt;Large Movie Review Dataset&lt;/a&gt;
 so it&amp;rsquo;s easier to reproduce the results.&lt;/p&gt;
@@ -5176,13 +5200,14 @@ Caffe command line tool and we obtain the following results.&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/dots.jpg" alt="Dots" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/dots.jpg" alt="Dots" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -5191,8 +5216,8 @@ Caffe command line tool and we obtain the following results.&lt;/p&gt;
       <pubDate>Mon, 20 Apr 2015 08:34:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2015/04/20/dine-together-payment-system/</guid>
-      <description>在交大時因為地處偏僻又經濟拮据，很少有機會出去校外吃飯。來了台北以後，開始有機會和朋友出去聚餐。有次一大群人一起去吃飯，結帳時大家七手八腳的</description>
-      <content:encoded>&lt;p&gt;在交大時因為地處偏僻又經濟拮据，很少有機會出去校外吃飯。來了台北以後，開始有機會和朋友出去聚餐。有次一大群人一起去吃飯，結帳時大家七手八腳的把錢擺在桌上，最後結帳的人拿了錢去付時，才發現短少了一些，但也無法釐清是誰少付了。自己也曾有次雖然只是三四人的聚餐，不過付完找錢完事後才發現虧了兩三百元呢。&lt;/p&gt;
+      
+        <description>&lt;p&gt;在交大時因為地處偏僻又經濟拮据，很少有機會出去校外吃飯。來了台北以後，開始有機會和朋友出去聚餐。有次一大群人一起去吃飯，結帳時大家七手八腳的把錢擺在桌上，最後結帳的人拿了錢去付時，才發現短少了一些，但也無法釐清是誰少付了。自己也曾有次雖然只是三四人的聚餐，不過付完找錢完事後才發現虧了兩三百元呢。&lt;/p&gt;
 &lt;p&gt;確實這種朋友聚餐若不能分開結帳，付起帳來總讓人心慌慌。有許多的風險容易浮現：（1）在蒐集錢時可能有所短缺（2）可能會出現偽鈔（3）其實也可能店家會找錯、算錯（4）然而有些同學會在店家找錢時迅速的先拿走自己該找的部份，以致主付者難以確認店家是否找錯錢。&lt;/p&gt;
 &lt;p&gt;雖然想說可以透過每次聚餐前都事先準備好所有零錢，讓自己可以恰好付出自己的部份，不過有時還是會忘記。這時就會想如果有個金流系統可以幫忙解決這種情形該有多好。&lt;/p&gt;
 &lt;p&gt;運作的方法大約是這樣。聚餐後，可以用這金流系統建立一個聚餐事件，然後把所有人加進來。大家輸入自己該付的錢後，系統就會確認儲值的錢足夠，並自動扣款，事後交給主事人。程式還會幫妳計算總和的錢數，讓你可以較易跟店家確認他是否算錯錢。&lt;/p&gt;
@@ -5206,13 +5231,14 @@ Caffe command line tool and we obtain the following results.&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2015/tech.jpg" alt="Tech" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2015/tech.jpg" alt="Tech" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -5221,8 +5247,8 @@ Caffe command line tool and we obtain the following results.&lt;/p&gt;
       <pubDate>Mon, 20 Apr 2015 08:34:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2015/04/20/dine-together-payment-system/</guid>
-      <description>I seldom went out for dinner due to the location of school and the lack of money when I was in NCTU. But since I have came to Taipei, I started to have opportunities to dine together with others. Once I went with a lot of people, when it comes to paying, everyone put her money on the table. But the person who collected the money and payed for us later found out the money was not enough.</description>
-      <content:encoded>&lt;p&gt;I seldom went out for dinner due to the location of school and the lack
+      
+        <description>&lt;p&gt;I seldom went out for dinner due to the location of school and the lack
 of money when I was in NCTU. But since I have came to Taipei, I started
 to have opportunities to dine together with others. Once I went with
 a lot of people, when it comes to  paying, everyone put her money on the
@@ -5262,13 +5288,14 @@ they can make everyone uses the system and make money.&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2015/tech.jpg" alt="Tech" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2015/tech.jpg" alt="Tech" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -5277,8 +5304,8 @@ they can make everyone uses the system and make money.&lt;/p&gt;
       <pubDate>Fri, 27 Mar 2015 21:45:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2015/03/27/sentiment-analysis/</guid>
-      <description>最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 word2vec 論壇上發表的文章，以及 Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews 的程式碼。不</description>
-      <content:encoded>&lt;p&gt;最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 &lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt; 論壇上發表的&lt;a href="https://groups.google.com/d/msg/word2vec-toolkit/Q49FIrNOQRo/J6KG8mUj45sJ"&gt;文章&lt;/a&gt;，以及 &lt;a href="http://arxiv.org/abs/1412.5335"&gt;Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews&lt;/a&gt; 的程式碼。不過改運用在中文上，並且用簡單的 TF-IDF 取代 Naive Bayes Support Vector
+      
+        <description>&lt;p&gt;最近在研究一些 NLP 工具的使用方法，所以稍微紀錄一下心得。這次的實驗主要是參考 Tomas Mikolov 在 &lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt; 論壇上發表的&lt;a href="https://groups.google.com/d/msg/word2vec-toolkit/Q49FIrNOQRo/J6KG8mUj45sJ"&gt;文章&lt;/a&gt;，以及 &lt;a href="http://arxiv.org/abs/1412.5335"&gt;Ensemble of Generative and Discriminative Techniques for Sentiment Analysis of Movie Reviews&lt;/a&gt; 的程式碼。不過改運用在中文上，並且用簡單的 TF-IDF 取代 Naive Bayes Support Vector
 Machine。&lt;/p&gt;
 &lt;p&gt;資料集是使用 2014 年 NTU NLP 課程的旅館評論資料 &lt;code&gt;207884_hotel_training.txt&lt;/code&gt;，然後稍微進行一些處理。將資料修改成以下格式：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;LABEL TOKENS
@@ -5383,13 +5410,14 @@ Machine。&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/dots.jpg" alt="Dots" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/dots.jpg" alt="Dots" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -5398,8 +5426,8 @@ Machine。&lt;/p&gt;
       <pubDate>Sun, 14 Dec 2014 17:42:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/12/14/mirror-and-mgmt-on-ldap/</guid>
-      <description>建立鏡像 假設只有一台 LDAP server，則一旦 crash 大家都無法登入了，故可以建立一個鏡像 server，不斷同步資料內容。這篇假設你已經建好前篇的 ld</description>
-      <content:encoded>&lt;h2 id="建立鏡像"&gt;建立鏡像&lt;/h2&gt;
+      
+        <description>&lt;h2 id="建立鏡像"&gt;建立鏡像&lt;/h2&gt;
 &lt;p&gt;假設只有一台 LDAP server，則一旦 crash 大家都無法登入了，故可以建立一個鏡像 server，不斷同步資料內容。這篇假設你已經建好前篇的 ldap.lab.csie.ntu.edu.tw，而想再建一個 ldapm.lab.csie.ntu.edu.tw。則在 clients 的設定可設為：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# /etc/ldap/ldap.conf
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;URI     ldaps://ldap.lab.csie.ntu.edu.tw ldaps://ldapm.lab.csie.ntu.edu.tw
@@ -5412,7 +5440,7 @@ Machine。&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;tls_reqcert demand
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;tls_cacertfile /etc/ssl/certs/ca-certificates.crt
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="初始安裝-mirror-server"&gt;初始安裝 Mirror Server&lt;/h2&gt;
-&lt;p&gt;首先透過&lt;a href="/zh/2014/12/13/migrate-from-nis-to-ldap/"&gt;前一篇文章&lt;/a&gt;的作法安裝 ldapm.lab.csie.ntu.edu.tw 但跳過「轉移 NIS 資料」的部份。此外，需使用同一個 &lt;code&gt;my_root&lt;/code&gt; 但卻須產生新的 server 憑證，並對應到新的網域名稱（注意 &lt;code&gt;-set_serial&lt;/code&gt; 號碼與之前不同）：&lt;/p&gt;
+&lt;p&gt;首先透過&lt;a href="https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/"&gt;前一篇文章&lt;/a&gt;的作法安裝 ldapm.lab.csie.ntu.edu.tw 但跳過「轉移 NIS 資料」的部份。此外，需使用同一個 &lt;code&gt;my_root&lt;/code&gt; 但卻須產生新的 server 憑證，並對應到新的網域名稱（注意 &lt;code&gt;-set_serial&lt;/code&gt; 號碼與之前不同）：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line hl"&gt;&lt;span class="cl"&gt;openssl genrsa -out ldapm_key.pem &lt;span class="m"&gt;1024&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line hl"&gt;&lt;span class="cl"&gt;openssl req -new -key ldapm_key.pem -out ldapm_csr.pem
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line hl"&gt;&lt;span class="cl"&gt;openssl x509 -req -days &lt;span class="m"&gt;36500&lt;/span&gt; -in ldapm_csr.pem -CA my_root_crt.pem -CAkey my_root_key.pem -out ldapm_crt.pem -set_serial &lt;span class="m"&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -5575,13 +5603,14 @@ Machine。&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -5590,8 +5619,8 @@ Machine。&lt;/p&gt;
       <pubDate>Sat, 13 Dec 2014 17:42:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/</guid>
-      <description>本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 O</description>
-      <content:encoded>&lt;p&gt;本文件紀錄了基本的 LDAP 設置。&lt;/p&gt;
+      
+        <description>&lt;p&gt;本文件紀錄了基本的 LDAP 設置。&lt;/p&gt;
 &lt;h2 id="設定-ldap-master"&gt;設定 LDAP Master&lt;/h2&gt;
 &lt;h3 id="基本設置"&gt;基本設置&lt;/h3&gt;
 &lt;p&gt;首先編輯 &lt;code&gt;/etc/ldap/ldap.conf&lt;/code&gt; 填上適當的網域名稱。例如：&lt;/p&gt;
@@ -5753,13 +5782,14 @@ Machine。&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -5768,8 +5798,8 @@ Machine。&lt;/p&gt;
       <pubDate>Wed, 12 Nov 2014 09:20:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/11/12/connect-subnets/</guid>
-      <description>實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這</description>
-      <content:encoded>&lt;p&gt;實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。&lt;/p&gt;
+      
+        <description>&lt;p&gt;實驗室的工作站先生們待在兩個不同的內網，各自透過一台工作站當 gateway 和外面的世界溝通。因此，要連結彼此時，常需要透過 gateway 的特定 port 來轉送到 sshd。這樣每台機器的其他不同 services 也都要額外開個 port，感覺非常不方便。&lt;/p&gt;
 &lt;p&gt;記得學長大大離開實驗室前，總是不能忘懷他們無法在一起的困難。於是晚輩們就決定試圖解決這個問題了！&lt;/p&gt;
 &lt;h2 id="機器配置"&gt;機器配置&lt;/h2&gt;
 &lt;p&gt;假設現在有兩群工作站：&lt;/p&gt;
@@ -5851,13 +5881,14 @@ post-down ip tunnel del mytunnel
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -5866,12 +5897,11 @@ post-down ip tunnel del mytunnel
       <pubDate>Fri, 07 Nov 2014 18:52:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2014/11/07/google-inbox-like-web-browsing/</guid>
-      <description>Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in 〈Single-minded : an Internet reader, made for readers, made by readers〉. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced Inbox, a new way to handle email. And I find that many ideas behind Inbox are also applicable to web browsing as well.
-Tabs as Threads For example, different tabs can be represented as different threads, and for each thread, the history can be easily represented as different &amp;rsquo;email&amp;rsquo; in the same thread.</description>
-      <content:encoded>&lt;p&gt;Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in &lt;a href="/en/2013/10/20/single-minded/"&gt;〈Single-minded : an Internet reader, made for readers, made by readers〉&lt;/a&gt;. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced &lt;a href="http://www.google.com/inbox/"&gt;Inbox&lt;/a&gt;, a new way to handle email. And I find that many ideas behind Inbox are also applicable to web browsing as well.&lt;/p&gt;
+      
+        <description>&lt;p&gt;Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in &lt;a href="https://city.shaform.com/en/2013/10/20/single-minded/"&gt;〈Single-minded : an Internet reader, made for readers, made by readers〉&lt;/a&gt;. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced &lt;a href="http://www.google.com/inbox/"&gt;Inbox&lt;/a&gt;, a new way to handle email. And I find that many ideas behind Inbox are also applicable to web browsing as well.&lt;/p&gt;
 &lt;h2 id="tabs-as-threads"&gt;Tabs as Threads&lt;/h2&gt;
 &lt;p&gt;For example, different tabs can be represented as different threads, and for each thread, the history can be easily represented as different &amp;rsquo;email&amp;rsquo; in the same thread.&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/inbox-history.png" alt="History as emails"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://city.shaform.com/images/inbox-history.png" alt="History as emails"&gt;&lt;/p&gt;
 &lt;p&gt;Such layout provides better navigation for histories than the current design of &amp;lsquo;back&amp;rsquo; and &amp;lsquo;forward&amp;rsquo; buttons. Sophisticated text summarization techniques can also be used to enable user to get information without actually open that page.&lt;/p&gt;
 &lt;h2 id="search-as-threads"&gt;Search as Threads&lt;/h2&gt;
 &lt;p&gt;Not only a tab can be represented as threads, a search attempt can also utilize the thread layout. We simply click on the empty space, and a search input field would appear. After entering the keywords, we click as many results as we like. Each click results in a different &amp;rsquo;email&amp;rsquo; in the same threads, and we can inspect each one later at any time. We can archive unrelavent pages and decide to mark every remaining results with a label for later use.&lt;/p&gt;
@@ -5880,7 +5910,8 @@ Tabs as Threads For example, different tabs can be represented as different thre
 &lt;h2 id="we-learn-everything-so-we-search-for-you"&gt;We Learn Everything, so We Search for You&lt;/h2&gt;
 &lt;p&gt;Since we can safely assume that any pages left in the inbox is something that the user is interested in currently. (Otherwise she should have archived it.) We can actively recommend related pages for different threads. Moreover, for those &amp;lsquo;search threads&amp;rsquo;, we also have the keywords used, and since the user might try to delete unwanted results from the inbox, we have relevance feedback as well. And latency is no longer an issue, as we can do the search and the show results when the user open the browser next time. So we are able to produce extremely accurate result compared to conventional search engines. And we also have the opportunity to insert related advertisment as well.&lt;/p&gt;
 &lt;p&gt;However, if we do use this kind of web browsing, our entire browsing history will be on the cloud. Is this acceptable?&lt;/p&gt;
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -5889,8 +5920,8 @@ Tabs as Threads For example, different tabs can be represented as different thre
       <pubDate>Tue, 04 Nov 2014 17:20:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/11/04/word2vec/</guid>
-      <description>最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一</description>
-      <content:encoded>&lt;p&gt;最近因為一些學習上的需要接觸了 &lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt;，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。&lt;/p&gt;
+      
+        <description>&lt;p&gt;最近因為一些學習上的需要接觸了 &lt;a href="https://code.google.com/p/word2vec/"&gt;word2vec&lt;/a&gt;，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一個單位，比如說用個 id 來表示他。然後再去算詞與詞之間的統計關係。或者是利用句子的文法結構來進行其他處理。如果把每個詞出現的次數當作一個維度的話，也可以把句子或文件用一個向量來表示。&lt;/p&gt;
 &lt;p&gt;不過 word2vec 是把每個詞本身用一個多維向量來表示，把詞投影到一個向量空間裡。而且不知道為什麼投影出來的空間有些特殊的性質，比如說相同屬性的詞可能會靠得很近，甚至部份的向量有邏輯上的線性關係等等：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;vector('King') - vector('Man') + vector('Woman') ~= vector('Queen')
 &lt;/code&gt;&lt;/pre&gt;
@@ -5919,7 +5950,7 @@ Tabs as Threads For example, different tabs can be represented as different thre
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line hl"&gt;&lt;span class="cl"&gt;./word2vec -train sentences.segged.txt -output vectors.bin -cbow &lt;span class="m"&gt;0&lt;/span&gt; -size &lt;span class="m"&gt;200&lt;/span&gt; -window &lt;span class="m"&gt;10&lt;/span&gt; -negative &lt;span class="m"&gt;5&lt;/span&gt; -hs &lt;span class="m"&gt;0&lt;/span&gt; -sample 1e-4 -threads &lt;span class="m"&gt;24&lt;/span&gt; -binary &lt;span class="m"&gt;1&lt;/span&gt; -iter &lt;span class="m"&gt;20&lt;/span&gt; -min-count &lt;span class="m"&gt;1&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;因為萌典抽出來的資料不算多，所以訓練起來滿快的，只是當然效果就不太好了：&lt;/p&gt;
-&lt;p&gt;&lt;img src="/images/train_word2vec.png" alt="word2vec running&amp;amp;hellip;"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://city.shaform.com/images/train_word2vec.png" alt="word2vec running&amp;amp;hellip;"&gt;&lt;/p&gt;
 &lt;h2 id="測試"&gt;測試&lt;/h2&gt;
 &lt;p&gt;首先測試距離相近的字：&lt;/p&gt;
 &lt;div class="sh-highlight"&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line hl"&gt;&lt;span class="cl"&gt;./distance vectors.bin &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -5977,13 +6008,14 @@ Word: 英國  Position in vocabulary: 822
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/dots.jpg" alt="Dots" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/dots.jpg" alt="Dots" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -5992,8 +6024,8 @@ Word: 英國  Position in vocabulary: 822
       <pubDate>Sun, 22 Jun 2014 10:30:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/06/22/pyvenv-and-virtualenv/</guid>
-      <description>使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程</description>
-      <content:encoded>&lt;p&gt;使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。&lt;/p&gt;
+      
+        <description>&lt;p&gt;使用工作站時常會遇到想要自行安裝 Python 套件，結果卻沒有管理權限的問題。雖然可以自行在 local 安裝套件，或者是乾脆自行安裝 local 版的 Python，但設置的程序稍微有點麻煩，而且遇到想要同時使用多種版本的 Python 時，設置就更複雜了。&lt;/p&gt;
 &lt;p&gt;遇到這種情形的時候，建立 Python 的 virtual environment 就可以方便的使用多個不同版本與環境的 Python。&lt;/p&gt;
 &lt;h2 id="pyvenv"&gt;pyvenv&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://docs.python.org/3.4/library/venv.html"&gt;pyvenv&lt;/a&gt; 是在 Python 3.3 後新加入官方 Python 發行版的一個 module，可以讓使用者建立自己的 virtual environment。雖然很可惜的，Debian 系的 OS 因為 &lt;a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=732703"&gt;bug 732703&lt;/a&gt; 所以暫時無法使用。不過還是介紹一下他的用法：&lt;/p&gt;
@@ -6050,13 +6082,14 @@ Word: 英國  Position in vocabulary: 822
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -6065,8 +6098,8 @@ Word: 英國  Position in vocabulary: 822
       <pubDate>Sat, 21 Jun 2014 09:00:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/06/21/fix-public-key-login-for-encrypted-home/</guid>
-      <description>通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的</description>
-      <content:encoded>&lt;p&gt;通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。&lt;/p&gt;
+      
+        <description>&lt;p&gt;通常啟用 SSH 登入會遇到一個大問題：經常會有奇怪的人想要暴力破解密碼，取得登入權限。最早我都是限制只能從校內 IP 來源登入來減輕這個問題，然而最近的電腦是在 NAT 背後，透過一個 port 連結 SSH，所以似乎看不到真正的來源 IP，因此無法輕易過濾。&lt;/p&gt;
 &lt;p&gt;我最後決定停用密碼登入的功能，改成只能用 public key 登入，這樣子可能比較難以猜中正確的密鑰。不過實際用起來偶爾會發現登入失敗搞不清楚理由，後來才發現是因為我的 Ubuntu 啟用了家目錄加密的功能，因此尚未登入之前根本讀不到 &lt;code&gt;authorized_keys&lt;/code&gt; 設定檔。為了解決這個問題，必須移動設定檔的位置才行。&lt;/p&gt;
 &lt;h2 id="generate-ssh-keys"&gt;Generate SSH Keys&lt;/h2&gt;
 &lt;p&gt;首先如果沒有自己的 SSH keys 的話可以參考&lt;a href="https://help.github.com/articles/generating-ssh-keys"&gt;〈Generating SSH Keys〉&lt;/a&gt;建立自己的 SSH keys。大致上是使用如下指令：&lt;/p&gt;
@@ -6109,13 +6142,14 @@ Word: 英國  Position in vocabulary: 822
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -6124,8 +6158,8 @@ Word: 英國  Position in vocabulary: 822
       <pubDate>Thu, 19 Jun 2014 16:05:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/06/19/install-w8-ubuntu-with-uefi/</guid>
-      <description>總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，</description>
-      <content:encoded>&lt;p&gt;總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 &lt;a href="http://www.ubuntu.com/"&gt;Ubuntu&lt;/a&gt; 的安裝界面做的還不錯，後來就一直用到今天。&lt;/p&gt;
+      
+        <description>&lt;p&gt;總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，重灌才成為一件比較方便的事。尤其 &lt;a href="http://www.ubuntu.com/"&gt;Ubuntu&lt;/a&gt; 的安裝界面做的還不錯，後來就一直用到今天。&lt;/p&gt;
 &lt;p&gt;雖然習慣使用 Linux，可是有時候還是會遇到要在 Windows 上才能寫的作業，所以每次都把電腦灌成雙系統，也慢慢熟悉了這個過程，一直以來不太有改變。不過最近拿到一台有 &lt;a href="http://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface"&gt;UEFI&lt;/a&gt; 開機的 Lenovo ThinkPad X1 Carbon 筆電，又想在啟用 Secure Boot 的情況下同時裝雙系統，設置上就比較麻煩了。本文就是記載這個過程。&lt;/p&gt;
 &lt;h2 id="安裝-windows-8"&gt;安裝 Windows 8&lt;/h2&gt;
 &lt;p&gt;原本如果是在正常的電腦上安裝 Windows 8，可以透過 &lt;a href="http://www.microsoftstore.com/store/msusa/html/pbPage.Help_Win7_usbdvd_dwnTool"&gt;Windows USB/DVD download tool&lt;/a&gt; 來製作安裝用隨身碟，但在 UEFI 啟用的情況下就不行了。這時參考&lt;a href="http://social.msdn.microsoft.com/Forums/en-US/e7ed293e-b565-44ee-a536-166dddf32205/how-to-create-windows-8-installation-bootable-usb-for-uefi-samsung-slate"&gt;〈How to create Windows 8 installation bootable USB for UEFI〉&lt;/a&gt;，首先在 Windows 環境下使用管理員權限執行 cmd.exe，用 diskpart.exe 找出隨身碟的代號：&lt;/p&gt;
@@ -6159,13 +6193,14 @@ Word: 英國  Position in vocabulary: 822
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -6174,15 +6209,15 @@ Word: 英國  Position in vocabulary: 822
       <pubDate>Tue, 27 May 2014 13:21:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/05/27/stay-on-bbs/</guid>
-      <description>很久以前看到了 othree 的〈掛站系統設定篇〉，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 PTT 等 BBS。使用工作站掛站的優點主要是不</description>
-      <content:encoded>&lt;p&gt;很久以前看到了 othree 的&lt;a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/"&gt;〈掛站系統設定篇〉&lt;/a&gt;，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 PTT 等 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）&lt;/p&gt;
+      
+        <description>&lt;p&gt;很久以前看到了 othree 的&lt;a href="https://blog.othree.net/log/2005/12/16/stay-on-bbs-setting/"&gt;〈掛站系統設定篇〉&lt;/a&gt;，學會了如何在工作站上掛著 BBS。在那以後就很少使用桌面軟體來連 PTT 等 BBS。使用工作站掛站的優點主要是不用一直重新登入很方便，另外在一些公共區域上網時，避免直接使用明文帳密連結 telnet 而透過 ssh 感覺比較安心一點。（不過其實我建議 BBS 還是使用不同的密碼比較好呀。）&lt;/p&gt;
 &lt;p&gt;後來我發現其實掛一些我平常在逛的站如 PTT or PTT2 其實很少會遇到逾時被登出的狀況，所以就省去了使用 expect 來不斷送出空白訊號的麻煩。就用這篇文章來紀錄這個簡化的掛站方法。&lt;/p&gt;
 
 &lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -6232,7 +6267,8 @@ Word: 英國  Position in vocabulary: 822
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;ptt2&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;if ! screen -rD PTT2 &amp;gt;&amp;amp; /dev/null ; then LANG=&amp;#39;zh_TW.UTF-8&amp;#39; screen -S PTT2 -c &lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/screenrc-bbs/ptt2 ; fi&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;ptt3&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;if ! screen -rD PTT3 &amp;gt;&amp;amp; /dev/null ; then LANG=&amp;#39;zh_TW.UTF-8&amp;#39; screen -S PTT3 -c &lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/screenrc-bbs/ptt3 ; fi&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如此一來，下次登入時只要直接打 &lt;code&gt;ptt&lt;/code&gt; 就可以開始逛版了，要離開則按 &lt;code&gt;Ctrl-A Ctrl-D&lt;/code&gt;，只要沒有被斷線的話隨時登入工作站都可以下 &lt;code&gt;ptt&lt;/code&gt; 指令重回之前的進度。&lt;/p&gt;
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -6241,8 +6277,8 @@ Word: 英國  Position in vocabulary: 822
       <pubDate>Sat, 17 May 2014 07:25:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/</guid>
-      <description>「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻</description>
-      <content:encoded>&lt;p&gt;「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻煩：它對於一些程式碼的的支援有點不直覺，而文章的寫作方式也有許多不符我的需求。最後索性就把這個網誌改用 Pelican 建立了。而因為文章只有一點點，所以是用手動搬的。&lt;/p&gt;
+      
+        <description>&lt;p&gt;「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻煩：它對於一些程式碼的的支援有點不直覺，而文章的寫作方式也有許多不符我的需求。最後索性就把這個網誌改用 Pelican 建立了。而因為文章只有一點點，所以是用手動搬的。&lt;/p&gt;
 &lt;p&gt;搬完以後覺得這種靜態網頁在管理和備份文章上實在是很方便。想到「浮光」這個文章集散處，其實完全是由很少 HTML 的靜態文章所組成，實在是很適合放到 Pelican 上，再者 Pixnet 的後台界面自己一直不是很喜歡，所以就乾脆一起搬了。&lt;/p&gt;
 &lt;p&gt;以下記載完成這件事的流程，使用的環境是 Ubuntu 14.04 64-bit。&lt;/p&gt;
 &lt;h2 id="安裝-pelican"&gt;安裝 Pelican&lt;/h2&gt;
@@ -6421,13 +6457,14 @@ Word: 英國  Position in vocabulary: 822
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -6436,8 +6473,8 @@ Word: 英國  Position in vocabulary: 822
       <pubDate>Sun, 13 Apr 2014 15:56:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2014/04/13/hbase-on-ubuntu-12.04/</guid>
-      <description>這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。 一、HDFS 安裝 JDK 7 sudo apt-get update &amp;amp;&amp;amp; apt-get upgrade # 更新套件庫 sudo apt-get install software-properties-common python-software-properties # 取得 add-apt-repository sudo add-apt-repository ppa:webupd8team/java # 新增有 oracle-java7-installer 的 ppa sudo</description>
-      <content:encoded>&lt;p&gt;這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。&lt;/p&gt;
+      
+        <description>&lt;p&gt;這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。&lt;/p&gt;
 &lt;h2 id="一hdfs"&gt;一、HDFS&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -6562,13 +6599,14 @@ Word: 英國  Position in vocabulary: 822
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -6577,9 +6615,8 @@ Word: 英國  Position in vocabulary: 822
       <pubDate>Sun, 20 Oct 2013 20:25:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2013/10/20/single-minded/</guid>
-      <description>Realization I&amp;rsquo;ve known it for a long time that it’s difficult for me to read long articles on the web. I thought it’s because of the screen. It made my eyes get tired so easily. However, when I started to read The Shallows written by Nicholas Carr, I realized that it’s not only the screen. The Internet itself is distracting.
-I started to remember that, I often clicked between different tabs aimlessly.</description>
-      <content:encoded>&lt;h2 id="realization"&gt;Realization&lt;/h2&gt;
+      
+        <description>&lt;h2 id="realization"&gt;Realization&lt;/h2&gt;
 &lt;p&gt;I&amp;rsquo;ve known it for a long time that it’s difficult for me to read long articles on the web. I thought it’s because of the screen. It made my eyes get tired so easily. However, when I started to read The Shallows written by Nicholas Carr, I realized that it’s not only the screen. The Internet itself is distracting.&lt;/p&gt;
 &lt;p&gt;I started to remember that, I often clicked between different tabs aimlessly. I repeatedly opened and reopened the Facebook page or my email inbox, wasting my time getting nothing. Indeed, I realized that I was so impatient that whenever the browser was loading a new page, I would switch to another tab, because I did not want to wait for it.&lt;/p&gt;
 &lt;p&gt;Once I noticed this, I started to think about possible solutions to overcome this problem &amp;ndash; a new way of browsing. If I could get rid of the waiting time, maybe tabs would no longer be needed? If I could get rid of the tabs, maybe the Internet would be less distracting.&lt;/p&gt;
@@ -6608,13 +6645,14 @@ I started to remember that, I often clicked between different tabs aimlessly.</d
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2015/tech.jpg" alt="Tech" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2015/tech.jpg" alt="Tech" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -6623,13 +6661,13 @@ I started to remember that, I often clicked between different tabs aimlessly.</d
       <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2013/07/12/qwerty-to-dvorak/</guid>
-      <description>Windows Windows 是透過新增輸入法的方式增加 dvoark 鍵盤，如果是新的版本，登入畫面也可以選擇不同的鍵盤使用，如果一開始安裝就選擇 dvorak 的話，就會成為預設值。如果是 XP</description>
-      <content:encoded>
+      
+        <description>
 &lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2013/keyboard.jpg" alt="Keyboard" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2013/keyboard.jpg" alt="Keyboard" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -6770,7 +6808,8 @@ I started to remember that, I often clicked between different tabs aimlessly.</d
 &lt;p&gt;使用此程式轉換檔案的話，可能還是會需要手動調整，因為有些像是「,」 -&amp;gt;「，」的符號對應應該還是保留會比較好。&lt;/p&gt;
 &lt;h2 id="下載"&gt;下載&lt;/h2&gt;
 &lt;p&gt;相關程式可在 &lt;a href="https://github.com/shaform/dvorak-tools"&gt;shaform/dvorak-tools&lt;/a&gt; 下載。&lt;/p&gt;
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -6779,16 +6818,13 @@ I started to remember that, I often clicked between different tabs aimlessly.</d
       <pubDate>Fri, 12 Jul 2013 18:53:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/en/2013/07/12/qwerty-to-dvorak/</guid>
-      <description>Windows Newer versions of Windows could use different keyboard layouts for the login screen. Just choose it when installing or add the relevant input method in language settings.
-Linux Newer versions of Linux distributions also support dvorak layout when installing.
-If you want to set the layout temporarily, you could also use the following commands:
-setxkbmap dvorak # change to dvorak setxkbmap us # change back to qwerty Xrdp If you are using rdp to connect to remote linux servers, the keyboard layout is controlled by a separate configuration file.</description>
-      <content:encoded>
+      
+        <description>
 &lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2013/keyboard.jpg" alt="Keyboard" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2013/keyboard.jpg" alt="Keyboard" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
@@ -6884,7 +6920,8 @@ This enables us to use dvorak at least in Vim.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="err"&gt;&lt;/span&gt;&lt;span class="nx"&gt;set&lt;/span&gt; &lt;span class="nx"&gt;langmap&lt;/span&gt;&lt;span class="p"&gt;=-=&lt;/span&gt;&lt;span class="nx"&gt;qwertyuiop&lt;/span&gt;[]&lt;span class="nx"&gt;sdfghjkl&lt;/span&gt;\\;&lt;span class="s1"&gt;&amp;#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&amp;#34;ZXCVBN&amp;lt;&amp;gt;?;[]&amp;#39;&lt;/span&gt;\\&lt;span class="p"&gt;,&lt;/span&gt;.&lt;span class="nx"&gt;pyfgcrl&lt;/span&gt;/&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;oeuidhtns&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;\\;&lt;span class="nx"&gt;qjkxbwvz&lt;/span&gt;{}\&amp;#34;&lt;span class="p"&gt;&amp;lt;&amp;gt;&lt;/span&gt;&lt;span class="nx"&gt;PYFGCRL&lt;/span&gt;?&lt;span class="p"&gt;+&lt;/span&gt;&lt;span class="nx"&gt;OEUIDHTNS_&lt;/span&gt;:&lt;span class="nx"&gt;QJKXBWVZ&lt;/span&gt;&lt;span class="err"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="download"&gt;Download&lt;/h2&gt;
 &lt;p&gt;Refer to &lt;a href="https://github.com/shaform/dvorak-tools"&gt;shaform/dvorak-tools&lt;/a&gt; for all script files.&lt;/p&gt;
-</content:encoded>
+</description>
+      
     </item>
     
   <item>
@@ -6893,8 +6930,8 @@ This enables us to use dvorak at least in Vim.&lt;/p&gt;
       <pubDate>Tue, 05 Mar 2013 08:03:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2013/03/05/coprogramming/</guid>
-      <description>緣起 在程式課堂，團隊合作常常是件頭痛的事，若是每個人各自工作，常會產生許多難以整合的版本。即使是一起到電腦教室討論，也常是一個人寫程式，其他</description>
-      <content:encoded>&lt;h2 id="緣起"&gt;緣起&lt;/h2&gt;
+      
+        <description>&lt;h2 id="緣起"&gt;緣起&lt;/h2&gt;
 &lt;p&gt;在程式課堂，團隊合作常常是件頭痛的事，若是每個人各自工作，常會產生許多難以整合的版本。即使是一起到電腦教室討論，也常是一個人寫程式，其他人在旁邊看。雖然有版本控制系統等等合作工具，然而我從來沒有成功在一堂課中讓隊友學會其運作(應該說是幾乎，僅有在雙方都早已會使用，或者是由我做所有merge時才曾使用)，事實上，像 git, hg 等等複雜的系統，是否真的適合這種小型專案也尚有可懷疑的地方，尤其，有些作業所有的程式碼都在同一個檔案中，使得版本控制系統用起來十分不順手。&lt;/p&gt;
 &lt;p&gt;我突然想起在&lt;a href="http://en.wikipedia.org/wiki/Here_Comes_Everybody"&gt;《Here Comes Everybody》&lt;/a&gt;書裡看過的說法：Wikipedia 的貢獻者中，絕大多數可能只有編輯過一兩行的文章。一家公司如果大部分的員工都只做一點工作，則這家公司多半無法生存。可是在 Wikipedia 的例子裡，合作的成本被降的很低，所以原來不可能利用的小量付出，也能被整合成一個共同成果。&lt;/p&gt;
 &lt;p&gt;這確實就是我們遇到的情況，有時在課堂中的程式作業規模是如此的小，任何的合作成本都太過高昂。而且，這種只存在一學期的臨時團隊，根本難以形成向心力。而要求任何人為了一學期的作業學會複雜的版本控制系統更是完全不實際的想法。&lt;/p&gt;
@@ -6929,13 +6966,14 @@ This enables us to use dvorak at least in Vim.&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -6944,9 +6982,9 @@ This enables us to use dvorak at least in Vim.&lt;/p&gt;
       <pubDate>Tue, 26 Feb 2013 14:17:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2013/02/26/freearray-bugfixes/</guid>
-      <description>停擺多年 還記得數年前完成了「自由行列輸入法」的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重</description>
-      <content:encoded>&lt;h2 id="停擺多年"&gt;停擺多年&lt;/h2&gt;
-&lt;p&gt;還記得數年前完成了&lt;a href="/zh/2010/02/15/intro-to-freearray/"&gt;「自由行列輸入法」&lt;/a&gt;的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重要理由是突然發現 &lt;a href="http://hyperrate.com/thread.php?tid=18200"&gt;gcin 原本就有支援智慧選詞的行列輸入法&lt;/a&gt;，覺得花那麼多力氣重造輪子有點不值得。但其實也是沒有特別的新功能可以開發，而且程式本身寫的太亂不太好維護，加上課業繁忙，所以就沒有投注太多關心。&lt;/p&gt;
+      
+        <description>&lt;h2 id="停擺多年"&gt;停擺多年&lt;/h2&gt;
+&lt;p&gt;還記得數年前完成了&lt;a href="https://city.shaform.com/zh/2010/02/15/intro-to-freearray/"&gt;「自由行列輸入法」&lt;/a&gt;的測試版本，雖然一開始還有斷斷續續修正一些 bugs，但到後來這個專案就完全停擺了。當然其中一個重要理由是突然發現 &lt;a href="http://hyperrate.com/thread.php?tid=18200"&gt;gcin 原本就有支援智慧選詞的行列輸入法&lt;/a&gt;，覺得花那麼多力氣重造輪子有點不值得。但其實也是沒有特別的新功能可以開發，而且程式本身寫的太亂不太好維護，加上課業繁忙，所以就沒有投注太多關心。&lt;/p&gt;
 &lt;p&gt;gcin 的版本雖然很好，但對 Dvorak 和「行列定符」的支援總是差了那麼一點，而且不知為何總是無法習慣使用 gcin，所以後來就沒有繼續使用。而隨著作業系統的更新，之前的自由行列輸入法也不知為何無法編譯了，於是我就重回注音輸入法的懷抱，和行列輸入法疏離了許久。&lt;/p&gt;
 &lt;p&gt;後來剛好又看到行列以及 dvorak 的討論串，加上最近剛好比較有空，就想把之前的程式碼翻修一下，看看能不能動，也順便把原始碼轉到現在比較習慣的 &lt;a href="https://github.com/shaform/ibus-freearray"&gt;GitHub&lt;/a&gt;。雖然只花了幾天時間，不過其實遇到的問題也不少，甚至有些問題的根源還很難弄明白。&lt;/p&gt;
 &lt;h2 id="問題"&gt;問題&lt;/h2&gt;
@@ -6969,13 +7007,14 @@ This enables us to use dvorak at least in Vim.&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -6984,8 +7023,8 @@ This enables us to use dvorak at least in Vim.&lt;/p&gt;
       <pubDate>Sat, 20 Feb 2010 19:46:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2010/02/20/ibus-faft-develop-notes/</guid>
-      <description>FreeArray for Test for the Input Bus 是基於 ibus 輸入法架構所製作之行列輸入法引擎，其結合來自 libchewing 的斷詞模組實作智慧選字功能，並利用「行列定符」改進原行列的符號輸入。此外</description>
-      <content:encoded>&lt;p&gt;FreeArray for Test for the Input Bus 是基於 ibus 輸入法架構所製作之行列輸入法引擎，其結合來自 libchewing 的斷詞模組實作智慧選字功能，並利用「行列定符」改進原行列的符號輸入。此外，對 dvorak 鍵盤具有完整支援。&lt;/p&gt;
+      
+        <description>&lt;p&gt;FreeArray for Test for the Input Bus 是基於 ibus 輸入法架構所製作之行列輸入法引擎，其結合來自 libchewing 的斷詞模組實作智慧選字功能，並利用「行列定符」改進原行列的符號輸入。此外，對 dvorak 鍵盤具有完整支援。&lt;/p&gt;
 &lt;p&gt;在開發過程中，除了引用大量 libchewing 的程式碼外，也參考了 &lt;a href="http://code.google.com/p/ibus-array/"&gt;ibus-array&lt;/a&gt;, &lt;a href="https://github.com/definite/ibus-chewing"&gt;ibus-chewing&lt;/a&gt; 的程式碼才得以完成。&lt;/p&gt;
 &lt;p&gt;時間大約是在 2010 年 2 月初直到 2 月中，連續而密集的開發。&lt;/p&gt;
 &lt;h2 id="libchewing"&gt;libchewing&lt;/h2&gt;
@@ -7007,13 +7046,14 @@ This enables us to use dvorak at least in Vim.&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
     <item>
@@ -7022,8 +7062,8 @@ This enables us to use dvorak at least in Vim.&lt;/p&gt;
       <pubDate>Mon, 15 Feb 2010 15:46:00 +0800</pubDate>
       
       <guid>https://city.shaform.com/zh/2010/02/15/intro-to-freearray/</guid>
-      <description>本持自由軟體，Release Early, Release Often 之精神，我實在應該趕快把自由行列的程式碼公開出來。不過覺得程式碼實在太醜，而且其實根本也還沒寫出什麼，再者</description>
-      <content:encoded>&lt;p&gt;本持自由軟體，Release Early, Release Often 之精神，我實在應該趕快把自由行列的程式碼公開出來。不過覺得程式碼實在太醜，而且其實根本也還沒寫出什麼，再者我現在其實是一邊寫一邊學 OOP，因此程式碼常有大幅改動，再者又覺 SVN 操作好麻煩，所以遲遲未發。&lt;/p&gt;
+      
+        <description>&lt;p&gt;本持自由軟體，Release Early, Release Often 之精神，我實在應該趕快把自由行列的程式碼公開出來。不過覺得程式碼實在太醜，而且其實根本也還沒寫出什麼，再者我現在其實是一邊寫一邊學 OOP，因此程式碼常有大幅改動，再者又覺 SVN 操作好麻煩，所以遲遲未發。&lt;/p&gt;
 &lt;p&gt;不過為了避免自由行列的想法消失在歷史之中。於是決定，先把自由行列專案的簡介發出。&lt;/p&gt;
 &lt;h2 id="簡易使用"&gt;簡易使用&lt;/h2&gt;
 &lt;p&gt;行列輸入法雖然是用字根組字的輸入法，然而由於其字根的特性，需要花的記憶心力其實是比較小的，只是為了求快或者避免選字，時常必須記憶特別碼或簡碼。並且因為有些組字必須選字，而有些則不用，使得要時常注意螢幕或者把它的行為強記下來。&lt;/p&gt;
@@ -7156,13 +7196,14 @@ This enables us to use dvorak at least in Vim.&lt;/p&gt;
 &lt;div class="box aligncenter"&gt;
   &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
     &lt;div class="img"&gt;
-      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" alt="Notebook" /&gt;
     &lt;/div&gt;
     
   &lt;/figure&gt;
 &lt;/div&gt;
 
-</content:encoded>
+</description>
+      
     </item>
     
   </channel>
