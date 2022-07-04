@@ -6,11 +6,7 @@
     <description>Recent content in Hadoop on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 13 Apr 2014 15:56:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/hadoop/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 13 Apr 2014 15:56:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/hadoop/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記</title>
       <link>https://city.shaform.com/zh/2014/04/13/hbase-on-ubuntu-12.04/</link>

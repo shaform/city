@@ -6,11 +6,7 @@
     <description>Recent content in SSH on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 28 Oct 2017 21:45:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/ssh/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 28 Oct 2017 21:45:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/ssh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 SSH ProxyCommand/ProxyJump 來連上內網主機</title>
       <link>https://city.shaform.com/zh/2017/10/28/ssh-proxycommand/</link>

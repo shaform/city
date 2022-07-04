@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.101.0" />
   <meta charset="utf-8">
   <title>在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,21 +21,15 @@
 <meta property="og:title" content="在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面" />
 <meta property="og:description" content="本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/" />
-<meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" />
+<meta property="og:url" content="https://city.shaform.com/zh/2016/10/31/install-tensorflow-with-cuda/" /><meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2016-10-31T21:28:00+08:00" />
 <meta property="article:modified_time" content="2016-10-31T21:28:00+08:00" />
+
 <meta itemprop="name" content="在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面">
-<meta itemprop="description" content="本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安">
-<meta itemprop="datePublished" content="2016-10-31T21:28:00+08:00" />
+<meta itemprop="description" content="本文紀錄了使用內顯來顯示畫面，而透過 Nvidia 顯卡來進行 CUDA 計算的安裝步驟。 顯卡設定 基礎設定 首先在 BIOS 裡設定內顯為主要顯卡，並且將螢幕接到內顯輸出上。 安"><meta itemprop="datePublished" content="2016-10-31T21:28:00+08:00" />
 <meta itemprop="dateModified" content="2016-10-31T21:28:00+08:00" />
-<meta itemprop="wordCount" content="635">
-<meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
-
-
-
-<meta itemprop="keywords" content="TensorFlow,Caffe,CUDA,Ubuntu," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="wordCount" content="635"><meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
+<meta itemprop="keywords" content="TensorFlow,Caffe,CUDA,Ubuntu," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg"/>
 
 <meta name="twitter:title" content="在 Ubuntu 16.04 安裝 CUDA 8.0 和 TensorFlow 0.11 並使用內顯顯示畫面"/>
@@ -164,27 +158,27 @@ if (!doNotTrack) {
 <h3 id="安裝-cuda">安裝 CUDA</h3>
 <p>接著到 <a href="https://developer.nvidia.com/cuda-downloads">CUDA 下載頁面</a>下載對應的 deb 檔案。緊接著，重開 Ubuntu，並在登入畫面時按下 <code>Ctrl-Alt-F1</code> 進入命令列界面。</p>
 <p>執行以下指令關閉 <code>lightdm</code>，據<a href="https://gist.github.com/bearpaw/c38ef18ec45ba6548ec0">這裡</a>的講法，這樣就可以達成將內顯和顯卡功能分開的目的。筆者測試如果沒執行這個指令，則最後安裝完 CUDA 重開機就會無法進入圖形登入畫面。</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo service lightdm stop</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo service lightdm stop</span></span></code></pre></div></div>
 
 <p>接著實際安裝 CUDA，並重新開機，確認可以登入：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo dpkg -i cuda-repo-&lt;distro&gt;_&lt;version&gt;_&lt;architecture&gt;.deb
-</span><span class="hl">sudo apt update
-</span><span class="hl">sudo apt install cuda
-</span><span class="hl">sudo reboot</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo dpkg -i cuda-repo-&lt;distro&gt;_&lt;version&gt;_&lt;architecture&gt;.deb
+</span></span><span class="line hl"><span class="cl">sudo apt update
+</span></span><span class="line hl"><span class="cl">sudo apt install cuda
+</span></span><span class="line hl"><span class="cl">sudo reboot</span></span></code></pre></div></div>
 
 <h3 id="安裝-cudnn">安裝 cuDNN</h3>
 <p>接著到 <a href="https://developer.nvidia.com/cudnn">cuDNN 下載頁面</a>下載 cuDNN v5，然後按照 <a href="https://www.tensorflow.org/versions/r0.11/get_started/os_setup.html#optional-install-cuda-gpus-on-linux">TensorFlow 文件</a>指示，將檔案複製到指定位置：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">tar xvzf cudnn-8.0-linux-x64-v5.1-ga.tgz
-</span><span class="hl">sudo cp cuda/include/cudnn.h /usr/local/cuda/include
-</span><span class="hl">sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
-</span><span class="hl">sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">tar xvzf cudnn-8.0-linux-x64-v5.1-ga.tgz
+</span></span><span class="line hl"><span class="cl">sudo cp cuda/include/cudnn.h /usr/local/cuda/include
+</span></span><span class="line hl"><span class="cl">sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+</span></span><span class="line hl"><span class="cl">sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*</span></span></code></pre></div></div>
 
 <h3 id="設定環境變數">設定環境變數</h3>
 <p>接下來在 <code>.bashrc</code> 或者其他開機時會載入的啟動檔案中加入：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/lib/nvidia-367
-<span class="nb">export</span> <span class="nv">CUDA_HOME</span><span class="o">=</span>/usr/local/cuda
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/cuda/bin
-</code></pre></div><p>其中 <code>/usr/lib/nvidia-367</code> 可指到你實際安裝的顯卡驅動程式版本。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/lib/nvidia-367
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">CUDA_HOME</span><span class="o">=</span>/usr/local/cuda
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/cuda/bin
+</span></span></code></pre></div><p>其中 <code>/usr/lib/nvidia-367</code> 可指到你實際安裝的顯卡驅動程式版本。</p>
 <p>最後重新開機即可。</p>
 <p>開機完可執行 <code>nvidia-smi</code> 確定顯卡真的有裝好。</p>
 <h2 id="安裝-tensorflow">安裝 TensorFlow</h2>
@@ -192,27 +186,27 @@ if (!doNotTrack) {
 <h2 id="安裝-caffe">安裝 Caffe</h2>
 <p>由於安裝 Caffe 的步驟跟官方有些不一樣，故順便紀錄。</p>
 <p>首先安裝需要的套件：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install build-essential libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler libgflags-dev libgoogle-glog-dev liblmdb-dev
-</span><span class="hl">sudo apt install --no-install-recommends libboost-all-dev</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo apt install build-essential libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler libgflags-dev libgoogle-glog-dev liblmdb-dev
+</span></span><span class="line hl"><span class="cl">sudo apt install --no-install-recommends libboost-all-dev</span></span></code></pre></div></div>
 
 <p>這裡我用 OpenBLAS。</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install libopenblas-dev </span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo apt install libopenblas-dev </span></span></code></pre></div></div>
 
 <p>接著修改 <code>Makefile.config</code>：</p>
-<div class="highlight"><pre class="chroma"><code class="language-make" data-lang="make"><span class="nv">BLAS</span> <span class="o">:=</span> open
-<span class="nv">USE_CUDNN</span> <span class="o">:=</span> <span class="m">1</span>
-
-<span class="nv">INCLUDE_DIRS</span> <span class="o">:=</span> <span class="k">$(</span>PYTHON_INCLUDE<span class="k">)</span> /usr/local/include /usr/include/hdf5/serial/
-<span class="nv">LIBRARY_DIRS</span> <span class="o">:=</span> <span class="k">$(</span>PYTHON_LIB<span class="k">)</span> /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu
-<span class="nv">WITH_PYTHON_LAYER</span> <span class="o">:=</span> <span class="m">1</span>
-</code></pre></div><p>並且修改 <code>Makefile</code>，加入 hdf5 相關程式庫：</p>
-<div class="highlight"><pre class="chroma"><code class="language-make" data-lang="make"><span class="nv">LIBRARIES</span> <span class="o">+=</span> glog gflags protobuf boost_system boost_filesystem m hdf5_serial_hl hdf5_serial
-</code></pre></div><p>同時在想用的 Python 環境裡安裝必要套件，利用 Caffe 資料夾裡的 <code>python/requirements.txt</code>：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pip install -r requirements.txt</span></code></pre></div></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-make" data-lang="make"><span class="line"><span class="cl"><span class="nv">BLAS</span> <span class="o">:=</span> open
+</span></span><span class="line"><span class="cl"><span class="nv">USE_CUDNN</span> <span class="o">:=</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">INCLUDE_DIRS</span> <span class="o">:=</span> <span class="k">$(</span>PYTHON_INCLUDE<span class="k">)</span> /usr/local/include /usr/include/hdf5/serial/
+</span></span><span class="line"><span class="cl"><span class="nv">LIBRARY_DIRS</span> <span class="o">:=</span> <span class="k">$(</span>PYTHON_LIB<span class="k">)</span> /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu
+</span></span><span class="line"><span class="cl"><span class="nv">WITH_PYTHON_LAYER</span> <span class="o">:=</span> <span class="m">1</span>
+</span></span></code></pre></div><p>並且修改 <code>Makefile</code>，加入 hdf5 相關程式庫：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-make" data-lang="make"><span class="line"><span class="cl"><span class="nv">LIBRARIES</span> <span class="o">+=</span> glog gflags protobuf boost_system boost_filesystem m hdf5_serial_hl hdf5_serial
+</span></span></code></pre></div><p>同時在想用的 Python 環境裡安裝必要套件，利用 Caffe 資料夾裡的 <code>python/requirements.txt</code>：</p>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">pip install -r requirements.txt</span></span></code></pre></div></div>
 
 <p>最後就可以編譯了：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">make all
-</span><span class="hl">make pycaffe</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">make all
+</span></span><span class="line hl"><span class="cl">make pycaffe</span></span></code></pre></div></div>
 
 
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
@@ -337,7 +331,7 @@ if (!doNotTrack) {
             Shaform
             
               2010 -
-            2020
+            2022
           </small>
           
         </p>

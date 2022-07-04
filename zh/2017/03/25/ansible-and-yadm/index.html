@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.101.0" />
   <meta charset="utf-8">
   <title>用 Ansible 和 yadm 來加速重灌流程 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,21 +21,15 @@
 <meta property="og:title" content="用 Ansible 和 yadm 來加速重灌流程" />
 <meta property="og:description" content="前言 還記得當年修計算機系統管理時曾經為了做 NFS &#43; NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2017/03/25/ansible-and-yadm/" />
-<meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" />
+<meta property="og:url" content="https://city.shaform.com/zh/2017/03/25/ansible-and-yadm/" /><meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2017-03-25T09:09:00+08:00" />
 <meta property="article:modified_time" content="2017-03-25T09:09:00+08:00" />
+
 <meta itemprop="name" content="用 Ansible 和 yadm 來加速重灌流程">
-<meta itemprop="description" content="前言 還記得當年修計算機系統管理時曾經為了做 NFS &#43; NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形">
-<meta itemprop="datePublished" content="2017-03-25T09:09:00+08:00" />
+<meta itemprop="description" content="前言 還記得當年修計算機系統管理時曾經為了做 NFS &#43; NIS 的作業自行開了三台虛擬機設定環境，同時灌三台電腦實在是煞費精力。在此之後雖然比較少遇到此情形"><meta itemprop="datePublished" content="2017-03-25T09:09:00+08:00" />
 <meta itemprop="dateModified" content="2017-03-25T09:09:00+08:00" />
-<meta itemprop="wordCount" content="1658">
-<meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
-
-
-
-<meta itemprop="keywords" content="ansible,yadm," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="wordCount" content="1682"><meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
+<meta itemprop="keywords" content="ansible,yadm," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg"/>
 
 <meta name="twitter:title" content="用 Ansible 和 yadm 來加速重灌流程"/>
@@ -179,200 +173,200 @@ if (!doNotTrack) {
             └── main.yml
 </code></pre>
 <p>首先在 <code>ansible.cfg</code> 裡指定用來設定有哪些機器的 hostfile 的位置：</p>
-<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[defaults]</span>
-<span class="na">hostfile</span> <span class="o">=</span> <span class="s">hosts</span>
-</code></pre></div><p>然後在 <code>hosts</code> 裡設定機器位址，例如：</p>
-<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[host1]</span>
-<span class="na">192.168.1.2</span>
-
-<span class="k">[host2]</span>
-<span class="na">192.168.1.3 ansible_ssh_user</span><span class="o">=</span><span class="s">bob ansible_ssh_private_key_file=~/.ssh/bob.pem</span>
-
-<span class="k">[servers]</span>
-<span class="na">192.168.1.4</span>
-<span class="na">192.168.1.5</span>
-<span class="na">192.168.1.6</span>
-</code></pre></div><p>每個 group 可以設定多個機器，也可以指定使用者名稱和登入方法等等，見：<a href="http://docs.ansible.com/ansible/intro_inventory.html">〈Inventory〉</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[defaults]</span>
+</span></span><span class="line"><span class="cl"><span class="na">hostfile</span> <span class="o">=</span> <span class="s">hosts</span>
+</span></span></code></pre></div><p>然後在 <code>hosts</code> 裡設定機器位址，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[host1]</span>
+</span></span><span class="line"><span class="cl"><span class="na">192.168.1.2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[host2]</span>
+</span></span><span class="line"><span class="cl"><span class="na">192.168.1.3 ansible_ssh_user</span><span class="o">=</span><span class="s">bob ansible_ssh_private_key_file=~/.ssh/bob.pem</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[servers]</span>
+</span></span><span class="line"><span class="cl"><span class="na">192.168.1.4</span>
+</span></span><span class="line"><span class="cl"><span class="na">192.168.1.5</span>
+</span></span><span class="line"><span class="cl"><span class="na">192.168.1.6</span>
+</span></span></code></pre></div><p>每個 group 可以設定多個機器，也可以指定使用者名稱和登入方法等等，見：<a href="http://docs.ansible.com/ansible/intro_inventory.html">〈Inventory〉</a>。</p>
 <p><code>deploy</code> 則是一個簡單的 Bash script，用來方便執行。使用方法為：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./deploy HOST YML</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">./deploy HOST YML</span></span></code></pre></div></div>
 
 <p>利用 <code>HOST</code> 指定要設定的機器名稱，例如之前設定的 <code>host1</code> 或者 <code>localhost</code>，<code>YML</code> 則是要執行的 playbook 設定檔，例如最上層的 <code>anaconda.yml</code> 或者 <code>desktop.yml</code>。</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
-</span><span class="cp"></span><span class="nv">HOST</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">localhost</span><span class="si">}</span>
-<span class="nv">YML</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">desktop</span><span class="p">.yml</span><span class="si">}</span>
-ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span class="s2">&#34;hosts=</span><span class="nv">$HOST</span><span class="s2">&#34;</span> <span class="nv">$YML</span>
-</code></pre></div><p><code>desktop.yml</code> 和 <code>anaconda.yml</code> 則是簡單的 <a href="http://docs.ansible.com/ansible/playbooks.html">Playbooks</a>，用來指定要執行哪些 tasks。例如我在 <code>desktop.yml</code> 寫要用 root 權限執行 <code>base</code> 和 <code>desktop</code> 兩個 roles：</p>
-<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
-</span><span class="w">
-</span><span class="w"></span>- <span class="k">hosts</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ hosts }}&#39;</span><span class="w">
-</span><span class="w">  </span><span class="k">become</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w">  </span><span class="k">become_user</span><span class="p">:</span><span class="w"> </span>root<span class="w">
-</span><span class="w">  </span><span class="k">roles</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- base<span class="w">
-</span><span class="w">    </span>- desktop<span class="w">
-</span></code></pre></div><p><code>anaconda.yml</code> 則寫要用正常使用者權限執行 <code>anaconda</code> 這個 role：</p>
-<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
-</span><span class="w">
-</span><span class="w"></span>- <span class="k">hosts</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ hosts }}&#39;</span><span class="w">
-</span><span class="w">  </span><span class="k">roles</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- anaconda<span class="w">
-</span></code></pre></div><h2 id="roles">Roles</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nv">HOST</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">localhost</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl"><span class="nv">YML</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">desktop</span><span class="p">.yml</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span class="s2">&#34;hosts=</span><span class="nv">$HOST</span><span class="s2">&#34;</span> <span class="nv">$YML</span>
+</span></span></code></pre></div><p><code>desktop.yml</code> 和 <code>anaconda.yml</code> 則是簡單的 <a href="http://docs.ansible.com/ansible/playbooks.html">Playbooks</a>，用來指定要執行哪些 tasks。例如我在 <code>desktop.yml</code> 寫要用 root 權限執行 <code>base</code> 和 <code>desktop</code> 兩個 roles：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ hosts }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">become_user</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">roles</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">base</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">desktop</span><span class="w">
+</span></span></span></code></pre></div><p><code>anaconda.yml</code> 則寫要用正常使用者權限執行 <code>anaconda</code> 這個 role：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ hosts }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">roles</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">anaconda</span><span class="w">
+</span></span></span></code></pre></div><h2 id="roles">Roles</h2>
 <p>最後的 <code>roles</code> 資料夾底下把相關的設定項目放在一起，這樣分開設定的好處是，可以根據不同機器的需求指定要執行哪些 roles，此外，也可以用 <code>git submodule</code> 之類的方法直接利用別人寫好的 roles。</p>
 <p>先從 <code>base.yml</code> 開始，這個檔案裡我設置了一些基本的系統設定：</p>
-<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># 建立 sudoers.d 資料夾，以放置設定檔</span><span class="w">
-</span><span class="w"></span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>mkdir<span class="w"> </span>for<span class="w"> </span>configure<span class="w"> </span>files<span class="w">
-</span><span class="w">  </span><span class="k">file</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">dest</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">owner</span><span class="p">:</span><span class="w"> </span>root<span class="w">
-</span><span class="w">    </span><span class="k">group</span><span class="p">:</span><span class="w"> </span>root<span class="w">
-</span><span class="w">    </span><span class="k">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0755&#34;) }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">state</span><span class="p">:</span><span class="w"> </span>directory<span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="k">with_items</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">dest</span><span class="p">:</span><span class="w"> </span>/etc/sudoers.d<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># 因為我自己的使用者 umask 設的比較嚴格，避免 sudo 受影響所以加上這個把 sudo 的 umask 轉回來</span><span class="w">
-</span><span class="w"></span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>set<span class="w"> </span>sudo<span class="w"> </span>umask<span class="w">
-</span><span class="w">  </span><span class="k">copy</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">dest</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">owner</span><span class="p">:</span><span class="w"> </span>root<span class="w">
-</span><span class="w">    </span><span class="k">group</span><span class="p">:</span><span class="w"> </span>root<span class="w">
-</span><span class="w">    </span><span class="k">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0644&#34;) }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.content }}&#39;</span><span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="k">with_items</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">dest</span><span class="p">:</span><span class="w"> </span>/etc/sudoers.d/umask<span class="w">
-</span><span class="w">      </span><span class="k">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;0400&#39;</span><span class="w">
-</span><span class="w">      </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="sd">|
-</span><span class="sd">        # This file is managed by Ansible. DO NOT EDIT.</span><span class="w">
-</span><span class="w">
-</span><span class="w">        </span>Defaults<span class="w"> </span>umask_override<span class="w">
-</span><span class="w">        </span>Defaults<span class="w"> </span>umask<span class="w"> </span>=<span class="w"> </span><span class="m">0002</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># 更新系統</span><span class="w">
-</span><span class="w"></span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>upgrade<span class="w"> </span>packages<span class="w">
-</span><span class="w">  </span><span class="k">apt</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">upgrade</span><span class="p">:</span><span class="w"> </span>dist<span class="w">
-</span><span class="w">    </span><span class="k">update_cache</span><span class="p">:</span><span class="w"> </span>yes<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># 安裝常用套件</span><span class="w">
-</span><span class="w"></span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>install<span class="w"> </span>core<span class="w"> </span>packages<span class="w">
-</span><span class="w">  </span><span class="k">apt</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.name }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">state</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.state | default(&#34;present&#34;) }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">purge</span><span class="p">:</span><span class="w"> </span>yes<span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="k">with_items</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>git-core<span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>gufw<span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>htop<span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>p7zip-full<span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>p7zip-rar<span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>screen<span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>tmux<span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>yadm<span class="w">
-</span></code></pre></div><p><code>desktop.yml</code> 則用來放個人桌機常用的設定：</p>
-<div class="highlight"><pre class="chroma"><code class="language-yml" data-lang="yml">---<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># 建立資料夾來放之後的設定檔</span><span class="w">
-</span><span class="w"></span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>mkdir<span class="w"> </span>for<span class="w"> </span>configure<span class="w"> </span>files<span class="w">
-</span><span class="w">  </span><span class="k">file</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">dest</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">owner</span><span class="p">:</span><span class="w"> </span>root<span class="w">
-</span><span class="w">    </span><span class="k">group</span><span class="p">:</span><span class="w"> </span>root<span class="w">
-</span><span class="w">    </span><span class="k">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0755&#34;) }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">state</span><span class="p">:</span><span class="w"> </span>directory<span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="k">with_items</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">dest</span><span class="p">:</span><span class="w"> </span>/usr/share/lightdm/lightdm.conf.d<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># 取消訪客登入</span><span class="w">
-</span><span class="w"></span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>disable<span class="w"> </span>guest<span class="w"> </span>login<span class="w">
-</span><span class="w">  </span><span class="k">copy</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">dest</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">owner</span><span class="p">:</span><span class="w"> </span>root<span class="w">
-</span><span class="w">    </span><span class="k">group</span><span class="p">:</span><span class="w"> </span>root<span class="w">
-</span><span class="w">    </span><span class="k">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0644&#34;) }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.content }}&#39;</span><span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="k">with_items</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">dest</span><span class="p">:</span><span class="w"> </span>/usr/share/lightdm/lightdm.conf.d/<span class="m">50</span>-no-guest.conf<span class="w">
-</span><span class="w">      </span><span class="k">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;0400&#39;</span><span class="w">
-</span><span class="w">      </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="sd">|
-</span><span class="sd">        # This file is managed by Ansible. DO NOT EDIT.</span><span class="w">
-</span><span class="w">
-</span><span class="w">        </span><span class="p">[</span>SeatDefaults<span class="p">]</span><span class="w">
-</span><span class="w">        </span>allow-guest=<span class="kc">false</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># 安裝一些我常用的軟體</span><span class="w">
-</span><span class="w"></span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>install<span class="w"> </span>desktop<span class="w"> </span>apps<span class="w">
-</span><span class="w">  </span><span class="k">apt</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.name }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">state</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.state | default(&#34;present&#34;) }}&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">purge</span><span class="p">:</span><span class="w"> </span>yes<span class="w">
-</span><span class="w">    </span><span class="k">update_cache</span><span class="p">:</span><span class="w"> </span>yes<span class="w">
-</span><span class="w">
-</span><span class="w">  </span><span class="k">with_items</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>ibus-chewing<span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>keepassx<span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>libappindicator1<span class="w"> </span><span class="c"># For Dropbox</span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>python-gpgme<span class="w"> </span><span class="c"># For Dropbox</span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>nautilus-dropbox<span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>workrave<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="c"># 安裝 Google Chrome</span><span class="w">
-</span><span class="w"></span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>install<span class="w"> </span>Google<span class="w"> </span>Chrome<span class="w">
-</span><span class="w">  </span><span class="k">apt</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">deb</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb&#39;</span><span class="w">
-</span><span class="w">    </span><span class="k">update_cache</span><span class="p">:</span><span class="w"> </span>yes<span class="w">
-</span><span class="w">
-</span><span class="w">
-</span><span class="w"></span>最後則是安裝<span class="w"> </span>Anaconda<span class="w"> </span>的部份，我會先安裝<span class="w"> </span>Anaconda<span class="w"> </span><span class="m">2</span>：<span class="w">
-</span><span class="w">
-</span><span class="w">    </span><span class="p">:::</span>yml<span class="w">
-</span><span class="w">    </span>--<span class="sd">-
-</span><span class="sd">
-</span><span class="sd">    - name: download Anaconda</span><span class="w">
-</span><span class="w">      </span><span class="k">get_url</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">url</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh&#39;</span><span class="w">
-</span><span class="w">        </span><span class="k">dest</span><span class="p">:</span><span class="w"> </span>/tmp/Anaconda2<span class="m">-4.3.1</span>-Linux-x86_64.sh<span class="w">
-</span><span class="w">        </span><span class="k">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;0755&#39;</span><span class="w">
-</span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>install<span class="w"> </span>Anaconda<span class="w">
-</span><span class="w">      </span><span class="k">command</span><span class="p">:</span><span class="w"> </span>bash<span class="w"> </span>/tmp/Anaconda2<span class="m">-4.3.1</span>-Linux-x86_64.sh<span class="w"> </span>-b<span class="w"> </span>-p<span class="w"> </span>{{<span class="w"> </span>ansible_env.HOME<span class="w"> </span>}}/anaconda2<span class="w">
-</span><span class="w">      </span><span class="k">args</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">creates</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ ansible_env.HOME}}/anaconda2&#39;</span><span class="w">
-</span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>add<span class="w"> </span>Anaconda<span class="w"> </span>to<span class="w"> </span>PATH<span class="w">
-</span><span class="w">      </span><span class="k">lineinfile</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ ansible_env.HOME }}/.bashrc&#39;</span><span class="w">
-</span><span class="w">        </span><span class="k">line</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;export PATH=$HOME/anaconda2/bin:${PATH}&#39;</span><span class="w">
-</span></code></pre></div><p>然後再進到目的機器額外安裝 Python 3 的環境：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">conda create -n py3 <span class="nv">python</span><span class="o">=</span>3.6 anaconda</span></code></pre></div></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 建立 sudoers.d 資料夾，以放置設定檔</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mkdir for configure files</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">file</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0755&#34;) }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l">directory</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with_items</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/sudoers.d</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 因為我自己的使用者 umask 設的比較嚴格，避免 sudo 受影響所以加上這個把 sudo 的 umask 轉回來</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">set sudo umask</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">copy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0644&#34;) }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.content }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with_items</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/sudoers.d/umask</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;0400&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">        # This file is managed by Ansible. DO NOT EDIT.
+</span></span></span><span class="line"><span class="cl"><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">        Defaults umask_override
+</span></span></span><span class="line"><span class="cl"><span class="sd">        Defaults umask = 0002</span><span class="w">        
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 更新系統</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">upgrade packages</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">apt</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">upgrade</span><span class="p">:</span><span class="w"> </span><span class="l">dist</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">update_cache</span><span class="p">:</span><span class="w"> </span><span class="kc">yes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 安裝常用套件</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">install core packages</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">apt</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.name }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.state | default(&#34;present&#34;) }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">purge</span><span class="p">:</span><span class="w"> </span><span class="kc">yes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with_items</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">git-core</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">gufw</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">htop</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">p7zip-full</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">p7zip-rar</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">screen</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">tmux</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">yadm</span><span class="w">
+</span></span></span></code></pre></div><p><code>desktop.yml</code> 則用來放個人桌機常用的設定：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 建立資料夾來放之後的設定檔</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mkdir for configure files</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">file</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0755&#34;) }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l">directory</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with_items</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/share/lightdm/lightdm.conf.d</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 取消訪客登入</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">disable guest login</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">copy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.dest }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">root</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.mode | default(&#34;0644&#34;) }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.content }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with_items</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/share/lightdm/lightdm.conf.d/50-no-guest.conf</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;0400&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">        # This file is managed by Ansible. DO NOT EDIT.
+</span></span></span><span class="line"><span class="cl"><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">        [SeatDefaults]
+</span></span></span><span class="line"><span class="cl"><span class="sd">        allow-guest=false</span><span class="w">        
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 安裝一些我常用的軟體</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">install desktop apps</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">apt</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.name }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ item.state | default(&#34;present&#34;) }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">purge</span><span class="p">:</span><span class="w"> </span><span class="kc">yes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">update_cache</span><span class="p">:</span><span class="w"> </span><span class="kc">yes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">with_items</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">ibus-chewing</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">keepassx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">libappindicator1</span><span class="w"> </span><span class="c"># For Dropbox</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">python-gpgme</span><span class="w"> </span><span class="c"># For Dropbox</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nautilus-dropbox</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">workrave</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 安裝 Google Chrome</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">install Google Chrome</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">apt</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">deb</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">update_cache</span><span class="p">:</span><span class="w"> </span><span class="kc">yes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">最後則是安裝 Anaconda 的部份，我會先安裝 Anaconda 2：</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">:::</span><span class="l">yml</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>---<span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">download Anaconda</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">get_url</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l">/tmp/Anaconda2-4.3.1-Linux-x86_64.sh</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;0755&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">install Anaconda</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">bash /tmp/Anaconda2-4.3.1-Linux-x86_64.sh -b -p {{ ansible_env.HOME }}/anaconda2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">creates</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ ansible_env.HOME}}/anaconda2&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">add Anaconda to PATH</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">lineinfile</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ ansible_env.HOME }}/.bashrc&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">line</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;export PATH=$HOME/anaconda2/bin:${PATH}&#39;</span><span class="w">
+</span></span></span></code></pre></div><p>然後再進到目的機器額外安裝 Python 3 的環境：</p>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">conda create -n py3 <span class="nv">python</span><span class="o">=</span>3.6 anaconda</span></span></code></pre></div></div>
 
 <p>不過還不確定以上這件事怎麼寫成 Ansible playbook 比較好。</p>
 <h2 id="實際執行">實際執行</h2>
 <p>假設新安裝的電腦是 <code>host1</code> 的話，那我就執行以下指令來安裝設定：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./deploy host1 desktop.yml</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">./deploy host1 desktop.yml</span></span></code></pre></div></div>
 
 <p>當然也可以直接登入該電腦，然後把 <code>host1</code> 改成 <code>localhost</code> 直接在本地執行。</p>
 <h2 id="yadm">yadm</h2>
 <p>至於 yadm 使用起來就<a href="https://thelocehiliosan.github.io/yadm/docs/getting_started">非常簡單</a>了。基本上就是一個可以把家目錄直接當成 git repository 的簡單套件。首先安裝：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install yadm</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo apt install yadm</span></span></code></pre></div></div>
 
 <p>然後剛開始可以直接：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">yadm init
-</span><span class="hl">yadm add ~/.vimrc
-</span><span class="hl">yadm add ~/.tmux.conf
-</span><span class="c1"># ...</span>
-<span class="hl">yadm commit -m <span class="s1">&#39;first commit!&#39;</span></span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">yadm init
+</span></span><span class="line hl"><span class="cl">yadm add ~/.vimrc
+</span></span><span class="line hl"><span class="cl">yadm add ~/.tmux.conf
+</span></span><span class="line"><span class="cl"><span class="c1"># ...</span>
+</span></span><span class="line hl"><span class="cl">yadm commit -m <span class="s1">&#39;first commit!&#39;</span></span></span></code></pre></div></div>
 
 <p>如果要同步已經有的 repository 則是：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">yadm clone &lt;url&gt;
-</span><span class="c1"># ...</span>
-<span class="hl">yadm pull</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">yadm clone &lt;url&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># ...</span>
+</span></span><span class="line hl"><span class="cl">yadm pull</span></span></code></pre></div></div>
 
 <p>跟正常的 git 一模一樣。</p>
 <p>其他比較有用的功能大概是 <a href="https://thelocehiliosan.github.io/yadm/docs/bootstrap">Boostrap</a>，可以取代我原本用 Makefile 手動打指令的部份。</p>
@@ -509,7 +503,7 @@ ansible-playbook --ask-become-pass --extra-vars<span class="o">=</span><span cla
             Shaform
             
               2010 -
-            2020
+            2022
           </small>
           
         </p>

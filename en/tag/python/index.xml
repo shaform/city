@@ -6,11 +6,7 @@
     <description>Recent content in Python on City of Wings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 16 Jul 2018 21:30:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/en/tag/python/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 16 Jul 2018 21:30:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/en/tag/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Generate RSS Feed for All Languages in Hugo</title>
       <link>https://city.shaform.com/en/2018/07/16/generate-rss-feed-for-all-languages-in-hugo/</link>

@@ -6,11 +6,7 @@
     <description>Recent content in Scrapy on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 13 May 2017 16:10:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/scrapy/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 13 May 2017 16:10:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/scrapy/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Scrapy Cloud &#43; Scrapy 網路爬蟲</title>
       <link>https://city.shaform.com/zh/2017/05/13/scrapy-cloud/</link>

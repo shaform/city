@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.101.0" />
   <meta charset="utf-8">
   <title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,21 +21,15 @@
 <meta property="og:title" content="在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04" />
 <meta property="og:description" content="總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2014/06/19/install-w8-ubuntu-with-uefi/" />
-<meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" />
+<meta property="og:url" content="https://city.shaform.com/zh/2014/06/19/install-w8-ubuntu-with-uefi/" /><meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2014-06-19T16:05:00+08:00" />
 <meta property="article:modified_time" content="2014-06-19T16:05:00+08:00" />
+
 <meta itemprop="name" content="在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04">
-<meta itemprop="description" content="總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，">
-<meta itemprop="datePublished" content="2014-06-19T16:05:00+08:00" />
+<meta itemprop="description" content="總是喜歡在自己的電腦上裝 Linux。小時候安裝還很麻煩，要燒光碟。後來研究了從硬碟安裝的方法，可又需要額外的磁區。一直到 USB 隨身碟普及了以後，"><meta itemprop="datePublished" content="2014-06-19T16:05:00+08:00" />
 <meta itemprop="dateModified" content="2014-06-19T16:05:00+08:00" />
-<meta itemprop="wordCount" content="1152">
-<meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
-
-
-
-<meta itemprop="keywords" content="UEFI,Windows 8,Windows 8.1,Ubuntu 14.04," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="wordCount" content="1152"><meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
+<meta itemprop="keywords" content="UEFI,Windows 8,Windows 8.1,Ubuntu 14.04," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg"/>
 
 <meta name="twitter:title" content="在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04"/>
@@ -161,21 +155,21 @@ if (!doNotTrack) {
 <p>雖然習慣使用 Linux，可是有時候還是會遇到要在 Windows 上才能寫的作業，所以每次都把電腦灌成雙系統，也慢慢熟悉了這個過程，一直以來不太有改變。不過最近拿到一台有 <a href="http://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">UEFI</a> 開機的 Lenovo ThinkPad X1 Carbon 筆電，又想在啟用 Secure Boot 的情況下同時裝雙系統，設置上就比較麻煩了。本文就是記載這個過程。</p>
 <h2 id="安裝-windows-8">安裝 Windows 8</h2>
 <p>原本如果是在正常的電腦上安裝 Windows 8，可以透過 <a href="http://www.microsoftstore.com/store/msusa/html/pbPage.Help_Win7_usbdvd_dwnTool">Windows USB/DVD download tool</a> 來製作安裝用隨身碟，但在 UEFI 啟用的情況下就不行了。這時參考<a href="http://social.msdn.microsoft.com/Forums/en-US/e7ed293e-b565-44ee-a536-166dddf32205/how-to-create-windows-8-installation-bootable-usb-for-uefi-samsung-slate">〈How to create Windows 8 installation bootable USB for UEFI〉</a>，首先在 Windows 環境下使用管理員權限執行 cmd.exe，用 diskpart.exe 找出隨身碟的代號：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bat" data-lang="bat">diskpart.exe
-list disk
-</code></pre></div><p>再把隨身碟格式化成 FAT32，並設成可開機。注意，<code>disk 1</code> 的這個 <code>1</code> 要選擇隨身碟代號，否則可能會把其他硬碟的內容給刪除。<code>partition 1</code> 則指的是隨身碟上的第一個 partition：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bat" data-lang="bat">select disk 1
-clean
-create partition primary
-select partition 1
-active
-format quick fs=fat32
-assign
-<span class="k">exit</span>
-</code></pre></div><p>理論上用其他工具格式化隨身碟可能也可以，不過沒有嘗試過。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">diskpart.exe
+</span></span><span class="line"><span class="cl">list disk
+</span></span></code></pre></div><p>再把隨身碟格式化成 FAT32，並設成可開機。注意，<code>disk 1</code> 的這個 <code>1</code> 要選擇隨身碟代號，否則可能會把其他硬碟的內容給刪除。<code>partition 1</code> 則指的是隨身碟上的第一個 partition：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">select disk 1
+</span></span><span class="line"><span class="cl">clean
+</span></span><span class="line"><span class="cl">create partition primary
+</span></span><span class="line"><span class="cl">select partition 1
+</span></span><span class="line"><span class="cl">active
+</span></span><span class="line"><span class="cl">format quick fs=fat32
+</span></span><span class="line"><span class="cl">assign
+</span></span><span class="line"><span class="cl"><span class="k">exit</span>
+</span></span></code></pre></div><p>理論上用其他工具格式化隨身碟可能也可以，不過沒有嘗試過。</p>
 <p>接下來，先 mount Windows 8 的安裝光碟，然後把內容全部拷貝到隨身碟上，比如說如果安裝光碟 mount 在 <code>H:</code>，而隨身碟在 <code>F:</code> 的話：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bat" data-lang="bat">xcopy H:\* F:\ /s /e
-</code></pre></div><p>然後先用 BIOS 停用 UEFI Secure Boot，才能用隨身碟開機。首先開始安裝 Windows 8。參考 <a href="http://www.techrepublic.com/blog/windows-and-office/the-complete-guide-to-a-windows-8-clean-installation/">〈The complete guide to a Windows 8 clean installation〉</a> 進行安裝，但自行設定硬碟磁區大小，空出給 Ubuntu 的空間。此時安裝程式也會自動幫你建立 Recovery, System (Reserved), MSR (EFI 磁區) 等三個磁區，看起來很醜，不過可能有用，就保留吧。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bat" data-lang="bat"><span class="line"><span class="cl">xcopy H:\* F:\ /s /e
+</span></span></code></pre></div><p>然後先用 BIOS 停用 UEFI Secure Boot，才能用隨身碟開機。首先開始安裝 Windows 8。參考 <a href="http://www.techrepublic.com/blog/windows-and-office/the-complete-guide-to-a-windows-8-clean-installation/">〈The complete guide to a Windows 8 clean installation〉</a> 進行安裝，但自行設定硬碟磁區大小，空出給 Ubuntu 的空間。此時安裝程式也會自動幫你建立 Recovery, System (Reserved), MSR (EFI 磁區) 等三個磁區，看起來很醜，不過可能有用，就保留吧。</p>
 <p>裝完後不知為什麼時間設定有錯，而且也無法更新，於是參考<a href="http://www.trishtech.com/2013/03/change-time-servers-in-windows-8/">〈Change Time Servers in Windows 8〉</a>，將 time server 改成台大的 <code>ntp2.ntu.edu.tw</code>。</p>
 <p>最後重開機，在 BIOS 中啟用 UEFI Secure Boot 就大功告成了。</p>
 <h2 id="安裝-windows-81">安裝 Windows 8.1</h2>
@@ -309,7 +303,7 @@ assign
             Shaform
             
               2010 -
-            2020
+            2022
           </small>
           
         </p>

@@ -6,11 +6,7 @@
     <description>Recent content in snappy on City of Wings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Nov 2015 21:20:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/en/tag/snappy/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 06 Nov 2015 21:20:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/en/tag/snappy/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>snappycat: A command line tool to decompress snappy files produced by Hadoop</title>
       <link>https://city.shaform.com/en/2015/11/06/snappycat/</link>

@@ -6,11 +6,7 @@
     <description>Recent content in Posts on City of Wings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/en/posts/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate><atom:link href="https://city.shaform.com/en/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Sort Sequences for PackedSequence in PyTorch</title>
       <link>https://city.shaform.com/en/2019/01/15/sort-sequences-in-pytorch/</link>
@@ -95,7 +91,7 @@ Data Preparation While in the previous post we use custom Chinese corpus for sen
       
       <guid>https://city.shaform.com/en/2014/11/07/google-inbox-like-web-browsing/</guid>
       <description>Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in 〈Single-minded : an Internet reader, made for readers, made by readers〉. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced Inbox, a new way to handle email. And I find that many ideas behind Inbox are also applicable to web browsing as well.
-Tabs as Threads For example, different tabs can be represented as different threads, and for each thread, the history can be easily represented as different &amp;lsquo;email&amp;rsquo; in the same thread.</description>
+Tabs as Threads For example, different tabs can be represented as different threads, and for each thread, the history can be easily represented as different &amp;rsquo;email&amp;rsquo; in the same thread.</description>
     </item>
     
     <item>

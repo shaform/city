@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.101.0" />
   <meta charset="utf-8">
   <title>在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,21 +21,15 @@
 <meta property="og:title" content="在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記" />
 <meta property="og:description" content="這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。 一、HDFS 安裝 JDK 7 sudo apt-get update &amp;&amp; apt-get upgrade # 更新套件庫 sudo apt-get install software-properties-common python-software-properties # 取得 add-apt-repository sudo add-apt-repository ppa:webupd8team/java # 新增有 oracle-java7-installer 的 ppa sudo" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2014/04/13/hbase-on-ubuntu-12.04/" />
-<meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" />
+<meta property="og:url" content="https://city.shaform.com/zh/2014/04/13/hbase-on-ubuntu-12.04/" /><meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2014-04-13T15:56:00+08:00" />
 <meta property="article:modified_time" content="2014-04-13T15:56:00+08:00" />
+
 <meta itemprop="name" content="在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記">
-<meta itemprop="description" content="這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。 一、HDFS 安裝 JDK 7 sudo apt-get update &amp;&amp; apt-get upgrade # 更新套件庫 sudo apt-get install software-properties-common python-software-properties # 取得 add-apt-repository sudo add-apt-repository ppa:webupd8team/java # 新增有 oracle-java7-installer 的 ppa sudo">
-<meta itemprop="datePublished" content="2014-04-13T15:56:00+08:00" />
+<meta itemprop="description" content="這篇是假設 master, slave-1, slave-2 的 domain name/ip 分別為： master-dn, slave-1-dn, slave-2-dn。 一、HDFS 安裝 JDK 7 sudo apt-get update &amp;&amp; apt-get upgrade # 更新套件庫 sudo apt-get install software-properties-common python-software-properties # 取得 add-apt-repository sudo add-apt-repository ppa:webupd8team/java # 新增有 oracle-java7-installer 的 ppa sudo"><meta itemprop="datePublished" content="2014-04-13T15:56:00+08:00" />
 <meta itemprop="dateModified" content="2014-04-13T15:56:00+08:00" />
-<meta itemprop="wordCount" content="548">
-<meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
-
-
-
-<meta itemprop="keywords" content="Hadoop,HBase,HDFS,Ubuntu," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="wordCount" content="548"><meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
+<meta itemprop="keywords" content="Hadoop,HBase,HDFS,Ubuntu," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg"/>
 
 <meta name="twitter:title" content="在 Ubuntu 12.04 安裝 HDFS 及 HBase 筆記"/>
@@ -162,29 +156,29 @@ if (!doNotTrack) {
 <ol>
 <li>
 <p>安裝 JDK 7</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade <span class="c1"># 更新套件庫</span>
-</span><span class="hl">sudo apt-get install software-properties-common python-software-properties  <span class="c1"># 取得 add-apt-repository</span>
-</span><span class="hl">sudo add-apt-repository ppa:webupd8team/java  <span class="c1"># 新增有 oracle-java7-installer 的 ppa</span>
-</span><span class="hl">sudo apt-get update
-</span><span class="hl">sudo apt-get install oracle-java7-installer</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade <span class="c1"># 更新套件庫</span>
+</span></span><span class="line hl"><span class="cl">sudo apt-get install software-properties-common python-software-properties  <span class="c1"># 取得 add-apt-repository</span>
+</span></span><span class="line hl"><span class="cl">sudo add-apt-repository ppa:webupd8team/java  <span class="c1"># 新增有 oracle-java7-installer 的 ppa</span>
+</span></span><span class="line hl"><span class="cl">sudo apt-get update
+</span></span><span class="line hl"><span class="cl">sudo apt-get install oracle-java7-installer</span></span></code></pre></div></div>
 
 </li>
 <li>
 <p>設定 SSH</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ssh-keygen -b <span class="m">2048</span> -t rsa:q  <span class="c1"># 產生 RSA key pair</span>
-</span><span class="hl">cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  <span class="c1"># 讓自己可以不用密碼登入自己</span></span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">ssh-keygen -b <span class="m">2048</span> -t rsa:q  <span class="c1"># 產生 RSA key pair</span>
+</span></span><span class="line hl"><span class="cl">cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys  <span class="c1"># 讓自己可以不用密碼登入自己</span></span></span></code></pre></div></div>
 
 <p>在 NameNode 上：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-1-dn  <span class="c1"># 讓 NameNode 可不用密碼登入 DataNode</span>
-</span><span class="hl">ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-2-dn  <span class="c1"># 讓 NameNode 可不用密碼登入 DataNode</span></span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-1-dn  <span class="c1"># 讓 NameNode 可不用密碼登入 DataNode</span>
+</span></span><span class="line hl"><span class="cl">ssh-copy-id -i <span class="nv">$HOME</span>/.ssh/id_rsa.pub user@slave-2-dn  <span class="c1"># 讓 NameNode 可不用密碼登入 DataNode</span></span></span></code></pre></div></div>
 
 </li>
 <li>
 <p>安裝 Hadoop</p>
 <p>先在 $HOME/.bashrc 加上 <code>export PATH=$PATH:$HOME/hadoop-1.2.1/bin</code>，然後進入家目錄：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">wget http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz
-</span><span class="hl">tar -xvf hadoop-1.2.1-bin.tar.gz
-</span><span class="hl"><span class="nb">cd</span> hadoop-1.2.1/conf</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">wget http://ftp.tc.edu.tw/pub/Apache/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz
+</span></span><span class="line hl"><span class="cl">tar -xvf hadoop-1.2.1-bin.tar.gz
+</span></span><span class="line hl"><span class="cl"><span class="nb">cd</span> hadoop-1.2.1/conf</span></span></code></pre></div></div>
 
 <p>修改 hadoop-env.sh 加上 <code>export JAVA_HOME=/usr/lib/jvm/java-7-oracle</code>。</p>
 </li>
@@ -194,88 +188,88 @@ if (!doNotTrack) {
 <ul>
 <li>
 <p>core-site.xml</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
-<span class="nt">&lt;name&gt;</span>fs.default.name<span class="nt">&lt;/name&gt;</span>
-<span class="nt">&lt;value&gt;</span>hdfs://master-dn:54310<span class="nt">&lt;/value&gt;</span>
-<span class="nt">&lt;/property&gt;</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;property&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;name&gt;</span>fs.default.name<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;value&gt;</span>hdfs://master-dn:54310<span class="nt">&lt;/value&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/property&gt;</span>
+</span></span></code></pre></div></li>
 <li>
 <p>mapred-site.xml</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
-<span class="nt">&lt;name&gt;</span>mapred.job.tracker<span class="nt">&lt;/name&gt;</span>
-<span class="nt">&lt;value&gt;</span>master-dn:54311<span class="nt">&lt;/value&gt;</span>
-<span class="nt">&lt;/property&gt;</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;property&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;name&gt;</span>mapred.job.tracker<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;value&gt;</span>master-dn:54311<span class="nt">&lt;/value&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/property&gt;</span>
+</span></span></code></pre></div></li>
 <li>
 <p>hdfs-site.xml</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
-<span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
-<span class="nt">&lt;value&gt;</span>3<span class="nt">&lt;/value&gt;</span>
-<span class="nt">&lt;/property&gt;</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;property&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;value&gt;</span>3<span class="nt">&lt;/value&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/property&gt;</span>
+</span></span></code></pre></div></li>
 </ul>
 <p>然後在 NameNode 上修改將以下檔案修改成如下內容：</p>
 <ul>
 <li>
 <p>masters</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">master-dn
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">master-dn
+</span></span></code></pre></div></li>
 <li>
 <p>slaves</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">master-dn
-slave-1-dn
-slave-2-dn
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">master-dn
+</span></span><span class="line"><span class="cl">slave-1-dn
+</span></span><span class="line"><span class="cl">slave-2-dn
+</span></span></code></pre></div></li>
 </ul>
 </li>
 <li>
 <p>開啟伺服器
 最後在 NameNode 上執行以下指令將 cluster 啟動（可能需要重新登入讓 PATH 設定生效）：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">hadoop namenode -format  <span class="c1"># 格式化檔案系統</span>
-</span><span class="hl">start-all.sh  <span class="c1"># 啟動所有服務（包含 HDFS）</span></span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">hadoop namenode -format  <span class="c1"># 格式化檔案系統</span>
+</span></span><span class="line hl"><span class="cl">start-all.sh  <span class="c1"># 啟動所有服務（包含 HDFS）</span></span></span></code></pre></div></div>
 
 </li>
 </ol>
 <h2 id="二hbase">二、HBase</h2>
 <p>首先進入每台的家目錄，下載並解壓縮 HBase：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">wget http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.94.14.tar.gz
-</span><span class="hl">tar -xvf hbase-0.94.14.tar.gz</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">wget http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.94.14.tar.gz
+</span></span><span class="line hl"><span class="cl">tar -xvf hbase-0.94.14.tar.gz</span></span></code></pre></div></div>
 
 <p>編輯 hbase-0.94.14/conf/hbase-env.sh，新增數行：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/java-7-oracle
-<span class="nb">export</span> <span class="nv">HADOOP_CONF_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/hadoop-1.2.1/conf
-<span class="nb">export</span> <span class="nv">HBASE_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/hbase-0.94.14
-<span class="nb">export</span> <span class="nv">HBASE_LOG_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/logs/hbase-logs
-<span class="nb">export</span> <span class="nv">HBASE_PID_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/logs/hbase-pids
-<span class="nb">export</span> <span class="nv">HBASE_CLASSPATH</span><span class="o">=</span><span class="nv">$HBASE_CLASSPATH</span>:<span class="nv">$HOME</span>/hadoop-1.2.1/conf
-<span class="nb">export</span> <span class="nv">HBASE_MANAGES_ZK</span><span class="o">=</span><span class="nb">true</span>
-</code></pre></div><p>編輯 hbase-0.94.14/conf/hbase-site.xml，在<!-- raw HTML omitted -->內新增如下內容：</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property&gt;</span>
-    <span class="nt">&lt;name&gt;</span>hbase.rootdir<span class="nt">&lt;/name&gt;</span>
-    <span class="nt">&lt;value&gt;</span>hdfs://master-dn:54310/hbase<span class="nt">&lt;/value&gt;</span>
-<span class="nt">&lt;/property&gt;</span>
-<span class="nt">&lt;property&gt;</span>
-    <span class="nt">&lt;name&gt;</span>hbase.tmp.dir<span class="nt">&lt;/name&gt;</span> 
-    <span class="nt">&lt;value&gt;</span>/home/hbase-${user.name}<span class="nt">&lt;/value&gt;</span>
-<span class="nt">&lt;/property&gt;</span>
-<span class="nt">&lt;property&gt;</span>
-    <span class="nt">&lt;name&gt;</span>hbase.cluster.distributed<span class="nt">&lt;/name&gt;</span>
-    <span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
-<span class="nt">&lt;/property&gt;</span>       
-<span class="nt">&lt;property&gt;</span> 
-    <span class="nt">&lt;name&gt;</span>hbase.zookeeper.quorum<span class="nt">&lt;/name&gt;</span>
-    <span class="nt">&lt;value&gt;</span>master-dn,slave-1-dn,slave-2-dn<span class="nt">&lt;/value&gt;</span>
-<span class="nt">&lt;/property&gt;</span>
-<span class="nt">&lt;property&gt;</span>
-    <span class="nt">&lt;name&gt;</span>hbase.zookeeper.property.dataDir<span class="nt">&lt;/name&gt;</span>
-    <span class="nt">&lt;value&gt;</span>/home/hbase-data<span class="nt">&lt;/value&gt;</span> 
-<span class="nt">&lt;/property&gt;</span>
-</code></pre></div><p>然後編輯 hbase-0.94.14/conf/regionservers 將內容改為如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">master-dn
-slave-1-dn
-slave-2-dn
-</code></pre></div><p>最後就可以在 master 執行 HBase 了：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./hbase-0.94.14/bin/start-hbase.sh</span></code></pre></div></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/java-7-oracle
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HADOOP_CONF_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/hadoop-1.2.1/conf
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HBASE_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/hbase-0.94.14
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HBASE_LOG_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/logs/hbase-logs
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HBASE_PID_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/logs/hbase-pids
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HBASE_CLASSPATH</span><span class="o">=</span><span class="nv">$HBASE_CLASSPATH</span>:<span class="nv">$HOME</span>/hadoop-1.2.1/conf
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HBASE_MANAGES_ZK</span><span class="o">=</span><span class="nb">true</span>
+</span></span></code></pre></div><p>編輯 hbase-0.94.14/conf/hbase-site.xml，在<!-- raw HTML omitted -->內新增如下內容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;property&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>hbase.rootdir<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;value&gt;</span>hdfs://master-dn:54310/hbase<span class="nt">&lt;/value&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/property&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;property&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>hbase.tmp.dir<span class="nt">&lt;/name&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;value&gt;</span>/home/hbase-${user.name}<span class="nt">&lt;/value&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/property&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;property&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>hbase.cluster.distributed<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/property&gt;</span>       
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;property&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>hbase.zookeeper.quorum<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;value&gt;</span>master-dn,slave-1-dn,slave-2-dn<span class="nt">&lt;/value&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/property&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;property&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>hbase.zookeeper.property.dataDir<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;value&gt;</span>/home/hbase-data<span class="nt">&lt;/value&gt;</span> 
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/property&gt;</span>
+</span></span></code></pre></div><p>然後編輯 hbase-0.94.14/conf/regionservers 將內容改為如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">master-dn
+</span></span><span class="line"><span class="cl">slave-1-dn
+</span></span><span class="line"><span class="cl">slave-2-dn
+</span></span></code></pre></div><p>最後就可以在 master 執行 HBase 了：</p>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">./hbase-0.94.14/bin/start-hbase.sh</span></span></code></pre></div></div>
 
 
 <link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" />
@@ -400,7 +394,7 @@ slave-2-dn
             Shaform
             
               2010 -
-            2020
+            2022
           </small>
           
         </p>

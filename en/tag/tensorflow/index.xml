@@ -6,11 +6,7 @@
     <description>Recent content in TensorFlow on City of Wings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 23 Oct 2017 21:30:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/en/tag/tensorflow/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 23 Oct 2017 21:30:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/en/tag/tensorflow/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Install TensorFlow and Caffe on Ubuntu 16.04 with Anaconda</title>
       <link>https://city.shaform.com/en/2017/10/23/install-tensorflow-and-caffe-on-ubuntu/</link>

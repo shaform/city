@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.101.0" />
   <meta charset="utf-8">
   <title>用 TensorBox 製作簡易貓貓辨識器 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,21 +21,15 @@
 <meta property="og:title" content="用 TensorBox 製作簡易貓貓辨識器" />
 <meta property="og:description" content="最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2016/11/05/detect-cats-with-tensorbox/" />
-<meta property="og:image" content="https://city.shaform.com/images/cat-detector.png" />
+<meta property="og:url" content="https://city.shaform.com/zh/2016/11/05/detect-cats-with-tensorbox/" /><meta property="og:image" content="https://city.shaform.com/images/cat-detector.png" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2016-11-05T13:40:00+08:00" />
 <meta property="article:modified_time" content="2016-11-05T13:40:00+08:00" />
+
 <meta itemprop="name" content="用 TensorBox 製作簡易貓貓辨識器">
-<meta itemprop="description" content="最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番">
-<meta itemprop="datePublished" content="2016-11-05T13:40:00+08:00" />
+<meta itemprop="description" content="最近恰好有個需求是要收集大量特定物體的圖片，直覺的想法就是訓練一個該物體的偵測器，然後再用這個偵測器從大量圖片中找出符合需求的區塊。經過一番"><meta itemprop="datePublished" content="2016-11-05T13:40:00+08:00" />
 <meta itemprop="dateModified" content="2016-11-05T13:40:00+08:00" />
-<meta itemprop="wordCount" content="1566">
-<meta itemprop="image" content="https://city.shaform.com/images/cat-detector.png">
-
-
-
-<meta itemprop="keywords" content="TensorBox,TensorFlow,object detection,cats," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="wordCount" content="1566"><meta itemprop="image" content="https://city.shaform.com/images/cat-detector.png">
+<meta itemprop="keywords" content="TensorBox,TensorFlow,object detection,cats," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/cat-detector.png"/>
 
 <meta name="twitter:title" content="用 TensorBox 製作簡易貓貓辨識器"/>
@@ -185,118 +179,118 @@ if (!doNotTrack) {
 <p>首先我們使用 <a href="https://github.com/maxogden/cats">maxogden/cats</a> 收集好的小規模貓貓照片來進行實驗，我們將利用 <code>catmapper</code> 資料夾中的照片做為訓練資料，最後再用 <code>cat_photos</code> 裡的照片來觀看結果。</p>
 <p>值得注意的是，這樣的訓練資料只有大約三百多筆，而且每張照片裡幾乎都有貓。實際上若是真的要訓練高品質的偵測器，應當收集更多的訓練資料，而且應該要加入一些沒有貓，或者有跟貓很像但不是貓的物體，來加強模型的能力。不過本文純屬示範工具用法，未免麻煩就不做深入探討了。</p>
 <p>由於 TensorBox 比較支援圖片大小為 32 倍數的照片，不符時須縮放或擷取。為了方便起見我就先把圖片都轉成適當大小。首先安裝 <a href="https://python-pillow.org/">Pillow</a> 套件：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pip3 install Pillow</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">pip3 install Pillow</span></span></code></pre></div></div>
 
 <p>緊接著寫一個程式可以將圖片裁成指定大小 608x608，然後轉成 png 檔案格式儲存：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
-
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-
-<span class="n">image_extensions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;jpeg&#39;</span><span class="p">}</span>
-
-
-<span class="k">def</span> <span class="nf">crop_center</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
-
-    <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
-
-    <span class="n">y1</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">y2</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
-
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
-    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">None</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">indir</span><span class="p">):</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">image_extensions</span><span class="p">:</span>
-            <span class="n">name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">parts</span>
-            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">fname</span><span class="p">))</span>
-
-            <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">width</span> <span class="ow">and</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">height</span><span class="p">:</span>
-                <span class="n">img</span> <span class="o">=</span> <span class="n">crop_center</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">img</span><span class="p">:</span>
-                    <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">))</span>
-</code></pre></div><p>並且將訓練和測試資料進行處理：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">mkdir data/train data/test
-</span><span class="hl">python3 crop.py --indir cats/catmapper --outdir data/train
-</span><span class="hl">python3 crop.py --indir cats/cat_photos --outdir data/test</span></code></pre></div></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">image_extensions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;jpeg&#39;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">crop_center</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">y1</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y2</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">indir</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">parts</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">image_extensions</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">parts</span>
+</span></span><span class="line"><span class="cl">            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">fname</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">width</span> <span class="ow">and</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">height</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">img</span> <span class="o">=</span> <span class="n">crop_center</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">img</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">))</span>
+</span></span></code></pre></div><p>並且將訓練和測試資料進行處理：</p>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">mkdir data/train data/test
+</span></span><span class="line hl"><span class="cl">python3 crop.py --indir cats/catmapper --outdir data/train
+</span></span><span class="line hl"><span class="cl">python3 crop.py --indir cats/cat_photos --outdir data/test</span></span></code></pre></div></div>
 
 <h2 id="標記貓貓">標記貓貓</h2>
 <p>緊接著，我們使用 <a href="https://github.com/tzutalin/labelImg">labelImg</a> 來針對訓練資料 <code>cats/catmapper</code> 做標記，並將標記存放在 <code>labels</code> 資料夾裡。</p>
 <p>注意到 labelImg 只支援 Python 2，同時要先按照官方安裝步驟進行初始化：</p>
-<p><div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">cd</span> labelImg
-</span><span class="hl">sudo apt-get install pyqt4-dev-tools
-</span><span class="hl">sudo pip install lxml
-</span><span class="hl">make all</span></code></pre></div></div>
+<p><div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl"><span class="nb">cd</span> labelImg
+</span></span><span class="line hl"><span class="cl">sudo apt-get install pyqt4-dev-tools
+</span></span><span class="line hl"><span class="cl">sudo pip install lxml
+</span></span><span class="line hl"><span class="cl">make all</span></span></code></pre></div></div>
 ./labelImg.py</p>
 <p>可以利用 <code>Ctrl-N</code>, <code>N</code>, <code>P</code> 等快速鍵，建立框框來標記貓咪，以及切換上一張、下一張照片。</p>
 <p>緊接著，撰寫一個程式將標記好的資料轉成 TensorBox 能夠讀取的格式：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
-    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">indir</span><span class="p">)</span>
-
-    <span class="n">entries</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">indir</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.xml&#39;</span><span class="p">):</span>
-            <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
-            <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
-
-            <span class="n">img_path</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">)</span>
-            <span class="n">rects</span> <span class="o">=</span> <span class="p">[]</span>
-
-            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">):</span>
-                <span class="n">x1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;bndbox&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s1">&#39;xmin&#39;</span><span class="p">))</span>
-                <span class="n">y1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;bndbox&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s1">&#39;ymin&#39;</span><span class="p">))</span>
-                <span class="n">x2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;bndbox&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s1">&#39;xmax&#39;</span><span class="p">))</span>
-                <span class="n">y2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;bndbox&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s1">&#39;ymax&#39;</span><span class="p">))</span>
-
-                <span class="n">rects</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;x1&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">:</span> <span class="n">x2</span><span class="p">,</span> <span class="s1">&#39;y1&#39;</span><span class="p">:</span> <span class="n">y1</span><span class="p">,</span> <span class="s1">&#39;y2&#39;</span><span class="p">:</span> <span class="n">y2</span><span class="p">})</span>
-
-            <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;image_path&#39;</span><span class="p">:</span> <span class="n">img_path</span><span class="p">,</span> <span class="s1">&#39;rects&#39;</span><span class="p">:</span> <span class="n">rects</span><span class="p">}</span>
-            <span class="n">entries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
-
-    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span>
-
-    <span class="n">train_offset</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">)</span>
-
-    <span class="n">train</span> <span class="o">=</span> <span class="n">entries</span><span class="p">[:</span><span class="n">train_offset</span><span class="p">]</span>
-    <span class="n">val</span> <span class="o">=</span> <span class="n">entries</span><span class="p">[</span><span class="n">train_offset</span><span class="p">:]</span>
-
-    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">train</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)]</span>
-
-    <span class="k">for</span> <span class="n">prefix_name</span><span class="p">,</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="s1">&#39;{}_{}_boxes.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">name</span><span class="p">,</span> <span class="n">prefix_name</span><span class="p">)),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;: &#39;</span><span class="p">))</span>
-</code></pre></div><p>將標記轉換到 <code>data</code> 資料夾之下：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">python3 extract_label.py --indir labels --outdir data</span></code></pre></div></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">indir</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">entries</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">indir</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.xml&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">img_path</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rects</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="n">x1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;bndbox&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s1">&#39;xmin&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="n">y1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;bndbox&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s1">&#39;ymin&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="n">x2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;bndbox&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s1">&#39;xmax&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="n">y2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;bndbox&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findtext</span><span class="p">(</span><span class="s1">&#39;ymax&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="n">rects</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;x1&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">:</span> <span class="n">x2</span><span class="p">,</span> <span class="s1">&#39;y1&#39;</span><span class="p">:</span> <span class="n">y1</span><span class="p">,</span> <span class="s1">&#39;y2&#39;</span><span class="p">:</span> <span class="n">y2</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;image_path&#39;</span><span class="p">:</span> <span class="n">img_path</span><span class="p">,</span> <span class="s1">&#39;rects&#39;</span><span class="p">:</span> <span class="n">rects</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">entries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">train_offset</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">train</span> <span class="o">=</span> <span class="n">entries</span><span class="p">[:</span><span class="n">train_offset</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">val</span> <span class="o">=</span> <span class="n">entries</span><span class="p">[</span><span class="n">train_offset</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">train</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">prefix_name</span><span class="p">,</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">datasets</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">_boxes.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">name</span><span class="p">,</span> <span class="n">prefix_name</span><span class="p">)),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;: &#39;</span><span class="p">))</span>
+</span></span></code></pre></div><p>將標記轉換到 <code>data</code> 資料夾之下：</p>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">python3 extract_label.py --indir labels --outdir data</span></span></code></pre></div></div>
 
 <h2 id="安裝-tensorbox-並進行訓練">安裝 TensorBox 並進行訓練</h2>
 <p>TensorBox 似乎是只支援 Python 2，所以首先設定好 TensorFlow 的 Python 2 版本。接著還要安裝一些相依套件（因為 OpenCV 似乎比較難設定，所以我安裝系統套件）：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt install python-opencv
-</span><span class="hl">pip install Cython numpy scikit-image jupyter</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo apt install python-opencv
+</span></span><span class="line hl"><span class="cl">pip install Cython numpy scikit-image jupyter</span></span></code></pre></div></div>
 
 <p>接下來下載 TensorBox：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">git clone http://github.com/russell91/Tensorbox
-</span><span class="hl"><span class="nb">cd</span> Tensorbox
-</span><span class="hl">./download_data.sh
-</span><span class="hl"><span class="nb">cd</span> utils <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ..</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">git clone http://github.com/russell91/Tensorbox
+</span></span><span class="line hl"><span class="cl"><span class="nb">cd</span> Tensorbox
+</span></span><span class="line hl"><span class="cl">./download_data.sh
+</span></span><span class="line hl"><span class="cl"><span class="nb">cd</span> utils <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ..</span></span></code></pre></div></div>
 
 <p>緊接著修改 <code>TensorBox/hypes/overfeat_rezoom.json</code> 對應的項目：</p>
 <p>注意到，<code>train_idl</code> 和 <code>test_idl</code> 須使用絕對路徑。</p>
@@ -308,82 +302,82 @@ if (!doNotTrack) {
 &quot;grid_width&quot;: 19,
 </code></pre>
 <p>最後就是實際進行訓練了！這個會跑很久，並且把訓練的不同階段的模型存在 <code>TensorBox/output/overfeat_rezoom_{DATETIME}/save.ckpt-{iteration}</code>。由於訓練資料實在很少，所以不須訓練到太後面，可以拿前面的版本就好。</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl"><span class="nb">cd</span> TensorBox
-</span><span class="hl">python train.py --hypes hypes/overfeat_rezoom.json --gpu <span class="m">0</span> --logdir output</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl"><span class="nb">cd</span> TensorBox
+</span></span><span class="line hl"><span class="cl">python train.py --hypes hypes/overfeat_rezoom.json --gpu <span class="m">0</span> --logdir output</span></span></code></pre></div></div>
 
 <h2 id="測試結果">測試結果</h2>
 <p>最後就用 <a href="http://jupyter.readthedocs.io/en/latest/index.html">Jupyter Notebook</a> 來檢視我們的結果，先把之前提到的 <code>save.ckpt-10000</code> 以及 <code>save.ckpt-10000.meta</code> 存到 project 根目錄。然後在根目錄用跟 TensorBox 一樣的 Python 2 環境執行：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">jupyter notebook</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">jupyter notebook</span></span></code></pre></div></div>
 
 <p>進行初始化：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">random</span>
-
-<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-
-<span class="kn">from</span> <span class="nn">scipy.misc</span> <span class="kn">import</span> <span class="n">imread</span>
-</code></pre></div><p>方便起見將 TensorBox 直接加到路徑，平時請勿模仿：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;./TensorBox&#39;</span><span class="p">)</span>
-
-<span class="kn">from</span> <span class="nn">train</span> <span class="kn">import</span> <span class="n">build_forward</span>
-<span class="kn">from</span> <span class="nn">evaluate</span> <span class="kn">import</span> <span class="n">add_rectangles</span>
-</code></pre></div><p>最後照抄 TensorBox 的示範程式碼，更改一些檔案路徑：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model_path</span> <span class="o">=</span> <span class="s1">&#39;./save.ckpt-10000&#39;</span>
-<span class="n">image_dir</span> <span class="o">=</span> <span class="s1">&#39;./data/test&#39;</span>
-<span class="n">hypes_file</span> <span class="o">=</span> <span class="s1">&#39;./TensorBox/hypes/overfeat_rezoom.json&#39;</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">hypes_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">H</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-
-<span class="n">tf</span><span class="o">.</span><span class="n">reset_default_graph</span><span class="p">()</span>
-<span class="n">x_in</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;x_in&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">H</span><span class="p">[</span><span class="s1">&#39;image_height&#39;</span><span class="p">],</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;image_width&#39;</span><span class="p">],</span> <span class="mi">3</span><span class="p">])</span>
-
-<span class="k">if</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;use_rezoom&#39;</span><span class="p">]:</span>
-    <span class="n">pred_boxes</span><span class="p">,</span> <span class="n">pred_logits</span><span class="p">,</span> <span class="n">pred_confidences</span><span class="p">,</span> <span class="n">pred_confs_deltas</span><span class="p">,</span> <span class="n">pred_boxes_deltas</span> <span class="o">=</span> <span class="n">build_forward</span><span class="p">(</span>
-        <span class="n">H</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x_in</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
-    <span class="n">grid_area</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;grid_height&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;grid_width&#39;</span><span class="p">]</span>
-    <span class="n">pred_confidences</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
-        <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span>
-            <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">pred_confs_deltas</span><span class="p">,</span> <span class="p">[</span><span class="n">grid_area</span> <span class="o">*</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;rnn_len&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">])),</span>
-        <span class="p">[</span><span class="n">grid_area</span><span class="p">,</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;rnn_len&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;reregress&#39;</span><span class="p">]:</span>
-        <span class="n">pred_boxes</span> <span class="o">=</span> <span class="n">pred_boxes</span> <span class="o">+</span> <span class="n">pred_boxes_deltas</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">pred_boxes</span><span class="p">,</span> <span class="n">pred_logits</span><span class="p">,</span> <span class="n">pred_confidences</span> <span class="o">=</span> <span class="n">build_forward</span><span class="p">(</span>
-        <span class="n">H</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x_in</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
-
-<span class="n">saver</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Saver</span><span class="p">()</span>
-<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
-    <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">initialize_all_variables</span><span class="p">())</span>
-    <span class="n">saver</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="n">model_path</span><span class="p">)</span>
-
-    <span class="n">images</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">image_dir</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">image_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-        <span class="n">feed</span> <span class="o">=</span> <span class="p">{</span><span class="n">x_in</span><span class="p">:</span> <span class="n">img</span><span class="p">}</span>
-        <span class="p">(</span><span class="n">np_pred_boxes</span><span class="p">,</span> <span class="n">np_pred_confidences</span><span class="p">)</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">pred_boxes</span><span class="p">,</span> <span class="n">pred_confidences</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed</span><span class="p">)</span>
-        <span class="n">new_img</span><span class="p">,</span> <span class="n">rects</span> <span class="o">=</span> <span class="n">add_rectangles</span><span class="p">(</span>
-            <span class="n">H</span><span class="p">,</span> <span class="p">[</span><span class="n">img</span><span class="p">],</span>
-            <span class="n">np_pred_confidences</span><span class="p">,</span>
-            <span class="n">np_pred_boxes</span><span class="p">,</span>
-            <span class="n">use_stitching</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">rnn_len</span><span class="o">=</span><span class="n">H</span><span class="p">[</span><span class="s1">&#39;rnn_len&#39;</span><span class="p">],</span>
-            <span class="n">min_conf</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-            <span class="n">show_suppressed</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">new_img</span><span class="p">)</span>
-</code></pre></div><p>就可以<a href="https://nbviewer.jupyter.org/github/shaform/experiments/blob/master/cat/Detect%20Cats.ipynb">在 Notebook 上看到成果</a>了！！！</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">scipy.misc</span> <span class="kn">import</span> <span class="n">imread</span>
+</span></span></code></pre></div><p>方便起見將 TensorBox 直接加到路徑，平時請勿模仿：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl"><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;./TensorBox&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">train</span> <span class="kn">import</span> <span class="n">build_forward</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">evaluate</span> <span class="kn">import</span> <span class="n">add_rectangles</span>
+</span></span></code></pre></div><p>最後照抄 TensorBox 的示範程式碼，更改一些檔案路徑：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">model_path</span> <span class="o">=</span> <span class="s1">&#39;./save.ckpt-10000&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">image_dir</span> <span class="o">=</span> <span class="s1">&#39;./data/test&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">hypes_file</span> <span class="o">=</span> <span class="s1">&#39;./TensorBox/hypes/overfeat_rezoom.json&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">hypes_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">H</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">tf</span><span class="o">.</span><span class="n">reset_default_graph</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">x_in</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;x_in&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">H</span><span class="p">[</span><span class="s1">&#39;image_height&#39;</span><span class="p">],</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;image_width&#39;</span><span class="p">],</span> <span class="mi">3</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;use_rezoom&#39;</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pred_boxes</span><span class="p">,</span> <span class="n">pred_logits</span><span class="p">,</span> <span class="n">pred_confidences</span><span class="p">,</span> <span class="n">pred_confs_deltas</span><span class="p">,</span> <span class="n">pred_boxes_deltas</span> <span class="o">=</span> <span class="n">build_forward</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">H</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x_in</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">grid_area</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;grid_height&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;grid_width&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pred_confidences</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">pred_confs_deltas</span><span class="p">,</span> <span class="p">[</span><span class="n">grid_area</span> <span class="o">*</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;rnn_len&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">])),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="n">grid_area</span><span class="p">,</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;rnn_len&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">H</span><span class="p">[</span><span class="s1">&#39;reregress&#39;</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pred_boxes</span> <span class="o">=</span> <span class="n">pred_boxes</span> <span class="o">+</span> <span class="n">pred_boxes_deltas</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pred_boxes</span><span class="p">,</span> <span class="n">pred_logits</span><span class="p">,</span> <span class="n">pred_confidences</span> <span class="o">=</span> <span class="n">build_forward</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">H</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x_in</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">saver</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Saver</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">initialize_all_variables</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saver</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="n">model_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">images</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">image_dir</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fname</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">image_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">img</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">feed</span> <span class="o">=</span> <span class="p">{</span><span class="n">x_in</span><span class="p">:</span> <span class="n">img</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="n">np_pred_boxes</span><span class="p">,</span> <span class="n">np_pred_confidences</span><span class="p">)</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="p">[</span><span class="n">pred_boxes</span><span class="p">,</span> <span class="n">pred_confidences</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">new_img</span><span class="p">,</span> <span class="n">rects</span> <span class="o">=</span> <span class="n">add_rectangles</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">H</span><span class="p">,</span> <span class="p">[</span><span class="n">img</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="n">np_pred_confidences</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">np_pred_boxes</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">use_stitching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rnn_len</span><span class="o">=</span><span class="n">H</span><span class="p">[</span><span class="s1">&#39;rnn_len&#39;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="n">min_conf</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">show_suppressed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">new_img</span><span class="p">)</span>
+</span></span></code></pre></div><p>就可以<a href="https://nbviewer.jupyter.org/github/shaform/experiments/blob/master/cat/Detect%20Cats.ipynb">在 Notebook 上看到成果</a>了！！！</p>
 <p>以下分別展示一張成功和一張失敗的照片，如果增加更多訓練資料或者使用更容易辨認的物體，效果應該可以更好才是。</p>
 <p><img src="/images/cat-success.png" alt="Detect a Cat Successfully">
 <img src="/images/cat-failure.png" alt="Failed to Detect a Cat"></p>
@@ -499,7 +493,7 @@ if (!doNotTrack) {
             Shaform
             
               2010 -
-            2020
+            2022
           </small>
           
         </p>

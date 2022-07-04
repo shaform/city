@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.101.0" />
   <meta charset="utf-8">
   <title>在 PyTorch 中重新排序資料來使用 PackedSequence · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,21 +22,15 @@
 <meta property="og:title" content="在 PyTorch 中重新排序資料來使用 PackedSequence" />
 <meta property="og:description" content="前言 使用 PyTorch 的 PackedSequence 雖然可以較快速的處理長短不一的序列資料，但是用起來有個不方便的地方。就是同一個 batch 裡的資料，長度必須由長到短排列。但是如果是在做" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2019/01/15/sort-sequences-in-pytorch/" />
-<meta property="og:image" content="https://city.shaform.com/images/2019/geese.jpg" />
+<meta property="og:url" content="https://city.shaform.com/zh/2019/01/15/sort-sequences-in-pytorch/" /><meta property="og:image" content="https://city.shaform.com/images/2019/geese.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2019-01-15T18:10:00-05:00" />
 <meta property="article:modified_time" content="2019-01-15T18:10:00-05:00" />
+
 <meta itemprop="name" content="在 PyTorch 中重新排序資料來使用 PackedSequence">
-<meta itemprop="description" content="前言 使用 PyTorch 的 PackedSequence 雖然可以較快速的處理長短不一的序列資料，但是用起來有個不方便的地方。就是同一個 batch 裡的資料，長度必須由長到短排列。但是如果是在做">
-<meta itemprop="datePublished" content="2019-01-15T18:10:00-05:00" />
+<meta itemprop="description" content="前言 使用 PyTorch 的 PackedSequence 雖然可以較快速的處理長短不一的序列資料，但是用起來有個不方便的地方。就是同一個 batch 裡的資料，長度必須由長到短排列。但是如果是在做"><meta itemprop="datePublished" content="2019-01-15T18:10:00-05:00" />
 <meta itemprop="dateModified" content="2019-01-15T18:10:00-05:00" />
-<meta itemprop="wordCount" content="541">
-<meta itemprop="image" content="https://city.shaform.com/images/2019/geese.jpg">
-
-
-
-<meta itemprop="keywords" content="PyTorch,PackedSequence," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="wordCount" content="541"><meta itemprop="image" content="https://city.shaform.com/images/2019/geese.jpg">
+<meta itemprop="keywords" content="PyTorch,PackedSequence," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2019/geese.jpg"/>
 
 <meta name="twitter:title" content="在 PyTorch 中重新排序資料來使用 PackedSequence"/>
@@ -178,36 +172,36 @@ if (!doNotTrack) {
 
 <h2 id="排序資料">排序資料</h2>
 <p>首先定義一個 <code>sort_sequences</code> 函式，將輸入的 <code>inputs</code> 照長度排序，並且回傳排好的 <code>inputs</code>, 排好的長度 <code>lengths_sorted</code>, 以及可以用來把序列轉回原始排序的 <code>unsorted_idx</code>。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">sort_sequences</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">lengths</span><span class="p">):</span>
-    <span class="s2">&#34;&#34;&#34;sort_sequences
-</span><span class="s2">    Sort sequences according to lengths descendingly.
-</span><span class="s2">
-</span><span class="s2">    :param inputs (Tensor): input sequences, size [B, T, D]
-</span><span class="s2">    :param lengths (Tensor): length of each sequence, size [B]
-</span><span class="s2">    &#34;&#34;&#34;</span>
-    <span class="n">lengths_sorted</span><span class="p">,</span> <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">lengths</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">descending</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">unsorted_idx</span> <span class="o">=</span> <span class="n">sorted_idx</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">inputs</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">],</span> <span class="n">lengths_sorted</span><span class="p">,</span> <span class="n">unsorted_idx</span>
-</code></pre></div><h2 id="在-rnn-中的實際用法">在 RNN 中的實際用法</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">sort_sequences</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">lengths</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;sort_sequences
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Sort sequences according to lengths descendingly.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    :param inputs (Tensor): input sequences, size [B, T, D]
+</span></span></span><span class="line"><span class="cl"><span class="s2">    :param lengths (Tensor): length of each sequence, size [B]
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lengths_sorted</span><span class="p">,</span> <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">lengths</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">descending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_</span><span class="p">,</span> <span class="n">unsorted_idx</span> <span class="o">=</span> <span class="n">sorted_idx</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">inputs</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">],</span> <span class="n">lengths_sorted</span><span class="p">,</span> <span class="n">unsorted_idx</span>
+</span></span></code></pre></div><h2 id="在-rnn-中的實際用法">在 RNN 中的實際用法</h2>
 <p>在輸入 RNN 之前，先用 <code>sort_sequences</code> 把序列排好，然後再使用 <code>pack_padded_sequence</code> 將資料轉成 <code>PackedSequence</code>。</p>
 <p>輸出之後，利用 <code>unsorted_idx</code> 把資料再轉回原本的排序即可。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">RNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">lengths</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-      <span class="k">if</span> <span class="n">lengths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-          <span class="n">inputs</span><span class="p">,</span> <span class="n">sorted_lengths</span><span class="p">,</span> <span class="n">unsorted_idx</span> <span class="o">=</span> <span class="n">sort_sequences</span><span class="p">(</span>
-              <span class="n">inputs</span><span class="p">,</span> <span class="n">lengths</span><span class="p">)</span>
-          <span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">pack_padded_sequence</span><span class="p">(</span>
-              <span class="n">inputs</span><span class="p">,</span> <span class="n">sorted_lengths</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-      <span class="n">outputs</span><span class="p">,</span> <span class="p">(</span><span class="n">ht</span><span class="p">,</span> <span class="n">ct</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
-
-      <span class="k">if</span> <span class="n">lengths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-          <span class="n">outputs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">pad_packed_sequence</span><span class="p">(</span>
-              <span class="n">outputs</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-          <span class="n">outputs</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">unsorted_idx</span><span class="p">)</span>
-          <span class="n">ht</span> <span class="o">=</span> <span class="n">ht</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">unsorted_idx</span><span class="p">)</span>
-          <span class="n">ct</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">unsorted_idx</span><span class="p">)</span>
-</code></pre></div><p>這種寫法依然還是可以正常的進行 backpropagation，所以轉回原本序列的 tensors 可以直接傳出去，外頭也不會發現在這裡我們曾經重新排序了兩次。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">RNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">lengths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="n">lengths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">          <span class="n">inputs</span><span class="p">,</span> <span class="n">sorted_lengths</span><span class="p">,</span> <span class="n">unsorted_idx</span> <span class="o">=</span> <span class="n">sort_sequences</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">              <span class="n">inputs</span><span class="p">,</span> <span class="n">lengths</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">pack_padded_sequence</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">              <span class="n">inputs</span><span class="p">,</span> <span class="n">sorted_lengths</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="n">outputs</span><span class="p">,</span> <span class="p">(</span><span class="n">ht</span><span class="p">,</span> <span class="n">ct</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="n">lengths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">          <span class="n">outputs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">pad_packed_sequence</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">              <span class="n">outputs</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="n">outputs</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">unsorted_idx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="n">ht</span> <span class="o">=</span> <span class="n">ht</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">unsorted_idx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="n">ct</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">unsorted_idx</span><span class="p">)</span>
+</span></span></code></pre></div><p>這種寫法依然還是可以正常的進行 backpropagation，所以轉回原本序列的 tensors 可以直接傳出去，外頭也不會發現在這裡我們曾經重新排序了兩次。</p>
 
   </article>
 
@@ -320,7 +314,7 @@ if (!doNotTrack) {
             Shaform
             
               2010 -
-            2020
+            2022
           </small>
           
         </p>

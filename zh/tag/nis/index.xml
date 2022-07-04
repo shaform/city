@@ -6,11 +6,7 @@
     <description>Recent content in NIS on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 13 Dec 2014 17:42:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/nis/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 13 Dec 2014 17:42:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/nis/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在 Debian 7.7 系統中轉移 NIS 到 LDAP</title>
       <link>https://city.shaform.com/zh/2014/12/13/migrate-from-nis-to-ldap/</link>

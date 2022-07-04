@@ -6,11 +6,7 @@
     <description>Recent content in zarr on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 11 Nov 2018 11:40:00 -0500</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/zarr/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 11 Nov 2018 11:40:00 -0500</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/zarr/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 Zarr 儲存資料集並用 PyTorch Dataset 讀取</title>
       <link>https://city.shaform.com/zh/2018/11/11/zarr/</link>

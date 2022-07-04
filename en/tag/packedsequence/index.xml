@@ -6,11 +6,7 @@
     <description>Recent content in PackedSequence on City of Wings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/en/tag/packedsequence/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate><atom:link href="https://city.shaform.com/en/tag/packedsequence/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Sort Sequences for PackedSequence in PyTorch</title>
       <link>https://city.shaform.com/en/2019/01/15/sort-sequences-in-pytorch/</link>

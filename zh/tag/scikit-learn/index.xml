@@ -6,11 +6,7 @@
     <description>Recent content in scikit-learn on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 26 Dec 2015 18:46:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/scikit-learn/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 26 Dec 2015 18:46:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/scikit-learn/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>IPython Notebook 初探</title>
       <link>https://city.shaform.com/zh/2015/12/26/ipython-notebook/</link>

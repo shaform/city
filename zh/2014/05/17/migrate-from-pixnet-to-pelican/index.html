@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.101.0" />
   <meta charset="utf-8">
   <title>從 Pixnet 轉移到 Pelican · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,21 +21,15 @@
 <meta property="og:title" content="從 Pixnet 轉移到 Pelican" />
 <meta property="og:description" content="「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/" />
-<meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" />
+<meta property="og:url" content="https://city.shaform.com/zh/2014/05/17/migrate-from-pixnet-to-pelican/" /><meta property="og:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2014-05-17T07:25:00+08:00" />
 <meta property="article:modified_time" content="2014-05-17T07:25:00+08:00" />
+
 <meta itemprop="name" content="從 Pixnet 轉移到 Pelican">
-<meta itemprop="description" content="「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻">
-<meta itemprop="datePublished" content="2014-05-17T07:25:00+08:00" />
+<meta itemprop="description" content="「翼之都」這個技術部落格其實早在 2006 年就成立了，一直放在 Blogger 上，但很少新增文章。最近好不容易開始打算多寫一些技術文，卻突然發現在 Blogger 上實在是有點麻"><meta itemprop="datePublished" content="2014-05-17T07:25:00+08:00" />
 <meta itemprop="dateModified" content="2014-05-17T07:25:00+08:00" />
-<meta itemprop="wordCount" content="1639">
-<meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
-
-
-
-<meta itemprop="keywords" content="Pixnet,Pelican,Python," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="wordCount" content="1640"><meta itemprop="image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg">
+<meta itemprop="keywords" content="Pixnet,Pelican,Python," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg"/>
 
 <meta name="twitter:title" content="從 Pixnet 轉移到 Pelican"/>
@@ -163,169 +157,169 @@ if (!doNotTrack) {
 <p>詳細安裝方法可見 <a href="http://docs.getpelican.com/en/3.3.0/getting_started.html">Getting started</a> 文件，我自己選的方法是用 <a href="http://virtualenvwrapper.readthedocs.org">virtualenvwrapper</a>，並從 source code 直接安裝最新版的 Pelican（其實這是因為我想要讓文章的發布時間可以支援用不同時區的表示格式，舊版的 Pelican 似乎尚未支援）。</p>
 <h3 id="1-安裝-virtualenvwrapper">1. 安裝 virtualenvwrapper</h3>
 <p>首先輸入以下指令：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo apt-get install python-pip virtualenvwrapper</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo apt-get install python-pip virtualenvwrapper</span></span></code></pre></div></div>
 
 <p>然後新增 pelican 環境</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">mkvirtualenv pelican</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">mkvirtualenv pelican</span></span></code></pre></div></div>
 
 <p>這樣以後如果要進入 pelican 環境的話只要下：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">workon pelican</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">workon pelican</span></span></code></pre></div></div>
 
 <p>而安裝的套件也不會跟系統混在一起。</p>
 <h3 id="2-安裝-pelican">2. 安裝 pelican</h3>
 <p>在 pelican 環境下隨意找個位置，下載 pelican 原始碼，並安裝相關套件：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">git clone https://github.com/getpelican/pelican.git
-</span><span class="hl"><span class="nb">cd</span> pelican
-</span><span class="hl">python setup.py install
-</span><span class="hl">pip install Markdown</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">git clone https://github.com/getpelican/pelican.git
+</span></span><span class="line hl"><span class="cl"><span class="nb">cd</span> pelican
+</span></span><span class="line hl"><span class="cl">python setup.py install
+</span></span><span class="line hl"><span class="cl">pip install Markdown</span></span></code></pre></div></div>
 
 <p>最後選個資料夾放置網誌檔案，並下以下指令，就可以建立簡單的設定擋了：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pelican-quickstart</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">pelican-quickstart</span></span></code></pre></div></div>
 
 <h2 id="匯出">匯出</h2>
 <p>Pixnet 的匯出格式是 Movable Type，恰巧 pelican-import 尚未支援。同時，浮光上的文章常有大量空行，我希望對轉換的格式有更多控制，所以乾脆自己寫了一個 Python script 來進行轉換：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1"># python convert.py &lt; blog-export.txt</span>
-<span class="kn">import</span> <span class="nn">fileinput</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">os.path</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="kn">import</span> <span class="nn">pelican.utils</span>
-
-<span class="k">def</span> <span class="nf">p_transform</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
-    <span class="n">new_lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">empty</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
-            <span class="n">empty</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">empty</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">empty</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">new_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">num</span> <span class="o">=</span> <span class="p">((</span><span class="n">empty</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-                    <span class="n">new_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;&amp;nbsp;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">num</span><span class="p">)</span>
-                <span class="n">empty</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">new_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">new_lines</span><span class="p">)</span>
-
-
-<span class="n">rData</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d{2})/(\d{2})/(\d{4}) (\d{2}):(\d{2}):(\d{2}) (PM|AM)&#39;</span><span class="p">)</span>
-<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-    <span class="n">article</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
-        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;TITLE: &#39;</span><span class="p">):</span>
-            <span class="n">article</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;DATE: &#39;</span><span class="p">):</span>
-            <span class="n">m</span> <span class="o">=</span> <span class="n">rData</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;wrong with {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">gs</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
-                <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-                <span class="k">if</span> <span class="n">gs</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;PM&#39;</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">!=</span> <span class="mi">12</span><span class="p">:</span>
-                    <span class="n">t</span> <span class="o">+=</span> <span class="mi">12</span>
-                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;{}-{}-{} {}:{}:{}+0800&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">gs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                        <span class="n">t</span><span class="p">,</span> <span class="n">gs</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">gs</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;PRIMARY CATEGORY: &#39;</span><span class="p">):</span>
-            <span class="n">cat</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;STATUS&#39;</span><span class="p">)]</span>
-            <span class="k">if</span> <span class="n">cat</span> <span class="ow">in</span> <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;雪山&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;海岸&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;城市&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;？？&#39;</span><span class="p">]:</span>
-                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;天予&#39;</span>
-                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;天予：&#39;</span> <span class="o">+</span> <span class="n">cat</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;系列&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;奇幻&#39;</span><span class="p">}</span>
-            <span class="k">elif</span> <span class="n">cat</span> <span class="ow">in</span> <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;我的世界&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;記憶&#39;</span><span class="p">]:</span>
-                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat</span>
-                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;系列&#39;</span><span class="p">}</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat</span>
-        <span class="k">elif</span> <span class="n">l</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;BODY:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
-            <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">l</span> <span class="o">!=</span> <span class="s1">&#39;-----</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;nbsp&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">])</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">space</span> <span class="o">=</span> <span class="bp">False</span>
-                        <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                            <span class="n">space</span> <span class="o">=</span> <span class="bp">True</span>
-                        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;p&gt;&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-                        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;!-- more --&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="n">space</span><span class="p">:</span>
-                            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">break</span>
-            <span class="n">article</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_transform</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;--------</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
-                    <span class="k">break</span>
-        <span class="k">if</span> <span class="s1">&#39;body&#39;</span> <span class="ow">in</span> <span class="n">article</span><span class="p">:</span>
-            <span class="k">break</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">break</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;content/&#39;</span> <span class="o">+</span> <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">pelican</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">slugify</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;.md&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Title: {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Date: {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Category: {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
-            <span class="k">if</span> <span class="s1">&#39;tags&#39;</span> <span class="ow">in</span> <span class="n">article</span><span class="p">:</span>
-                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Tags: {}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Authors: Shaform</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-</code></pre></div><p>這個 script 會將結果輸出到 content/{category}/{title}.md 檔案，自動轉換適當的空行、分類、日期格式等等。分類的處理是依據浮光的架構，所以只有浮光能用。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># -*- coding: utf-8 -*-</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># python convert.py &lt; blog-export.txt</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">fileinput</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os.path</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">re</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pelican.utils</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">p_transform</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">new_lines</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">empty</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">empty</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">empty</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">empty</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">new_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">num</span> <span class="o">=</span> <span class="p">((</span><span class="n">empty</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">new_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;&amp;nbsp;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">num</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">empty</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">            <span class="n">new_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">new_lines</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">rData</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d</span><span class="si">{2}</span><span class="s1">)/(\d</span><span class="si">{2}</span><span class="s1">)/(\d</span><span class="si">{4}</span><span class="s1">) (\d</span><span class="si">{2}</span><span class="s1">):(\d</span><span class="si">{2}</span><span class="s1">):(\d</span><span class="si">{2}</span><span class="s1">) (PM|AM)&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">article</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;TITLE: &#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">article</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;DATE: &#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">m</span> <span class="o">=</span> <span class="n">rData</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;wrong with </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">gs</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">gs</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;PM&#39;</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">!=</span> <span class="mi">12</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">t</span> <span class="o">+=</span> <span class="mi">12</span>
+</span></span><span class="line"><span class="cl">                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">+0800&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">gs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">t</span><span class="p">,</span> <span class="n">gs</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">gs</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;PRIMARY CATEGORY: &#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cat</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;STATUS&#39;</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">cat</span> <span class="ow">in</span> <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;雪山&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;海岸&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;城市&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;？？&#39;</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;天予&#39;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;天予：&#39;</span> <span class="o">+</span> <span class="n">cat</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;系列&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;奇幻&#39;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">elif</span> <span class="n">cat</span> <span class="ow">in</span> <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;我的世界&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;記憶&#39;</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat</span>
+</span></span><span class="line"><span class="cl">                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;系列&#39;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">l</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;BODY:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">l</span> <span class="o">!=</span> <span class="s1">&#39;-----</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;nbsp&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">space</span> <span class="o">=</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">space</span> <span class="o">=</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;p&gt;&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;!-- more --&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">if</span> <span class="n">space</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span>
+</span></span><span class="line"><span class="cl">            <span class="n">article</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_transform</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;--------</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="s1">&#39;body&#39;</span> <span class="ow">in</span> <span class="n">article</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;content/&#39;</span> <span class="o">+</span> <span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">pelican</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">slugify</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;.md&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Title: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Date: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Category: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="s1">&#39;tags&#39;</span> <span class="ow">in</span> <span class="n">article</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Tags: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Authors: Shaform</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span></code></pre></div><p>這個 script 會將結果輸出到 content/{category}/{title}.md 檔案，自動轉換適當的空行、分類、日期格式等等。分類的處理是依據浮光的架構，所以只有浮光能用。</p>
 <h2 id="發布到-google-app-engine">發布到 Google App Engine</h2>
 <p>在這過程中，我短暫的嘗試用 <a href="https://console.developers.google.com/start/appengine">Google App Engine</a> 作為發布平台，不過因為太麻煩，所以最後還是採用 GitHub Pages。</p>
 <p>實際的作法是先申請個帳號，然後安裝 SDK：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">curl sdk.cloud.google.com <span class="p">|</span> bash
-</span><span class="c1"># restart the Terminal, then</span>
-<span class="hl">gcloud auth login</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">curl sdk.cloud.google.com <span class="p">|</span> bash
+</span></span><span class="line"><span class="cl"><span class="c1"># restart the Terminal, then</span>
+</span></span><span class="line hl"><span class="cl">gcloud auth login</span></span></code></pre></div></div>
 
 <p>緊接著在網誌目錄中新增 app.yaml 檔案，設定讓伺服器顯示靜態網頁：</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">application</span><span class="p">:</span><span class="w"> </span>APP-NAME<span class="w">
-</span><span class="w"></span><span class="k">version</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
-</span><span class="w"></span><span class="k">runtime</span><span class="p">:</span><span class="w"> </span>python27<span class="w">
-</span><span class="w"></span><span class="k">api_version</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
-</span><span class="w"></span><span class="k">threadsafe</span><span class="p">:</span><span class="w"> </span>yes<span class="w">
-</span><span class="w"></span><span class="k">module</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w">
-</span><span class="w"></span><span class="k">handlers</span><span class="p">:</span><span class="w">
-</span><span class="w"></span>- <span class="k">url</span><span class="p">:</span><span class="w"> </span>/<span class="w">
-</span><span class="w">    </span><span class="k">static_files</span><span class="p">:</span><span class="w"> </span>output/index.html<span class="w">
-</span><span class="w">      </span><span class="k">upload</span><span class="p">:</span><span class="w"> </span>output/index.html<span class="w">
-</span><span class="w">
-</span><span class="w">      </span>- <span class="k">url</span><span class="p">:</span><span class="w"> </span>/<span class="w">
-</span><span class="w">          </span><span class="k">static_dir</span><span class="p">:</span><span class="w"> </span>output<span class="w">
-</span></code></pre></div><p>然後修改 <code>Makefile</code> 新增如下指令，自動將檔案複製到指定位置：</p>
-<div class="highlight"><pre class="chroma"><code class="language-makefile" data-lang="makefile"><span class="nf">gcloud</span><span class="o">:</span> <span class="n">publish</span>
-    mkdir -p gcloud/output
-    cp -r <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/* gcloud/output
-    mv gcloud <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>
-    cp app.yaml <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/gcloud
-    appcfg.py update <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/gcloud
-</code></pre></div><p>這樣的話只要在網誌的目錄下執行以下指令，就可以把網頁發布到 Google App Engine 上了：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">make gcloud</span></code></pre></div></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">application</span><span class="p">:</span><span class="w"> </span><span class="l">APP-NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">runtime</span><span class="p">:</span><span class="w"> </span><span class="l">python27</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">api_version</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">threadsafe</span><span class="p">:</span><span class="w"> </span><span class="kc">yes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l">default</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">handlers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l">/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">static_files</span><span class="p">:</span><span class="w"> </span><span class="l">output/index.html</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">upload</span><span class="p">:</span><span class="w"> </span><span class="l">output/index.html</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l">/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">static_dir</span><span class="p">:</span><span class="w"> </span><span class="l">output</span><span class="w">
+</span></span></span></code></pre></div><p>然後修改 <code>Makefile</code> 新增如下指令，自動將檔案複製到指定位置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-makefile" data-lang="makefile"><span class="line"><span class="cl"><span class="nf">gcloud</span><span class="o">:</span> <span class="n">publish</span>
+</span></span><span class="line"><span class="cl">    mkdir -p gcloud/output
+</span></span><span class="line"><span class="cl">    cp -r <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/* gcloud/output
+</span></span><span class="line"><span class="cl">    mv gcloud <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>
+</span></span><span class="line"><span class="cl">    cp app.yaml <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/gcloud
+</span></span><span class="line"><span class="cl">    appcfg.py update <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/gcloud
+</span></span></code></pre></div><p>這樣的話只要在網誌的目錄下執行以下指令，就可以把網頁發布到 Google App Engine 上了：</p>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">make gcloud</span></span></code></pre></div></div>
 
 <h2 id="發布到-github-pages">發布到 GitHub Pages</h2>
 <p>雖然 Pelican 原本就有支援 GitHub Pages 的發布，不過我比較希望在 local 端的 master branch 紀錄網誌的原始 Markdown 檔案，在 gh-pages branch 上紀錄產生的網頁，因此我在 <code>Makefile</code> 做了以下修改：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">GITHUB_PAGES_BRANCH</span><span class="o">=</span>gh-pages
-github: publish
-        <span class="nb">echo</span> <span class="s2">&#34;DOMAIN-NAME&#34;</span> &gt; <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/CNAME
-        ghp-import -r gh-pages -b <span class="k">$(</span>GITHUB_PAGES_BRANCH<span class="k">)</span> <span class="k">$(</span>OUTPUTDIR<span class="k">)</span> -m <span class="s2">&#34;</span><span class="k">$(</span>MSG<span class="k">)</span><span class="s2">&#34;</span>
-        git push gh-pages <span class="k">$(</span>GITHUB_PAGES_BRANCH<span class="k">)</span>:master
-</code></pre></div><p>其中 DOMAIN-NAME 那行是自訂 domain 用的，若沒有可以刪除。而 <code>-m $(MSG)</code> 則是為了讓我可以用 <code>MSG=&quot;new update&quot; make github</code> 來自訂 commit 訊息。最後一行的 <code>master</code>，如果是用 username.github.io 的話就保留 <code>master</code>，如果是一般 projects 的話就改成 <code>gh-pages</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">GITHUB_PAGES_BRANCH</span><span class="o">=</span>gh-pages
+</span></span><span class="line"><span class="cl">github: publish
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> <span class="s2">&#34;DOMAIN-NAME&#34;</span> &gt; <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/CNAME
+</span></span><span class="line"><span class="cl">        ghp-import -r gh-pages -b <span class="k">$(</span>GITHUB_PAGES_BRANCH<span class="k">)</span> <span class="k">$(</span>OUTPUTDIR<span class="k">)</span> -m <span class="s2">&#34;</span><span class="k">$(</span>MSG<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">        git push gh-pages <span class="k">$(</span>GITHUB_PAGES_BRANCH<span class="k">)</span>:master
+</span></span></code></pre></div><p>其中 DOMAIN-NAME 那行是自訂 domain 用的，若沒有可以刪除。而 <code>-m $(MSG)</code> 則是為了讓我可以用 <code>MSG=&quot;new update&quot; make github</code> 來自訂 commit 訊息。最後一行的 <code>master</code>，如果是用 username.github.io 的話就保留 <code>master</code>，如果是一般 projects 的話就改成 <code>gh-pages</code>。</p>
 <p>緊接著安裝 <code>ghp-import</code>：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">pip install ghp-import</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">pip install ghp-import</span></span></code></pre></div></div>
 
 <p>然後按照 <a href="https://pages.github.com">GitHub Pages</a> 的說明，建立一個 repository，並把整個網誌的目錄當成這個 repository。（我其實是先 <code>git clone</code> 然後把 .git 資料夾直接搬到網誌目錄中。）</p>
 <h2 id="結果">結果</h2>
@@ -453,7 +447,7 @@ github: publish
             Shaform
             
               2010 -
-            2020
+            2022
           </small>
           
         </p>

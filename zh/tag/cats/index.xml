@@ -6,11 +6,7 @@
     <description>Recent content in cats on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 05 Nov 2016 13:40:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/cats/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 05 Nov 2016 13:40:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/cats/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>用 TensorBox 製作簡易貓貓辨識器</title>
       <link>https://city.shaform.com/zh/2016/11/05/detect-cats-with-tensorbox/</link>

@@ -6,11 +6,7 @@
     <description>Recent content in virtualenv on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 22 Jun 2014 10:30:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/virtualenv/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 22 Jun 2014 10:30:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/virtualenv/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在工作站上使用自己的 Python 並安裝自訂套件</title>
       <link>https://city.shaform.com/zh/2014/06/22/pyvenv-and-virtualenv/</link>

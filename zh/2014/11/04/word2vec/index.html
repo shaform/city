@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.101.0" />
   <meta charset="utf-8">
   <title>用中文資料測試 word2vec · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,21 +21,15 @@
 <meta property="og:title" content="用中文資料測試 word2vec" />
 <meta property="og:description" content="最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2014/11/04/word2vec/" />
-<meta property="og:image" content="https://city.shaform.com/images/2016/dots.jpg" />
+<meta property="og:url" content="https://city.shaform.com/zh/2014/11/04/word2vec/" /><meta property="og:image" content="https://city.shaform.com/images/2016/dots.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2014-11-04T17:20:00+08:00" />
 <meta property="article:modified_time" content="2014-11-04T17:20:00+08:00" />
+
 <meta itemprop="name" content="用中文資料測試 word2vec">
-<meta itemprop="description" content="最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一">
-<meta itemprop="datePublished" content="2014-11-04T17:20:00+08:00" />
+<meta itemprop="description" content="最近因為一些學習上的需要接觸了 word2vec，覺得好像是有點神秘的東西。一般初學自然語言處理的時候，處理文字最簡單的模型就是把每個詞當作一"><meta itemprop="datePublished" content="2014-11-04T17:20:00+08:00" />
 <meta itemprop="dateModified" content="2014-11-04T17:20:00+08:00" />
-<meta itemprop="wordCount" content="979">
-<meta itemprop="image" content="https://city.shaform.com/images/2016/dots.jpg">
-
-
-
-<meta itemprop="keywords" content="word2vec,Chinese,Python,jieba," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="wordCount" content="979"><meta itemprop="image" content="https://city.shaform.com/images/2016/dots.jpg">
+<meta itemprop="keywords" content="word2vec,Chinese,Python,jieba," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2016/dots.jpg"/>
 
 <meta name="twitter:title" content="用中文資料測試 word2vec"/>
@@ -164,18 +158,18 @@ if (!doNotTrack) {
 <p>這份筆記紀錄了使用 word2vec 處理中文資料的小小實驗。</p>
 <h2 id="語料">語料</h2>
 <p>不太確定有什麼開放的中文語料可供使用，於是決定先用<a href="https://github.com/audreyt/moedict-webkit">萌典</a>來做實驗，可按照教學，下載萌典資料：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">git clone --depth <span class="m">1</span> https://github.com/g0v/moedict-data.git
-</span><span class="hl">git clone --depth <span class="m">1</span> https://github.com/g0v/moedict-epub.git
-</span><span class="hl">cp -v moedict-data/dict-revised.json moedict-epub/
-</span><span class="hl"><span class="nb">cd</span> moedict-epub
-</span><span class="hl">perl json2unicode.pl &gt; dict-revised.unicode.json</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">git clone --depth <span class="m">1</span> https://github.com/g0v/moedict-data.git
+</span></span><span class="line hl"><span class="cl">git clone --depth <span class="m">1</span> https://github.com/g0v/moedict-epub.git
+</span></span><span class="line hl"><span class="cl">cp -v moedict-data/dict-revised.json moedict-epub/
+</span></span><span class="line hl"><span class="cl"><span class="nb">cd</span> moedict-epub
+</span></span><span class="line hl"><span class="cl">perl json2unicode.pl &gt; dict-revised.unicode.json</span></span></code></pre></div></div>
 
 <p>緊接著我自己寫了一個 <a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/extract_json.py">extract_json.py</a> 把當中可供訓練的句子抽出來：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">python3 extract_json.py &lt; dict-revised.unicode.json &gt; sentences.txt</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">python3 extract_json.py &lt; dict-revised.unicode.json &gt; sentences.txt</span></span></code></pre></div></div>
 
 <h2 id="斷詞">斷詞</h2>
 <p>因為 word2vec 的輸入必須是以空白隔開的詞，這樣得出來的句子還不能直接使用。於是我用了結巴斷詞，寫了一個 <a href="https://github.com/shaform/experiments/blob/master/word2vec_tw/cut.py">cut.py</a> 來處理這些句子。</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">python cut.py &lt; sentences.txt &gt; sentences.segged.txt</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">python cut.py &lt; sentences.txt &gt; sentences.segged.txt</span></span></code></pre></div></div>
 
 <p>斷出來的結果大約像是：</p>
 <pre><code>紅樓夢 ． 第十七回 ： 「 一 槅 一 槅 ， 或 有 貯書處 ， 或 有 設鼎處 ， 或 安置 筆硯 處 ， 或供 設瓶花 、 或 安放 盆景 處 。 」 
@@ -183,13 +177,13 @@ if (!doNotTrack) {
 <p>感覺雖不是很理想，但尚可接受。</p>
 <h2 id="使用-word2vec-訓練詞向量">使用 word2vec 訓練詞向量</h2>
 <p>接著我就用工作站把詞全部丟給 word2vec 訓練：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./word2vec -train sentences.segged.txt -output vectors.bin -cbow <span class="m">0</span> -size <span class="m">200</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">0</span> -sample 1e-4 -threads <span class="m">24</span> -binary <span class="m">1</span> -iter <span class="m">20</span> -min-count <span class="m">1</span></span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">./word2vec -train sentences.segged.txt -output vectors.bin -cbow <span class="m">0</span> -size <span class="m">200</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">0</span> -sample 1e-4 -threads <span class="m">24</span> -binary <span class="m">1</span> -iter <span class="m">20</span> -min-count <span class="m">1</span></span></span></code></pre></div></div>
 
 <p>因為萌典抽出來的資料不算多，所以訓練起來滿快的，只是當然效果就不太好了：</p>
-<p><img src="/images/train_word2vec.png" alt="word2vec running&hellip;"></p>
+<p><img src="/images/train_word2vec.png" alt="word2vec running&amp;hellip;"></p>
 <h2 id="測試">測試</h2>
 <p>首先測試距離相近的字：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./distance vectors.bin </span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">./distance vectors.bin </span></span></code></pre></div></div>
 
 <p>雖然效果差強人意，不過還是可以看到相同屬性的字確實有些群聚效應：</p>
 <pre><code>Enter word or sentence (EXIT to break): 法國
@@ -207,7 +201,7 @@ Word: 法國  Position in vocabulary: 992
                                           蘇格蘭         0.689557
 </code></pre>
 <p>接著測試線性關係，A 比 B 就好像 C 比什麼？：</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">./word-analogy vectors.bin </span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">./word-analogy vectors.bin </span></span></code></pre></div></div>
 
 <p>對於國家與都市的推理，也稍有效果：</p>
 <pre><code>Enter three words (EXIT to break): 法國 巴黎 英國
@@ -362,7 +356,7 @@ Word: 英國  Position in vocabulary: 822
             Shaform
             
               2010 -
-            2020
+            2022
           </small>
           
         </p>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.101.0" />
   <meta charset="utf-8">
   <title>利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,21 +21,15 @@
 <meta property="og:title" content="利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案" />
 <meta property="og:description" content="問題 一直以來都是使用 GnuCash 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/zh/2020/08/30/gnucash-importer/" />
-<meta property="og:image" content="https://city.shaform.com/images/2020/euro-870757_640.jpg" />
+<meta property="og:url" content="https://city.shaform.com/zh/2020/08/30/gnucash-importer/" /><meta property="og:image" content="https://city.shaform.com/images/2020/euro-870757_640.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-08-30T10:40:00-04:00" />
 <meta property="article:modified_time" content="2020-08-30T10:40:00-04:00" />
+
 <meta itemprop="name" content="利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案">
-<meta itemprop="description" content="問題 一直以來都是使用 GnuCash 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀">
-<meta itemprop="datePublished" content="2020-08-30T10:40:00-04:00" />
+<meta itemprop="description" content="問題 一直以來都是使用 GnuCash 作為記帳工具，雖然有自動補完的功能，但各種紀錄還是得手動的輸入。消費的部份因為簡單所以每週偶爾記記還算可行，但券商、銀"><meta itemprop="datePublished" content="2020-08-30T10:40:00-04:00" />
 <meta itemprop="dateModified" content="2020-08-30T10:40:00-04:00" />
-<meta itemprop="wordCount" content="945">
-<meta itemprop="image" content="https://city.shaform.com/images/2020/euro-870757_640.jpg">
-
-
-
-<meta itemprop="keywords" content="GnuCash," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="wordCount" content="945"><meta itemprop="image" content="https://city.shaform.com/images/2020/euro-870757_640.jpg">
+<meta itemprop="keywords" content="GnuCash," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2020/euro-870757_640.jpg"/>
 
 <meta name="twitter:title" content="利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案"/>
@@ -160,7 +154,7 @@ if (!doNotTrack) {
 <h2 id="gnucash-importer">GnuCash Importer</h2>
 <p><a href="https://github.com/shaform/gnucash-importer">gnucash-importer</a> 的功能是可以讀取 CSV 格式的記帳檔案，然後把裡頭的資料寫進 GnuCash 的檔案之中。使用這個工具作為輸入的手段的話，就能先將想插入的資料轉換成 CSV 格式，然後再透過 <a href="https://github.com/shaform/gnucash-importer">gnucash-importer</a> 寫入 GnuCash 之中。</p>
 <p>比如說如果先將股票帳戶的資料透過某種方法轉換成如下的格式：</p>
-<pre><code>date,description,commodity,memo,account,amount,value
+<pre tabindex="0"><code>date,description,commodity,memo,account,amount,value
 09/24/2020,Purchase VTI,CURRENCY::USD,,Assets:Current Assets:Cash Account:TD Ameritrade,,-2500.00
 ,,,,Assets:Investments:Stock:VTI,10,2500.00
 09/07/2020,BND Dividend,CURRENCY::USD,,Assets:Current Assets:Cash Account:TD Ameritrade,,70.00
@@ -168,59 +162,59 @@ if (!doNotTrack) {
 ,,,,Assets:Investments:Bond:BND,,
 ,,,W-8 Tax Withholding - BND,Expenses:Taxes:Federal:Taxes Withholding:Taxes Withholding USD:2020 Taxes Withholding USD,,30.00
 </code></pre><p>然後再利用 <a href="https://github.com/shaform/gnucash-importer">gnucash-importer</a> 來插入資料：</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python -m gnucash_importer target.gnucash source.csv
-</code></pre></div><p>就可以自動插入一筆購買 10 shares of VTI 的紀錄，和一筆得到 BND 的利息的紀錄。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python -m gnucash_importer target.gnucash source.csv
+</span></span></code></pre></div><p>就可以自動插入一筆購買 10 shares of VTI 的紀錄，和一筆得到 BND 的利息的紀錄。</p>
 <p>所以說只要另外寫一些程式，把平常的帳戶資料先轉成這個格式的 CSV，就能簡單的匯入 GnuCash 之中了。</p>
 <p>說穿了其實核心部份只是利用了簡單的 API：</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">gnucash</span>
-
-<span class="n">DAY</span> <span class="o">=</span> <span class="mi">24</span>
-<span class="n">MONTH</span> <span class="o">=</span> <span class="mi">9</span>
-<span class="n">YEAR</span> <span class="o">=</span> <span class="mi">2020</span>
-<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;Purchase VTI&#39;</span>
-<span class="n">ACCOUNT</span> <span class="o">=</span> <span class="s1">&#39;Assets:Current Assets:Cash Account:TD Ameritrade&#39;</span>
-<span class="n">VTI_ACCOUNT</span> <span class="o">=</span> <span class="s1">&#39;Assets:Investments:Stock:VTI&#39;</span>
-
-<span class="k">def</span> <span class="nf">lookup_account</span><span class="p">(</span><span class="n">root_account</span><span class="p">,</span> <span class="n">account_path</span><span class="p">):</span>
-    <span class="n">names</span> <span class="o">=</span> <span class="n">account_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
-    <span class="n">account</span> <span class="o">=</span> <span class="n">root_account</span>
-    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
-        <span class="n">account</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">lookup_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">account</span>
-
-<span class="k">with</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span>
-        <span class="n">gnucash_path</span><span class="p">,</span>
-        <span class="n">gnucash</span><span class="o">.</span><span class="n">SessionOpenMode</span><span class="o">.</span><span class="n">SESSION_NORMAL_OPEN</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-    <span class="n">book</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">book</span>
-
-    <span class="n">comm_table</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">get_table</span><span class="p">()</span>
-    <span class="n">commodity</span> <span class="o">=</span> <span class="n">comm_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s1">&#39;CURRENCY&#39;</span><span class="p">,</span> <span class="s1">&#39;USD&#39;</span><span class="p">)</span>
-
-    <span class="c1"># 指定幣種和基本敘述</span>
-    <span class="n">trans</span> <span class="o">=</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Transaction</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
-    <span class="n">trans</span><span class="o">.</span><span class="n">BeginEdit</span><span class="p">()</span>
-    <span class="n">trans</span><span class="o">.</span><span class="n">SetDate</span><span class="p">(</span><span class="n">DAY</span><span class="p">,</span> <span class="n">MONTH</span><span class="p">,</span> <span class="n">YEAR</span><span class="p">)</span>
-    <span class="n">trans</span><span class="o">.</span><span class="n">SetCurrency</span><span class="p">(</span><span class="n">commodity</span><span class="p">)</span>
-    <span class="n">trans</span><span class="o">.</span><span class="n">SetDescription</span><span class="p">(</span><span class="n">DESCRIPTION</span><span class="p">)</span>
-
-    <span class="c1"># 紀錄從現金帳戶花去 -2500</span>
-    <span class="n">split</span> <span class="o">=</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
-    <span class="n">split</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">gnucash</span><span class="o">.</span><span class="n">GncNumeric</span><span class="p">(</span><span class="o">-</span><span class="mi">2500</span><span class="p">))</span>
-    <span class="n">root_acct</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">get_root_account</span><span class="p">()</span>
-    <span class="n">acct</span> <span class="o">=</span> <span class="n">lookup_account</span><span class="p">(</span><span class="n">root_acct</span><span class="p">,</span> <span class="n">ACCOUNT</span><span class="p">)</span>
-    <span class="n">split</span><span class="o">.</span><span class="n">SetAccount</span><span class="p">(</span><span class="n">acct</span><span class="p">)</span>
-    <span class="n">split</span><span class="o">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">trans</span><span class="p">)</span>
-
-    <span class="c1"># 紀錄 VTI 持有增加 $2500 = 10 shares</span>
-    <span class="n">vti_split</span> <span class="o">=</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
-    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">gnucash</span><span class="o">.</span><span class="n">GncNumeric</span><span class="p">(</span><span class="mi">2500</span><span class="p">))</span>
-    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetAmount</span><span class="p">(</span><span class="n">gnucash</span><span class="o">.</span><span class="n">GncNumeric</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
-    <span class="n">vti_acct</span> <span class="o">=</span> <span class="n">lookup_account</span><span class="p">(</span><span class="n">root_acct</span><span class="p">,</span> <span class="n">VTI_ACCOUNT</span><span class="p">)</span>
-    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetAccount</span><span class="p">(</span><span class="n">vti_acct</span><span class="p">)</span>
-    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">trans</span><span class="p">)</span>
-
-    <span class="n">trans</span><span class="o">.</span><span class="n">CommitEdit</span><span class="p">()</span>
-</code></pre></div><h2 id="其他可能性">其他可能性</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">gnucash</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">DAY</span> <span class="o">=</span> <span class="mi">24</span>
+</span></span><span class="line"><span class="cl"><span class="n">MONTH</span> <span class="o">=</span> <span class="mi">9</span>
+</span></span><span class="line"><span class="cl"><span class="n">YEAR</span> <span class="o">=</span> <span class="mi">2020</span>
+</span></span><span class="line"><span class="cl"><span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s1">&#39;Purchase VTI&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">ACCOUNT</span> <span class="o">=</span> <span class="s1">&#39;Assets:Current Assets:Cash Account:TD Ameritrade&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">VTI_ACCOUNT</span> <span class="o">=</span> <span class="s1">&#39;Assets:Investments:Stock:VTI&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">lookup_account</span><span class="p">(</span><span class="n">root_account</span><span class="p">,</span> <span class="n">account_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">names</span> <span class="o">=</span> <span class="n">account_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">account</span> <span class="o">=</span> <span class="n">root_account</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">account</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">lookup_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">account</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gnucash_path</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gnucash</span><span class="o">.</span><span class="n">SessionOpenMode</span><span class="o">.</span><span class="n">SESSION_NORMAL_OPEN</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">book</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">book</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">comm_table</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">get_table</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">commodity</span> <span class="o">=</span> <span class="n">comm_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s1">&#39;CURRENCY&#39;</span><span class="p">,</span> <span class="s1">&#39;USD&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定幣種和基本敘述</span>
+</span></span><span class="line"><span class="cl">    <span class="n">trans</span> <span class="o">=</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Transaction</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">trans</span><span class="o">.</span><span class="n">BeginEdit</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">trans</span><span class="o">.</span><span class="n">SetDate</span><span class="p">(</span><span class="n">DAY</span><span class="p">,</span> <span class="n">MONTH</span><span class="p">,</span> <span class="n">YEAR</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">trans</span><span class="o">.</span><span class="n">SetCurrency</span><span class="p">(</span><span class="n">commodity</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">trans</span><span class="o">.</span><span class="n">SetDescription</span><span class="p">(</span><span class="n">DESCRIPTION</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 紀錄從現金帳戶花去 -2500</span>
+</span></span><span class="line"><span class="cl">    <span class="n">split</span> <span class="o">=</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">split</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">gnucash</span><span class="o">.</span><span class="n">GncNumeric</span><span class="p">(</span><span class="o">-</span><span class="mi">2500</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root_acct</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">get_root_account</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">acct</span> <span class="o">=</span> <span class="n">lookup_account</span><span class="p">(</span><span class="n">root_acct</span><span class="p">,</span> <span class="n">ACCOUNT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">split</span><span class="o">.</span><span class="n">SetAccount</span><span class="p">(</span><span class="n">acct</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">split</span><span class="o">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">trans</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 紀錄 VTI 持有增加 $2500 = 10 shares</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vti_split</span> <span class="o">=</span> <span class="n">gnucash</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">gnucash</span><span class="o">.</span><span class="n">GncNumeric</span><span class="p">(</span><span class="mi">2500</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetAmount</span><span class="p">(</span><span class="n">gnucash</span><span class="o">.</span><span class="n">GncNumeric</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vti_acct</span> <span class="o">=</span> <span class="n">lookup_account</span><span class="p">(</span><span class="n">root_acct</span><span class="p">,</span> <span class="n">VTI_ACCOUNT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetAccount</span><span class="p">(</span><span class="n">vti_acct</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vti_split</span><span class="o">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">trans</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">trans</span><span class="o">.</span><span class="n">CommitEdit</span><span class="p">()</span>
+</span></span></code></pre></div><h2 id="其他可能性">其他可能性</h2>
 <p>其實之所以突然想來寫個 importer ，還有一個原因是先前看過別人用 <a href="https://byvoid.com/zht/blog/beancount-bookkeeping-1/">beancount 記帳的心得</a>，對於像那樣直接用純文字記帳的方法感到有點興趣。由於是純文字，很有彈性，要寫各種 importer 當然也不成問題。實際上官方好像就有提供各種 importers 來使用的樣子。</p>
 <p>但因為太習慣 GnuCash 有各種自動完成，以及各種方便顯示的圖表了，所以目前還在觀望之中。乍看之下如果使用 <a href="https://beancount.github.io/fava/">fava</a> 的話，雖然可以顯示一些基本的圖表，但跟 GnuCash 比起來還是有點距離。雖然因為很有彈性，所以理論上可以寫各種擴充套件，甚至搞不好早就有人寫好了強大的圖表套件。但一直還沒時間研究，所以只好暫時繼續使用 GnuCash 了。未來再看情形重新評估看看。</p>
 
@@ -346,7 +340,7 @@ if (!doNotTrack) {
             Shaform
             
               2010 -
-            2020
+            2022
           </small>
           
         </p>

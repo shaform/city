@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.101.0" />
   <meta charset="utf-8">
   <title>Notes about Migrating from Qwerty to Dvorak · City of Wings</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -28,24 +28,18 @@ Linux Newer versions of Linux distributions also support dvorak layout when inst
 If you want to set the layout temporarily, you could also use the following commands:
 setxkbmap dvorak # change to dvorak setxkbmap us # change back to qwerty Xrdp If you are using rdp to connect to remote linux servers, the keyboard layout is controlled by a separate configuration file." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://city.shaform.com/en/2013/07/12/qwerty-to-dvorak/" />
-<meta property="og:image" content="https://city.shaform.com/images/2013/keyboard.jpg" />
+<meta property="og:url" content="https://city.shaform.com/en/2013/07/12/qwerty-to-dvorak/" /><meta property="og:image" content="https://city.shaform.com/images/2013/keyboard.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2013-07-12T18:53:00+08:00" />
 <meta property="article:modified_time" content="2013-07-12T18:53:00+08:00" /><meta property="og:site_name" content="City of Wings" />
+
 <meta itemprop="name" content="Notes about Migrating from Qwerty to Dvorak">
 <meta itemprop="description" content="Windows Newer versions of Windows could use different keyboard layouts for the login screen. Just choose it when installing or add the relevant input method in language settings.
 Linux Newer versions of Linux distributions also support dvorak layout when installing.
 If you want to set the layout temporarily, you could also use the following commands:
-setxkbmap dvorak # change to dvorak setxkbmap us # change back to qwerty Xrdp If you are using rdp to connect to remote linux servers, the keyboard layout is controlled by a separate configuration file.">
-<meta itemprop="datePublished" content="2013-07-12T18:53:00+08:00" />
+setxkbmap dvorak # change to dvorak setxkbmap us # change back to qwerty Xrdp If you are using rdp to connect to remote linux servers, the keyboard layout is controlled by a separate configuration file."><meta itemprop="datePublished" content="2013-07-12T18:53:00+08:00" />
 <meta itemprop="dateModified" content="2013-07-12T18:53:00+08:00" />
-<meta itemprop="wordCount" content="437">
-<meta itemprop="image" content="https://city.shaform.com/images/2013/keyboard.jpg">
-
-
-
-<meta itemprop="keywords" content="dvorak,linux,qwerty,windows," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="wordCount" content="439"><meta itemprop="image" content="https://city.shaform.com/images/2013/keyboard.jpg">
+<meta itemprop="keywords" content="dvorak,linux,qwerty,windows," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://city.shaform.com/images/2013/keyboard.jpg"/>
 
 <meta name="twitter:title" content="Notes about Migrating from Qwerty to Dvorak"/>
@@ -194,8 +188,8 @@ language settings.</p>
 <h2 id="linux">Linux</h2>
 <p>Newer versions of Linux distributions also support dvorak layout when installing.</p>
 <p>If you want to set the layout temporarily, you could also use the following commands:</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">setxkbmap dvorak <span class="c1"># change to dvorak</span>
-</span><span class="hl">setxkbmap us     <span class="c1"># change back to qwerty</span></span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">setxkbmap dvorak <span class="c1"># change to dvorak</span>
+</span></span><span class="line hl"><span class="cl">setxkbmap us     <span class="c1"># change back to qwerty</span></span></span></code></pre></div></div>
 
 <h2 id="xrdp">Xrdp</h2>
 <p>If you are using rdp to connect to remote linux servers, the keyboard layout is
@@ -203,79 +197,79 @@ controlled by a separate configuration file. The file is located in
 /etc/xrdp/km-****.ini, where **** is the language suffix.</p>
 <p>If you are able to login the server locally while not using rdp. You could use the following
 command to generate key map when you are using dvorak.</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">xrdp-genkeymap km-now.ini</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">xrdp-genkeymap km-now.ini</span></span></code></pre></div></div>
 
 <p>Afterwards, we could use this generated file to replace the settings.</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo mv km-now.ini /etc/xrdp/km-0409.ini</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo mv km-now.ini /etc/xrdp/km-0409.ini</span></span></code></pre></div></div>
 
 <p>Of course, you may want to backup the file before you run the above command.</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo mv /etc/xrdp/km-0409.ini /etc/xrdp/km-0409.ini.old</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo mv /etc/xrdp/km-0409.ini /etc/xrdp/km-0409.ini.old</span></span></code></pre></div></div>
 
 <p>Restart the xrdp server to load the configuration.</p>
-<div class="sh-highlight"><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="hl">sudo /etc/init.d/xrdp restart</span></code></pre></div></div>
+<div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">sudo /etc/init.d/xrdp restart</span></span></code></pre></div></div>
 
 <p>However, if you are unable to login locally, you would not be able to generate
 the correct file because you are unable to change keyboard layout to dvorak.
 So I created a Python script to convert km-0409.ini to dvorak settings.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="ch">#!/usr/bin/env python3</span>
-<span class="c1"># xrdpkeymap_qwerty_to_dvorak.py</span>
-<span class="s2">&#34;&#34;&#34;
-</span><span class="s2">Usage: python xrdpkeymap_qwerty_to_dvorak.py km-input.ini &gt; km-output.ini
-</span><span class="s2">&#34;&#34;&#34;</span>
-<span class="kn">import</span> <span class="nn">fileinput</span>
-<span class="kn">import</span> <span class="nn">re</span>
-
-<span class="c1"># keycodes</span>
-<span class="c1"># $ xmodmap -pk for current mapping</span>
-<span class="c1"># ref: http://forums.fedoraforum.org/showthread.php?t=265100</span>
-<span class="n">QWERTY</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span>
-          <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span>
-          <span class="mi">61</span><span class="p">)</span>
-
-<span class="n">DVORAK</span> <span class="o">=</span> <span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span>
-          <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span>
-          <span class="mi">52</span><span class="p">)</span>
-
-<span class="n">TRANS_DICT</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">)))</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">re_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\[.*\]\n&#39;</span><span class="p">)</span>
-    <span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Key(\d+)=(.*)\n&#39;</span><span class="p">)</span>
-    <span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">buf_dict</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="k">def</span> <span class="nf">output_keydefs</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">buf</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">TRANS_DICT</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Key</span><span class="si">%d</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">TRANS_DICT</span><span class="p">[</span><span class="n">k</span><span class="p">]]))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Key</span><span class="si">%d</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
-        <span class="k">return</span> <span class="p">[],</span> <span class="p">{}</span>
-
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">re_title</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">buf</span><span class="p">,</span> <span class="n">buf_dict</span> <span class="o">=</span> <span class="n">output_keydefs</span><span class="p">()</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">m</span> <span class="o">=</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-            <span class="n">buf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
-            <span class="n">buf_dict</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-
-    <span class="c1"># output remaining keys</span>
-    <span class="n">output_keydefs</span><span class="p">()</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</code></pre></div><h2 id="vim">Vim</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env python3</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># xrdpkeymap_qwerty_to_dvorak.py</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">Usage: python xrdpkeymap_qwerty_to_dvorak.py km-input.ini &gt; km-output.ini
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">fileinput</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">re</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># keycodes</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># $ xmodmap -pk for current mapping</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ref: http://forums.fedoraforum.org/showthread.php?t=265100</span>
+</span></span><span class="line"><span class="cl"><span class="n">QWERTY</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="mi">61</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">DVORAK</span> <span class="o">=</span> <span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="mi">52</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">TRANS_DICT</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">QWERTY</span><span class="p">,</span> <span class="n">DVORAK</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">re_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\[.*\]\n&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">re_keydef</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Key(\d+)=(.*)\n&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buf_dict</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">output_keydefs</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">buf</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">TRANS_DICT</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Key</span><span class="si">%d</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">TRANS_DICT</span><span class="p">[</span><span class="n">k</span><span class="p">]]))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Key</span><span class="si">%d</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">buf_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[],</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">re_title</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">buf</span><span class="p">,</span> <span class="n">buf_dict</span> <span class="o">=</span> <span class="n">output_keydefs</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">m</span> <span class="o">=</span> <span class="n">re_keydef</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">buf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">buf_dict</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># output remaining keys</span>
+</span></span><span class="line"><span class="cl">    <span class="n">output_keydefs</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></div><h2 id="vim">Vim</h2>
 <p>Sometimes we cannot even restart xrdp server. We may try to use the following commands in Vim.
 This enables us to use dvorak at least in Vim.</p>
-<div class="highlight"><pre class="chroma"><code class="language-vim" data-lang="vim"><span class="nx">set</span> <span class="nx">keymap</span><span class="p">=</span><span class="nx">dvorak</span><span class="err">
-</span><span class="err"></span><span class="nx">set</span> <span class="nx">langmap</span><span class="p">=-=</span><span class="nx">qwertyuiop</span>[]<span class="nx">sdfghjkl</span>\\;<span class="s1">&#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&#34;ZXCVBN&lt;&gt;?;[]&#39;</span>\\<span class="p">,</span>.<span class="nx">pyfgcrl</span>/<span class="p">=</span><span class="nx">oeuidhtns</span><span class="p">-</span>\\;<span class="nx">qjkxbwvz</span>{}\&#34;<span class="p">&lt;&gt;</span><span class="nx">PYFGCRL</span>?<span class="p">+</span><span class="nx">OEUIDHTNS_</span>:<span class="nx">QJKXBWVZ</span><span class="err">
-</span></code></pre></div><h2 id="download">Download</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vim" data-lang="vim"><span class="line"><span class="cl"><span class="nx">set</span> <span class="nx">keymap</span><span class="p">=</span><span class="nx">dvorak</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">set</span> <span class="nx">langmap</span><span class="p">=-=</span><span class="nx">qwertyuiop</span>[]<span class="nx">sdfghjkl</span>\\;<span class="s1">&#39;zxcvbn\\,./_+QWERTYUIOP{}SDFGHJKL:\&#34;ZXCVBN&lt;&gt;?;[]&#39;</span>\\<span class="p">,</span>.<span class="nx">pyfgcrl</span>/<span class="p">=</span><span class="nx">oeuidhtns</span><span class="p">-</span>\\;<span class="nx">qjkxbwvz</span>{}\&#34;<span class="p">&lt;&gt;</span><span class="nx">PYFGCRL</span>?<span class="p">+</span><span class="nx">OEUIDHTNS_</span>:<span class="nx">QJKXBWVZ</span><span class="err">
+</span></span></span></code></pre></div><h2 id="download">Download</h2>
 <p>Refer to <a href="https://github.com/shaform/dvorak-tools">shaform/dvorak-tools</a> for all script files.</p>
 
   </article>
@@ -382,7 +376,7 @@ This enables us to use dvorak at least in Vim.</p>
             Shaform
             
               2010 -
-            2020
+            2022
           </small>
           
         </p>

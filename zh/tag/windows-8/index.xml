@@ -6,11 +6,7 @@
     <description>Recent content in Windows 8 on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 19 Jun 2014 16:05:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/windows-8/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 19 Jun 2014 16:05:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/windows-8/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在 UEFI 模式下同時安裝 Windows 8.1 和 Ubuntu 14.04</title>
       <link>https://city.shaform.com/zh/2014/06/19/install-w8-ubuntu-with-uefi/</link>

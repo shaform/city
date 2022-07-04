@@ -6,11 +6,7 @@
     <description>Recent content in gspread on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 19 Mar 2016 09:02:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/gspread/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 19 Mar 2016 09:02:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/gspread/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>價格追蹤：使用 gspread 自動更新 Google Sheets</title>
       <link>https://city.shaform.com/zh/2016/03/19/gspread/</link>

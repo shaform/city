@@ -6,11 +6,7 @@
     <description>Recent content in Google Forms on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 16 Sep 2017 16:42:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/zh/tag/google-forms/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 16 Sep 2017 16:42:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/zh/tag/google-forms/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>用程式自動產生 Google Forms 調查問卷</title>
       <link>https://city.shaform.com/zh/2017/09/16/auto-create-google-forms/</link>

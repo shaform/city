@@ -6,11 +6,7 @@
     <description>Recent content in browser on City of Wings</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 07 Nov 2014 18:52:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://city.shaform.com/en/tag/browser/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 07 Nov 2014 18:52:00 +0800</lastBuildDate><atom:link href="https://city.shaform.com/en/tag/browser/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Google Inbox-like Web Browsing</title>
       <link>https://city.shaform.com/en/2014/11/07/google-inbox-like-web-browsing/</link>
@@ -18,7 +14,7 @@
       
       <guid>https://city.shaform.com/en/2014/11/07/google-inbox-like-web-browsing/</guid>
       <description>Last time, I explored the idea of designing a web browsing UI that reduces the possibility of distractions in 〈Single-minded : an Internet reader, made for readers, made by readers〉. While that idea might sound interesting, the design itself was somewhat primitive. Recently, Google has announced Inbox, a new way to handle email. And I find that many ideas behind Inbox are also applicable to web browsing as well.
-Tabs as Threads For example, different tabs can be represented as different threads, and for each thread, the history can be easily represented as different &amp;lsquo;email&amp;rsquo; in the same thread.</description>
+Tabs as Threads For example, different tabs can be represented as different threads, and for each thread, the history can be easily represented as different &amp;rsquo;email&amp;rsquo; in the same thread.</description>
     </item>
     
     <item>
