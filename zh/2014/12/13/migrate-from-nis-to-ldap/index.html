@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.102.3" />
   <meta charset="utf-8">
   <title>在 Debian 7.7 系統中轉移 NIS 到 LDAP · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -35,16 +35,16 @@
 <meta name="twitter:title" content="在 Debian 7.7 系統中轉移 NIS 到 LDAP"/>
 <meta name="twitter:description" content="本文件紀錄了基本的 LDAP 設置。 設定 LDAP Master 基本設置 首先編輯 /etc/ldap/ldap.conf 填上適當的網域名稱。例如： BASE dc=lab,dc=csie,dc=ntu,dc=edu,dc=tw URI ldap://ldap.lab.csie.ntu.edu.tw 其中 URI 必須是可以連上 Master server 的 IP 或網域名稱。 緊接著，安裝 O"/>
 
-<script type="application/javascript">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VWBX0RBP1F"></script>
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-13132274-1', 'auto');
-	
-	ga('send', 'pageview');
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-VWBX0RBP1F', { 'anonymize_ip': false });
 }
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 </head>
 <body>
   

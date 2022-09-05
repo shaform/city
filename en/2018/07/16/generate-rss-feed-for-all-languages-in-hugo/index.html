@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.102.3" />
   <meta charset="utf-8">
   <title>Generate RSS Feed for All Languages in Hugo · City of Wings</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,16 +43,16 @@ One possibility is to define a custom output format for homepage in config.toml:
 One possibility is to define a custom output format for homepage in config.toml:
 [outputs] home = [&#34;HTML&#34;, &#34;RSS&#34;, &#34;FEED&#34;] [mediaTypes] [mediaTypes.&#34;application/rss&#34;] suffixes = [&#34;xml&#34;] [outputFormats] [outputFormats.FEED] mediatype = &#34;application/rss&#34; baseName = &#34;feed&#34; In layouts/index.feed.xml, we then use the following range loop to iterate though all pages in all languages:"/>
 
-<script type="application/javascript">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VWBX0RBP1F"></script>
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-13132274-1', 'auto');
-	
-	ga('send', 'pageview');
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-VWBX0RBP1F', { 'anonymize_ip': false });
 }
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 </head>
 <body>
   

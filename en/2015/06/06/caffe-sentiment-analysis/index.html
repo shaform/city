@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.102.3" />
   <meta charset="utf-8">
   <title>Using Caffe for Sentiment Analysis · City of Wings</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -39,16 +39,16 @@ Data Preparation While in the previous post we use custom Chinese corpus for sen
 <meta name="twitter:description" content="Caffe is a deep learning framework that can be used to develop neural network models. Although Caffe is usually used for image classification, it does not prevent us from utilizing it for other tasks. In this article, we outline the procedure to convert Paragraph Vectors into the LMDB format that Caffe understands, and create a simple model to train and predict the sentiment for movie reviews.
 Data Preparation While in the previous post we use custom Chinese corpus for sentiment analysis, this time we utilize the scripts provided by mesnilgr/iclr15 to download the Large Movie Review Dataset so it&rsquo;s easier to reproduce the results."/>
 
-<script type="application/javascript">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VWBX0RBP1F"></script>
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-13132274-1', 'auto');
-	
-	ga('send', 'pageview');
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-VWBX0RBP1F', { 'anonymize_ip': false });
 }
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 </head>
 <body>
   

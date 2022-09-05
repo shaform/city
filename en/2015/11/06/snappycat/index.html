@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.102.3" />
   <meta charset="utf-8">
   <title>snappycat: A command line tool to decompress snappy files produced by Hadoop · City of Wings</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -39,16 +39,16 @@ Most of existing solutions use Java to link with Hadoop library, but the setup i
 <meta name="twitter:description" content="I often encounter Snappy-compressed files recently when I am learning Spark. Although we could just use sc.textFile to read them in Spark, sometimes we might want to download them locally for processing. However, reading these files locally is complicated because the file format is not exactly Snappy-compressed files, as Hadoop stores those files in its own way.
 Most of existing solutions use Java to link with Hadoop library, but the setup is rather complicated."/>
 
-<script type="application/javascript">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VWBX0RBP1F"></script>
+<script>
 var doNotTrack = false;
 if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-13132274-1', 'auto');
-	
-	ga('send', 'pageview');
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-VWBX0RBP1F', { 'anonymize_ip': false });
 }
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 </head>
 <body>
   
