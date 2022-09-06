@@ -3,55 +3,48 @@
   
   <url>
     <loc>https://city.shaform.com/zh/categories/</loc>
-    <lastmod>2020-09-30T10:40:00-04:00</lastmod>
+    <lastmod>2020-08-30T10:40:00-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://city.shaform.com/zh/tag/gnucash/</loc>
-    <lastmod>2020-09-30T10:40:00-04:00</lastmod>
+    <lastmod>2020-08-30T10:40:00-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://city.shaform.com/zh/posts/</loc>
-    <lastmod>2020-09-30T10:40:00-04:00</lastmod>
+    <lastmod>2020-08-30T10:40:00-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://city.shaform.com/zh/category/projects/</loc>
-    <lastmod>2020-09-30T10:40:00-04:00</lastmod>
+    <lastmod>2020-08-30T10:40:00-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://city.shaform.com/zh/tags/</loc>
-    <lastmod>2020-09-30T10:40:00-04:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/zh/2020/09/30/gnucash-importer/</loc>
-    <lastmod>2020-09-30T10:40:00-04:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://city.shaform.com/zh/</loc>
-    <lastmod>2020-09-30T10:40:00-04:00</lastmod>
+    <lastmod>2020-08-30T10:40:00-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://city.shaform.com/zh/2020/08/30/gnucash-importer/</loc>
+    <lastmod>2020-08-30T10:40:00-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://city.shaform.com/zh/</loc>
     <lastmod>2020-08-30T10:40:00-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

@@ -6,16 +6,7 @@
     <description>Recent content in Projects on 翼之都</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 30 Sep 2020 10:40:00 -0400</lastBuildDate><atom:link href="https://city.shaform.com/zh/category/projects/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Test</title>
-      <link>https://city.shaform.com/zh/2020/09/30/gnucash-importer/</link>
-      <pubDate>Wed, 30 Sep 2020 10:40:00 -0400</pubDate>
-      
-      <guid>https://city.shaform.com/zh/2020/09/30/gnucash-importer/</guid>
-      <description> test </description>
-    </item>
-    
+    <lastBuildDate>Sun, 30 Aug 2020 10:40:00 -0400</lastBuildDate><atom:link href="https://city.shaform.com/zh/category/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案</title>
       <link>https://city.shaform.com/zh/2020/08/30/gnucash-importer/</link>

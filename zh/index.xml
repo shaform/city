@@ -6,34 +6,10 @@
     <description>Recent content on 翼之都</description><webfeeds:icon>https://city.shaform.com/favicon.ico</webfeeds:icon>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 30 Sep 2020 10:40:00 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2020 10:40:00 -0400</lastBuildDate>
     
     <atom:link href="https://city.shaform.com/zh/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Test</title>
-      <link>https://city.shaform.com/zh/2020/09/30/gnucash-importer/</link>
-      <pubDate>Wed, 30 Sep 2020 10:40:00 -0400</pubDate>
-      
-      <guid>https://city.shaform.com/zh/2020/09/30/gnucash-importer/</guid>
-      
-        <description>&lt;div class=&#34;friend-div&#34;&gt;
-         &lt;a target=&#34;_blank&#34; href=hh title=test &gt;
-             &lt;img class=&#34;lazyload&#34;
-                  src=https://city.shaform.com/images/2020/euro-870757_640.jpg
-                  data-src=https://city.shaform.com/images/2020/euro-870757_640.jpg
-                  alt=test
-                  data-sizes=&#34;auto&#34;
-                  data-srcset=&#34;https://city.shaform.com/images/2020/euro-870757_640.jpg, https://city.shaform.com/images/2020/euro-870757_640.jpg 1.5x, https://city.shaform.com/images/2020/euro-870757_640.jpg 2x&#34; /&gt;
-             &lt;span class=&#34;friend-name&#34;&gt;test&lt;/span&gt;
-             &lt;span class=&#34;friend-info&#34;&gt;&lt;/span&gt;
-         &lt;/a&gt;
-     &lt;/div&gt;
- 
-</description>
-      
-    </item>
     
     <item>
       <title>利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案</title>
