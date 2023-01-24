@@ -5,10 +5,46 @@
     <description>Recent content on 翼之都</description><webfeeds:icon>https://city.shaform.com/favicon.ico</webfeeds:icon>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 30 Aug 2020 10:40:00 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 24 Jan 2023 18:00:00 -0500</lastBuildDate>
     
     <atom:link href="https://city.shaform.com/feeds/all.atom.xml" rel="self" type="application/rss+xml"/>
     
+    
+    <item>
+      <title>Use GnuCash Python Bindings to Write Data into GnuCash Files</title>
+      <link>https://city.shaform.com/en/2023/01/24/gnucash-importer/</link>
+      <pubDate>Tue, 24 Jan 2023 18:00:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/en/2023/01/24/gnucash-importer/</guid>
+      
+        <description>&lt;h2 id="problem"&gt;Problem&lt;/h2&gt;
+&lt;p&gt;I have been using &lt;a href="https://www.gnucash.org/"&gt;GnuCash&lt;/a&gt; to track my finance. However, I often need to manually enter a lot of transactions. To speed up the process, I&amp;rsquo;ve investigated how to use GnuCash &lt;a href="https://wiki.gnucash.org/wiki/Python_Bindings"&gt;Python bindings&lt;/a&gt; to insert a lot of transactions. I use GnuCash &lt;a href="https://github.com/Gnucash/gnucash/tree/e0e77ca39dd15e8bf7df69b924ffcb4de2fea47d/bindings/python/example_scripts"&gt;example scripts&lt;/a&gt; as an example and wrote a simple &lt;a href="https://github.com/shaform/gnucash-importer"&gt;gnucash-importer&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="gnucash-importer"&gt;GnuCash Importer&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/shaform/gnucash-importer"&gt;gnucash-importer&lt;/a&gt; can read transactions with CSV format and write the data into GnuCash files.&lt;/p&gt;
+&lt;p&gt;For example, you we have this CSV file:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;date,description,commodity,memo,account,amount,value
+09/24/2020,Purchase VTI,CURRENCY::USD,,Assets:Current Assets:Cash Account:TD Ameritrade,,-2500.00
+,,,,Assets:Investments:Stock:VTI,10,2500.00
+09/07/2020,BND Dividend,CURRENCY::USD,,Assets:Current Assets:Cash Account:TD Ameritrade,,70.00
+,,,,Income:Dividend Income:Dividend Income USD:BND Dividend,,-100.00
+,,,,Assets:Investments:Bond:BND,,
+,,,W-8 Tax Withholding - BND,Expenses:Taxes:Federal:Taxes Withholding:Taxes Withholding USD:2020 Taxes Withholding USD,,30.00
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We could use &lt;a href="https://github.com/shaform/gnucash-importer"&gt;gnucash-importer&lt;/a&gt; to insert the transactions:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;python -m gnucash_importer target.gnucash source.csv
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;link rel="stylesheet" href="https://city.shaform.com/css/hugo-easy-gallery.css" /&gt;
+&lt;div class="box aligncenter"&gt;
+  &lt;figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"&gt;
+    &lt;div class="img"&gt;
+      &lt;img class="webfeedsFeaturedVisual" itemprop="thumbnail" src="https://city.shaform.com/images/2020/euro-870757_640.jpg" alt="Cash" /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
+</description>
+      
+    </item>
     
     <item>
       <title>利用 GnuCash Python Bindings 將記帳資料寫入GnuCash 檔案</title>

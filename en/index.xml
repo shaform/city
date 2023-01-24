@@ -6,10 +6,46 @@
     <description>Recent content on City of Wings</description><webfeeds:icon>https://city.shaform.com/favicon.ico</webfeeds:icon>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 15 Jan 2019 18:10:00 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 24 Jan 2023 18:00:00 -0500</lastBuildDate>
     
     <atom:link href="https://city.shaform.com/en/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Use GnuCash Python Bindings to Write Data into GnuCash Files</title>
+      <link>https://city.shaform.com/en/2023/01/24/gnucash-importer/</link>
+      <pubDate>Tue, 24 Jan 2023 18:00:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/en/2023/01/24/gnucash-importer/</guid>
+      
+        <description>&lt;h2 id=&#34;problem&#34;&gt;Problem&lt;/h2&gt;
+&lt;p&gt;I have been using &lt;a href=&#34;https://www.gnucash.org/&#34;&gt;GnuCash&lt;/a&gt; to track my finance. However, I often need to manually enter a lot of transactions. To speed up the process, I&amp;rsquo;ve investigated how to use GnuCash &lt;a href=&#34;https://wiki.gnucash.org/wiki/Python_Bindings&#34;&gt;Python bindings&lt;/a&gt; to insert a lot of transactions. I use GnuCash &lt;a href=&#34;https://github.com/Gnucash/gnucash/tree/e0e77ca39dd15e8bf7df69b924ffcb4de2fea47d/bindings/python/example_scripts&#34;&gt;example scripts&lt;/a&gt; as an example and wrote a simple &lt;a href=&#34;https://github.com/shaform/gnucash-importer&#34;&gt;gnucash-importer&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;gnucash-importer&#34;&gt;GnuCash Importer&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/shaform/gnucash-importer&#34;&gt;gnucash-importer&lt;/a&gt; can read transactions with CSV format and write the data into GnuCash files.&lt;/p&gt;
+&lt;p&gt;For example, you we have this CSV file:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;date,description,commodity,memo,account,amount,value
+09/24/2020,Purchase VTI,CURRENCY::USD,,Assets:Current Assets:Cash Account:TD Ameritrade,,-2500.00
+,,,,Assets:Investments:Stock:VTI,10,2500.00
+09/07/2020,BND Dividend,CURRENCY::USD,,Assets:Current Assets:Cash Account:TD Ameritrade,,70.00
+,,,,Income:Dividend Income:Dividend Income USD:BND Dividend,,-100.00
+,,,,Assets:Investments:Bond:BND,,
+,,,W-8 Tax Withholding - BND,Expenses:Taxes:Federal:Taxes Withholding:Taxes Withholding USD:2020 Taxes Withholding USD,,30.00
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We could use &lt;a href=&#34;https://github.com/shaform/gnucash-importer&#34;&gt;gnucash-importer&lt;/a&gt; to insert the transactions:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;python -m gnucash_importer target.gnucash source.csv
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box aligncenter&#34;&gt;
+  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img class=&#34;webfeedsFeaturedVisual&#34; itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2020/euro-870757_640.jpg&#34; alt=&#34;Cash&#34; /&gt;
+    &lt;/div&gt;
+    
+  &lt;/figure&gt;
+&lt;/div&gt;
+
+</description>
+      
+    </item>
     
     <item>
       <title>Sort Sequences for PackedSequence in PyTorch</title>

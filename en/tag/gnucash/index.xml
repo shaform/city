@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GnuCash on City of Wings</title>
+    <link>https://city.shaform.com/en/tag/gnucash/</link>
+    <description>Recent content in GnuCash on City of Wings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 24 Jan 2023 18:00:00 -0500</lastBuildDate><atom:link href="https://city.shaform.com/en/tag/gnucash/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Use GnuCash Python Bindings to Write Data into GnuCash Files</title>
+      <link>https://city.shaform.com/en/2023/01/24/gnucash-importer/</link>
+      <pubDate>Tue, 24 Jan 2023 18:00:00 -0500</pubDate>
+      
+      <guid>https://city.shaform.com/en/2023/01/24/gnucash-importer/</guid>
+      <description>Problem I have been using GnuCash to track my finance. However, I often need to manually enter a lot of transactions. To speed up the process, I&amp;rsquo;ve investigated how to use GnuCash Python bindings to insert a lot of transactions. I use GnuCash example scripts as an example and wrote a simple gnucash-importer.
+GnuCash Importer gnucash-importer can read transactions with CSV format and write the data into GnuCash files.
+For example, you we have this CSV file:</description>
+    </item>
+    
+  </channel>
+</rss>
