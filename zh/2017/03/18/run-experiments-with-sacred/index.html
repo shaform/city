@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.102.3" />
+  <meta name="generator" content="Hugo 0.110.0" />
   <meta charset="utf-8">
   <title>用 Sacred 追蹤實驗數據 · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,7 +24,6 @@
 <meta property="og:url" content="https://city.shaform.com/zh/2017/03/18/run-experiments-with-sacred/" /><meta property="og:image" content="https://city.shaform.com/images/2016/dots.jpg" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2017-03-18T15:33:00+08:00" />
 <meta property="article:modified_time" content="2017-03-18T15:33:00+08:00" />
-
 <meta itemprop="name" content="用 Sacred 追蹤實驗數據">
 <meta itemprop="description" content="前言 前陣子相當恰好的常有跑大量實驗的需求，跑著跑著就開始覺得管理實驗執行和整理數據實在相當繁瑣且容易產生錯誤。 以執行而言，由於處理的檔案龐大"><meta itemprop="datePublished" content="2017-03-18T15:33:00+08:00" />
 <meta itemprop="dateModified" content="2017-03-18T15:33:00+08:00" />
@@ -180,7 +179,7 @@ if (!doNotTrack) {
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sacred</span> <span class="kn">import</span> <span class="n">Experiment</span>
 </span></span><span class="line"><span class="cl"><span class="n">ex</span> <span class="o">=</span> <span class="n">Experiment</span><span class="p">(</span><span class="s1">&#39;mnist_sampled&#39;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nd">@ex</span><span class="o">.</span><span class="n">config</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ex.config</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">my_config</span><span class="p">():</span>
 </span></span><span class="line"><span class="cl">    <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">500</span>
 </span></span><span class="line"><span class="cl">    <span class="n">classifier</span> <span class="o">=</span> <span class="s1">&#39;svc&#39;</span>
@@ -189,7 +188,7 @@ if (!doNotTrack) {
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">tensorflow.examples.tutorials.mnist</span> <span class="kn">import</span> <span class="n">input_data</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nd">@ex</span><span class="o">.</span><span class="n">automain</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ex.automain</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">run_experiments</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="s1">&#39;MNIST_data&#39;</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">mnist</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">read_data_sets</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">one_hot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">X_test</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">images</span>
@@ -215,14 +214,14 @@ if (!doNotTrack) {
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">softmax</span> <span class="kn">import</span> <span class="n">SoftmaxClassifier</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nd">@ex</span><span class="o">.</span><span class="n">capture</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ex.capture</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">sample_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">_rnd</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">    <span class="n">choice_indices</span> <span class="o">=</span> <span class="n">_rnd</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">X</span><span class="p">[</span><span class="n">choice_indices</span><span class="p">,</span> <span class="p">:],</span> <span class="n">y</span><span class="p">[</span><span class="n">choice_indices</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nd">@ex</span><span class="o">.</span><span class="n">capture</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ex.capture</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_classifier</span><span class="p">(</span><span class="n">classifier</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">classifier</span> <span class="o">==</span> <span class="s1">&#39;svc&#39;</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">LinearSVC</span><span class="p">()</span>
@@ -436,7 +435,7 @@ if (!doNotTrack) {
             Shaform
             
               2010 -
-            2022
+            2023
           </small>
           
         </p>

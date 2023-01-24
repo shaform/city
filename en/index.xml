@@ -797,52 +797,6 @@ negative words dominate the figure, so I put them into different figures.&lt;/p&
     </item>
     
     <item>
-      <title>snappycat: A command line tool to decompress snappy files produced by Hadoop</title>
-      <link>https://city.shaform.com/en/2015/11/06/snappycat/</link>
-      <pubDate>Fri, 06 Nov 2015 21:20:00 +0800</pubDate>
-      
-      <guid>https://city.shaform.com/en/2015/11/06/snappycat/</guid>
-      
-        <description>&lt;p&gt;I often encounter &lt;a href=&#34;https://blog.cloudera.com/blog/2011/09/snappy-and-hadoop/&#34;&gt;Snappy&lt;/a&gt;-compressed files recently when I am learning
-Spark.  Although we could just use &lt;code&gt;sc.textFile&lt;/code&gt; to read them in Spark,
-sometimes we might want to download them locally for processing. However,
-reading these files locally is complicated because the file format is not
-exactly Snappy-compressed files, as Hadoop stores those files in its own way.&lt;/p&gt;
-&lt;p&gt;Most of existing solutions use Java to link with Hadoop library, but the setup
-is rather complicated. Moreover, some tools don&amp;rsquo;t support empty files.
-Therefore, I spent some time to study the file format.&lt;/p&gt;
-&lt;p&gt;In short, Hadoop split the files into multiple blocks, and each block is
-compressed with Snappy independently. Before each compressed block, two 32-bit
-number are used to represent the decompressed size and the compressed size,
-respectively.&lt;/p&gt;
-&lt;p&gt;As Spark split files into multiple partitions, some partitions might be empty.
-In such cases, the files would only contain two 32-bit 0s.&lt;/p&gt;
-&lt;p&gt;I developed a short C++ program to handle these cases: &lt;a href=&#34;https://github.com/shaform/snappycat&#34;&gt;snappycat&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;The usage is simple, just use input files as arguments:&lt;/p&gt;
-&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line hl&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./snappycat DIRECTORY/*.snappy&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It also supports standard input:&lt;/p&gt;
-&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line hl&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cat DIRECTARY/*.snappy &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; snappycat&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The program outputs the decompressed result to standard output. So to save the output, use:&lt;/p&gt;
-&lt;div class=&#34;sh-highlight&#34;&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line hl&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./snappycat DIRECTORY/*.snappy &amp;gt; output.txt&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://city.shaform.com/css/hugo-easy-gallery.css&#34; /&gt;
-&lt;div class=&#34;box aligncenter&#34;&gt;
-  &lt;figure  itemprop=&#34;associatedMedia&#34; itemscope itemtype=&#34;http://schema.org/ImageObject&#34;&gt;
-    &lt;div class=&#34;img&#34;&gt;
-      &lt;img class=&#34;webfeedsFeaturedVisual&#34; itemprop=&#34;thumbnail&#34; src=&#34;https://city.shaform.com/images/2016/notebook-hero-workspace-minimal.jpg&#34; alt=&#34;Notebook&#34; /&gt;
-    &lt;/div&gt;
-    
-  &lt;/figure&gt;
-&lt;/div&gt;
-
-</description>
-      
-    </item>
-    
-    <item>
       <title>Using Caffe for Sentiment Analysis</title>
       <link>https://city.shaform.com/en/2015/06/06/caffe-sentiment-analysis/</link>
       <pubDate>Sat, 06 Jun 2015 11:05:00 +0800</pubDate>
