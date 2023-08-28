@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" itemscope itemtype="http://schema.org/WebPage">
 <head>
-  <meta name="generator" content="Hugo 0.110.0" />
+  <meta name="generator" content="Hugo 0.117.0" />
   <meta charset="utf-8">
   <title>用中文資料測試 word2vec · 翼之都</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -179,7 +179,7 @@ if (!doNotTrack) {
 <div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">./word2vec -train sentences.segged.txt -output vectors.bin -cbow <span class="m">0</span> -size <span class="m">200</span> -window <span class="m">10</span> -negative <span class="m">5</span> -hs <span class="m">0</span> -sample 1e-4 -threads <span class="m">24</span> -binary <span class="m">1</span> -iter <span class="m">20</span> -min-count <span class="m">1</span></span></span></code></pre></div></div>
 
 <p>因為萌典抽出來的資料不算多，所以訓練起來滿快的，只是當然效果就不太好了：</p>
-<p><img src="/images/train_word2vec.png" alt="word2vec running&amp;hellip;"></p>
+<p><img src="/images/train_word2vec.png" alt="word2vec running&hellip;"></p>
 <h2 id="測試">測試</h2>
 <p>首先測試距離相近的字：</p>
 <div class="sh-highlight"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line hl"><span class="cl">./distance vectors.bin </span></span></code></pre></div></div>
